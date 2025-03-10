@@ -1,0 +1,47 @@
+#root {
+  background-color: green;
+}
+
+#background {
+  font-family: "Times New Roman", Times, serif;
+}
+
+#header .nav-link {
+  color: white;
+  text-decoration: none;
+}
+
+#header .nav-link:hover {
+  text-decoration: underline;
+}
+
+#header .nav-link.active {
+  font-weight: bold;
+  text-decoration: underline;
+}
+
+.select-menu {
+  list-style-type: none;
+  overflow: auto;
+  max-height: 210px;
+}
+
+ul {
+  list-style-type: none;
+}
+
+#search-button:hover, #first-page-button:hover, #previous-page-button:hover, #next-page-button:hover, #imdb-link-button:hover, #form-submit-button:hover {
+  background-color: white;
+}
+
+.unchecked {
+  color: white;
+}
+
+.checked {
+  color: gold;
+}
+
+p {
+  white-space: pre;
+}
