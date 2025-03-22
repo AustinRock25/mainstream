@@ -26,8 +26,6 @@ function MediaCard ({media}) {
       return "Great";
   }
 
-  console.log(media);
-
   const directorNames = (media) => {
     let array = [];
     media.directors.sort((a, b) => a.ordering > b.ordering ? 1 : -1);
@@ -90,12 +88,108 @@ function MediaCard ({media}) {
     return date.getFullYear();
   }
 
+  const getLength = (media) => {
+    let startDate = new Date(media.release_date);
+    let endDate;
+    if (media.end_date != null) {
+      let endDate = new Date(media.end_date);
+      if (startDate.getFullYear() == endDate.getFullYear())
+        return startDate.getFullYear();
+      else
+        return startDate.getFullYear() + "-" +  endDate.getFullYear();
+    }
+    else
+      return startDate.getFullYear() + "-";
+  }
+
+  const getRuntimes = (media) => {
+    if (media.min_episode_runtime == media.max_episode_runtime) {
+      let hours = Math.floor(media.min_episode_runtime / 60);
+      let minutes = media.min_episode_runtime % 60;
+    
+      if (hours == 1)
+        hours += " hour";
+      else if (hours == 0)
+        hours = "";
+      else
+        hours += " hours";
+    
+      if (minutes == 1)
+        minutes += " minute";
+      else if (minutes == 0)
+        minutes = "";
+      else
+        minutes += " minutes";
+
+      return hours + " " + minutes;
+    }
+    else {
+      let hours = Math.floor(media.min_episode_runtime / 60);
+      let minutes = media.min_episode_runtime % 60;
+    
+      if (hours == 1)
+        hours += " hour";
+      else if (hours == 0)
+        hours = "";
+      else
+        hours += " hours";
+    
+      if (minutes == 1)
+        minutes += " minute";
+      else if (minutes == 0)
+        minutes = "";
+      else
+        minutes += " minutes";
+
+      const min = hours + " " + minutes;
+
+      hours = Math.floor(media.max_episode_runtime / 60);
+      minutes = media.max_episode_runtime % 60;
+    
+      if (hours == 1)
+        hours += " hour";
+      else if (hours == 0)
+        hours = "";
+      else
+        hours += " hours";
+    
+      if (minutes == 1)
+        minutes += " minute";
+      else if (minutes == 0)
+        minutes = "";
+      else
+        minutes += " minutes";
+
+      const max = hours + " " + minutes;
+
+      return min + " to \n" + max;
+    }
+  }
+
+  const getSeasons = (media) => {
+    let seasons;
+
+    if (media.seasons == 1)
+      seasons = media.seasons + " season";
+    else
+      seasons = media.seasons + " seasons";
+
+    return seasons + " (" + media.episodes + " episodes)";
+  }
+
+  const getBased = (media) => {
+    if (media.watched == 1)
+      return "Score based off of " + media.watched + " season";
+    else
+      return "Score based off of " + media.watched + " seasons";
+  }
+
   return (
     <Col>
       <div className="border border-dark rounded m-1">
         <Card className="bg-secondary text-white">
           <Card.Header className="fw-bold">
-            {media.title} ({getYear(media)})
+            {media.title} ({media.type == "show" ? getLength(media) : getYear(media)})
             <Image src={`public/posters/${media.poster}_poster.jpg`} className="border border-dark" alt={`Poster for ${media.title}`} fluid></Image>
             {media.score == 0 && <span className="fs-3"><span className="fa fa-star unchecked"></span><span className="fa fa-star unchecked"></span><span className="fa fa-star unchecked"></span><span className="fa fa-star unchecked"></span><span className="fa fa-star unchecked"></span></span>}
             {media.score == 1 && <span className="fs-3"><span className="fa fa-star checked"></span><span className="fa fa-star unchecked"></span><span className="fa fa-star unchecked"></span><span className="fa fa-star unchecked"></span><span className="fa fa-star unchecked"></span></span>}
@@ -104,12 +198,15 @@ function MediaCard ({media}) {
             {media.score == 4 && <span className="fs-3"><span className="fa fa-star checked"></span><span className="fa fa-star checked"></span><span className="fa fa-star checked"></span><span className="fa fa-star checked"></span><span className="fa fa-star unchecked"></span></span>}
             {media.score == 5 && <span className="fs-3"><span className="fa fa-star checked"></span><span className="fa fa-star checked"></span><span className="fa fa-star checked"></span><span className="fa fa-star checked"></span><span className="fa fa-star checked"></span></span>}
             <p className="fs-6">{meaning()}</p>
+            {(media.type == "show" && media.watched != media.seasons) && <p className="fs-6">*{getBased(media)}*</p>}
           </Card.Header>
           <Card.Body>
             {media.rating == "Not Rated" && <p className="fs-6">{media.rating}</p>}
             {media.rating != "Not Rated" && <p className="fs-6">Rated {media.rating}</p>}
             {media.type == "movie" && <p className="fs-6">Runtime: {time(media)}</p>}
             {media.type == "movie" && <p className="fs-6"><b>Directed by</b> <br />{directorNames(media)}</p>}
+            {media.type == "show" && <p className="fs-6">{getSeasons(media)}</p>}
+            {media.type == "show" && <p className="fs-6 box wrap">Episode runtime: <br />{getRuntimes(media)}</p>}
             <p className="fs-6"><b>Starring</b> <br />{castNames(media)}</p>
           </Card.Body>
           <Card.Footer>

@@ -22,7 +22,7 @@ const index = (req, res) => {
   
   const sql = `
     WITH NumberedRecords AS (
-      SELECT ROW_NUMBER() OVER (ORDER BY release_date DESC) AS RowNum, id, title, score, release_date, rating, poster, runtime, type, directors, cast_members
+      SELECT ROW_NUMBER() OVER (ORDER BY release_date DESC, title ASC) AS RowNum, id, title, score, release_date, rating, poster, runtime, min_episode_runtime, max_episode_runtime, end_date, seasons, episodes, watched, type, directors, cast_members
       FROM media m
       LEFT JOIN LATERAL (
         SELECT json_agg(json_build_object('ordering', md.ordering, 'media_id', md.media_id, 'director_id', md.director_id, 'name', p.name, 'birth_year', p.birth_year, 'death_year', p.death_year)) AS directors
@@ -96,7 +96,7 @@ const indexLength = (req, res) => {
 
 const show = (req, res) => {
   const sql = `
-    SELECT id, title, score, release_date, rating, poster, runtime, type, directors, cast_members
+    SELECT id, title, score, release_date, rating, poster, runtime, min_episode_runtime, max_episode_runtime, end_date, seasons, episodes, watched, type, directors, cast_members
     FROM media m
     LEFT JOIN LATERAL (
       SELECT json_agg(json_build_object('ordering', md.ordering, 'media_id', md.media_id, 'director_id', md.director_id, 'name', p.name, 'birth_year', p.birth_year, 'death_year', p.death_year)) AS directors
@@ -126,12 +126,31 @@ const show = (req, res) => {
 
 const create = async (req, res) => {
   const media = req.body;
+
   if (!media.runtime)
     media.runtime = null;
 
+  if (!media.min_episode_runtime)
+    media.min_episode_runtime = null;
+
+  if (!media.min_episode_runtime)
+    media.max_episode_runtime = null;
+
+  if (!media.end_date)
+    media.end_date = null;
+
+  if (!media.seasons)
+    media.seasons = null;
+
+  if (!media.episodes)
+    media.episodes = null;
+
+  if (!media.watched)
+    media.watched = null;
+
   pgClient.query("SELECT * FROM media")
   .then(result => {
-    pgClient.query("INSERT INTO media (id, title, score, rating, poster, runtime, type) VALUES ($1, $2, $3, $4, $5, $6, $7)", [result.rows.length + 1, media.title, media.score, media.rating, media.poster, media.runtime, media.type])
+    pgClient.query("INSERT INTO media (id, title, score, release_date, rating, poster, runtime, min_episode_runtime, max_episode_runtime, end_date, seasons, episodes, watched, type) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14)", [result.rows.length + 1, media.title, media.score, media.release_date, media.rating, media.poster, media.runtime, media.min_episode_runtime, media.max_episode_runtime, media.end_date, media.seasons, media.episodes, media.watched, media.type])
     .then(results => {
       res.location(`/media/${result.rows.length + 1}`);
       for (let i = 0; i < media.directors.length; i++) 
@@ -152,7 +171,25 @@ const update = async (req, res) => {
   if (!media.runtime)
     media.runtime = null;
 
-  pgClient.query("UPDATE media SET title = $1, score = $2, release_date = $3, poster = $4 WHERE id = $5", [media.title, media.score, media.release_date, media.poster, media.id])
+  if (!media.min_episode_runtime)
+    media.min_episode_runtime = null;
+
+  if (!media.min_episode_runtime)
+    media.max_episode_runtime = null;
+
+  if (!media.end_date)
+    media.end_date = null;
+
+  if (!media.seasons)
+    media.seasons = null;
+
+  if (!media.episodes)
+    media.episodes = null;
+
+  if (!media.watched)
+    media.watched = null;
+
+  pgClient.query("UPDATE media SET title = $1, score = $2, release_date = $3, poster = $4, min_episode_runtime = $5, max_episode_runtime = $6, end_date = $7, seasons = $8, episodes = $9, watched = $10 WHERE id = $11", [media.title, media.score, media.release_date, media.poster, media.min_episode_runtime, media.max_episode_runtime, media.end_date, media.seasons, media.episodes, media.watched, media.id])
   .then(result => {
     pgClient.query("DELETE FROM media_directors WHERE media_id = $1", [media.id])
     .then(r1 => {
@@ -170,11 +207,32 @@ const update = async (req, res) => {
             res.status(500).json({ error: `Error: ${ error }` });
           });
         }
-        res.status(201).json({ message: "Title successfully updated." });
+        res.status(201).json({ message: "Title updated successfully." });
       })
       .catch((error) => {
         res.status(500).json({ error: `Error: ${ error }` });
       });
+    })
+    .catch((error) => {
+      res.status(500).json({ error: `Error: ${ error }` });
+    });
+  })
+  .catch((error) => {
+    res.status(500).json({ error: `Error: ${ error }` });
+  });
+
+  pgClient.query("DELETE FROM people WHERE id NOT IN (SELECT actor_id FROM media_cast) AND id NOT IN (SELECT director_id FROM media_directors)")
+  .then(r1 => {
+    pgClient.query("SELECT * FROM people ORDER BY id ASC")
+    .then(r2 => {
+      for (let x = 0; x < r2.rows.length; x++) {
+        if (x + 1 != r2.rows[x].id) {
+          pgClient.query("UPDATE people SET id = $1 WHERE id = $2", [x + 1, r2.rows[x].id])
+          .catch((error) => {
+            res.status(500).json({ error: `Error: ${ error }` });
+          });
+        }
+      }
     })
     .catch((error) => {
       res.status(500).json({ error: `Error: ${ error }` });

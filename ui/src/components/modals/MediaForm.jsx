@@ -26,7 +26,13 @@ function MediaForm({ show, setShow, media }) {
     release_date: "", 
     year: "",
     poster: "", 
-    runtime: "", 
+    runtime: "",
+    min_episode_runtime: "",
+    max_episode_runtime: "",
+    end_date: "",
+    seasons: "",
+    episodes: "",
+    watched: "",
     type: "",
     directors: [],
     cast_members: []
@@ -36,8 +42,14 @@ function MediaForm({ show, setShow, media }) {
 
   useEffect(() => {
     if (media?.id) {
-      const dateObject = new Date(media.release_date);
-      const formattedDate = dateObject.toISOString().split("T")[0];
+      const dateObject1 = new Date(media.release_date);
+      const formattedDate1 = dateObject1.toISOString().split("T")[0];
+      let dateObject2;
+      let formattedDate2;
+      if (!!media.end_date) {
+        dateObject2 = new Date(media.end_date);
+        formattedDate2 = dateObject2.toISOString().split("T")[0];
+      }
       if (media.type == "movie") {
         for (let x = 0; x < media.directors.length; x++)
           tempSelectedDirectors[x] = {id: media.directors[x].director_id, name: media.directors[x].name};
@@ -49,9 +61,15 @@ function MediaForm({ show, setShow, media }) {
         title: media.title || "",
         score: media.score || 1,
         rating: media.rating || "Not Rated",
-        release_date: formattedDate || "",
+        release_date: formattedDate1 || "",
         poster: media.poster || "",
         runtime: media.runtime || "",
+        min_episode_runtime: media.min_episode_runtime || "",
+        max_episode_runtime: media.max_episode_runtime || "",
+        end_date: formattedDate2 || "",
+        seasons: media.seasons || "",
+        episodes: media.episodes || "",
+        watched: media.watched || "",
         type: media.type || ""
       });
       setSelectedDirectors(tempSelectedDirectors);
@@ -134,12 +152,12 @@ function MediaForm({ show, setShow, media }) {
     setRemovedCastMembers([]);
     setRemovedDirectors([]);
     if (!media?.id) {
-      setFormData({ id: "", title: "", score: 0, rating: "Not Rated", year: "", poster: "",  runtime: "", type: "", end_year: "", season_count: "", episode_count: "", watched: "" });
+      setFormData({ id: "", title: "", score: 0, rating: "Not Rated", year: "", poster: "",  runtime: "", type: "", min_episode_runtime: "", max_episode_runtime: "", end_date: "", seasons: "", episodes: "", watched: "" });
       setSelectedDirectors([]);
       setSelectedCastMembers([]);
     }
     else {
-      setFormData({ id: media.id, title: media.title, score: media.score, rating: media.rating, year: media.year, poster: media.poster,  runtime: media.runtime, type: media.type, end_year: media.end_year, season_count: media.season_count, episode_count: media.episode_count, watched: media.watched });
+      setFormData({ id: media.id, title: media.title, score: media.score, rating: media.rating, year: media.year, poster: media.poster, runtime: media.runtime, type: media.type, min_episode_runtime: media.min_episode_runtime, max_episode_runtime: media.max_episode_runtime, end_date: media.end_date, seasons: media.seasons, episodes: media.episodes, watched: media.watched });
       setSelectedDirectors(media.directors);
       setSelectedCastMembers(media.cast_members);
     }
@@ -150,7 +168,8 @@ function MediaForm({ show, setShow, media }) {
       removeDirector(director);
     else {
       setSelectedDirectors([...selectedDirectors, director]);
-      setRemovedDirectors(removedDirectors.filter((item) => item.id !== director.id)); 
+      setRemovedDirectors(removedDirectors.filter((item) => item.id !== director.id));
+      setDirectors(directors.filter((item) => item.id !== director.id)); 
     }
   };
 
@@ -176,6 +195,7 @@ function MediaForm({ show, setShow, media }) {
     else {
       setSelectedCastMembers([...selectedCastMembers, castMember]);
       setRemovedCastMembers(removedCastMembers.filter((item) => item.id !== castMember.id));
+      setCastMembers(castMembers.filter((item) => item.id !== castMember.id)); 
     }
   };
 
@@ -208,12 +228,12 @@ function MediaForm({ show, setShow, media }) {
       .then(response => {
         handleHide();
         navigate("/media", { state: { alert: { message: `Media successfully ${media?.id ? "updated" : "created"}.`, variant: "success" } } });
+        window.location.reload();
       })
       .catch(error => {
         if (error.response?.status === 422)
           setErrors(error.response.data.errors);
-
-        if (error.response?.status === 401)
+        else if (error.response?.status === 401)
           setAlert({ message: `You must be logged in to ${media?.id ? "update" : "create"} a media.`, variant: "danger" });
         else if (error.response?.status === 403)
           setAlert({ message: `You do not have permission to ${media?.id ? "update this media" : "create media"}.`, variant: "danger" });
@@ -344,6 +364,64 @@ function MediaForm({ show, setShow, media }) {
                     <Form.Control.Feedback type="invalid">{errors.runtime}</Form.Control.Feedback>
                   </>
                 }
+              </>
+            }
+            {isShow &&
+              <>
+                <Form.Label className="mt-3">Minimum Episode Runtime</Form.Label>
+                <Form.Control
+                  type="number"
+                  value={formData.min_episode_runtime}
+                  placeholder="Enter the minimum episode runtime (in minutes)"
+                  isInvalid={errors.min_episode_runtime}
+                  onChange={(e) => handleChange(e, "min_episode_runtime")}
+                />
+                <Form.Control.Feedback type="invalid">{errors.min_episode_runtime}</Form.Control.Feedback>
+                <Form.Label className="mt-3">Maximum Episode Runtime</Form.Label>
+                <Form.Control
+                  type="number"
+                  value={formData.max_episode_runtime}
+                  placeholder="Enter the maximum episode runtime (in minutes)"
+                  isInvalid={errors.max_episode_runtime}
+                  onChange={(e) => handleChange(e, "max_episode_runtime")}
+                />
+                <Form.Control.Feedback type="invalid">{errors.max_episode_runtime}</Form.Control.Feedback>
+                <Form.Label className="mt-3">End Date</Form.Label>
+                <Form.Control
+                  type="date"
+                  value={formData.end_date}
+                  placeholder="Enter the end date"
+                  isInvalid={errors.end_date}
+                  onChange={(e) => handleChange(e, "end_date")}
+                />
+                <Form.Control.Feedback type="invalid">{errors.end_date}</Form.Control.Feedback>
+                <Form.Label className="mt-3">Seasons</Form.Label>
+                <Form.Control
+                  type="number"
+                  value={formData.seasons}
+                  placeholder="Enter the number of seasons"
+                  isInvalid={errors.seasons}
+                  onChange={(e) => handleChange(e, "seasons")}
+                />
+                <Form.Control.Feedback type="invalid">{errors.seasons}</Form.Control.Feedback>
+                <Form.Label className="mt-3">Episodes</Form.Label>
+                <Form.Control
+                  type="number"
+                  value={formData.episodes}
+                  placeholder="Enter the number of episodes"
+                  isInvalid={errors.episodes}
+                  onChange={(e) => handleChange(e, "episodes")}
+                />
+                <Form.Control.Feedback type="invalid">{errors.episodes}</Form.Control.Feedback>
+                <Form.Label className="mt-3">Watched</Form.Label>
+                <Form.Control
+                  type="number"
+                  value={formData.watched}
+                  placeholder="Enter the number of seasons you watched"
+                  isInvalid={errors.watched}
+                  onChange={(e) => handleChange(e, "watched")}
+                />
+                <Form.Control.Feedback type="invalid">{errors.watched}</Form.Control.Feedback>
               </>
             }
             {isMovie && 

@@ -53,12 +53,12 @@ function PersonForm({ show, setShow, person }) {
       .then(response => {
         handleHide();
         navigate("/people", { state: { alert: { message: `Person successfully ${person?.id ? "updated" : "created"}.`, variant: "success" } } });
+        window.location.reload();
       })
       .catch(error => {
         if (error.response?.status === 422)
           setErrors(error.response.data.errors);
-
-        if (error.response?.status === 401)
+        else if (error.response?.status === 401)
           setAlert({ message: `You must be logged in to ${person?.id ? "update" : "create"} a person.`, variant: "danger" });
         else if (error.response?.status === 403)
           setAlert({ message: `You do not have permission to ${person?.id ? "update this person" : "create person"}.`, variant: "danger" });
