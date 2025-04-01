@@ -52,7 +52,7 @@ function PersonForm({ show, setShow, person }) {
     apiCall
       .then(response => {
         handleHide();
-        navigate("/people", { state: { alert: { message: `Person successfully ${person?.id ? "updated" : "created"}.`, variant: "success" } } });
+        navigate("/people");
         window.location.reload();
       })
       .catch(error => {

@@ -38,11 +38,6 @@ const People = () => {
     .then(response => {
       setPeople(response.data);
       setAlert({ message: "", variant: "" });
-
-      if (location.state?.alert) {
-        setAlert(location.state.alert);
-        window.history.replaceState({}, "");
-      }
     })
     .catch(error => {
       setAlert({ message: "Failed to load people", variant: "danger" });

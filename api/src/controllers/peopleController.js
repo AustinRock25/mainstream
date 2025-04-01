@@ -23,7 +23,7 @@ const index = (req, res) => {
   const sql = `
     WITH NumberedRecords AS (
       SELECT ROW_NUMBER() OVER (ORDER BY birth_year ASC, name ASC) AS RowNum, id, name, birth_year, death_year
-      FROM people 
+      FROM people
       ${searchSystem}
     )
     SELECT 
@@ -56,7 +56,7 @@ const indexLength = (req, res) => {
 
   const sql = `
     SELECT COUNT(*) 
-    FROM people 
+    FROM people
     ${searchSystem}`;
 
   pgClient.query(sql, params)

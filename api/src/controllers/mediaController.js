@@ -189,25 +189,25 @@ const update = async (req, res) => {
   if (!media.watched)
     media.watched = null;
 
+  let sql = "";
+
   pgClient.query("UPDATE media SET title = $1, score = $2, release_date = $3, poster = $4, min_episode_runtime = $5, max_episode_runtime = $6, end_date = $7, seasons = $8, episodes = $9, watched = $10 WHERE id = $11", [media.title, media.score, media.release_date, media.poster, media.min_episode_runtime, media.max_episode_runtime, media.end_date, media.seasons, media.episodes, media.watched, media.id])
   .then(result => {
     pgClient.query("DELETE FROM media_directors WHERE media_id = $1", [media.id])
     .then(r1 => {
       for (let i = 0; i < media.directors.length; i++) {
-        pgClient.query("INSERT INTO media_directors (ordering, media_id, director_id) VALUES ($1, $2, $3)", [i + 1, req.params.id, media.directors[i].id])
-        .catch((error) => {
-          res.status(500).json({ error: `Error: ${ error }` });
-        });
+        sql += `INSERT INTO media_directors (ordering, media_id, director_id) VALUES (${i + 1}, ${req.params.id}, ${media.directors[i].id}); `;
       }
       pgClient.query("DELETE FROM media_cast WHERE media_id = $1", [media.id])
       .then(r2 => {
         for (let i = 0; i < media.cast_members.length; i++) {
-          pgClient.query("INSERT INTO media_cast (ordering, media_id, actor_id) VALUES ($1, $2, $3)", [i + 1, req.params.id, media.cast_members[i].id])
-          .catch((error) => {
-            res.status(500).json({ error: `Error: ${ error }` });
-          });
+          sql += `INSERT INTO media_cast (ordering, media_id, actor_id) VALUES (${i + 1}, ${req.params.id}, ${media.cast_members[i].id}); `;
         }
-        res.status(201).json({ message: "Title updated successfully." });
+        pgClient.query(sql)
+        .then(r3 => {
+          clearUnused();
+          res.status(201).json({ message: "Title updated successfully." });
+        })
       })
       .catch((error) => {
         res.status(500).json({ error: `Error: ${ error }` });
@@ -220,27 +220,23 @@ const update = async (req, res) => {
   .catch((error) => {
     res.status(500).json({ error: `Error: ${ error }` });
   });
+}
 
+function clearUnused() {
   pgClient.query("DELETE FROM people WHERE id NOT IN (SELECT actor_id FROM media_cast) AND id NOT IN (SELECT director_id FROM media_directors)")
   .then(r1 => {
-    pgClient.query("SELECT * FROM people ORDER BY id ASC")
-    .then(r2 => {
-      for (let x = 0; x < r2.rows.length; x++) {
-        if (x + 1 != r2.rows[x].id) {
-          pgClient.query("UPDATE people SET id = $1 WHERE id = $2", [x + 1, r2.rows[x].id])
-          .catch((error) => {
-            res.status(500).json({ error: `Error: ${ error }` });
-          });
+    if (r1.rowCount > 0) {
+      pgClient.query("SELECT * FROM people ORDER BY id ASC")
+      .then(r2 => {
+        let sql = "";
+        for (let x = 0; x < r2.rowCount; x++) {
+          if ((x + 1) != r2.rows[x].id)
+            sql += `UPDATE people SET id = ${x + 1} WHERE id = ${r2.rows[x].id}; `;
         }
-      }
-    })
-    .catch((error) => {
-      res.status(500).json({ error: `Error: ${ error }` });
-    });
+        pgClient.query(sql);
+      })
+    }
   })
-  .catch((error) => {
-    res.status(500).json({ error: `Error: ${ error }` });
-  });
 }
 
 module.exports = { index, indexLength, show, create, update };

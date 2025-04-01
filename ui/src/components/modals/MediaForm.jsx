@@ -227,7 +227,7 @@ function MediaForm({ show, setShow, media }) {
     apiCall
       .then(response => {
         handleHide();
-        navigate("/media", { state: { alert: { message: `Media successfully ${media?.id ? "updated" : "created"}.`, variant: "success" } } });
+        navigate("/media");
         window.location.reload();
       })
       .catch(error => {
