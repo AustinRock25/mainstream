@@ -11,17 +11,27 @@ function PersonForm({ show, setShow, person }) {
   const [formData, setFormData] = useState({
     id: "",
     name: "",
-    birth_year: "",
-    death_year: ""
+    birth_date: "",
+    death_date: ""
   });
 
   useEffect(() => {
     if (person?.id) {
+      let formattedBirthDate = "";
+      let formattedDeathDate = "";
+      if (person.birth_date != null) {
+        const birthDateObject = new Date(person.birth_date);
+        formattedBirthDate = birthDateObject.toISOString().split("T")[0];
+      }
+      if (person.death_date != null) {
+        const deathDateObject = new Date(person.death_date);
+        formattedDeathDate = deathDateObject.toISOString().split("T")[0];
+      }
       setFormData({
         id: person.id || "",
         name: person.name || "",
-        birth_year: person.birth_year || "",
-        death_year: person.death_year || "",
+        birth_date: formattedBirthDate || "",
+        death_date: formattedDeathDate || "",
       });
     }
   }, [person]);
@@ -39,7 +49,7 @@ function PersonForm({ show, setShow, person }) {
 
   function resetForm() {
     setErrors({});
-    setFormData({ id: "", name: "" });
+    setFormData({ id: "", name: "", birth_date: "", death_date: "" });
     setAlert({ message: "", variant: "" });
   }
 
@@ -98,24 +108,24 @@ function PersonForm({ show, setShow, person }) {
               onChange={(e) => handleChange(e, "name")}
             />
             <Form.Control.Feedback type="invalid">{errors.name}</Form.Control.Feedback>
-            <Form.Label className="mt-3">Birth Year</Form.Label>
+            <Form.Label className="mt-3">Date of Birth</Form.Label>
             <Form.Control
-              type="number"
-              value={formData.birth_year}
-              placeholder="Enter Birth Year"
-              isInvalid={errors.birth_year}
-              onChange={(e) => handleChange(e, "birth_year")}
+              type="date"
+              value={formData.birth_date}
+              placeholder="Enter date of birth"
+              isInvalid={errors.birth_date}
+              onChange={(e) => handleChange(e, "birth_date")}
             />
-            <Form.Control.Feedback type="invalid">{errors.birth_year}</Form.Control.Feedback>
-            <Form.Label className="mt-3">Death Year</Form.Label>
+            <Form.Control.Feedback type="invalid">{errors.birth_date}</Form.Control.Feedback>
+            <Form.Label className="mt-3">Date of Death</Form.Label>
             <Form.Control
-              type="number"
-              value={formData.death_year}
-              placeholder="Enter Death Year"
-              isInvalid={errors.death_year}
-              onChange={(e) => handleChange(e, "death_year")}
+              type="date"
+              value={formData.death_date}
+              placeholder="Enter date of death"
+              isInvalid={errors.death_date}
+              onChange={(e) => handleChange(e, "death_date")}
             />
-            <Form.Control.Feedback type="invalid">{errors.death_year}</Form.Control.Feedback>
+            <Form.Control.Feedback type="invalid">{errors.death_date}</Form.Control.Feedback>
           </Form.Group>
           <Form.Group className="mt-4">
             <Button id="form-submit-button" variant="warning" type="submit" className="me-2">{isSubmitting ? <Spinner /> : (person?.id ? "Update" : "Create")}</Button>

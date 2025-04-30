@@ -1,21 +1,72 @@
 import { Button } from "react-bootstrap";
-import { Link } from "react-router-dom";
 import PersonForm from "../modals/PersonForm";
 import { useState } from "react";
 
 const Person = ({person}) => {
   const [showPersonModal, setShowPersonModal] = useState(false);
+  const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
   
   function handleEditPersonClick() {
     setShowPersonModal(true);
+  }
+
+  const getBirthDate = (person) => {
+    if (person.birth_date != null) {
+      const birthDate = new Date(person.birth_date);
+
+      const month = months[birthDate.getMonth()];
+      let day = "";
+
+      if (birthDate.getDate() == 1 || birthDate.getDate() == 21 || birthDate.getDate() == 31)
+        day = birthDate.getDate() + "st";
+      else if (birthDate.getDate() == 2 || birthDate.getDate() == 22)
+        day = birthDate.getDate() + "nd";
+      else if (birthDate.getDate() == 3 || birthDate.getDate() == 23)
+        day = birthDate.getDate() + "rd";
+      else
+        day = birthDate.getDate() + "th";
+
+      return month + " " + day + ", " + birthDate.getFullYear();
+    }
+  }
+
+  const getDeathDate = (person) => {
+    if (person.death_date != null) {
+      const deathDate = new Date(person.death_date);
+
+      const month = months[deathDate.getMonth()];
+      let day = "";
+
+      if (deathDate.getDate() == 1 || deathDate.getDate() == 21 || deathDate.getDate() == 31)
+        day = deathDate.getDate() + "st";
+      else if (deathDate.getDate() == 2 || deathDate.getDate() == 22)
+        day = deathDate.getDate() + "nd";
+      else if (deathDate.getDate() == 3 || deathDate.getDate() == 23)
+        day = deathDate.getDate() + "rd";
+      else
+        day = deathDate.getDate() + "th";
+
+      return month + " " + day + ", " + deathDate.getFullYear();
+    }
+  }
+
+  const getAge = (person) => {
+    if (person.birth_date != null) {
+      if (person.death_date == null)
+        return parseInt(parseInt(new Date() - new Date(person.birth_date)) / 31557600000);
+      else
+        return parseInt(parseInt(new Date(person.death_date) - new Date(person.birth_date)) / 31557600000);
+    }
   }
 
   return (
     <>
       <tr>
         <td>{person.name}</td>
-        <td>{person.birth_year}</td>
-        <td>{person.death_year}</td>
+        <td>{getBirthDate(person)}</td>
+        <td>{getDeathDate(person)}</td>
+        <td>{getAge(person)}</td>
+        <td></td>
         <td className="text-center">
           <Button variant="secondary" onClick={() => handleEditPersonClick()} className="me-1">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-pen" viewBox="0 0 16 16">

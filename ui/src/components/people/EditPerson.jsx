@@ -8,8 +8,8 @@ function EditPerson() {
   const [person, setPerson] = useState({ 
     id: "",
     name: "",
-    birth_year: "",
-    death_year: ""
+    birth_date: "",
+    death_date: ""
   });
 
   useEffect(() => {
@@ -18,8 +18,8 @@ function EditPerson() {
         setPerson({
           id: results.data.id,
           name: results.data.name,
-          birth_year: results.data.birth_year,
-          death_year: results.data.death_year
+          birth_date: results.data.birth_date,
+          death_date: results.data.death_date
         });
       })
       .catch(error => {

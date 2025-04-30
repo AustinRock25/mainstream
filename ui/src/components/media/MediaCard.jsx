@@ -30,7 +30,7 @@ function MediaCard ({media}) {
     let array = [];
     media.directors.sort((a, b) => a.ordering > b.ordering ? 1 : -1);
     for (let x = 0; x < media.directors.length; x++) {
-      if (media.directors[x].death_year != null)
+      if (media.directors[x].death_date != null)
         array[x] = media.directors[x].name + "†";
       else
         array[x] = media.directors[x].name;
@@ -48,7 +48,7 @@ function MediaCard ({media}) {
     let array = [];
     media.cast_members.sort((a, b) => a.ordering > b.ordering ? 1 : -1);
     for (let x = 0; x < media.cast_members.length; x++) {
-      if (media.cast_members[x].death_year != null)
+      if (media.cast_members[x].death_date != null)
         array[x] = media.cast_members[x].name + "†";
       else
         array[x] = media.cast_members[x].name;
@@ -90,7 +90,6 @@ function MediaCard ({media}) {
 
   const getLength = (media) => {
     let startDate = new Date(media.release_date);
-    let endDate;
     if (media.end_date != null) {
       let endDate = new Date(media.end_date);
       if (startDate.getFullYear() == endDate.getFullYear())
@@ -189,7 +188,7 @@ function MediaCard ({media}) {
       <div className="border border-dark rounded m-1">
         <Card className="bg-secondary text-white">
           <Card.Header className="fw-bold">
-            {media.title} ({media.type == "show" ? getLength(media) : getYear(media)})
+            <i>{media.title}</i> ({media.type == "show" ? getLength(media) : getYear(media)})
             <Image src={`public/posters/${media.poster}_poster.jpg`} className="border border-dark" alt={`Poster for ${media.title}`} fluid></Image>
             {media.score == 0 && <span className="fs-3"><span className="fa fa-star unchecked"></span><span className="fa fa-star unchecked"></span><span className="fa fa-star unchecked"></span><span className="fa fa-star unchecked"></span><span className="fa fa-star unchecked"></span></span>}
             {media.score == 1 && <span className="fs-3"><span className="fa fa-star checked"></span><span className="fa fa-star unchecked"></span><span className="fa fa-star unchecked"></span><span className="fa fa-star unchecked"></span><span className="fa fa-star unchecked"></span></span>}
@@ -203,10 +202,10 @@ function MediaCard ({media}) {
           <Card.Body>
             {media.rating == "Not Rated" && <p className="fs-6">{media.rating}</p>}
             {media.rating != "Not Rated" && <p className="fs-6">Rated {media.rating}</p>}
-            {media.type == "movie" && <p className="fs-6">Runtime: {time(media)}</p>}
+            {media.type == "movie" && <p className="fs-6"><b>Runtime:</b> {time(media)}</p>}
             {media.type == "movie" && <p className="fs-6"><b>Directed by</b> <br />{directorNames(media)}</p>}
             {media.type == "show" && <p className="fs-6">{getSeasons(media)}</p>}
-            {media.type == "show" && <p className="fs-6 box wrap">Episode runtime: <br />{getRuntimes(media)}</p>}
+            {media.type == "show" && <p className="fs-6 box wrap"><b>Episode runtime:</b> <br />{getRuntimes(media)}</p>}
             <p className="fs-6"><b>Starring</b> <br />{castNames(media)}</p>
           </Card.Body>
           <Card.Footer>

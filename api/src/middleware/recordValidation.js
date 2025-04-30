@@ -28,7 +28,7 @@ const validateMedia = async (req, res, next) => {
   if (!media.min_episode_runtime && media.type == "show")
     errors.min_episode_runtime = "Required";
 
-  if (!media.min_episode_runtime && media.type == "show")
+  if (!media.max_episode_runtime && media.type == "show")
     errors.max_episode_runtime = "Required";
 
   if (!media.seasons && media.type == "show")
@@ -39,6 +39,10 @@ const validateMedia = async (req, res, next) => {
 
   if ((!media.watched || media.watched == 0) && media.type == "show")
     errors.watched = "Required";
+
+  const recordExists = (await pgClient.query("SELECT id FROM media WHERE type = $1 AND title = $2 AND EXTRACT(YEAR FROM release_date) = $3", [media.type, media.title, new Date(media.release_date).getFullYear()])).rowCount > 0;
+  if (recordExists)
+    errors.title = "Already taken";
 
   if (Object.keys(errors).length > 0)
     res.status(422).json({ errors });
@@ -53,6 +57,10 @@ const validatePerson = async (req, res, next) => {
   if (!person.name || person.name.length === 0)
     errors.name = "Required";
 
+  const recordExists = (await pgClient.query("SELECT id FROM people WHERE name = $1 AND EXTRACT(YEAR FROM birth_date) = $2", [person.name, new Date(person.birth_date).getFullYear()])).rowCount > 0;
+  if (recordExists)
+    errors.name = "Already taken";
+
   if (Object.keys(errors).length > 0)
     res.status(422).json({ errors });
   else
@@ -64,16 +72,16 @@ const validateUser = async (req, res, next) => {
   const user = req.body;
 
   if (!user.email || user.email.length === 0)
-    errors.email = "Required.";
+    errors.email = "Required";
 
   if (user.email && user.email.length > 100)
-    errors.email = "Must be less than 100 characters.";
+    errors.email = "Must be less than 100 characters";
 
   if (!user.password || user.password.length === 0)
-    errors.password = "Required.";
+    errors.password = "Required";
 
   if (user.password && user.password.length > 100)
-    errors.password = "Must be less than 100 characters.";
+    errors.password = "Must be less than 100 characters";
 
   const recordExists = (await pgClient.query("SELECT id FROM users WHERE email = $1", [user.email])).rowCount > 0;
   if (recordExists)

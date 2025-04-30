@@ -8,7 +8,8 @@ function MediaForm({ show, setShow, media }) {
   const [castMembers, setCastMembers] = useState([]);
   const [directors, setDirectors] = useState([]);
   const [errors, setErrors] = useState({ });
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoadingCast, setIsLoadingCast] = useState(false);
+  const [isLoadingDir, setIsLoadingDir] = useState(false);
   const [isMovie, setIsMovie] = useState(false);
   const [isShow, setIsShow] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -93,7 +94,7 @@ function MediaForm({ show, setShow, media }) {
   }, []);
 
   const getResultsCast = useCallback(() => {
-    setIsLoading(true);
+    setIsLoadingCast(true);
     axios.get("/api/people/select", { params: { searchTerm: searchTermCast } })
     .then(response => {
       setCastMembers(response.data);
@@ -102,12 +103,12 @@ function MediaForm({ show, setShow, media }) {
       setAlert({ message: "Failed to load people", variant: "danger" });
     })
     .finally(() => {
-      setIsLoading(false);
+      setIsLoadingCast(false);
     });
   });
 
   const getResultsDirector = useCallback(() => {
-    setIsLoading(true);
+    setIsLoadingDir(true);
     axios.get("/api/people/select", { params: { searchTerm: searchTermDirector } })
     .then(response => {
       setDirectors(response.data);
@@ -116,7 +117,7 @@ function MediaForm({ show, setShow, media }) {
       setAlert({ message: "Failed to load people", variant: "danger" });
     })
     .finally(() => {
-      setIsLoading(false);
+      setIsLoadingDir(false);
     });
   });
 
@@ -426,7 +427,7 @@ function MediaForm({ show, setShow, media }) {
             }
             {isMovie && 
               <>
-                {isLoading
+                {isLoadingDir
                   ?
                   <Spinner />
                   :
@@ -434,13 +435,13 @@ function MediaForm({ show, setShow, media }) {
                     <p className="mt-5">Directors</p>
                     <ul className="select-menu">
                       {directors.map(director => (
-                        <li key={director.id}><Button variant="transparent" className="text-success" onClick={() => toggleDirector(director)}>✓</Button> {director.name} {director.birth_year && `(b. ` + director.birth_year + `)`}</li>
+                        <li key={director.id}><Button variant="transparent" className="text-success" onClick={() => toggleDirector(director)}>✓</Button> {director.name} {director.birth_date && `(b. ` + new Date(director.birth_date).getFullYear() + `)`}</li>
                       ))}
                     </ul>
                   </>
                 }
                 <input type="text" className="mt-2 w-75" value={searchTermDirector} onChange={event => setSearchTermDirector(event.target.value)} placeholder="Enter the director's name" />
-                <Button className="btn btn-warning m-2" onClick={getResultsDirector}>Search</Button>
+                <Button id="search-button" className="btn btn-warning m-2" onClick={getResultsDirector}>Search</Button>
                 <ul>
                   {selectedDirectors.map(selectedDirector => (
                     <li key={selectedDirector.director_id}><Button variant="transparent" className="text-danger" onClick={() => removeDirector(selectedDirector)}>x</Button> {selectedDirector.name}</li>
@@ -459,7 +460,7 @@ function MediaForm({ show, setShow, media }) {
                 }
               </>
             }
-            {isLoading
+            {isLoadingCast
               ?
               <Spinner />
               :
@@ -467,13 +468,13 @@ function MediaForm({ show, setShow, media }) {
                 <p className="mt-5">Cast</p>
                 <ul className="select-menu">
                   {castMembers.map(castMember => (
-                    <li key={castMember.id}><Button variant="transparent" className="text-success" onClick={() => toggleCastMember(castMember)}>✓</Button> {castMember.name} {castMember.birth_year && `(b. ` + castMember.birth_year + `)`}</li>
+                    <li key={castMember.id}><Button variant="transparent" className="text-success" onClick={() => toggleCastMember(castMember)}>✓</Button> {castMember.name} {castMember.birth_date && `(b. ` + new Date(castMember.birth_date).getFullYear() + `)`}</li>
                   ))}
                 </ul>
               </>
             }
             <input type="text" className="mt-2 w-75" value={searchTermCast} onChange={event => setSearchTermCast(event.target.value)} placeholder="Enter the cast member's name" />
-            <Button className="btn btn-warning m-2" onClick={getResultsCast}>Search</Button>
+            <Button id="search-button" className="btn btn-warning m-2" onClick={getResultsCast}>Search</Button>
             <ul>
               {selectedCastMembers.map(selectedCastMember => (
                 <li key={selectedCastMember.actor_id}><Button variant="transparent" className="text-danger" onClick={() => removeCastMember(selectedCastMember)}>x</Button> {selectedCastMember.name}</li>

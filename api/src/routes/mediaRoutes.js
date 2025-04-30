@@ -8,6 +8,6 @@ router.get("/", controller.index);
 router.get("/length", controller.indexLength);
 router.get("/:id", controller.show);
 router.post("/", [authorizeAdmin, validateMedia], controller.create);
-router.put("/:id", [authorizeAdmin, validateMedia], controller.update);
+router.put("/:id", [authorizeAdmin], controller.update);
 
 module.exports = router;

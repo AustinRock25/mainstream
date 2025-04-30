@@ -30,7 +30,7 @@ ul {
   list-style-type: none;
 }
 
-#search-button:hover, #first-page-button:hover, #previous-page-button:hover, #next-page-button:hover, #imdb-link-button:hover, #form-submit-button:hover {
+#search-button:hover, #first-page-button:hover, #previous-page-button:hover, #next-page-button:hover, #form-submit-button:hover {
   background-color: white;
 }
 

@@ -138,8 +138,9 @@ const People = () => {
                 <thead>
                   <tr>
                     <th>Name</th>
-                    <th>Birth Year</th>
-                    <th>Death Year</th>
+                    <th>Date of Birth</th>
+                    <th>Date of Death</th>
+                    <th>Age</th>
                     <th style={{ width: "110px" }}></th>
                   </tr>
                 </thead>
