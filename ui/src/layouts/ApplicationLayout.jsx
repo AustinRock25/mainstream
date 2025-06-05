@@ -54,7 +54,7 @@ function ApplicationLayout() {
       <Container id="container" className="min-vh-100 d-flex flex-column">
         <div id="header">
           <div className="text-center py-5 px-3">
-            <Image src="../../public/mainstream.jpg" fluid/>
+            <Image src="mainstream.jpg" fluid/>
             {!!user && 
               <div className="text-center text-white py-2 fw-bold bg-secondary">Logged in under {isAdmin && <span>Admin</span>}</div>
             }
@@ -63,11 +63,11 @@ function ApplicationLayout() {
             <Nav className="bg-secondary">
               <Nav.Link as={NavLink} to="/">Home</Nav.Link>
               <Nav.Link as={NavLink} to="/media">Films & Shows</Nav.Link>
-              {isAdmin && <Nav.Link as={NavLink} to="/people">Actors & Directors</Nav.Link>}
+              {isAdmin && <Nav.Link as={NavLink} to="/people">Cast & Crew</Nav.Link>}
             </Nav>
             <Nav className="bg-secondary justify-content-end">
-              {isAdmin && <Nav.Link onClick={handleAddMediaClick}>Add Media</Nav.Link>}
-              {isAdmin && <Nav.Link onClick={handleAddPersonClick}>Add Person</Nav.Link>}
+              {isAdmin && <Nav.Link onClick={handleAddMediaClick}>Add Film/Show/Season</Nav.Link>}
+              {isAdmin && <Nav.Link onClick={handleAddPersonClick}>Add Cast/Crew Member</Nav.Link>}
               {isAuthenticated ?
                 <Nav.Link onClick={handleLogoutClick}>Log out</Nav.Link>
                 :

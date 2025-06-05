@@ -17,21 +17,19 @@ function PersonForm({ show, setShow, person }) {
 
   useEffect(() => {
     if (person?.id) {
-      let formattedBirthDate = "";
-      let formattedDeathDate = "";
-      if (person.birth_date != null) {
-        const birthDateObject = new Date(person.birth_date);
-        formattedBirthDate = birthDateObject.toISOString().split("T")[0];
-      }
-      if (person.death_date != null) {
-        const deathDateObject = new Date(person.death_date);
-        formattedDeathDate = deathDateObject.toISOString().split("T")[0];
-      }
+      let birthDate;
+      let deathDate;
+
+      if (!!person.birth_date)
+        birthDate = new Date(person.birth_date).toISOString().split("T")[0];
+
+      if (!!person.death_date)
+        deathDate = new Date(person.death_date).toISOString().split("T")[0];
       setFormData({
         id: person.id || "",
         name: person.name || "",
-        birth_date: formattedBirthDate || "",
-        death_date: formattedDeathDate || "",
+        birth_date: birthDate || "",
+        death_date: deathDate || "",
       });
     }
   }, [person]);
@@ -49,8 +47,12 @@ function PersonForm({ show, setShow, person }) {
 
   function resetForm() {
     setErrors({});
-    setFormData({ id: "", name: "", birth_date: "", death_date: "" });
+    setFormData({ name: "", birth_date: "", death_date: "" });
     setAlert({ message: "", variant: "" });
+    if (!person?.id)
+      setFormData({ name: "", birth_date: "", death_date: "" });
+    else
+      setFormData({ name: person.name, birth_date: new Date(person.birth_date).toISOString().split("T")[0], death_date: new Date(person.death_date).toISOString().split("T")[0] });
   }
 
   function handleSubmit(e) {
@@ -83,7 +85,7 @@ function PersonForm({ show, setShow, person }) {
   return (
     <Modal show={show} onHide={(e) => setShow(false)} backdrop="static">
       <Modal.Header className="bg-dark text-white">
-        <Modal.Title>{person?.id ? `Edit ${person.name}` : "Add Person"}</Modal.Title>
+        <Modal.Title>{person?.id ? `Edit ${person.name}` : "Add Cast/Crew Member"}</Modal.Title>
       </Modal.Header>
       <Modal.Body className="bg-black text-white">
         {alert.message &&

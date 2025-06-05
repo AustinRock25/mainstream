@@ -5,137 +5,197 @@ import { useNavigate } from "react-router-dom";
 
 function MediaForm({ show, setShow, media }) {
   const [alert, setAlert] = useState({ message: "", variant: "" });
-  const [castMembers, setCastMembers] = useState([]);
-  const [directors, setDirectors] = useState([]);
+  const [castAndCrew, setCastAndCrew] = useState([]);
   const [errors, setErrors] = useState({ });
-  const [isLoadingCast, setIsLoadingCast] = useState(false);
-  const [isLoadingDir, setIsLoadingDir] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [isMovie, setIsMovie] = useState(false);
   const [isShow, setIsShow] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const navigate = useNavigate();
-  const [removedCastMembers, setRemovedCastMembers] = useState([]);
-  const [removedDirectors, setRemovedDirectors] = useState([]);
-  const [searchTermCast, setSearchTermCast] = useState("");
-  const [searchTermDirector, setSearchTermDirector] = useState("");
-  const [selectedCastMembers, setSelectedCastMembers] = useState([]);
-  const [selectedDirectors, setSelectedDirectors] = useState([]);
+  const [removed, setRemoved] = useState([]);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [selected, setSelected] = useState([]);
+  const [shows, setShows] = useState([]);
   const [formData, setFormData] = useState({
     id: "",
     title: "", 
+    season: "",
     score: 0, 
+    rating: "",
     release_date: "", 
-    year: "",
+    start_date: "",
+    end_date: "",
     poster: "", 
     runtime: "",
-    min_episode_runtime: "",
-    max_episode_runtime: "",
-    end_date: "",
-    seasons: "",
     episodes: "",
-    watched: "",
     type: "",
-    directors: [],
-    cast_members: []
+    castAndCrew: []
   });
-  let tempSelectedDirectors = new Array();
-  let tempSelectedCastMembers = new Array();
+
+  const loadCastAndCrew = () => {
+    let i = 0;
+    let temp = new Array();
+      if (!!media.cast_members) {
+        for (let x = 0; x < media.cast_members.length; x++) {
+          let z = 0;
+          for (let y = 0; y < temp.length; y++) {
+            if (temp[y].id == media.cast_members[x].actor_id) {
+              temp[y].cast = true;
+              break;
+            }
+            else
+              z++;
+          }
+          if (z == temp.length) {
+            temp[i] = {id: media.cast_members[x].actor_id, name: media.cast_members[x].name, director: false, writer: false, cast: true};
+            i++;
+          }
+        }
+      }
+      if (!!media.cast_members_tv) {
+        for (let x = 0; x < media.cast_members_tv.length; x++) {
+          let z = 0;
+          for (let y = 0; y < temp.length; y++) {
+            if (temp[y].id == media.cast_members_tv[x].actor_id) {
+              temp[y].cast = true;
+              break;
+            }
+            else
+              z++;
+          }
+          if (z == temp.length) {
+            temp[i] = {id: media.cast_members_tv[x].actor_id, name: media.cast_members_tv[x].name, director: false, writer: false, cast: true};
+            i++;
+          }
+        }
+      }
+      if (!!media.writers) {
+        for (let x = 0; x < media.writers.length; x++) {
+          let z = 0;
+          for (let y = 0; y < temp.length; y++) {
+            if (temp[y].id == media.writers[x].writer_id) {
+              temp[y].writer = true;
+              break;
+            }
+            else
+              z++;
+          }
+          if (z == temp.length) {
+            temp[i] = {id: media.writers[x].writer_id, name: media.writers[x].name, director: false, writer: true, cast: false};
+            i++;
+          }
+        }
+      }
+      if (!!media.directors) {
+        for (let x = 0; x < media.directors.length; x++) {
+          let z = 0;
+          for (let y = 0; y < temp.length; y++) {
+            if (temp[y].id == media.directors[x].director_id) {
+              temp[y].director = true;
+              break;
+            }
+            else
+              z++;
+          }
+          if (z == temp.length) {
+            temp[i] = {id: media.directors[x].director_id, name: media.directors[x].name, director: true, writer: false, cast: false};
+            i++;
+          }
+        }
+      }
+    return temp;
+  }
 
   useEffect(() => {
     if (media?.id) {
-      const dateObject1 = new Date(media.release_date);
-      const formattedDate1 = dateObject1.toISOString().split("T")[0];
-      let dateObject2;
-      let formattedDate2;
-      if (!!media.end_date) {
-        dateObject2 = new Date(media.end_date);
-        formattedDate2 = dateObject2.toISOString().split("T")[0];
-      }
-      if (media.type == "movie") {
-        for (let x = 0; x < media.directors.length; x++)
-          tempSelectedDirectors[x] = {id: media.directors[x].director_id, name: media.directors[x].name};
-      }
-      for (let x = 0; x < media.cast_members.length; x++)
-        tempSelectedCastMembers[x] = {id: media.cast_members[x].actor_id, name: media.cast_members[x].name};
-      setFormData({
-        id: media.id || "",
-        title: media.title || "",
-        score: media.score || 1,
-        rating: media.rating || "Not Rated",
-        release_date: formattedDate1 || "",
-        poster: media.poster || "",
-        runtime: media.runtime || "",
-        min_episode_runtime: media.min_episode_runtime || "",
-        max_episode_runtime: media.max_episode_runtime || "",
-        end_date: formattedDate2 || "",
-        seasons: media.seasons || "",
-        episodes: media.episodes || "",
-        watched: media.watched || "",
-        type: media.type || ""
-      });
-      setSelectedDirectors(tempSelectedDirectors);
-      setSelectedCastMembers(tempSelectedCastMembers);
       if (media.type == "movie")
         setIsMovie(true);
       else if (media.type == "show")
         setIsShow(true);
+
+      if (isShow)
+        media.score = media.score_tv;
+
+      setFormData({
+        id: media.id || "",
+        title: media.title || "",
+        season: media.season || "",
+        score: media.score || 0,
+        rating: media.rating || "Not Rated",
+        release_date: new Date(media.release_date).toISOString().split("T")[0] || "",
+        start_date: new Date(media.start_date).toISOString().split("T")[0] || "",
+        end_date: new Date(media.end_date).toISOString().split("T")[0] || "",
+        poster: media.poster || "",
+        runtime: media.runtime || "",
+        episodes: media.episodes || "",
+        type: media.type || ""
+      });
+      setSelected(loadCastAndCrew());
     }
+    axios.get("/api/media/shows")
+    .then(response => {
+      setShows(response.data);
+    })
+    .catch(error => {
+      setAlert({ message: "Failed to get shows", variant: "danger" });
+    })
   }, [media]);
 
-  useEffect(() => {
-    axios.get("/api/people/select")
-      .then(response => {
-        setDirectors(response.data);
-        setCastMembers(response.data);
-      })
-      .catch(error => {
-        setAlert({ message: "Failed to load people", variant: "danger" });
-      })
-  }, []);
-
-  const getResultsCast = useCallback(() => {
-    setIsLoadingCast(true);
-    axios.get("/api/people/select", { params: { searchTerm: searchTermCast } })
+  const getResults = useCallback(() => {
+    setIsLoading(true);
+    axios.get("/api/people/select", { params: { searchTerm: searchTerm } })
     .then(response => {
-      setCastMembers(response.data);
+      setCastAndCrew(editResults(response.data));
     })
     .catch(error => {
       setAlert({ message: "Failed to load people", variant: "danger" });
     })
     .finally(() => {
-      setIsLoadingCast(false);
+      setIsLoading(false);
     });
   });
 
-  const getResultsDirector = useCallback(() => {
-    setIsLoadingDir(true);
-    axios.get("/api/people/select", { params: { searchTerm: searchTermDirector } })
-    .then(response => {
-      setDirectors(response.data);
-    })
-    .catch(error => {
-      setAlert({ message: "Failed to load people", variant: "danger" });
-    })
-    .finally(() => {
-      setIsLoadingDir(false);
-    });
-  });
+  const editResults = (arr) => {
+    let temp = new Array();
+    let y = 0;
+    for (let x = 0; x < arr.length; x++) {
+      if (selected.some((item) => item.id === arr[x].id) == false && removed.some((item) => item.id === arr[x].id) == false) {
+        if (arr[x].birth_date == null || (isMovie && new Date(arr[x].birth_date) < new Date(formData.release_date)) || (isShow && new Date(arr[x].birth_date) < new Date(formData.start_date))) {
+          if (arr[x].death_date == null || (isMovie && new Date(arr[x].death_date).setFullYear(new Date(arr[x].death_date).getFullYear() + 5) > new Date(formData.release_date)) || (isShow && new Date(arr[x].death_date).setFullYear(new Date(arr[x].death_date).getFullYear() + 5) > new Date(formData.start_date))) {
+            temp[y] = arr[x];
+            y++;
+          }
+        }
+      }
+    }
+
+    return temp;
+  }
 
   const handleChange = (e, key) => {
     setErrors({ ...errors, [key]: "" });
     setFormData({ ...formData, [key]: e.target.value });
+    
     if (key == "type" && e.target.value == "movie") {
       setIsMovie(true);
       setIsShow(false);
+      setFormData({ id: "", title: "", season: "", score: 0, start_date: "", end_date: "", poster: "", episodes: "", type: "movie" });
+      setSelected([]);
     }
     else if (key == "type" && e.target.value == "show") {
       setIsShow(true);
       setIsMovie(false);
+      setFormData({ title: "", score: 0, release_date: "", poster: "", runtime: "", type: "show" });
+      setSelected([]);
     }
     else if (key == "type" && e.target.value == "") {
       setIsMovie(false);
       setIsShow(false);
+      setFormData({ id: "", title: "", season: "", score: 0, rating: "Not Rated", release_date: "", start_date: "", end_date: "", poster: "", runtime: "", episodes: "" });
+      setSelected([]);
     }
+    if (key == "id" && e.target.value != "na")
+      setFormData({ title: "", season: "", score: 0, rating: "Not Rated", start_date: "", end_date: "", poster: "", episodes: "", type: "show" });
   }
 
   function handleHide(e) {
@@ -145,39 +205,37 @@ function MediaForm({ show, setShow, media }) {
 
   function resetForm() {
     setErrors({});
-    setSearchTermDirector("");
-    setSearchTermCast("");
+    setSearchTerm("");
     setAlert({ message: "", variant: "" });
-    setDirectors([]);
-    setCastMembers([]);
-    setRemovedCastMembers([]);
-    setRemovedDirectors([]);
+    setCastAndCrew([]);
+    setRemoved([]);
     if (!media?.id) {
-      setFormData({ id: "", title: "", score: 0, rating: "Not Rated", year: "", poster: "",  runtime: "", type: "", min_episode_runtime: "", max_episode_runtime: "", end_date: "", seasons: "", episodes: "", watched: "" });
-      setSelectedDirectors([]);
-      setSelectedCastMembers([]);
+      setFormData({ id: "", title: "", season: "", score: 0, rating: "Not Rated", release_date: "", start_date: "", end_date: "", poster: "",  runtime: "", episodes: "", type: "" });
+      setSelected([]);
+      setIsMovie(false);
+      setIsShow(false);
     }
     else {
-      setFormData({ id: media.id, title: media.title, score: media.score, rating: media.rating, year: media.year, poster: media.poster, runtime: media.runtime, type: media.type, min_episode_runtime: media.min_episode_runtime, max_episode_runtime: media.max_episode_runtime, end_date: media.end_date, seasons: media.seasons, episodes: media.episodes, watched: media.watched });
-      setSelectedDirectors(media.directors);
-      setSelectedCastMembers(media.cast_members);
+      setFormData({ id: media.id, title: media.title, episode: media.episodes, score: media.score, rating: media.rating, release_date: new Date(media.release_date).toISOString().split("T")[0], start_date: new Date(media.start_date).toISOString().split("T")[0], end_date: new Date(media.end_date).toISOString().split("T")[0], poster: media.poster, runtime: media.runtime, season: media.season, type: media.type });
+      setSelected(loadCastAndCrew());
     }
   }
 
-  const toggleDirector = (director) => {
-    if (highlightDirector(director))
-      removeDirector(director);
+  const toggle = (member) => {
+    const m = { id: member.id, name: member.name, director: false, writer: false, cast: false };
+    if (highlight(m))
+      remove(m);
     else {
-      setSelectedDirectors([...selectedDirectors, director]);
-      setRemovedDirectors(removedDirectors.filter((item) => item.id !== director.id));
-      setDirectors(directors.filter((item) => item.id !== director.id)); 
+      setSelected([...selected, m]);
+      setRemoved(removed.filter((item) => item.id !== m.id));
+      setCastAndCrew(castAndCrew.filter((item) => item.id !== m.id));
     }
   };
 
-  const highlightDirector = (director) => {
+  const highlight = (member) => {
     let isIncluded = false;
-    for (let x = 0; x < selectedDirectors.length; x++) {
-      if (selectedDirectors[x].id == director.id) {
+    for (let x = 0; x < selected.length; x++) {
+      if (selected[x].id == member.id) {
         isIncluded = true;
         break;
       }
@@ -185,45 +243,18 @@ function MediaForm({ show, setShow, media }) {
     return isIncluded;
   }
 
-  const removeDirector = (director) => {
-    setSelectedDirectors(selectedDirectors.filter((item) => item.id !== director.id));
-    setRemovedDirectors([...removedDirectors, director]);
+  const remove = (member) => {
+    setSelected(selected.filter((item) => item.id !== member.id));
+    setRemoved([...removed, member]);
   }
-
-  const toggleCastMember = (castMember) => {
-    if (highlightCastMember(castMember))
-      removeCastMember(castMember);
-    else {
-      setSelectedCastMembers([...selectedCastMembers, castMember]);
-      setRemovedCastMembers(removedCastMembers.filter((item) => item.id !== castMember.id));
-      setCastMembers(castMembers.filter((item) => item.id !== castMember.id)); 
-    }
-  };
-
-  const highlightCastMember = (castMember) => {
-    let isIncluded = false;
-    for (let x = 0; x < selectedCastMembers.length; x++) {
-      if (selectedCastMembers[x].id == castMember.id) {
-        isIncluded = true;
-        break;
-      }
-    }
-    return isIncluded;
-  }
-
-  const removeCastMember = (castMember) => {
-    setSelectedCastMembers(selectedCastMembers.filter((item) => item.id !== castMember.id));
-    setRemovedCastMembers([...removedCastMembers, castMember]);
-  }
-
+  
   function handleSubmit(e) {
     e.preventDefault();
     setIsSubmitting(true);
 
-    formData.directors = selectedDirectors;
-    formData.cast_members = selectedCastMembers;
+    formData.castAndCrew = selected;
     
-    const apiCall = media?.id ? axios.put(`/api/media/${media.id}`, formData) : axios.post("/api/media", formData);
+    const apiCall = (media?.id && formData.id != "na") ? axios.put(`/api/media/${media.id}`, formData) : axios.post("/api/media", formData);
     
     apiCall
       .then(response => {
@@ -261,10 +292,43 @@ function MediaForm({ show, setShow, media }) {
       return "Great";
   }
 
+  const checkDirector = (member) => {
+    for (let x = 0; x < selected.length; x++) {
+      if (selected[x].id == member.id) {
+        if (selected[x].director == false)
+          selected[x].director = true;
+        else
+          selected[x].director = false;
+      }
+    }
+  }
+
+  const checkWriter = (member) => {
+    for (let x = 0; x < selected.length; x++) {
+      if (selected[x].id == member.id) {
+        if (selected[x].writer == false)
+          selected[x].writer = true;
+        else
+          selected[x].writer = false;
+      }
+    }
+  }
+
+  const checkCast = (member) => {
+    for (let x = 0; x < selected.length; x++) {
+      if (selected[x].id == member.id) {
+        if (selected[x].cast == false)
+          selected[x].cast = true;
+        else
+          selected[x].cast = false;
+      }
+    }
+  }
+
   return (
     <Modal show={show} onHide={(e) => setShow(false)} backdrop="static">
       <Modal.Header className="bg-dark text-white">
-        <Modal.Title>{media?.id ? `Edit ${media.title}` : "Add Film/TV Show"}</Modal.Title>
+        <Modal.Title>{media?.id ? (media.type == "show" ? `Edit ${media.title} season ${media.season}` : `Edit ${media.title}`) : "Add Film/Season"}</Modal.Title>
       </Modal.Header>
       <Modal.Body className="bg-black text-white">
         {alert.message &&
@@ -280,9 +344,9 @@ function MediaForm({ show, setShow, media }) {
 
         <Form onSubmit={isSubmitting ? null : handleSubmit}>
           <Form.Group>
-          {!media &&
-            <>
-              <Form.Label>Type</Form.Label>
+            {!media &&
+              <>
+                <Form.Label>Type</Form.Label>
                 <Form.Select
                   value={formData.type}
                   isInvalid={errors.type}
@@ -295,43 +359,85 @@ function MediaForm({ show, setShow, media }) {
                 <Form.Control.Feedback type="invalid">{errors.type}</Form.Control.Feedback>
               </>
             }
-            <Form.Label className="mt-3">Title</Form.Label>
-            <Form.Control
-              type="text"
-              value={formData.title}
-              placeholder="Enter title"
-              isInvalid={errors.title}
-              onChange={(e) => handleChange(e, "title")}
-            />
-            <Form.Control.Feedback type="invalid">{errors.title}</Form.Control.Feedback>
-            <Form.Label className="mt-3">Score</Form.Label>
-            <p className="">{formData.score}/5 - {meaning()}</p>
-            <Form.Range
-              min="0"
-              max="5"
-              value={formData.score}
-              onChange={(e) => handleChange(e, "score")}
-            />
-            <Form.Label className="mt-3">Release Date</Form.Label>
-            <Form.Control
-              type="date"
-              value={formData.release_date}
-              placeholder="Enter release date"
-              isInvalid={errors.release_date}
-              onChange={(e) => handleChange(e, "release_date")}
-            />
-            <Form.Control.Feedback type="invalid">{errors.release_date}</Form.Control.Feedback>
-            <Form.Label className="mt-3">Poster</Form.Label>
-            <Form.Control
-              type="text"
-              value={formData.poster}
-              placeholder="Enter poster name"
-              isInvalid={errors.poster}
-              onChange={(e) => handleChange(e, "poster")}
-            />
-            <Form.Control.Feedback type="invalid">{errors.poster}</Form.Control.Feedback>
-            {!media &&
+            {(isShow && !media?.id) &&
               <>
+                <Form.Label className="mt-3">Show Select</Form.Label>
+                <Form.Select
+                  value={formData.id}
+                  isInvalid={errors.id}
+                  onChange={(e) => handleChange(e, "id")}
+                >
+                  <option value="">Select show</option>
+                  {shows.map(show => (
+                    <option key={show.id} value={show.id}>{show.title} ({new Date(show.start_date).getFullYear()})</option>
+                  ))}
+                  <option value="na">New title (use text box below)</option>
+                </Form.Select>
+                <Form.Control.Feedback type="invalid">{errors.id}</Form.Control.Feedback>
+              </>
+            }
+            {(isMovie || formData.id == "na" || media?.id) && 
+              <>
+                <Form.Label className="mt-3">Title</Form.Label>
+                <Form.Control
+                  type="text"
+                  value={formData.title}
+                  placeholder="Enter title"
+                  isInvalid={errors.title}
+                  onChange={(e) => handleChange(e, "title")}
+                />
+                <Form.Control.Feedback type="invalid">{errors.title}</Form.Control.Feedback>
+              </>
+            }
+            {isShow && 
+              <>
+                <Form.Label className="mt-3">Season</Form.Label>
+                <Form.Control
+                  type="number"
+                  value={formData.season}
+                  placeholder="Enter the season number"
+                  isInvalid={errors.season}
+                  onChange={(e) => handleChange(e, "season")}
+                />
+                <Form.Control.Feedback type="invalid">{errors.season}</Form.Control.Feedback>
+              </>
+            }
+            {formData.type != "" &&
+              <>
+                <Form.Label className="mt-3">Score</Form.Label>
+                <p className="">{formData.score}/5 - {meaning()}</p>
+                <Form.Range
+                  min="0"
+                  max="5"
+                  value={formData.score}
+                  onChange={(e) => handleChange(e, "score")}
+                />
+              </>
+            }
+            {isMovie && 
+              <>
+                <Form.Label className="mt-3">Release Date</Form.Label>
+                <Form.Control
+                type="date"
+                value={formData.release_date}
+                placeholder="Enter release date"
+                isInvalid={errors.release_date}
+                onChange={(e) => handleChange(e, "release_date")}
+                />
+                <Form.Control.Feedback type="invalid">{errors.release_date}</Form.Control.Feedback>
+              </>
+            }
+            {(isMovie || formData.id == "na" || media?.id) && 
+              <>
+                <Form.Label className="mt-3">Poster</Form.Label>
+                <Form.Control
+                  type="text"
+                  value={formData.poster}
+                  placeholder="Enter poster name"
+                  isInvalid={errors.poster}
+                  onChange={(e) => handleChange(e, "poster")}
+                />
+                <Form.Control.Feedback type="invalid">{errors.poster}</Form.Control.Feedback>
                 <Form.Label className="mt-3">Rating</Form.Label>
                 <Form.Select
                   value={formData.rating}
@@ -352,41 +458,32 @@ function MediaForm({ show, setShow, media }) {
                   <option value="R">R</option>
                   <option value="NC-17">NC-17</option>
                 </Form.Select>
-                {isMovie && 
-                  <>
-                    <Form.Label className="mt-3">Runtime</Form.Label>
-                    <Form.Control
-                      type="number"
-                      value={formData.runtime}
-                      placeholder="Enter runtime (in minutes)"
-                      isInvalid={errors.runtime}
-                      onChange={(e) => handleChange(e, "runtime")}
-                    />
-                    <Form.Control.Feedback type="invalid">{errors.runtime}</Form.Control.Feedback>
-                  </>
-                }
+              </>
+            }
+            {isMovie && 
+              <>
+                <Form.Label className="mt-3">Runtime</Form.Label>
+                <Form.Control
+                  type="number"
+                  value={formData.runtime}
+                  placeholder="Enter runtime (in minutes)"
+                  isInvalid={errors.runtime}
+                  onChange={(e) => handleChange(e, "runtime")}
+                />
+                <Form.Control.Feedback type="invalid">{errors.runtime}</Form.Control.Feedback>
               </>
             }
             {isShow &&
               <>
-                <Form.Label className="mt-3">Minimum Episode Runtime</Form.Label>
+                <Form.Label className="mt-3">Start Date</Form.Label>
                 <Form.Control
-                  type="number"
-                  value={formData.min_episode_runtime}
-                  placeholder="Enter the minimum episode runtime (in minutes)"
-                  isInvalid={errors.min_episode_runtime}
-                  onChange={(e) => handleChange(e, "min_episode_runtime")}
+                  type="date"
+                  value={formData.start_date}
+                  placeholder="Enter the start date"
+                  isInvalid={errors.start_date}
+                  onChange={(e) => handleChange(e, "start_date")}
                 />
-                <Form.Control.Feedback type="invalid">{errors.min_episode_runtime}</Form.Control.Feedback>
-                <Form.Label className="mt-3">Maximum Episode Runtime</Form.Label>
-                <Form.Control
-                  type="number"
-                  value={formData.max_episode_runtime}
-                  placeholder="Enter the maximum episode runtime (in minutes)"
-                  isInvalid={errors.max_episode_runtime}
-                  onChange={(e) => handleChange(e, "max_episode_runtime")}
-                />
-                <Form.Control.Feedback type="invalid">{errors.max_episode_runtime}</Form.Control.Feedback>
+                <Form.Control.Feedback type="invalid">{errors.start_date}</Form.Control.Feedback>
                 <Form.Label className="mt-3">End Date</Form.Label>
                 <Form.Control
                   type="date"
@@ -396,15 +493,6 @@ function MediaForm({ show, setShow, media }) {
                   onChange={(e) => handleChange(e, "end_date")}
                 />
                 <Form.Control.Feedback type="invalid">{errors.end_date}</Form.Control.Feedback>
-                <Form.Label className="mt-3">Seasons</Form.Label>
-                <Form.Control
-                  type="number"
-                  value={formData.seasons}
-                  placeholder="Enter the number of seasons"
-                  isInvalid={errors.seasons}
-                  onChange={(e) => handleChange(e, "seasons")}
-                />
-                <Form.Control.Feedback type="invalid">{errors.seasons}</Form.Control.Feedback>
                 <Form.Label className="mt-3">Episodes</Form.Label>
                 <Form.Control
                   type="number"
@@ -414,82 +502,64 @@ function MediaForm({ show, setShow, media }) {
                   onChange={(e) => handleChange(e, "episodes")}
                 />
                 <Form.Control.Feedback type="invalid">{errors.episodes}</Form.Control.Feedback>
-                <Form.Label className="mt-3">Watched</Form.Label>
-                <Form.Control
-                  type="number"
-                  value={formData.watched}
-                  placeholder="Enter the number of seasons you watched"
-                  isInvalid={errors.watched}
-                  onChange={(e) => handleChange(e, "watched")}
-                />
-                <Form.Control.Feedback type="invalid">{errors.watched}</Form.Control.Feedback>
               </>
             }
-            {isMovie && 
+            {formData.type != "" && 
               <>
-                {isLoadingDir
+                {isLoading
                   ?
                   <Spinner />
                   :
                   <>
-                    <p className="mt-5">Directors</p>
+                    <p className="mt-5">Cast & Crew</p>
                     <ul className="select-menu">
-                      {directors.map(director => (
-                        <li key={director.id}><Button variant="transparent" className="text-success" onClick={() => toggleDirector(director)}>✓</Button> {director.name} {director.birth_date && `(b. ` + new Date(director.birth_date).getFullYear() + `)`}</li>
+                      {castAndCrew.map(member => (
+                        <li key={member.id}><Button variant="transparent" className="text-success" onClick={() => toggle(member)}>✓</Button> {member.name} {member.birth_date && `(b. ` + new Date(member.birth_date).getFullYear() + `)`}</li>
                       ))}
                     </ul>
                   </>
                 }
-                <input type="text" className="mt-2 w-75" value={searchTermDirector} onChange={event => setSearchTermDirector(event.target.value)} placeholder="Enter the director's name" />
-                <Button id="search-button" className="btn btn-warning m-2" onClick={getResultsDirector}>Search</Button>
+                <input type="text" className="mt-2 w-75" value={searchTerm} onChange={event => setSearchTerm(event.target.value)} placeholder="Enter a name" />
+                <Button id="search-button" className="btn btn-warning m-2" onClick={getResults}>Search</Button>
+                {(!!selected && selected.length > 0) && 
+                  <>
+                    <table>
+                      <thead>
+                        <tr>
+                          <th></th>
+                          <th>Name</th>
+                          {isMovie && <th>Director</th>}
+                          {isMovie && <th>Writer</th>}
+                          {(isShow && (formData.season == 1 || media?.id)) && <th>Creator</th>}
+                          <th>Cast Member</th>
+                        </tr>
+                      </thead>
+                      {selected.map(selected => (
+                      <tbody>
+                        <tr key={selected.id}>
+                          <td><Button variant="transparent" className="text-danger" onClick={() => remove(selected)}>x</Button></td>
+                          <td>{selected.name}</td>
+                          {isMovie && <td><Form.Check type="checkbox" defaultChecked={selected.director == true} onClick={() => checkDirector(selected)}></Form.Check></td>}
+                          {isMovie && <td><Form.Check type="checkbox" defaultChecked={selected.writer == true} onClick={() => checkWriter(selected)}></Form.Check></td>}
+                          {(isShow && (formData.season == 1 || media?.id)) && <td><Form.Check type="checkbox" defaultChecked={selected.writer == true} onClick={() => checkWriter(selected)}></Form.Check></td>}
+                          <td><Form.Check type="checkbox" defaultChecked={selected.cast == true} onClick={() => checkCast(selected)}></Form.Check></td>
+                        </tr>
+                      </tbody>
+                      ))}
+                    </table>
+                  </>}
                 <ul>
-                  {selectedDirectors.map(selectedDirector => (
-                    <li key={selectedDirector.director_id}><Button variant="transparent" className="text-danger" onClick={() => removeDirector(selectedDirector)}>x</Button> {selectedDirector.name}</li>
+                  {removed.map(removed => (
+                    <li key={removed.id}><Button variant="transparent" className="text-success" onClick={() => toggle(removed)}>✓</Button> {removed.name}</li>
                   ))}
                 </ul>
-                <ul>
-                  {removedDirectors.map(removedDirector => (
-                    <li key={removedDirector.director_id}><Button variant="transparent" className="text-success" onClick={() => toggleDirector(removedDirector)}>✓</Button> {removedDirector.name}</li>
-                  ))}
-                </ul>
-                {errors.directors
+                {errors.castAndCrew
                   ? 
-                  <p className="text-danger">{errors.directors}</p>
+                  <p className="text-danger">{errors.castAndCrew}</p>
                   : 
                   ""
                 }
               </>
-            }
-            {isLoadingCast
-              ?
-              <Spinner />
-              :
-              <>
-                <p className="mt-5">Cast</p>
-                <ul className="select-menu">
-                  {castMembers.map(castMember => (
-                    <li key={castMember.id}><Button variant="transparent" className="text-success" onClick={() => toggleCastMember(castMember)}>✓</Button> {castMember.name} {castMember.birth_date && `(b. ` + new Date(castMember.birth_date).getFullYear() + `)`}</li>
-                  ))}
-                </ul>
-              </>
-            }
-            <input type="text" className="mt-2 w-75" value={searchTermCast} onChange={event => setSearchTermCast(event.target.value)} placeholder="Enter the cast member's name" />
-            <Button id="search-button" className="btn btn-warning m-2" onClick={getResultsCast}>Search</Button>
-            <ul>
-              {selectedCastMembers.map(selectedCastMember => (
-                <li key={selectedCastMember.actor_id}><Button variant="transparent" className="text-danger" onClick={() => removeCastMember(selectedCastMember)}>x</Button> {selectedCastMember.name}</li>
-              ))}
-            </ul>
-            <ul>
-              {removedCastMembers.map(removedCastMember => (
-                <li key={removedCastMember.actor_id}><Button variant="transparent" className="text-success" onClick={() => toggleCastMember(removedCastMember)}>✓</Button> {removedCastMember.name}</li>
-              ))}
-            </ul>
-            {errors.cast_members
-              ? 
-              <p className="text-danger">{errors.cast_members}</p>
-              : 
-              ""
             }
           </Form.Group>
           <Form.Group className="mt-4">

@@ -1,6 +1,5 @@
 import { Alert, Button, Container, Row, Spinner } from "react-bootstrap";
 import axios from "axios";
-import { useLocation } from "react-router-dom";
 import MediaCard from "./MediaCard";
 import { useCallback, useEffect, useState } from "react";
 
@@ -10,7 +9,6 @@ function Media() {
   const [currentPage, setCurrentPage] = useState(1);
   const [endRecord, setEndRecord] = useState(60);
   const [isLoading, setIsLoading] = useState(false);
-  const location = useLocation();
   const [media, setMedia] = useState([]);
   const [pages, setPages] = useState(0);
   const [searchTerm, setSearchTerm] = useState("");

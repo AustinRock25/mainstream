@@ -6,8 +6,9 @@ const { validateMedia } = require("../middleware/recordValidation");
 
 router.get("/", controller.index);
 router.get("/length", controller.indexLength);
+router.get("/shows", controller.indexShows);
 router.get("/:id", controller.show);
 router.post("/", [authorizeAdmin, validateMedia], controller.create);
-router.put("/:id", [authorizeAdmin], controller.update);
+router.put("/:id", [authorizeAdmin, validateMedia], controller.update);
 
 module.exports = router;

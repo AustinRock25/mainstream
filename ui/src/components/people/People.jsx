@@ -2,7 +2,6 @@ import { Alert, Button, Container, Spinner, Table } from "react-bootstrap";
 import axios from "axios";
 import Person from "./Person";
 import { useCallback, useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
 
 const People = () => {
   const [alert, setAlert] = useState({ message: "", variant: "" });
@@ -10,7 +9,6 @@ const People = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [endRecord, setEndRecord] = useState(100);
   const [isLoading, setIsLoading] = useState(true);
-  const location = useLocation();
   const [pages, setPages] = useState(0);
   const [people, setPeople] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");

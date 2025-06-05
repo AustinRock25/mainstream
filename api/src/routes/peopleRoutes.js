@@ -9,6 +9,6 @@ router.get("/length", controller.indexLength);
 router.get("/select", controller.indexSelect);
 router.get("/:id", controller.show);
 router.post("/", [authorizeAdmin, validatePerson], controller.create);
-router.put("/:id", [authorizeAdmin], controller.update);
+router.put("/:id", [authorizeAdmin, validatePerson], controller.update);
 
 module.exports = router;

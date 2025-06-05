@@ -8,51 +8,65 @@ function EditMedia() {
   const [media, setMedia] = useState({ 
     id: "",
     title: "", 
-    score: "", 
-    rating: "", 
-    release_date: "",
-    poster: "", 
-    runtime: "", 
-    min_episode_runtime: "",
-    max_episode_runtime: "",
+    season: "",
+    score: 0, 
+    score_tv: 0,
+    rating: "",
+    release_date: "", 
+    start_date: "",
     end_date: "",
-    seasons: "",
+    year: "",
+    poster: "", 
+    runtime: "",
     episodes: "",
-    watched: "",
     type: "",
     directors: [],
-    cast_members: []
+    cast_members: [],
+    writers: []
   });
   let selectedDirectors = [];
   let selectedCastMembers = [];
+  let selectedWriters = [];
 
   useEffect(() => {
     axios.get(`/api/media/${params.id}`)
       .then(results => {
-        if (results.data.type == "movie") {
+        if (!!results.data.directors) {
           for (let x = 0; x < results.data.directors.length; x++)
             selectedDirectors[x] = results.data.directors[x].director_id;
         }
-        for (let x = 0; x < results.data.cast_members.length; x++)
-          selectedDirectors[x] = results.data.cast_members[x].actor_id;
+        if (!!results.data.cast_members) {
+          for (let x = 0; x < results.data.cast_members.length; x++)
+            selectedCastMembers[x] = results.data.cast_members[x].actor_id;
+        }
+        if (!!results.data.cast_members_tv) {
+          for (let x = 0; x < results.data.cast_members_tv.length; x++)
+            selectedCastMembers[x] = results.data.cast_members_tv[x].actor_id;
+        }
+        if (!!results.data.writers) {
+          for (let x = 0; x < results.data.writers.length; x++)
+            selectedWriters[x] = results.data.writers[x].writer_id;
+        }
         setMedia({
           id: results.data.id,
-          title: results.data.title,
-          score: results.data.score,
+          title: results.data.title, 
+          season: results.data.season,
+          score: results.data.score, 
+          score_tv: results.data.score_tv,
           rating: results.data.rating,
-          release_date: results.data.release_date,
-          poster: results.data.poster,
-          runtime: results.data.runtime,
-          min_episode_runtime: results.data.min_episode_runtime,
-          max_episode_runtime: results.data.max_episode_runtime,
+          release_date: results.data.release_date, 
+          start_date: results.data.start_date,
           end_date: results.data.end_date,
-          seasons: results.data.seasons,
+          poster: results.data.poster, 
+          runtime: results.data.runtime,
           episodes: results.data.episodes,
-          watched: results.data.watched,
           type: results.data.type,
           directors: selectedDirectors,
-          cast_members: selectedCastMembers
+          cast_members: selectedCastMembers,
+          writers: selectedWriters
         });
+        if (media.type == "show")
+          setMedia({ score: results.data.score_tv })
       })
       .catch(error => {
         setAlert({ message: "Failed to load media.", variant: "danger" });
