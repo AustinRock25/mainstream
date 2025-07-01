@@ -20,7 +20,7 @@ function MediaForm({ show, setShow, media }) {
     id: "",
     title: "", 
     season: "",
-    score: 0, 
+    score: 1, 
     rating: "",
     release_date: "", 
     start_date: "",
@@ -29,6 +29,7 @@ function MediaForm({ show, setShow, media }) {
     runtime: "",
     episodes: "",
     type: "",
+    completed: "",
     castAndCrew: []
   });
 
@@ -47,7 +48,7 @@ function MediaForm({ show, setShow, media }) {
               z++;
           }
           if (z == temp.length) {
-            temp[i] = {id: media.cast_members[x].actor_id, name: media.cast_members[x].name, director: false, writer: false, cast: true};
+            temp[i] = {id: media.cast_members[x].actor_id, name: media.cast_members[x].name, creator: false, director: false, writer: false, cast: true};
             i++;
           }
         }
@@ -64,7 +65,7 @@ function MediaForm({ show, setShow, media }) {
               z++;
           }
           if (z == temp.length) {
-            temp[i] = {id: media.cast_members_tv[x].actor_id, name: media.cast_members_tv[x].name, director: false, writer: false, cast: true};
+            temp[i] = {id: media.cast_members_tv[x].actor_id, name: media.cast_members_tv[x].name, creator: false, director: false, writer: false, cast: true};
             i++;
           }
         }
@@ -81,7 +82,24 @@ function MediaForm({ show, setShow, media }) {
               z++;
           }
           if (z == temp.length) {
-            temp[i] = {id: media.writers[x].writer_id, name: media.writers[x].name, director: false, writer: true, cast: false};
+            temp[i] = {id: media.writers[x].writer_id, name: media.writers[x].name, creator: false, director: false, writer: true, cast: false};
+            i++;
+          }
+        }
+      }
+      if (!!media.writers_tv) {
+        for (let x = 0; x < media.writers_tv.length; x++) {
+          let z = 0;
+          for (let y = 0; y < temp.length; y++) {
+            if (temp[y].id == media.writers_tv[x].writer_id) {
+              temp[y].writer = true;
+              break;
+            }
+            else
+              z++;
+          }
+          if (z == temp.length) {
+            temp[i] = {id: media.writers_tv[x].writer_id, name: media.writers_tv[x].name, creator: false, director: false, writer: true, cast: false};
             i++;
           }
         }
@@ -98,7 +116,41 @@ function MediaForm({ show, setShow, media }) {
               z++;
           }
           if (z == temp.length) {
-            temp[i] = {id: media.directors[x].director_id, name: media.directors[x].name, director: true, writer: false, cast: false};
+            temp[i] = {id: media.directors[x].director_id, name: media.directors[x].name, creator: false, director: true, writer: false, cast: false};
+            i++;
+          }
+        }
+      }
+      if (!!media.directors_tv) {
+        for (let x = 0; x < media.directors_tv.length; x++) {
+          let z = 0;
+          for (let y = 0; y < temp.length; y++) {
+            if (temp[y].id == media.directors_tv[x].director_id) {
+              temp[y].director = true;
+              break;
+            }
+            else
+              z++;
+          }
+          if (z == temp.length) {
+            temp[i] = {id: media.directors_tv[x].director_id, name: media.directors_tv[x].name, creator: false, director: true, writer: false, cast: false};
+            i++;
+          }
+        }
+      }
+      if (!!media.creators) {
+        for (let x = 0; x < media.creators.length; x++) {
+          let z = 0;
+          for (let y = 0; y < temp.length; y++) {
+            if (temp[y].id == media.creators[x].creator_id) {
+              temp[y].creator = true;
+              break;
+            }
+            else
+              z++;
+          }
+          if (z == temp.length) {
+            temp[i] = {id: media.creators[x].creator_id, name: media.creators[x].name, creator: true, director: false, writer: false, cast: false};
             i++;
           }
         }
@@ -113,14 +165,11 @@ function MediaForm({ show, setShow, media }) {
       else if (media.type == "show")
         setIsShow(true);
 
-      if (isShow)
-        media.score = media.score_tv;
-
       setFormData({
         id: media.id || "",
         title: media.title || "",
         season: media.season || "",
-        score: media.score || 0,
+        score: media.score || media.score_tv || 1,
         rating: media.rating || "Not Rated",
         release_date: new Date(media.release_date).toISOString().split("T")[0] || "",
         start_date: new Date(media.start_date).toISOString().split("T")[0] || "",
@@ -128,6 +177,7 @@ function MediaForm({ show, setShow, media }) {
         poster: media.poster || "",
         runtime: media.runtime || "",
         episodes: media.episodes || "",
+        completed: media.completed || "",
         type: media.type || ""
       });
       setSelected(loadCastAndCrew());
@@ -179,23 +229,23 @@ function MediaForm({ show, setShow, media }) {
     if (key == "type" && e.target.value == "movie") {
       setIsMovie(true);
       setIsShow(false);
-      setFormData({ id: "", title: "", season: "", score: 0, start_date: "", end_date: "", poster: "", episodes: "", type: "movie" });
+      setFormData({ id: "", title: "", score: 1, start_date: "", end_date: "", poster: "", episodes: "", completed: "", type: "movie" });
       setSelected([]);
     }
     else if (key == "type" && e.target.value == "show") {
       setIsShow(true);
       setIsMovie(false);
-      setFormData({ title: "", score: 0, release_date: "", poster: "", runtime: "", type: "show" });
+      setFormData({ title: "", score: 1, release_date: "", poster: "", runtime: "", type: "show" });
       setSelected([]);
     }
     else if (key == "type" && e.target.value == "") {
       setIsMovie(false);
       setIsShow(false);
-      setFormData({ id: "", title: "", season: "", score: 0, rating: "Not Rated", release_date: "", start_date: "", end_date: "", poster: "", runtime: "", episodes: "" });
+      setFormData({ id: "", title: "", score: 1, rating: "Not Rated", release_date: "", start_date: "", end_date: "", poster: "", runtime: "", episodes: "", completed: "" });
       setSelected([]);
     }
     if (key == "id" && e.target.value != "na")
-      setFormData({ title: "", season: "", score: 0, rating: "Not Rated", start_date: "", end_date: "", poster: "", episodes: "", type: "show" });
+      setFormData({ id: e.target.value, title: "", score: 1, rating: "Not Rated", start_date: "", end_date: "", poster: "", episodes: "", completed: "", type: "show" });
   }
 
   function handleHide(e) {
@@ -210,19 +260,19 @@ function MediaForm({ show, setShow, media }) {
     setCastAndCrew([]);
     setRemoved([]);
     if (!media?.id) {
-      setFormData({ id: "", title: "", season: "", score: 0, rating: "Not Rated", release_date: "", start_date: "", end_date: "", poster: "",  runtime: "", episodes: "", type: "" });
+      setFormData({ id: "", title: "", score: 1, rating: "Not Rated", release_date: "", start_date: "", end_date: "", poster: "",  runtime: "", episodes: "", completed: "", type: "" });
       setSelected([]);
       setIsMovie(false);
       setIsShow(false);
     }
     else {
-      setFormData({ id: media.id, title: media.title, episode: media.episodes, score: media.score, rating: media.rating, release_date: new Date(media.release_date).toISOString().split("T")[0], start_date: new Date(media.start_date).toISOString().split("T")[0], end_date: new Date(media.end_date).toISOString().split("T")[0], poster: media.poster, runtime: media.runtime, season: media.season, type: media.type });
+      setFormData({ id: media.id, title: media.title, episodes: media.episodes, score: media.score || media.score_tv, rating: media.rating, release_date: new Date(media.release_date).toISOString().split("T")[0], start_date: new Date(media.start_date).toISOString().split("T")[0], end_date: new Date(media.end_date).toISOString().split("T")[0], poster: media.poster, runtime: media.runtime, completed: media.completed, type: media.type });
       setSelected(loadCastAndCrew());
     }
   }
 
   const toggle = (member) => {
-    const m = { id: member.id, name: member.name, director: false, writer: false, cast: false };
+    const m = { id: member.id, name: member.name, creator: false, director: false, writer: false, cast: false };
     if (highlight(m))
       remove(m);
     else {
@@ -253,7 +303,6 @@ function MediaForm({ show, setShow, media }) {
     setIsSubmitting(true);
 
     formData.castAndCrew = selected;
-    
     const apiCall = (media?.id && formData.id != "na") ? axios.put(`/api/media/${media.id}`, formData) : axios.post("/api/media", formData);
     
     apiCall
@@ -278,18 +327,37 @@ function MediaForm({ show, setShow, media }) {
   }
 
   const meaning = () => {
-    if (formData.score == 0)
+    if (formData.score == 1)
+      return "Avoid";
+    else if (formData.score <= 2)
       return "Awful";
-    else if (formData.score == 1)
+    else if (formData.score <= 3)
       return "Bad";
-    else if (formData.score == 2)
+    else if (formData.score <= 4)
+      return "Inadequate";
+    else if (formData.score <= 5)
       return "Mediocre";
-    else if (formData.score == 3)
-      return "Decent";
-    else if (formData.score == 4)
+    else if (formData.score <= 6)
+      return "Passable";
+    else if (formData.score <= 7)
+      return "Adequate";
+    else if (formData.score <= 8)
       return "Good";
-    else
+    else if (formData.score <= 9)
       return "Great";
+    else
+      return "Must-See";
+  }
+
+  const checkCreator = (member) => {
+    for (let x = 0; x < selected.length; x++) {
+      if (selected[x].id == member.id) {
+        if (selected[x].creator == false)
+          selected[x].creator = true;
+        else
+          selected[x].creator = false;
+      }
+    }
   }
 
   const checkDirector = (member) => {
@@ -325,10 +393,17 @@ function MediaForm({ show, setShow, media }) {
     }
   }
 
+  const checkCompleted = (formData) => {
+    if (formData.completed == false)
+      formData.completed = true;
+    else
+      formData.completed = false;
+  }
+
   return (
     <Modal show={show} onHide={(e) => setShow(false)} backdrop="static">
       <Modal.Header className="bg-dark text-white">
-        <Modal.Title>{media?.id ? (media.type == "show" ? `Edit ${media.title} season ${media.season}` : `Edit ${media.title}`) : "Add Film/Season"}</Modal.Title>
+        <Modal.Title>{media?.id ? `Edit ${media.title} ${media.type == "show" ? `season ` + media.season : ``}` : "Add Film/Season"}</Modal.Title>
       </Modal.Header>
       <Modal.Body className="bg-black text-white">
         {alert.message &&
@@ -391,24 +466,22 @@ function MediaForm({ show, setShow, media }) {
             }
             {isShow && 
               <>
-                <Form.Label className="mt-3">Season</Form.Label>
-                <Form.Control
-                  type="number"
-                  value={formData.season}
-                  placeholder="Enter the season number"
-                  isInvalid={errors.season}
-                  onChange={(e) => handleChange(e, "season")}
+                <Form.Label className="mt-3">Series completed?</Form.Label>
+                <Form.Check 
+                  type="checkbox" 
+                  defaultChecked={formData.completed == true} 
+                  onClick={() => checkCompleted(formData)}
                 />
-                <Form.Control.Feedback type="invalid">{errors.season}</Form.Control.Feedback>
               </>
             }
             {formData.type != "" &&
               <>
                 <Form.Label className="mt-3">Score</Form.Label>
-                <p className="">{formData.score}/5 - {meaning()}</p>
+                <p className="">{formData.score}/10 - {meaning()}</p>
                 <Form.Range
-                  min="0"
-                  max="5"
+                  min="1"
+                  max="10"
+                  step="0.5"
                   value={formData.score}
                   onChange={(e) => handleChange(e, "score")}
                 />
@@ -528,9 +601,9 @@ function MediaForm({ show, setShow, media }) {
                         <tr>
                           <th></th>
                           <th>Name</th>
-                          {isMovie && <th>Director</th>}
-                          {isMovie && <th>Writer</th>}
-                          {(isShow && (formData.season == 1 || media?.id)) && <th>Creator</th>}
+                          {(isShow && media?.season) && <th>Creator</th>}
+                          <th>Director</th>
+                          <th>Writer</th>
                           <th>Cast Member</th>
                         </tr>
                       </thead>
@@ -539,9 +612,9 @@ function MediaForm({ show, setShow, media }) {
                         <tr key={selected.id}>
                           <td><Button variant="transparent" className="text-danger" onClick={() => remove(selected)}>x</Button></td>
                           <td>{selected.name}</td>
-                          {isMovie && <td><Form.Check type="checkbox" defaultChecked={selected.director == true} onClick={() => checkDirector(selected)}></Form.Check></td>}
-                          {isMovie && <td><Form.Check type="checkbox" defaultChecked={selected.writer == true} onClick={() => checkWriter(selected)}></Form.Check></td>}
-                          {(isShow && (formData.season == 1 || media?.id)) && <td><Form.Check type="checkbox" defaultChecked={selected.writer == true} onClick={() => checkWriter(selected)}></Form.Check></td>}
+                          {(isShow && media?.season) && <td><Form.Check type="checkbox" defaultChecked={selected.creator == true} onClick={() => checkCreator(selected)}></Form.Check></td>}
+                          <td><Form.Check type="checkbox" defaultChecked={selected.director == true} onClick={() => checkDirector(selected)}></Form.Check></td>
+                          <td><Form.Check type="checkbox" defaultChecked={selected.writer == true} onClick={() => checkWriter(selected)}></Form.Check></td>
                           <td><Form.Check type="checkbox" defaultChecked={selected.cast == true} onClick={() => checkCast(selected)}></Form.Check></td>
                         </tr>
                       </tbody>

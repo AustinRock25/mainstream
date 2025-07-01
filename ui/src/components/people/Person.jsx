@@ -10,6 +10,164 @@ const Person = ({person}) => {
     setShowPersonModal(true);
   }
 
+  const getCredits = (person) => {
+    let i = 0;
+    let temp = new Array();
+    if (!!person.credited_as_director) {
+      for (let x = 0; x < person.credited_as_director.length; x++) {
+        let z = 0;
+        for (let y = 0; y < temp.length; y++) {
+          if (temp[y].id == person.credited_as_director[x].id)
+            break;
+          else
+            z++;
+        }
+        if (z == temp.length) {
+          temp[i] = person.credited_as_director[x];
+          i++;
+        }
+      }
+    }
+    if (!!person.credited_as_director_tv) {
+      for (let x = 0; x < person.credited_as_director_tv.length; x++) {
+        let z = 0;
+        for (let y = 0; y < temp.length; y++) {
+          if (temp[y].id == person.credited_as_director_tv[x].id) {
+            if (new Date(person.credited_as_director_tv[x].start_date) < new Date(temp[y].start_date))
+              temp[y].start_date = person.credited_as_director_tv[x].start_date;
+
+            if (new Date(person.credited_as_director_tv[x].end_date) > new Date(temp[y].end_date))
+              temp[y].end_date = person.credited_as_director_tv[x].end_date;
+
+            break;
+          }
+          else
+            z++;
+        }
+        if (z == temp.length) {
+          temp[i] = person.credited_as_director_tv[x];
+          i++;
+        }
+      }
+    }
+    if (!!person.credited_as_writer) {
+      for (let x = 0; x < person.credited_as_writer.length; x++) {
+        let z = 0;
+        for (let y = 0; y < temp.length; y++) {
+          if (temp[y].id == person.credited_as_writer[x].id)
+            break;
+          else
+            z++;
+        }
+        if (z == temp.length) {
+          temp[i] = person.credited_as_writer[x];
+          i++;
+        }
+      }
+    }
+    if (!!person.credited_as_writer_tv) {
+      for (let x = 0; x < person.credited_as_writer_tv.length; x++) {
+        let z = 0;
+        for (let y = 0; y < temp.length; y++) {
+          if (temp[y].id == person.credited_as_writer_tv[x].id) {
+            if (new Date(person.credited_as_writer_tv[x].start_date) < new Date(temp[y].start_date))
+              temp[y].start_date = person.credited_as_writer_tv[x].start_date;
+
+            if (new Date(person.credited_as_writer_tv[x].end_date) > new Date(temp[y].end_date))
+              temp[y].end_date = person.credited_as_writer_tv[x].end_date;
+
+            break;
+          }
+          else
+            z++;
+        }
+        if (z == temp.length) {
+          temp[i] = person.credited_as_writer_tv[x];
+          i++;
+        }
+      }
+    }
+    if (!!person.credited_as_cast_member) {
+      for (let x = 0; x < person.credited_as_cast_member.length; x++) {
+        let z = 0;
+        for (let y = 0; y < temp.length; y++) {
+          if (temp[y].id == person.credited_as_cast_member[x].id)
+            break;
+          else
+            z++;
+        }
+        if (z == temp.length) {
+          temp[i] = person.credited_as_cast_member[x];
+          i++;
+        }
+      }
+    }
+    if (!!person.credited_as_cast_member_tv) {
+      for (let x = 0; x < person.credited_as_cast_member_tv.length; x++) {
+        let z = 0;
+        for (let y = 0; y < temp.length; y++) {
+          if (temp[y].id == person.credited_as_cast_member_tv[x].id) {
+            if (new Date(person.credited_as_cast_member_tv[x].start_date) < new Date(temp[y].start_date))
+              temp[y].start_date = person.credited_as_cast_member_tv[x].start_date;
+
+            if (new Date(person.credited_as_cast_member_tv[x].end_date) > new Date(temp[y].end_date))
+              temp[y].end_date = person.credited_as_cast_member_tv[x].end_date;
+
+            break;
+          }
+          else
+            z++;
+        }
+        if (z == temp.length) {
+          temp[i] = person.credited_as_cast_member_tv[x];
+          i++;
+        }
+      }
+    }
+    if (!!person.credited_as_creator) {
+      for (let x = 0; x < person.credited_as_creator.length; x++) {
+        let z = 0;
+        for (let y = 0; y < temp.length; y++) {
+          if (temp[y].id == person.credited_as_creator[x].id) {
+            if (new Date(person.credited_as_creator[x].start_date) < new Date(temp[y].start_date))
+              temp[y].start_date = person.credited_as_creator[x].start_date;
+
+            if (new Date(person.credited_as_creator[x].end_date) > new Date(temp[y].end_date))
+              temp[y].end_date = person.credited_as_creator[x].end_date;
+
+            break;
+          }
+          else
+            z++;
+        }
+        if (z == temp.length) {
+          temp[i] = person.credited_as_creator[x];
+          i++;
+        }
+      }
+    }
+
+    temp.sort((a, b) => a.release_date > b.release_date || a.start_date > b.release_date || a.start_date > b.start_date || a.release_date > b.start_date ? 1 : -1);
+
+    let text = ""
+    for (let o = 0; o < temp.length; o++) {
+      if (!!temp[o].end_date) {
+        if (new Date(temp[o].end_date).getFullYear() == new Date(temp[o].start_date).getFullYear())
+          text += `${temp[o].title} (${new Date(temp[o].start_date).getFullYear()})\n`;
+        else if (new Date(temp[o].end_date).getFullYear() % 1000 == 0)
+          text += `${temp[o].title} (${new Date(temp[o].start_date).getFullYear()}-${new Date(temp[o].end_date).getFullYear()})\n`;
+        else if (new Date(temp[o].end_date).getFullYear() % 1000 < 10)
+          text += `${temp[o].title} (${new Date(temp[o].start_date).getFullYear()}-0${new Date(temp[o].end_date).getFullYear() % 1000})\n`;
+        else
+          text += `${temp[o].title} (${new Date(temp[o].start_date).getFullYear()}-${new Date(temp[o].end_date).getFullYear() % 1000})\n`;
+      }
+      else
+        text += `${temp[o].title} (${new Date(temp[o].release_date).getFullYear()})\n`;
+    }
+    console.log(text);
+    return text;
+  }
+
   const getBirthDate = (person) => {
     if (person.birth_date != null) {
       const birthDate = new Date(person.birth_date);
@@ -17,11 +175,11 @@ const Person = ({person}) => {
       const month = months[birthDate.getMonth()];
       let day = "";
 
-      if (birthDate.getDate() == 1 || birthDate.getDate() == 21 || birthDate.getDate() == 31)
+      if (birthDate.getDate() % 10 == 1)
         day = birthDate.getDate() + "st";
-      else if (birthDate.getDate() == 2 || birthDate.getDate() == 22)
+      else if (birthDate.getDate() % 10 == 2)
         day = birthDate.getDate() + "nd";
-      else if (birthDate.getDate() == 3 || birthDate.getDate() == 23)
+      else if (birthDate.getDate() % 10 == 3)
         day = birthDate.getDate() + "rd";
       else
         day = birthDate.getDate() + "th";
@@ -50,23 +208,13 @@ const Person = ({person}) => {
     }
   }
 
-  const getAge = (person) => {
-    if (person.birth_date != null) {
-      if (person.death_date == null)
-        return parseInt(parseInt(new Date() - new Date(person.birth_date)) / 31557600000);
-      else
-        return parseInt(parseInt(new Date(person.death_date) - new Date(person.birth_date)) / 31557600000);
-    }
-  }
-
   return (
     <>
       <tr>
         <td>{person.name}</td>
         <td>{getBirthDate(person)}</td>
         <td>{getDeathDate(person)}</td>
-        <td>{getAge(person)}</td>
-        <td></td>
+        <td>{getCredits(person)}</td>
         <td className="text-center">
           <Button variant="secondary" onClick={() => handleEditPersonClick()} className="me-1">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-pen" viewBox="0 0 16 16">

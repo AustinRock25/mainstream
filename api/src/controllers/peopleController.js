@@ -22,8 +22,50 @@ const index = (req, res) => {
 
   const sql = `
     WITH NumberedRecords AS (
-      SELECT ROW_NUMBER() OVER (ORDER BY birth_date ASC, name ASC) AS RowNum, id, name, birth_date, death_date
-      FROM people
+      SELECT ROW_NUMBER() OVER (ORDER BY birth_date ASC, name ASC) AS RowNum, id, name, birth_date, death_date, credited_as_director, credited_as_director_tv, credited_as_writer, credited_as_writer_tv, credited_as_cast_member, credited_as_cast_member_tv, credited_as_creator
+      FROM people p
+      LEFT JOIN LATERAL (
+        SELECT json_agg(json_build_object('id', m.id, 'title', m.title, 'release_date', m.release_date)) AS credited_as_director
+        FROM media_directors md
+        LEFT JOIN media m ON md.media_id = m.id
+        WHERE p.id = md.director_id
+      ) md ON TRUE
+      LEFT JOIN LATERAL (
+        SELECT json_agg(json_build_object('id', m.id, 'title', m.title, 'start_date', s.start_date, 'end_date', s.end_date)) AS credited_as_director_tv
+        FROM seasons s
+        LEFT JOIN media m ON m.id = s.show_id LEFT JOIN seasons_directors sd ON s.season = sd.season AND s.show_id = sd.show_id
+        WHERE p.id = sd.director_id
+      ) sd ON TRUE
+      LEFT JOIN LATERAL (
+        SELECT json_agg(json_build_object('id', m.id, 'title', m.title, 'release_date', m.release_date)) AS credited_as_writer
+        FROM media_writers mw
+        LEFT JOIN media m ON mw.media_id = m.id
+        WHERE p.id = mw.writer_id
+      ) mw ON TRUE
+      LEFT JOIN LATERAL (
+        SELECT json_agg(json_build_object('id', m.id, 'title', m.title, 'start_date', s.start_date, 'end_date', s.end_date)) AS credited_as_writer_tv
+        FROM seasons s
+        LEFT JOIN media m ON m.id = s.show_id LEFT JOIN seasons_writers sw ON s.season = sw.season AND s.show_id = sw.show_id
+        WHERE p.id = sw.writer_id
+      ) sw ON TRUE
+      LEFT JOIN LATERAL (
+        SELECT json_agg(json_build_object('id', m.id, 'title', m.title, 'release_date', m.release_date)) AS credited_as_cast_member
+        FROM media_cast mcm
+        LEFT JOIN media m ON mcm.media_id = m.id
+        WHERE p.id = mcm.actor_id
+      ) mcm ON TRUE
+      LEFT JOIN LATERAL (
+        SELECT json_agg(json_build_object('id', m.id, 'title', m.title, 'start_date', s.start_date, 'end_date', s.end_date)) AS credited_as_cast_member_tv
+        FROM seasons s
+        LEFT JOIN media m ON m.id = s.show_id LEFT JOIN seasons_cast scm ON s.season = scm.season AND s.show_id = scm.show_id
+        WHERE p.id = scm.actor_id
+      ) scm ON TRUE
+      LEFT JOIN LATERAL (
+        SELECT json_agg(json_build_object('id', m.id, 'title', m.title, 'start_date', s.start_date, 'end_date', s.end_date)) AS credited_as_creator
+        FROM seasons s
+        LEFT JOIN media m ON m.id = s.show_id LEFT JOIN media_creators c ON s.show_id = c.show_id
+        WHERE p.id = c.creator_id
+      ) c ON TRUE
       ${searchSystem}
     )
     SELECT 

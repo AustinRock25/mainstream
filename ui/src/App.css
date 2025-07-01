@@ -42,6 +42,6 @@ ul {
   color: gold;
 }
 
-p {
+p, td {
   white-space: pre;
 }

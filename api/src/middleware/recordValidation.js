@@ -3,7 +3,7 @@ const pgClient = require("../config/pgClient");
 const validateMedia = async (req, res, next) => {
   const errors = {};
   const media = req.body;
-
+  
   if ((!media.id || media.id.length === 0) && media.type == "show")
     errors.id = "Required";
 
@@ -31,9 +31,6 @@ const validateMedia = async (req, res, next) => {
   if (!media.type || media.type.length === 0)
     errors.type = "Required";
 
-  if (!media.season && media.type == "show")
-    errors.season = "Required";
-
   if (!media.episodes && media.type == "show")
     errors.episodes = "Required";
 
@@ -41,7 +38,7 @@ const validateMedia = async (req, res, next) => {
     errors.castAndCrew = "At least one is required";
   else {
     for (let x = 0; x < media.castAndCrew.length; x++) {
-      if (media.castAndCrew[x].director == false && media.castAndCrew[x].writer == false && media.castAndCrew[x].cast == false)
+      if (media.castAndCrew[x].director == false && media.castAndCrew[x].writer == false && media.castAndCrew[x].cast == false && media.castAndCrew[x].creator == false)
         errors.castAndCrew = "At least one checkbox must be checked in each row";
     }
   }
