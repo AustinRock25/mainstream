@@ -19,10 +19,10 @@ const index = (req, res) => {
       req.query.endRecord
     ];
   }
-
+  
   const sql = `
     WITH NumberedRecords AS (
-      SELECT ROW_NUMBER() OVER (ORDER BY COALESCE(m.release_date, s.start_date) DESC, m.title ASC) AS RowNum, m.id, m.title, m.score, m.release_date, m.rating, m.poster, m.runtime, m.completed, m.type, s.season, s.score AS score_tv, s.episodes, s.start_date, s.end_date, directors, directors_tv, cast_members, cast_members_tv, writers, writers_tv, creators
+      SELECT ROW_NUMBER() OVER (ORDER BY COALESCE(m.release_date, s.start_date) DESC, m.title ASC) AS RowNum, m.id, m.title, m.grade, m.release_date, m.rating, m.poster, m.runtime, m.completed, m.type, s.season, s.grade AS grade_tv, s.episodes, s.start_date, s.end_date, directors, directors_tv, cast_members, cast_members_tv, writers, writers_tv, creators
       FROM media m
       LEFT JOIN seasons s ON m.id = s.show_id
       LEFT JOIN LATERAL (
@@ -153,7 +153,7 @@ const seasonCount = (req, res) => {
 
 const show = (req, res) => {
   const sql = `
-    SELECT id, title, score, release_date, rating, poster, runtime, type, completed, directors, cast_members, writers
+    SELECT id, title, grade, release_date, rating, poster, runtime, type, completed, directors, cast_members, writers
     FROM media m
     LEFT JOIN LATERAL (
       SELECT json_agg(json_build_object('ordering', md.ordering, 'media_id', md.media_id, 'director_id', md.director_id, 'name', p.name, 'birth_date', p.birth_date, 'death_date', p.death_date)) AS directors
@@ -189,246 +189,369 @@ const show = (req, res) => {
 
 const create = async (req, res) => {
   const media = req.body;
-  let directors = [];
-  let writers = [];
-  let castMembers = [];
-  let creators = [];
-  let d = 0;
-  let w = 0;
-  let c = 0;
-  let cr = 0;
 
-  for (let x = 0; x < media.castAndCrew.length; x++) {
-    if (media.castAndCrew[x].director == true) {
-      directors[d] = media.castAndCrew[x].id;
-      d++;
-    }
+  const getIdsByRole = (role) => media.castAndCrew
+    ?.filter(person => person[role])
+    .map(person => person.id) || [];
+
+  const directors = getIdsByRole("director");
+  const writers = getIdsByRole("writer");
+  const castMembers = getIdsByRole("cast");
+  const creators = getIdsByRole("creator");
+
+  try {
+    let result;
+    if (media.type === "movie")
+      result = await createMovie(media, { directors, writers, castMembers });
+    else if (media.type === "show") {
+      if (media.id === "na")
+        result = await createNewShow(media, { directors, writers, castMembers, creators });
+      else
+        result = await addSeasonToShow(media, { directors, writers, castMembers });
+    } 
+    else
+      return res.status(400).json({ error: "Invalid media type specified." });
     
-    if (media.castAndCrew[x].writer == true) {
-      writers[w] = media.castAndCrew[x].id;
-      w++;
-    }
+    res.location(`/media/${result.id}`);
+    res.status(201).json({ id: result.id, message: "Title processed successfully." });
 
-    if (media.castAndCrew[x].cast == true) {
-      castMembers[c] = media.castAndCrew[x].id;
-      c++;
-    }
-
-    if (media.castAndCrew[x].creator == true) {
-      creators[d] = media.castAndCrew[x].id;
-      cr++;
-    }
+  } 
+  catch (error) {
+    console.error("Error processing media:", error);
+    res.status(500).json({ error: "An error occurred while processing the title." });
   }
-
-  if (!media.completed && media.type == "show")
-    media.completed = false;
-
-  pgClient.query("SELECT * FROM media")
-  .then(result => {
-    if (media.type == "movie") {
-      pgClient.query("INSERT INTO media (id, title, score, release_date, rating, poster, runtime, type) VALUES ($1, $2, $3, $4, $5, $6, $7, $8)", [result.rows.length + 1, media.title, media.score, media.release_date, media.rating, media.poster, media.runtime, media.type])
-      .then(results => {
-        res.location(`/media/${result.rows.length + 1}`);
-        for (let i = 0; i < directors.length; i++) 
-          pgClient.query("INSERT INTO media_directors (ordering, media_id, director_id) VALUES ($1, $2, $3)", [i + 1, result.rows.length + 1, directors[i]]);
-        for (let i = 0; i < castMembers.length; i++)
-          pgClient.query("INSERT INTO media_cast (ordering, media_id, actor_id) VALUES ($1, $2, $3)", [i + 1, result.rows.length + 1, castMembers[i]]);
-        for (let i = 0; i < writers.length; i++)
-          pgClient.query("INSERT INTO media_writers (ordering, media_id, writer_id) VALUES ($1, $2, $3)", [i + 1, result.rows.length + 1, writers[i]]);
-        res.status(201).json({ message: "Title created successfully." });
-      })
-    }
-    else {
-      if (media.id == "na") {
-        pgClient.query("INSERT INTO media (id, title, poster, rating, completed, type) VALUES ($1, $2, $3, $4, $5, $6)", [result.rows.length + 1, media.title, media.poster, media.rating, media.completed, media.type])
-        .then(results => {
-          res.location(`/media/${result.rows.length + 1}`);
-          pgClient.query("INSERT INTO seasons (season, show_id, score, episodes, start_date, end_date) VALUES (1, $1, $2, $3, $4, $5)", [result.rows.length + 1, media.score, media.episodes, media.start_date, media.end_date]);
-          for (let i = 0; i < directors.length; i++) 
-            pgClient.query("INSERT INTO seasons_directors (ordering, show_id, season, director_id) VALUES ($1, $2, 1, $3)", [i + 1, result.rows.length + 1, directors[i]]);
-          for (let i = 0; i < castMembers.length; i++)
-            pgClient.query("INSERT INTO seasons_cast (ordering, season, show_id, actor_id) VALUES ($1, 1, $2, $3)", [i + 1, result.rows.length + 1, castMembers[i]]);
-          for (let i = 0; i < writers.length; i++) 
-            pgClient.query("INSERT INTO seasons_writers (ordering, show_id, season, writer_id) VALUES ($1, $2, 1, $3)", [i + 1, result.rows.length + 1, writers[i]]);
-          for (let i = 0; i < creators.length; i++)
-            pgClient.query("INSERT INTO media_creators (ordering, show_id, creator_id) VALUES ($1, $2, $3)", [i + 1, result.rows.length + 1, creators[i]]);
-          res.status(201).json({ message: "Title created successfully." });
-        })
-      }
-      else {
-        pgClient.query("UPDATE media SET completed = $1 WHERE id = $2", [media.completed, media.id]);
-        pgClient.query("SELECT * FROM seasons WHERE show_id = $1", [media.id])
-        .then(result => {
-          pgClient.query("INSERT INTO seasons (season, show_id, score, episodes, start_date, end_date) VALUES ($1, $2, $3, $4, $5, $6)", [result.rows.length + 1, media.id, media.score, media.episodes, media.start_date, media.end_date]);
-          for (let i = 0; i < directors.length; i++) 
-            pgClient.query("INSERT INTO seasons_directors (ordering, show_id, season, director_id) VALUES ($1, $2, $3, $4)", [i + 1, media.id, result.rows.length + 1, directors[i]]);
-          for (let i = 0; i < castMembers.length; i++)
-            pgClient.query("INSERT INTO seasons_cast (ordering, season, show_id, actor_id) VALUES ($1, $2, $3, $4)", [i + 1, result.rows.length + 1, media.id, castMembers[i]]);
-          for (let i = 0; i < directors.length; i++) 
-            pgClient.query("INSERT INTO seasons_writers (ordering, show_id, season, writer_id) VALUES ($1, $2, $3, $4)", [i + 1, media.id, result.rows.length + 1, writers[i]]);
-          res.status(201).json({ message: "Title created successfully." });
-        })
-      }
-    }
-  })
-  .catch((error) => {
-    res.status(500).json({ error: `Error: ${ error }.` });
-  });
-}
+};
 
 const update = async (req, res) => {
-  const media = req.body;
-  let directors = [];
-  let writers = [];
-  let castMembers = [];
-  let creators = [];
-  let d = 0;
-  let w = 0;
-  let c = 0;
-  let cr = 0;
+  const media = req.body[0];
+  const og = req.body[1];
+  
+  const getIdsByRole = (role) => media.castAndCrew
+    ?.filter(person => person[role])
+    .map(person => person.id) || [];
 
-  for (let x = 0; x < media.castAndCrew.length; x++) {
-    if (media.castAndCrew[x].director == true) {
-      directors[d] = media.castAndCrew[x].id;
-      d++;
-    }
+  const directors = getIdsByRole("director");
+  const writers = getIdsByRole("writer");
+  const castMembers = getIdsByRole("cast");
+  const creators = getIdsByRole("creator");
+
+  try {
+    if (media.type === "movie")
+      await updateMovie(media, og, { directors, writers, castMembers });
+    else if (media.type === "show")
+      await updateShow(media, og, { directors, writers, castMembers, creators });
+    else
+      return res.status(400).json({ error: "Invalid media type specified." });
     
-    if (media.castAndCrew[x].writer == true) {
-      writers[w] = media.castAndCrew[x].id;
-      w++;
-    }
+    res.status(200).json({ message: "Title updated successfully." });
+  } 
+  catch (error) {
+    console.error("Error updating media:", error);
+    res.status(500).json({ error: "An error occurred while updating the title." });
+  }
+};
 
-    if (media.castAndCrew[x].cast == true) {
-      castMembers[c] = media.castAndCrew[x].id;
-      c++;
-    }
+async function createMovie(media, { directors, writers, castMembers }) {
+  const sql = `
+    WITH new_media AS (
+      INSERT INTO media (id, title, grade, release_date, rating, poster, runtime, type)
+      SELECT COALESCE(MAX(id), 0) + 1, $1, $2, $3, $4, $5, $6, 'movie'
+      FROM media
+      RETURNING id
+    ),
+    insert_directors AS (
+      INSERT INTO media_directors (ordering, media_id, director_id)
+      SELECT row_number() OVER (), (SELECT id FROM new_media), director_id
+      FROM unnest($7::int[]) AS director_id
+    ),
+    insert_cast AS (
+      INSERT INTO media_cast (ordering, media_id, actor_id)
+      SELECT row_number() OVER (), (SELECT id FROM new_media), actor_id
+      FROM unnest($8::int[]) AS actor_id
+    ),
+    insert_writers AS (
+      INSERT INTO media_writers (ordering, media_id, writer_id)
+      SELECT row_number() OVER (), (SELECT id FROM new_media), writer_id
+      FROM unnest($9::int[]) AS writer_id
+    )
+    SELECT id FROM new_media;
+  `;
+  
+  const params = [
+    media.title, 
+    media.grade, 
+    media.release_date, 
+    media.rating,
+    media.poster, 
+    media.runtime, 
+    directors, 
+    castMembers, 
+    writers
+  ];
 
-    if (media.castAndCrew[x].creator == true) {
-      creators[cr] = media.castAndCrew[x].id;
-      cr++;
-    }
+  const result = await pgClient.query(sql, params);
+  return { id: result.rows[0].id };
+}
+
+async function createNewShow(media, { directors, writers, castMembers, creators }) {
+  const sql = `
+    WITH new_media AS (
+      INSERT INTO media (id, title, poster, rating, completed, type)
+      SELECT COALESCE(MAX(id), 0) + 1, $1, $2, $3, $4, 'show'
+      FROM media
+      RETURNING id
+    ),
+    insert_season AS (
+      INSERT INTO seasons (season, show_id, grade, episodes, start_date, end_date)
+      VALUES (1, (SELECT id FROM new_media), $5, $6, $7, $8)
+    ),
+    insert_creators AS (
+      INSERT INTO media_creators (ordering, show_id, creator_id)
+      SELECT row_number() OVER (), (SELECT id FROM new_media), creator_id
+      FROM unnest($9::int[]) AS creator_id
+    ),
+    insert_directors AS (
+      INSERT INTO seasons_directors (ordering, show_id, season, director_id)
+      SELECT row_number() OVER (), (SELECT id FROM new_media), 1, director_id
+      FROM unnest($10::int[]) AS director_id
+    ),
+    insert_cast AS (
+      INSERT INTO seasons_cast (ordering, season, show_id, actor_id)
+      SELECT row_number() OVER (), 1, (SELECT id FROM new_media), actor_id
+      FROM unnest($11::int[]) AS actor_id
+    ),
+    insert_writers AS (
+      INSERT INTO seasons_writers (ordering, show_id, season, writer_id)
+      SELECT row_number() OVER (), (SELECT id FROM new_media), 1, writer_id
+      FROM unnest($12::int[]) AS writer_id
+    )
+    SELECT id FROM new_media;
+  `;
+
+  const params = [
+    media.title, 
+    media.poster, 
+    media.rating, 
+    media.completed || false,
+    media.grade, 
+    media.episodes, 
+    media.start_date, 
+    media.end_date,
+    creators, 
+    directors, 
+    castMembers, 
+    writers
+  ];
+
+  const result = await pgClient.query(sql, params);
+  return { id: result.rows[0].id };
+}
+
+async function addSeasonToShow(media, { directors, writers, castMembers }) {
+  let sql = ``;
+
+  sql = `UPDATE media SET completed = $1 WHERE id = $2;`;
+  await pgClient.query(sql, [media.completed || false, media.id]);
+
+  sql = `
+    WITH new_season_info AS (
+      SELECT COALESCE(MAX(season), 0) + 1 AS season_num FROM seasons WHERE show_id = $1
+    )
+    INSERT INTO seasons (season, show_id, grade, episodes, start_date, end_date)
+    SELECT season_num, $1, $2, $3, $4, $5 FROM new_season_info;
+  `;
+  await pgClient.query(sql, [media.id, media.grade, media.episodes, media.start_date, media.end_date]);
+
+  sql = `
+    WITH new_season_info AS (
+      SELECT COALESCE(MAX(season), 0) AS season_num FROM seasons WHERE show_id = $1
+    )
+    INSERT INTO seasons_directors (ordering, show_id, season, director_id)
+    SELECT row_number() OVER (), $1, (SELECT season_num FROM new_season_info), director_id
+    FROM unnest($2::int[]) AS director_id;
+  `;
+  await pgClient.query(sql, [media.id, directors]);
+
+  sql = `
+    WITH new_season_info AS (
+      SELECT COALESCE(MAX(season), 0) AS season_num FROM seasons WHERE show_id = $1
+    )
+    INSERT INTO seasons_cast (ordering, season, show_id, actor_id)
+    SELECT row_number() OVER (), (SELECT season_num FROM new_season_info), $1, actor_id
+    FROM unnest($2::int[]) AS actor_id;
+  `;
+  await pgClient.query(sql, [media.id, castMembers]);
+
+  sql = `
+    WITH new_season_info AS (
+      SELECT COALESCE(MAX(season), 0) AS season_num FROM seasons WHERE show_id = $1
+    )
+    INSERT INTO seasons_writers (ordering, show_id, season, writer_id)
+    SELECT row_number() OVER (), $1, (SELECT season_num FROM new_season_info), writer_id
+    FROM unnest($2::int[]) AS writer_id;
+  `;
+  await pgClient.query(sql, [media.id, writers]);
+
+  return { id: media.id };
+}
+
+async function updateMovie(media, og, { directors, writers, castMembers }) {
+  let sql = ``;
+
+  if (media.title != og.title) {
+    sql = `UPDATE media SET title = $1 WHERE id = $2;`;
+    await pgClient.query(sql, [media.title, media.id]);
   }
 
-  if (!media.completed && media.type == "show")
-    media.completed = false;
-
-  let sql = "";
-
-  if (media.type == "movie") {
-    pgClient.query("UPDATE media SET title = $1, score = $2, release_date = $3, poster = $4, runtime = $5 WHERE id = $6", [media.title, media.score, media.release_date, media.poster, media.runtime, media.id])
-    .then(result => {
-      pgClient.query("DELETE FROM media_directors WHERE media_id = $1", [media.id])
-      .then(r1 => {
-        for (let i = 0; i < directors.length; i++) {
-          sql += `INSERT INTO media_directors (ordering, media_id, director_id) VALUES (${i + 1}, ${req.params.id}, ${directors[i]}); `;
-        }
-        pgClient.query("DELETE FROM media_cast WHERE media_id = $1", [media.id])
-        .then(r2 => {
-          for (let i = 0; i < castMembers.length; i++) {
-            sql += `INSERT INTO media_cast (ordering, media_id, actor_id) VALUES (${i + 1}, ${req.params.id}, ${castMembers[i]}); `;
-          }
-          pgClient.query("DELETE FROM media_writers WHERE media_id = $1", [media.id])
-          .then(r3 => {
-            for (let i = 0; i < writers.length; i++) {
-              sql += `INSERT INTO media_writers (ordering, media_id, writer_id) VALUES (${i + 1}, ${req.params.id}, ${writers[i]}); `;
-            }
-            pgClient.query(sql)
-            .then(r4 => {
-              clearUnused();
-              res.status(201).json({ message: "Title updated successfully." });
-            })
-          })
-          .catch((error) => {
-            res.status(500).json({ error: `Error: ${ error }` });
-          });
-        })
-        .catch((error) => {
-          res.status(500).json({ error: `Error: ${ error }` });
-        });
-      })
-      .catch((error) => {
-        res.status(500).json({ error: `Error: ${ error }` });
-      });
-    })
-    .catch((error) => {
-      res.status(500).json({ error: `Error: ${ error }` });
-    });
+  if (media.grade != og.grade) {
+    sql = `UPDATE media SET grade = $1 WHERE id = $2;`;
+    await pgClient.query(sql, [media.grade, media.id]);
   }
-  else {
-    pgClient.query("UPDATE media SET title = $1, poster = $2, completed = $3 WHERE id = $4", [media.title, media.poster, media.completed, media.id])
-    .then(result => {
-      pgClient.query("UPDATE seasons SET start_date = $1, end_date = $2, score = $3, episodes = $4 WHERE show_id = $5 AND season = $6", [media.start_date, media.end_date, media.score, media.episodes, media.id, media.season])
-      .then(r1 => {
-        pgClient.query("DELETE FROM seasons_cast WHERE show_id = $1 AND season = $2", [media.id, media.season])
-        .then(r2 => {
-          for (let i = 0; i < castMembers.length; i++) {
-            sql += `INSERT INTO seasons_cast (ordering, season, show_id, actor_id) VALUES (${i + 1}, ${media.season}, ${req.params.id}, ${castMembers[i]}); `;
-          }
-          pgClient.query("DELETE FROM media_creators WHERE show_id = $1", [media.id])
-          .then(r3 => {
-            for (let i = 0; i < creators.length; i++) {
-              sql += `INSERT INTO media_creators (ordering, show_id, creator_id) VALUES (${i + 1}, ${req.params.id}, ${creators[i]}); `;
-            }
-            pgClient.query("DELETE FROM seasons_directors WHERE show_id = $1 AND season = $2", [media.id, media.season])
-            .then(r4 => {
-              for (let i = 0; i < directors.length; i++) {
-                sql += `INSERT INTO seasons_directors (ordering, show_id, season, director_id) VALUES (${i + 1}, ${req.params.id}, ${media.season}, ${directors[i]}); `;
-              }
-              pgClient.query("DELETE FROM seasons_writers WHERE show_id = $1 AND season = $2", [media.id, media.season])
-              .then(r5 => {
-                for (let i = 0; i < writers.length; i++) {
-                  sql += `INSERT INTO seasons_writers (ordering, show_id, season, writer_id) VALUES (${i + 1}, ${req.params.id}, ${media.season}, ${writers[i]}); `;
-                }
-                pgClient.query(sql)
-                .then(r6 => {
-                  clearUnused();
-                  res.status(201).json({ message: "Title updated successfully." });
-                })
-                .catch((error) => {
-                  res.status(500).json({ error: `Error: ${ error }` });
-                });
-              })
-              .catch((error) => {
-                res.status(500).json({ error: `Error: ${ error }` });
-              });
-            })
-            .catch((error) => {
-              res.status(500).json({ error: `Error: ${ error }` });
-            });
-          })
-          .catch((error) => {
-            res.status(500).json({ error: `Error: ${ error }` });
-          });
-        })
-        .catch((error) => {
-          res.status(500).json({ error: `Error: ${ error }` });
-        });
-      })
-      .catch((error) => {
-        res.status(500).json({ error: `Error: ${ error }` });
-      });
-    })
-    .catch((error) => {
-      res.status(500).json({ error: `Error: ${ error }` });
-    });
+
+  if (media.release_date != new Date(og.release_date).toISOString().split("T")[0]) {
+    sql = `UPDATE media SET release_date = $1 WHERE id = $2;`;
+    await pgClient.query(sql, [media.release_date, media.id]);
+  }
+
+  if (media.poster != og.poster) {
+    sql = `UPDATE media SET poster = $1 WHERE id = $2;`;
+    await pgClient.query(sql, [media.poster, media.id]);
+  }
+
+  if (media.runtime != og.runtime) {
+    sql = `UPDATE media SET runtime = $1 WHERE id = $2;`;
+    await pgClient.query(sql, [media.runtime, media.id]);
+  }
+
+  if (media.rating != og.rating) {
+    sql = `UPDATE media SET rating = $1 WHERE id = $2;`;
+    await pgClient.query(sql, [media.rating, media.id]);
+  }
+
+  if (!og.directors || !directors || !(directors.every(d => og.directors.some(ogd => ogd["director_id"] === d)))) {
+    sql = `DELETE FROM media_directors WHERE media_id = $1;`;
+    await pgClient.query(sql, [media.id]);
+    sql = `
+      INSERT INTO media_directors (ordering, media_id, director_id)
+      SELECT row_number() OVER (), $1, director_id
+      FROM unnest($2::int[]) AS director_id;
+    `;
+    await pgClient.query(sql, [media.id, directors]);
+  }
+
+  if (!og.writers || !writers || !(writers.every(w => og.writers.some(ogw => ogw["writer_id"] === w)))) {
+    sql = `DELETE FROM media_writers WHERE media_id = $1;`;
+    await pgClient.query(sql, [media.id]);
+    sql = `
+      INSERT INTO media_writers (ordering, media_id, writer_id)
+      SELECT row_number() OVER (), $1, writer_id
+      FROM unnest($2::int[]) AS writer_id;
+    `;
+    await pgClient.query(sql, [media.id, writers]);
+  }
+
+  if (!og.cast_members || !castMembers || !(castMembers.every(cm => og.cast_members.some(ogcm => ogcm["actor_id"] === cm)))) {
+    sql = `DELETE FROM media_cast WHERE media_id = $1;`;
+    await pgClient.query(sql, [media.id]);
+    sql = `
+      INSERT INTO media_cast (ordering, media_id, actor_id)
+      SELECT row_number() OVER (), $1, actor_id
+      FROM unnest($2::int[]) AS actor_id;
+    `;
+    await pgClient.query(sql, [media.id, castMembers]);
   }
 }
 
-function clearUnused() {
-  pgClient.query("DELETE FROM people WHERE id NOT IN (SELECT actor_id FROM media_cast) AND id NOT IN (SELECT director_id FROM media_directors) AND id NOT IN (SELECT writer_id FROM media_writers) AND id NOT IN (SELECT actor_id FROM seasons_cast) AND id NOT IN (SELECT creator_id FROM media_creators) AND id NOT IN (SELECT director_id FROM seasons_directors) AND id NOT IN (SELECT writer_id FROM seasons_writers)")
-  .then(r1 => {
-    if (r1.rowCount > 0) {
-      pgClient.query("SELECT * FROM people ORDER BY id ASC")
-      .then(r2 => {
-        let sql = "";
-        for (let x = 0; x < r2.rowCount; x++) {
-          if ((x + 1) != r2.rows[x].id)
-            sql += `UPDATE people SET id = ${x + 1} WHERE id = ${r2.rows[x].id}; `;
-        }
-        pgClient.query(sql);
-      })
-    }
-  })
+async function updateShow(media, og, { directors, writers, castMembers, creators }) {
+  let sql = ``;
+
+  if (media.title != og.title) {
+    sql = `UPDATE media SET title = $1 WHERE id = $2;`;
+    await pgClient.query(sql, [media.title, media.id]);
+  }
+
+  if (media.poster != og.poster) {
+    sql = `UPDATE media SET poster = $1 WHERE id = $2;`;
+    await pgClient.query(sql, [media.poster, media.id]);
+  }
+
+  if (media.completed != og.completed) {
+    sql = `UPDATE media SET completed = $1 WHERE id = $2;`;
+    await pgClient.query(sql, [media.completed || false, media.id]);
+  }
+
+  if (media.rating != og.rating) {
+    sql = `UPDATE media SET rating = $1 WHERE id = $2;`;
+    await pgClient.query(sql, [media.rating, media.id]);
+  }
+
+  if (media.start_date != new Date(og.start_date).toISOString().split("T")[0]) {
+    sql = `UPDATE seasons SET start_date = $1 WHERE show_id = $2 AND season = $3;`;
+    await pgClient.query(sql, [media.start_date, media.id, media.season]);
+  }
+
+  if (media.end_date != new Date(og.end_date).toISOString().split("T")[0]) {
+    sql = `UPDATE seasons SET end_date = $1 WHERE show_id = $2 AND season = $3;`;
+    await pgClient.query(sql, [media.end_date, media.id, media.season]);
+  }
+
+  if (media.grade != og.grade) {
+    sql = `UPDATE seasons SET grade = $1 WHERE show_id = $2 AND season = $3;`;
+    await pgClient.query(sql, [media.grade, media.id, media.season]);
+  }
+
+  if (media.episodes != og.episodes) {
+    sql = `UPDATE seasons SET episode = $1 WHERE show_id = $2 AND season = $3;`;
+    await pgClient.query(sql, [media.episodes, media.id, media.season]);
+  }
+  
+  if (!og.creators || !creators || !(creators.every(c => og.creators.some(ogc => ogc["creator_id"] === c)))) {
+    sql = `DELETE FROM media_creators WHERE show_id = $1;`;
+    await pgClient.query(sql, [media.id]);
+
+    sql = `
+      INSERT INTO media_creators (ordering, show_id, creator_id)
+      SELECT row_number() OVER (), $1, creator_id
+      FROM unnest($2::int[]) AS creator_id;
+    `;
+    await pgClient.query(sql, [media.id, creators]);
+  }
+
+  if (!og.directors_tv || !directors || !(directors.every(d => og.directors_tv.some(ogd => ogd["director_id"] === d)))) {
+    sql = `DELETE FROM seasons_directors WHERE show_id = $1 AND season = $2;`;
+    await pgClient.query(sql, [media.id, media.season]);
+    
+    sql = `
+      INSERT INTO seasons_directors (ordering, season, show_id, director_id)
+      SELECT row_number() OVER (), $1, $2, director_id
+      FROM unnest($3::int[]) AS director_id;
+    `;
+    await pgClient.query(sql, [media.season, media.id, directors]);
+  }
+
+  if (!og.writers_tv || !writers || !(writers.every(w => og.writers_tv.some(ogw => ogw["writer_id"] === w)))) {
+    sql = `DELETE FROM seasons_writers WHERE show_id = $1 AND season = $2;`;
+    await pgClient.query(sql, [media.id, media.season]);
+
+    sql = `
+      INSERT INTO seasons_writers (ordering, season, show_id, writer_id)
+      SELECT row_number() OVER (), $1, $2, writer_id
+      FROM unnest($3::int[]) AS writer_id;
+    `;
+    await pgClient.query(sql, [media.season, media.id, writers]);
+  }
+
+  if (!og.cast_members_tv || !castMembers || !(castMembers.every(cm => og.cast_members_tv.some(ogcm => ogcm["actor_id"] === cm)))) {
+    sql = `DELETE FROM seasons_cast WHERE show_id = $1 AND season = $2;`;
+    await pgClient.query(sql, [media.id, media.season]);
+
+    sql = `
+      INSERT INTO seasons_cast (ordering, season, show_id, actor_id)
+      SELECT row_number() OVER (), $1, $2, actor_id
+      FROM unnest($3::int[]) AS actor_id;
+    `;
+    await pgClient.query(sql, [media.season, media.id, castMembers]);
+  }
 }
 
 module.exports = { index, indexLength, indexShows, seasonCount, show, create, update };

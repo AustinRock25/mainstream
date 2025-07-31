@@ -1,6 +1,7 @@
 import AdminOnlyLayout from "./layouts/AdminOnlyLayout";
 import "./App.css";
 import ApplicationLayout from "./layouts/ApplicationLayout";
+import AuthenticatedLayout from "./layouts/AuthenticatedLayout";
 import EditMedia from "./components/media/EditMedia";
 import EditPerson from "./components/people/EditPerson";
 import Home from "./components/Home";
@@ -16,7 +17,9 @@ function App() {
     <Routes>
       <Route element={<ApplicationLayout />}>
         <Route path="/" element={<Home />} />
-        <Route path="/media" element={<Media />} />
+        <Route element={<AuthenticatedLayout />}>
+          <Route path="/media" element={<Media />} />
+        </Route>
         <Route element={<AdminOnlyLayout />}>
           <Route path="/people" element={<People />} />
           <Route path="/media/new" element={<NewMedia />} />

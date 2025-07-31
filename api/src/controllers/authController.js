@@ -3,10 +3,10 @@ const jwt = require("jsonwebtoken");
 const pgClient = require("../config/pgClient");
 
 function register(req, res) {
-  const { email, password } = req.body;
+  const { email, password, rating_scale } = req.body;
   const hash = bcrypt.hashSync(password, 12);
 
-  pgClient.query("INSERT INTO users (email, password) VALUES ($1, $2)", [email, hash])
+  pgClient.query("INSERT INTO users (email, password, rating_scale) VALUES ($1, $2, $3)", [email, hash, rating_scale])
     .then(results => {
       pgClient.query("SELECT id, email FROM users WHERE email = $1", [email])
         .then(results => {
@@ -48,7 +48,7 @@ function login(req, res) {
     return;
   }
 
-  pgClient.query("SELECT id, email, password, is_admin FROM users WHERE email = $1", [email])
+  pgClient.query("SELECT id, email, password, is_admin, rating_scale FROM users WHERE email = $1", [email])
     .then(results => {
       if (results.rowCount > 0) {
         if (bcrypt.compareSync(password, results.rows[0].password)) {
@@ -57,7 +57,8 @@ function login(req, res) {
             id: results.rows[0].id,
             email: results.rows[0].email,
             is_admin: results.rows[0].is_admin,
-            token: token
+            token: token,
+            rating_scale: results.rows[0].rating_scale
           };
 
           res.cookie("jwt", token, {
@@ -94,6 +95,18 @@ function generateToken(attributes) {
   return jwt.sign(attributes, process.env.JWT_SECRET, { expiresIn: "2 days" });
 }
 
-const authController = { login, logout, register, verifyToken }
+function changeScale(req, res) {
+  const user = req.body;
+
+  pgClient.query("UPDATE users SET rating_scale = $1 WHERE id = $2", [user.rating_scale, req.params.id])
+  .then(results => {
+    res.status(201).json({ id: req.params.id, message: "Rating scale changed successfully." });
+  })
+  .catch(error => {
+    res.status(500).json({ error: `${error}` });
+  });
+}
+
+const authController = { changeScale, login, logout, register, verifyToken }
 
 module.exports = authController;

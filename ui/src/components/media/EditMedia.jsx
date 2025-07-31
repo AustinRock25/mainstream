@@ -9,8 +9,8 @@ function EditMedia() {
     id: "",
     title: "", 
     season: "",
-    score: 0, 
-    score_tv: 0,
+    grade: 0, 
+    grade_tv: 0,
     rating: "",
     release_date: "", 
     start_date: "",
@@ -66,8 +66,8 @@ function EditMedia() {
           id: results.data.id,
           title: results.data.title, 
           season: results.data.season,
-          score: results.data.score, 
-          score_tv: results.data.score_tv,
+          grade: results.data.grade, 
+          grade_tv: results.data.grade_tv,
           rating: results.data.rating,
           release_date: results.data.release_date, 
           start_date: results.data.start_date,
@@ -83,7 +83,7 @@ function EditMedia() {
           creators: selectedCreators
         });
         if (media.type == "show")
-          setMedia({ score: results.data.score_tv })
+          setMedia({ grade: results.data.grade_tv })
       })
       .catch(error => {
         setAlert({ message: "Failed to load media.", variant: "danger" });

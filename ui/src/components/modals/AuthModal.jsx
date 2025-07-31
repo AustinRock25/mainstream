@@ -1,23 +1,33 @@
 import { authenticated, unauthenticated } from "../../slices/authSlice.js";
 import axios from "axios";
-import { Button, Form, Modal, Spinner } from "react-bootstrap";
-import { useDispatch } from "react-redux";
-import { useState } from "react";
+import { Alert, Button, Form, Modal, Spinner } from "react-bootstrap";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
 
 function AuthModal({ show, setShow, action }) {
+  const { user } = useSelector(state => state.auth);
   const dispatch = useDispatch();
   const [errors, setErrors] = useState({});
-  const [formData, setFormData] = useState({ email: "", password: "" });
+  const [formData, setFormData] = useState({ email: "", password: "", rating_scale: 1 });
   const [isLoading, setIsLoading] = useState(false);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!!user)
+      setFormData({ rating_scale: user.rating_scale });
+  }, [user]);
 
   function handleSubmit(e) {
     e.preventDefault();
     setIsLoading(true);
 
-    if(action === "login")
+    if (action === "login")
       login();
-    else if(action === "register")
+    else if (action === "register")
       register();
+    else if (action === "change")
+      change();
   }
 
   function handleHide() {
@@ -27,27 +37,25 @@ function AuthModal({ show, setShow, action }) {
 
   function resetForm() {
     setErrors({});
-    setFormData({ email: "", password: "" });
+    setFormData({ email: "", password: "", rating_scale: 1 });
   }
 
   function login() {
     axios.post("/api/auth/login", formData)
       .then(response => {
         dispatch(authenticated(response.data));
-        resetForm();
         handleHide();
       })
       .catch(error => {
         dispatch(unauthenticated());
-
-        if (error.response.status === 422)
+        if (error.response?.status === 422)
           setErrors(error.response.data.errors);
-        else if (error.response.status === 401)
-          setErrors({ email: "invalid email or password." });
-        else if (error.response.status === 404)
-          setErrors({ email: "user not found." });
+        else if (error.response?.status === 401)
+          setErrors({ email: "Invalid email or password." });
+        else if (error.response?.status === 404)
+          setErrors({ email: "User not found." });
         else
-          setErrors({ email: "an error occurred. Please try again later." });
+          setErrors({ form: "An unexpected error occurred. Please try again later." });
       })
       .finally(() => {
         setIsLoading(false);
@@ -58,12 +66,32 @@ function AuthModal({ show, setShow, action }) {
     axios.post("/api/auth/register", formData)
       .then(response => {
         dispatch(authenticated(response.data));
-        resetForm();
         handleHide();
       })
       .catch(error => {
         dispatch(unauthenticated());
-        setErrors(error.response.data.errors);
+        if (error.response?.status === 422)
+          setErrors(error.response.data.errors);
+        else
+          setErrors({ form: "An unexpected error occurred. Please try again later." });
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
+  }
+
+  function change() {
+    axios.put(`/api/auth/change/${user.id}`, formData)
+      .then(response => {
+        navigate(0);
+        handleHide();
+      })
+      .catch(error => {
+        dispatch(unauthenticated());
+        if (error.response?.status === 422)
+          setErrors(error.response.data.errors);
+        else
+          setErrors({ form: "An unexpected error occurred. Please try again later." });
       })
       .finally(() => {
         setIsLoading(false);
@@ -71,31 +99,54 @@ function AuthModal({ show, setShow, action }) {
   }
 
   return (
-    <Modal show={show} onHide={() => setShow(false)} backdrop="static">
-      <Modal.Header className="bg-dark text-white">
-        <Modal.Title>{action === "login" ? "Log In" : "Register"}</Modal.Title>
+    <Modal show={show} onHide={handleHide} backdrop="static" centered>
+      <Modal.Header>
+        <Modal.Title>{action === "login" ? "Log In" : action === "register" ? "Register" : "Update"}</Modal.Title>
       </Modal.Header>
-      <Modal.Body className="bg-black text-white">
+      <Modal.Body>
         <Form onSubmit={handleSubmit}>
-          <Form.Label>Email</Form.Label>
-          <Form.Control
-            type="email"
-            value={formData.email}
-            isInvalid={errors.email}
-            onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-          />
-          <Form.Control.Feedback type="invalid">{errors.email}</Form.Control.Feedback>
-          <Form.Label className="mt-3">Password</Form.Label>
-          <Form.Control
-            type="password"
-            value={formData.password}
-            isInvalid={errors.password}
-            onChange={(e) => setFormData({ ...formData, password: e.target.value })}
-          />
-          <Form.Control.Feedback type="invalid">{errors.password}</Form.Control.Feedback>
+          {errors.form && <Alert variant="danger">{errors.form}</Alert>}
+          {action !== "change" &&
+            <Form.Group className="mb-3" controlId="formBasicEmail">
+              <Form.Label>Email address</Form.Label>
+              <Form.Control
+                type="email"
+                value={formData.email}
+                isInvalid={!!errors.email}
+                onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                placeholder="Enter email"
+              />
+              <Form.Control.Feedback type="invalid">{errors.email}</Form.Control.Feedback>
+            </Form.Group>
+          }
+          
+          {action !== "change" && 
+            <Form.Group className="mb-3" controlId="formBasicPassword">
+              <Form.Label>Password</Form.Label>
+              <Form.Control
+                type="password"
+                value={formData.password}
+                isInvalid={!!errors.password}
+                onChange={(e) => setFormData({ ...formData, password: e.target.value })}
+                placeholder="Password"
+              />
+              <Form.Control.Feedback type="invalid">{errors.password}</Form.Control.Feedback>
+            </Form.Group>
+          }
 
-          <div className="mt-3 text-end">
-            <Button type="submit" id="form-submit-button" className="ms-2 me-1 btn btn-warning">{isLoading ? <Spinner /> : (action === "login" ? "Log In" : "Register")}</Button>
+          {action !== "login" && 
+            <Form.Group className="mb-3">
+              <Form.Label column sm={3}>Rating Scale</Form.Label>
+              <Form.Select value={formData.rating_scale} isInvalid={!!errors.rating_scale} onChange={(e) => setFormData({ ...formData, rating_scale: e.target.value })}>
+                {[1, 2, 3].map(r => <option key={r} value={r}>{r == 1 && `0 to 4`}{r == 2 && `0 to 5`}{r == 3 && `F to A+`}</option>)}
+              </Form.Select>
+            </Form.Group>
+          }
+
+          <div className="d-grid gap-2 mt-4">
+            <Button variant="success" type="submit" disabled={isLoading}>
+              {isLoading ? <Spinner as="span" animation="border" size="sm" role="status" aria-hidden="true" /> : (action === "login" ? "Log In" : action === "register" ? "Register" : "Update")}
+            </Button>
             <Button variant="secondary" onClick={handleHide}>Cancel</Button>
           </div>
         </Form>

@@ -1,29 +1,39 @@
-import { Alert, Button, Container, Row, Spinner } from "react-bootstrap";
+import { Alert, Button, Container, Row, Spinner, Form } from "react-bootstrap";
 import axios from "axios";
 import MediaCard from "./MediaCard";
 import { useCallback, useEffect, useState } from "react";
 
 function Media() {
   const [alert, setAlert] = useState({ message: "", variant: "" });
-  const [beginRecord, setBeginRecord] = useState(1);
   const [currentPage, setCurrentPage] = useState(1);
-  const [endRecord, setEndRecord] = useState(60);
   const [isLoading, setIsLoading] = useState(false);
   const [media, setMedia] = useState([]);
   const [pages, setPages] = useState(0);
   const [searchTerm, setSearchTerm] = useState("");
 
-  useEffect(() => {
+  const fetchMediaLength = useCallback((currentSearchTerm) => {
     setIsLoading(true);
-    axios.get("/api/media/length", { params: { searchTerm: searchTerm } })
+    axios.get("/api/media/length", { params: { searchTerm: currentSearchTerm } })
     .then(response => {
-      if (response.data[0].count % 60 == 0)
-        setPages(parseInt(response.data[0].count / 60));
-      else
-        setPages(parseInt(response.data[0].count / 60) + parseInt(1));
+      const count = response.data[0].count;
+      setPages(Math.ceil(count / 60));
     })
     .catch(error => {
-      setAlert({ message: "Failed to get length", variant: "danger" });
+      setAlert({ message: "Failed to get total media count.", variant: "danger" });
+    })
+    .finally(() => {
+      setIsLoading(false);
+    });
+  }, []);
+
+  const fetchMedia = useCallback((currentSearchTerm, begin, end) => {
+    axios.get("/api/media", { params: { searchTerm: currentSearchTerm, beginRecord: begin, endRecord: end } })
+    .then(response => {
+      setMedia(response.data);
+      setAlert({ message: "", variant: "" });
+    })
+    .catch(error => {
+      setAlert({ message: "Failed to load media.", variant: "danger" });
     })
     .finally(() => {
       setIsLoading(false);
@@ -31,116 +41,94 @@ function Media() {
   }, []);
 
   useEffect(() => {
-    setIsLoading(true);
-    axios.get("/api/media", { params: { searchTerm: searchTerm, beginRecord: beginRecord, endRecord: endRecord } })
-    .then(response => {
-      setMedia(response.data);
-      setAlert({ message: "", variant: "" });
-    })
-    .catch(error => {
-      setAlert({ message: "Failed to load media", variant: "danger" });
-    })
-    .finally(() => {
-      setIsLoading(false);
-    });
-  }, [beginRecord, endRecord]);
+    fetchMediaLength("");
+    fetchMedia("", 1, 60);
+  }, [fetchMedia, fetchMediaLength]);
 
-  const getResults = useCallback(() => {
-    setIsLoading(true);
-    axios.get("/api/media", { params: { searchTerm: searchTerm, beginRecord: beginRecord, endRecord: endRecord } })
-    .then(response => {
-      setMedia(response.data);
-      setAlert({ message: "", variant: "" });
-    })
-    .catch(error => {
-      setAlert({ message: "Failed to load media", variant: "danger" });
-    })
-    .finally(() => {
-      setIsLoading(false);
-      getResultsLength();
-    });
-  });
 
-  const getResultsLength = useCallback(() => {
-    setIsLoading(true);
-    axios.get("/api/media/length", { params: { searchTerm: searchTerm } })
-    .then(response => {
-      if (response.data[0].count % 60 == 0)
-        setPages(parseInt(response.data[0].count / 60));
-      else
-        setPages(parseInt(response.data[0].count / 60) + parseInt(1));
-    })
-    .catch(error => {
-      setAlert({ message: "Failed to get length", variant: "danger" });
-    })
-    .finally(() => {
-      setIsLoading(false);
-    });
-  });
+  const handleSearch = (e) => {
+    setMedia([]);
+    e.preventDefault();
+    setCurrentPage(1);
+    fetchMediaLength(searchTerm);
+    fetchMedia(searchTerm, 1, 60);
+  };
+  
+  const changePage = (pageNumber) => {
+    setMedia([]);
+    const newBeginRecord = (pageNumber - 1) * 60 + 1;
+    const newEndRecord = pageNumber * 60;
+    setCurrentPage(pageNumber);
+    fetchMedia(searchTerm, newBeginRecord, newEndRecord);
+  }
 
   function getFirstPage() {
-    setBeginRecord(1);
-    setEndRecord(60);
-    setCurrentPage(1);
+    changePage(1);
   }
 
   function getNext() {
-    setBeginRecord(parseInt(beginRecord) + parseInt(60));
-    setEndRecord(parseInt(endRecord) + parseInt(60));
-    setCurrentPage(parseInt(currentPage) + parseInt(1));
+    if (currentPage < pages)
+      changePage(currentPage + 1);
   }
 
   function getPrev() {
-    setBeginRecord(parseInt(beginRecord) - parseInt(60));
-    setEndRecord(parseInt(endRecord) - parseInt(60));
-    setCurrentPage(parseInt(currentPage) - parseInt(1));
+    if (currentPage > 1)
+      changePage(currentPage - 1);
   }
 
   return (
     <Container className="pt-3 text-center">
-      {alert?.message && 
-        <Alert 
-          variant={alert.variant} 
-          onClose={() => setAlert({ message: "", variant: "" })} 
+      {alert?.message &&
+        <Alert
+          variant={alert.variant}
+          onClose={() => setAlert({ message: "", variant: "" })}
           dismissible
         >
           {alert.message}
         </Alert>
       }
 
-    <h3 className="fw-bolder text-white">Films and TV Shows</h3>
-
-    {media.length != 0 && <h6 className="fw-bolder text-white">Page {currentPage} of {pages}</h6>}
-
-    {(beginRecord == 1 && endRecord == 60) &&
-      <>
-        <input type="text" value={searchTerm} onChange={event => setSearchTerm(event.target.value)} placeholder="Enter the title of a film or TV show..." />
-        <Button id="search-button" className="btn btn-warning m-2" onClick={getResults}>Search</Button>
-      </>
-    }
+    <h2 className="fw-bolder text-white mb-4">Films and TV Shows</h2>
+    
+    <Form onSubmit={handleSearch} className="mb-4 d-flex justify-content-center">
+      <Form.Control
+        type="text"
+        value={searchTerm}
+        onChange={event => setSearchTerm(event.target.value)}
+        placeholder="Enter the title of a film or TV show..."
+        className="w-50 me-2"
+      />
+      <Button type="submit" variant="primary">Search</Button>
+    </Form>
 
     {isLoading
       ?
-      <center>
-        <Spinner />
-      </center>
+      <div className="d-flex justify-content-center align-items-center" style={{minHeight: '40vh'}}>
+        <Spinner animation="border" role="status">
+          <span className="visually-hidden">Loading...</span>
+        </Spinner>
+      </div>
       :
       media.length > 0
         ?
         <>
-          <p className="text-white">{media.length} {(media.length == 1) ? <span>result</span> : <span>results</span>} displayed</p>
-          {currentPage != 1 && <Button id="first-page-button" className="btn btn-warning me-1 mb-1" onClick={getFirstPage}>Go back to first page</Button>}
-          {currentPage != 1 && <Button id="previous-page-button" className="btn btn-warning me-1 mb-1" onClick={getPrev}>Previous</Button>}
-          {currentPage != pages && <Button id="next-page-button" className="btn btn-warning me-1 mb-1" onClick={getNext}>Next</Button>}
-          <Row className="g-4 justify-content-center" xs={1} sm={1} md={2} lg={3} xl={4} xxl={5}>
-              {media.map(media => <MediaCard key={media.id} media={media} />)}
+          <div className="d-flex justify-content-between align-items-center mb-3">
+            <p className="text-white-50 mb-0">{media.length} result{media.length > 1 && `s`} displayed</p>
+            <h6 className="fw-bolder text-white mb-0">Page {currentPage} of {pages}</h6>
+          </div>
+          
+          <Row className="g-4 justify-content-center" xs={1} sm={2} md={3} lg={4} xl={5}>
+            {media.map(m => <MediaCard key={`${m.id}-${m.type}`} media={m} />)}
           </Row>
-          {currentPage != 1 && <Button id="first-page-button" className="btn btn-warning me-1 mt-1" onClick={getFirstPage}>Go back to first page</Button>}
-          {currentPage != 1 && <Button id="previous-page-button" className="btn btn-warning me-1 mt-1" onClick={getPrev}>Previous</Button>}
-          {currentPage != pages && <Button id="next-page-button" className="btn btn-warning me-1 mt-1" onClick={getNext}>Next</Button>}
+
+          <div className="d-flex justify-content-center mt-4">
+            {currentPage > 1 && <Button variant="primary" className="me-2" onClick={getFirstPage}>First Page</Button>}
+            {currentPage > 1 && <Button variant="primary" className="me-2" onClick={getPrev}>Previous</Button>}
+            {currentPage < pages && <Button variant="primary" onClick={getNext}>Next</Button>}
+          </div>
         </>
         :
-        <p className="text-white">No results with that title found</p>
+        <p className="text-white-50 mt-5">No results with that title found.</p>
     }
     </Container>
   );

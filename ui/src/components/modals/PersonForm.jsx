@@ -17,42 +17,33 @@ function PersonForm({ show, setShow, person }) {
 
   useEffect(() => {
     if (person?.id) {
-      let birthDate;
-      let deathDate;
-
-      if (!!person.birth_date)
-        birthDate = new Date(person.birth_date).toISOString().split("T")[0];
-
-      if (!!person.death_date)
-        deathDate = new Date(person.death_date).toISOString().split("T")[0];
+      const birthDate = person.birth_date ? new Date(person.birth_date).toISOString().split("T")[0] : "";
+      const deathDate = person.death_date ? new Date(person.death_date).toISOString().split("T")[0] : "";
       setFormData({
-        id: person.id || "",
+        id: person.id,
         name: person.name || "",
-        birth_date: birthDate || "",
-        death_date: deathDate || "",
+        birth_date: birthDate,
+        death_date: deathDate,
       });
-    }
-  }, [person]);
+    } 
+    else
+      resetForm();
+  }, [person, show]);
 
   const handleChange = (e, key) => {
     setErrors({ ...errors, [key]: "" });
     setFormData({ ...formData, [key]: e.target.value });
   }
 
-  function handleHide(e) {
+  function handleHide() {
     setShow(false);
-    if (!person?.id)
-      resetForm();
+    resetForm();
   }
 
   function resetForm() {
     setErrors({});
-    setFormData({ name: "", birth_date: "", death_date: "" });
     setAlert({ message: "", variant: "" });
-    if (!person?.id)
-      setFormData({ name: "", birth_date: "", death_date: "" });
-    else
-      setFormData({ name: person.name, birth_date: new Date(person.birth_date).toISOString().split("T")[0], death_date: new Date(person.death_date).toISOString().split("T")[0] });
+    setFormData({ id: "", name: "", birth_date: "", death_date: "" });
   }
 
   function handleSubmit(e) {
@@ -73,7 +64,7 @@ function PersonForm({ show, setShow, person }) {
         else if (error.response?.status === 401)
           setAlert({ message: `You must be logged in to ${person?.id ? "update" : "create"} a person.`, variant: "danger" });
         else if (error.response?.status === 403)
-          setAlert({ message: `You do not have permission to ${person?.id ? "update this person" : "create person"}.`, variant: "danger" });
+          setAlert({ message: `You do not have permission to ${person?.id ? "update this person" : "create a person"}.`, variant: "danger" });
         else
           setAlert({ message: `Failed to ${person?.id ? "update" : "create" } person.`, variant: "danger" });
       })
@@ -83,14 +74,13 @@ function PersonForm({ show, setShow, person }) {
   }
 
   return (
-    <Modal show={show} onHide={(e) => setShow(false)} backdrop="static">
-      <Modal.Header className="bg-dark text-white">
+    <Modal show={show} onHide={handleHide} backdrop="static" centered>
+      <Modal.Header>
         <Modal.Title>{person?.id ? `Edit ${person.name}` : "Add Cast/Crew Member"}</Modal.Title>
       </Modal.Header>
-      <Modal.Body className="bg-black text-white">
+      <Modal.Body>
         {alert.message &&
           <Alert
-            className="text-center"
             variant={alert.variant}
             onClose={() => setAlert({ message: "", variant: "" })}
             dismissible
@@ -99,40 +89,44 @@ function PersonForm({ show, setShow, person }) {
           </Alert>
         }
 
-        <Form onSubmit={isSubmitting ? null : handleSubmit}>
-          <Form.Group>
-            <Form.Label className="mt-3">Name</Form.Label>
+        <Form onSubmit={handleSubmit}>
+          <Form.Group className="mb-3">
+            <Form.Label>Name</Form.Label>
             <Form.Control
               type="text"
               value={formData.name}
-              placeholder="Enter name"
-              isInvalid={errors.name}
+              placeholder="Enter full name"
+              isInvalid={!!errors.name}
               onChange={(e) => handleChange(e, "name")}
             />
             <Form.Control.Feedback type="invalid">{errors.name}</Form.Control.Feedback>
-            <Form.Label className="mt-3">Date of Birth</Form.Label>
+          </Form.Group>
+          <Form.Group className="mb-3">
+            <Form.Label>Date of Birth</Form.Label>
             <Form.Control
               type="date"
               value={formData.birth_date}
-              placeholder="Enter date of birth"
-              isInvalid={errors.birth_date}
+              isInvalid={!!errors.birth_date}
               onChange={(e) => handleChange(e, "birth_date")}
             />
             <Form.Control.Feedback type="invalid">{errors.birth_date}</Form.Control.Feedback>
-            <Form.Label className="mt-3">Date of Death</Form.Label>
+          </Form.Group>
+          <Form.Group className="mb-3">
+            <Form.Label>Date of Death</Form.Label>
             <Form.Control
               type="date"
               value={formData.death_date}
-              placeholder="Enter date of death"
-              isInvalid={errors.death_date}
+              isInvalid={!!errors.death_date}
               onChange={(e) => handleChange(e, "death_date")}
             />
             <Form.Control.Feedback type="invalid">{errors.death_date}</Form.Control.Feedback>
           </Form.Group>
-          <Form.Group className="mt-4">
-            <Button id="form-submit-button" variant="warning" type="submit" className="me-2">{isSubmitting ? <Spinner /> : (person?.id ? "Update" : "Create")}</Button>
-            <Button variant="secondary" type="button" onClick={handleHide}>Cancel</Button>
-          </Form.Group>
+          <div className="d-flex justify-content-end mt-4">
+            <Button variant="secondary" type="button" onClick={handleHide} className="me-2">Cancel</Button>
+            <Button variant="success" type="submit" disabled={isSubmitting}>
+              {isSubmitting ? <Spinner as="span" size="sm" /> : (person?.id ? "Update" : "Create")}
+            </Button>
+          </div>
         </Form>
       </Modal.Body>
     </Modal>

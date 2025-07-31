@@ -2,7 +2,7 @@ import AuthModal from "../components/modals/AuthModal";
 import axios from "axios";
 import { Container, Image, Nav, Navbar } from "react-bootstrap";
 import MediaForm from "../components/modals/MediaForm";
-import { NavLink, Outlet, useLocation } from "react-router-dom";
+import { NavLink, Outlet, useLocation, useNavigate } from "react-router-dom";
 import PersonForm from "../components/modals/PersonForm";
 import { unauthenticated } from "../slices/authSlice";
 import { useDispatch, useSelector } from "react-redux";
@@ -14,6 +14,7 @@ function ApplicationLayout() {
   const dispatch = useDispatch();
   const { isAdmin, isAuthenticated, user } = useSelector(state => state.auth);
   const location = useLocation();
+  const navigate = useNavigate();
   const [showAuthModal, setShowAuthModal] = useState(false);
   const [showMediaModal, setShowMediaModal] = useState(false);
   const [showPersonModal, setShowPersonModal] = useState(false);
@@ -32,6 +33,11 @@ function ApplicationLayout() {
     setShowAuthModal(true);
   }
 
+  function handleChangeScaleClick() {
+    setAuthAction("change");
+    setShowAuthModal(true);
+  }
+
   function handleAddMediaClick() {
     setShowMediaModal(true);
   }
@@ -44,6 +50,7 @@ function ApplicationLayout() {
     axios.post("/api/auth/logout")
       .then(response => {
         dispatch(unauthenticated());
+        navigate("/");
       })
       .catch(error => {
       });
@@ -51,38 +58,48 @@ function ApplicationLayout() {
 
   return (
     <div id="background" className="min-vh-100">
-      <Container id="container" className="min-vh-100 d-flex flex-column">
-        <div id="header">
-          <div className="text-center py-5 px-3">
-            <Image src="mainstream.jpg" fluid/>
-            {!!user && 
-              <div className="text-center text-white py-2 fw-bold bg-secondary">Logged in under {isAdmin && <span>Admin</span>}</div>
+      <Container id="container" className="min-vh-100 d-flex flex-column px-0">
+        <header id="header">
+          <div className="text-center py-4">
+            <Image src="mainstream.jpg" fluid style={{ maxHeight: "150px", borderRadius: "8px" }}/>
+            {!!user &&
+              <div className="text-center text-white-50 py-2 fw-bold small mt-3">Logged in as: {user.email} {isAdmin && <span>(Admin)</span>}</div>
             }
           </div>
-          <Navbar className="justify-content-between bg-secondary">
-            <Nav className="bg-secondary">
-              <Nav.Link as={NavLink} to="/">Home</Nav.Link>
-              <Nav.Link as={NavLink} to="/media">Films & Shows</Nav.Link>
-              {isAdmin && <Nav.Link as={NavLink} to="/people">Cast & Crew</Nav.Link>}
-            </Nav>
-            <Nav className="bg-secondary justify-content-end">
-              {isAdmin && <Nav.Link onClick={handleAddMediaClick}>Add Film/Show/Season</Nav.Link>}
-              {isAdmin && <Nav.Link onClick={handleAddPersonClick}>Add Cast/Crew Member</Nav.Link>}
-              {isAuthenticated ?
-                <Nav.Link onClick={handleLogoutClick}>Log out</Nav.Link>
-                :
-                <>
-                  <Nav.Link onClick={handleLoginClick}>Log in</Nav.Link>
-                  <Nav.Link onClick={handleRegisterClick}>Register</Nav.Link>
-                </>
-              }
-            </Nav>
+          <Navbar expand="lg" className="justify-content-between sticky-top" bg="dark" variant="dark">
+             <Container>
+              <Navbar.Toggle aria-controls="basic-navbar-nav" />
+              <Navbar.Collapse id="basic-navbar-nav">
+                <Nav className="me-auto">
+                    <Nav.Link as={NavLink} to="/">Home</Nav.Link>
+                    {isAuthenticated && <Nav.Link as={NavLink} to="/media">Films & Shows</Nav.Link>}
+                    {isAdmin && <Nav.Link as={NavLink} to="/people">Cast & Crew</Nav.Link>}
+                </Nav>
+                <Nav>
+                  {isAdmin && <Nav.Link onClick={handleAddMediaClick}>Add Media</Nav.Link>}
+                  {isAdmin && <Nav.Link onClick={handleAddPersonClick}>Add Person</Nav.Link>}
+                  {isAuthenticated ?
+                    <>
+                      <Nav.Link onClick={handleChangeScaleClick}>Change Rating Scale</Nav.Link>
+                      <Nav.Link onClick={handleLogoutClick}>Log Out</Nav.Link>
+                    </>
+                    :
+                    <>
+                      <Nav.Link onClick={handleLoginClick}>Log In</Nav.Link>
+                      <Nav.Link onClick={handleRegisterClick}>Register</Nav.Link>
+                    </>
+                  }
+                </Nav>
+              </Navbar.Collapse>
+            </Container>
           </Navbar>
-        </div>
-        <div id="body" className="px-2 py-3 mt-0 flex-grow-1 bg-black">
+        </header>
+
+        <main id="body" className="px-3 py-4 flex-grow-1">
           <Outlet />
-        </div>
-        <AuthModal show={showAuthModal} action={authAction} setShow={setShowAuthModal} />
+        </main>
+
+        <AuthModal show={showAuthModal} action={authAction} setShow={setShowAuthModal}  />
         <MediaForm show={showMediaModal} setShow={setShowMediaModal} />
         <PersonForm show={showPersonModal} setShow={setShowPersonModal} />
       </Container>
