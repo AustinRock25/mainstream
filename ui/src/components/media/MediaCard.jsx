@@ -6,6 +6,8 @@ import { useSelector } from "react-redux";
 
 function MediaCard ({media}) {
   const { isAdmin, user } = useSelector(state => state.auth);
+  const [pillColor, setPillColor] = useState("");
+  const [pillText, setPillText] = useState("");
   const [seasonCount, setSeasonCount] = useState(0);
   const [showMediaModal, setShowMediaModal] = useState(false);
 
@@ -14,13 +16,26 @@ function MediaCard ({media}) {
   }
 
   useEffect(() => {
-    if (media.type === 'show') {
+    if (media.type === "show") {
       axios.get("/api/media/seasons", { params: { id: media.id } })
       .then(response => {
         setSeasonCount(response.data[0].count);
       })
       .catch(error => {
       });
+    }
+
+    if (media.grade <= 39) {
+      setPillColor("danger");
+      setPillText("text-white");
+    }
+    else if (media.grade <= 60) {
+      setPillColor("warning");
+      setPillText("text-black");
+    }
+    else {
+      setPillColor("success");
+      setPillText("text-white");
     }
   }, [media.id, media.type]);
 
@@ -29,12 +44,12 @@ function MediaCard ({media}) {
       return [];
 
     people.sort((a, b) => (a.ordering > b.ordering ? 1 : -1));
-    return people.map(p => `${p.name}${p.death_date ? '†' : ''}`);
+    return people.map(p => `${p.name}${p.death_date ? "†" : ""}`);
   };
 
   const combineDirectorsAndWriters = (media) => {
-    const directorIds = (media.directors || media.directors_tv || []).map(d => d.director_id).sort().join(',');
-    const writerIds = (media.writers || media.writers_tv || []).map(w => w.writer_id).sort().join(',');
+    const directorIds = (media.directors || media.directors_tv || []).map(d => d.director_id).sort().join(",");
+    const writerIds = (media.writers || media.writers_tv || []).map(w => w.writer_id).sort().join(",");
     return directorIds && writerIds && directorIds === writerIds;
   };
   
@@ -67,22 +82,22 @@ function MediaCard ({media}) {
       return startYear;
 
     const endYear = new Date(end).getFullYear();
-    if (startYear === endYear) return startYear;
+
+    if (startYear === endYear)
+      return startYear;
+
     return `${startYear}–${String(endYear).slice(-2)}`;
   };
   
-  const getTitle = (media) => {
-    if (media.type === "movie")
-        return `(${new Date(media.release_date).getFullYear()})`;
-
-    if (media.type === "show") {
-      if (seasonCount === 1 && media.completed)
+  const getYear = (media) => {
+    if (media.type !== "show")
+      return `(${new Date(media.release_date).getFullYear()})`;
+    else {
+      if (seasonCount == 1 && media.completed == true)
         return `(${getYearRange(media.start_date, media.end_date)})`;
-
-      return `Season ${media.season} (${getYearRange(media.start_date, media.end_date)})`;
+      else
+        return `Season ${media.season} (${getYearRange(media.start_date, media.end_date)})`;
     }
-
-    return '';
   };
 
   const getGrade = (media) => {
@@ -98,13 +113,13 @@ function MediaCard ({media}) {
         return "1/4";
       else if (media.grade <= 44)
         return "1.5/4";
-      else if (media.grade <= 55)
+      else if (media.grade <= 56)
         return "2/4";
-      else if (media.grade <= 66)
+      else if (media.grade <= 67)
         return "2.5/4";
-      else if (media.grade <= 77)
+      else if (media.grade <= 78)
         return "3/4";
-      else if (media.grade <= 88)
+      else if (media.grade <= 89)
         return "3.5/4";
       else
         return "4/4";
@@ -120,41 +135,41 @@ function MediaCard ({media}) {
         return "1.5/5";
       else if (media.grade <= 45)
         return "2/5";
-      else if (media.grade <= 54)
+      else if (media.grade <= 55)
         return "2.5/5";
-      else if (media.grade <= 63)
+      else if (media.grade <= 64)
         return "3/5";
-      else if (media.grade <= 72)
+      else if (media.grade <= 73)
         return "3.5/5";
-      else if (media.grade <= 81)
+      else if (media.grade <= 82)
         return "4/5";
-      else if (media.grade <= 90)
+      else if (media.grade <= 91)
         return "4.5/5";
       else
         return "5/5";
     }
     else if (user.rating_scale == 3) {
-      if (media.grade <= 19)
+      if (media.grade <= 18)
         return "F";
-      else if (media.grade <= 26)
+      else if (media.grade <= 24)
         return "D-";
       else if (media.grade <= 32)
         return "D";
-      else if (media.grade <= 39)
+      else if (media.grade <= 38)
         return "D+";
-      else if (media.grade <= 46)
+      else if (media.grade <= 44)
         return "C-";
       else if (media.grade <= 52)
         return "C";
-      else if (media.grade <= 59)
+      else if (media.grade <= 58)
         return "C+";
-      else if (media.grade <= 66)
+      else if (media.grade <= 64)
         return "B-";
       else if (media.grade <= 72)
         return "B";
-      else if (media.grade <= 79)
+      else if (media.grade <= 78)
         return "B+";
-      else if (media.grade <= 86)
+      else if (media.grade <= 84)
         return "A-";
       else if (media.grade <= 92)
         return "A";
@@ -168,23 +183,22 @@ function MediaCard ({media}) {
       <Card className="h-100">
         <Card.Img 
           variant="top" 
-          src={media.type === 'movie' ? `posters/${media.poster}_poster.jpg` : `posters/${media.poster}-season-${media.season}_poster.jpg`}
+          src={media.type !== "show" ? `posters/${media.poster}_poster.jpg` : `posters/${media.poster}-season-${media.season}_poster.jpg`}
           alt={`Poster for ${media.title}`} 
           fluid
         />
         <Card.Body className="d-flex flex-column">
           <Card.Title className="h6">
-            <span className="fw-normal text-white-50"><i>{media.title}</i> {getTitle(media)}</span>
+            <span className="fw-normal text-white-50"><i>{media.title}</i> {getYear(media)}</span>
           </Card.Title>
           
           <Stack direction="horizontal" gap={2} className="mt-2 mb-3">
-            <Badge bg="success" pill>{getGrade(media)}</Badge>
-            <Badge bg="secondary" pill>{media.rating}</Badge>
-            {media.type === 'movie' && <Badge bg="dark" pill>{time(media.runtime)}</Badge>}
-            {media.type === 'show' && <Badge bg="dark" pill>{media.episodes} eps</Badge>}
+            <Badge bg={pillColor} className={pillText} pill>{getGrade(media)}</Badge>
+            <Badge bg="secondary" pill>{media.rating == "Not Rated" ? "NR" : media.rating}</Badge>
+            {media.type !== "show" ? <Badge bg="dark" pill>{time(media.runtime)}</Badge> : <Badge bg="dark" pill>{media.episodes} eps</Badge>}
           </Stack>
 
-          <div className="small text-white-50" style={{fontSize: '0.8rem'}}>
+          <div className="small text-white-50" style={{fontSize: "0.8rem"}}>
             {creators.length > 0 && (
               <div className="mb-1">
                 <b>Created by</b>

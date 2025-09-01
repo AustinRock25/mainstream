@@ -103,7 +103,7 @@ function Media() {
 
     {isLoading
       ?
-      <div className="d-flex justify-content-center align-items-center" style={{minHeight: '40vh'}}>
+      <div className="d-flex justify-content-center align-items-center" style={{minHeight: "40vh"}}>
         <Spinner animation="border" role="status">
           <span className="visually-hidden">Loading...</span>
         </Spinner>

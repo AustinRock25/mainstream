@@ -67,36 +67,36 @@ const index = (req, res) => {
       JOIN media m ON m.id = s.show_id
       GROUP BY scm.actor_id
     ), CreatorCredits AS (
-        SELECT
-          c.creator_id,
-          json_agg(json_build_object('id', m.id, 'title', m.title, 'start_date', s.start_date, 'end_date', s.end_date)) AS credited_as_creator
-        FROM media_creators c
-        JOIN seasons s ON s.show_id = c.show_id
-        JOIN media m ON m.id = s.show_id
-        GROUP BY c.creator_id, m.id, s.start_date, s.end_date
+      SELECT
+        c.creator_id,
+        json_agg(json_build_object('id', m.id, 'title', m.title, 'start_date', s.start_date, 'end_date', s.end_date)) AS credited_as_creator
+      FROM media_creators c
+      JOIN seasons s ON s.show_id = c.show_id
+      JOIN media m ON m.id = s.show_id
+      GROUP BY c.creator_id
     ), NumberedRecords AS (
-        SELECT 
-          ROW_NUMBER() OVER (ORDER BY p.birth_date ASC, p.name ASC) AS RowNum,
-          p.id, 
-          p.name, 
-          p.birth_date, 
-          p.death_date,
-          d.credited_as_director,
-          dtv.credited_as_director_tv,
-          w.credited_as_writer,
-          wtv.credited_as_writer_tv,
-          c.credited_as_cast_member,
-          ctv.credited_as_cast_member_tv,
-          cr.credited_as_creator
-        FROM people p
-        LEFT JOIN DirectorCredits d ON p.id = d.director_id
-        LEFT JOIN DirectorTVCredits dtv ON p.id = dtv.director_id
-        LEFT JOIN WriterCredits w ON p.id = w.writer_id
-        LEFT JOIN WriterTVCredits wtv ON p.id = wtv.writer_id
-        LEFT JOIN CastCredits c ON p.id = c.actor_id
-        LEFT JOIN CastTVCredits ctv ON p.id = ctv.actor_id
-        LEFT JOIN CreatorCredits cr ON p.id = cr.creator_id
-        ${searchSystem}
+      SELECT 
+        ROW_NUMBER() OVER (ORDER BY p.birth_date ASC, p.name ASC) AS RowNum,
+        p.id, 
+        p.name, 
+        p.birth_date, 
+        p.death_date,
+        d.credited_as_director,
+        dtv.credited_as_director_tv,
+        w.credited_as_writer,
+        wtv.credited_as_writer_tv,
+        c.credited_as_cast_member,
+        ctv.credited_as_cast_member_tv,
+        cr.credited_as_creator
+      FROM people p
+      LEFT JOIN DirectorCredits d ON p.id = d.director_id
+      LEFT JOIN DirectorTVCredits dtv ON p.id = dtv.director_id
+      LEFT JOIN WriterCredits w ON p.id = w.writer_id
+      LEFT JOIN WriterTVCredits wtv ON p.id = wtv.writer_id
+      LEFT JOIN CastCredits c ON p.id = c.actor_id
+      LEFT JOIN CastTVCredits ctv ON p.id = ctv.actor_id
+      LEFT JOIN CreatorCredits cr ON p.id = cr.creator_id
+      ${searchSystem}
     )
     SELECT * FROM NumberedRecords
     WHERE RowNum BETWEEN $1 AND $2;
@@ -195,7 +195,7 @@ const indexSelect = (req, res) => {
           FROM media_creators c
           JOIN seasons s ON s.show_id = c.show_id
           JOIN media m ON m.id = s.show_id
-          GROUP BY c.creator_id, m.id, s.start_date, s.end_date
+          GROUP BY c.creator_id
       ), Records AS (
           SELECT
             p.id, 

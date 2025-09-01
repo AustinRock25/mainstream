@@ -11,6 +11,8 @@ function MediaForm({ show, setShow, media }) {
   const [isLoading, setIsLoading] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const navigate = useNavigate();
+  const [pillColor, setPillColor] = useState("danger");
+  const [pillText, setPillText] = useState("text-white");
   const [searchTerm, setSearchTerm] = useState("");
   const [selected, setSelected] = useState([]);
   const [shows, setShows] = useState([]);
@@ -51,8 +53,13 @@ function MediaForm({ show, setShow, media }) {
     allCredits.sort((a, b) => {
       const dateA = new Date(a.release_date || a.start_date);
       const dateB = new Date(b.release_date || b.start_date);
-      if (isNaN(dateA.getTime())) return 1;
-      if (isNaN(dateB.getTime())) return -1;
+
+      if (isNaN(dateA.getTime())) 
+        return 1;
+
+      if (isNaN(dateB.getTime())) 
+        return -1;
+
       return dateA.getTime() - dateB.getTime();
     });
     return allCredits;
@@ -60,19 +67,24 @@ function MediaForm({ show, setShow, media }) {
 
   const filterPeopleByDate = useCallback((people) => {
     const mediaDateStr = formData.release_date || formData.start_date;
+
     if (!mediaDateStr)
       return people;
+
     const mediaDate = new Date(mediaDateStr);
+
     if (isNaN(mediaDate.getTime()))
       return people;
 
     return people.filter(person => {
       const sortedCredits = getSortedCredits(person);
+
       if (sortedCredits.length === 0)
         return true;
 
       const firstCredit = sortedCredits[0];
       const firstCreditDate = new Date(firstCredit.release_date || firstCredit.start_date);
+
       if (isNaN(firstCreditDate.getTime()))
         return true;
         
@@ -80,12 +92,14 @@ function MediaForm({ show, setShow, media }) {
         const deathDate = new Date(person.death_date);
         const limitDate = new Date(deathDate);
         limitDate.setFullYear(limitDate.getFullYear() + 3);
+
         if (mediaDate > limitDate)
           return false;
       }
 
       if (person.birth_date) {
         const birthDate = new Date(person.birth_date);
+
         if (isNaN(birthDate.getTime())) 
           return true;
 
@@ -98,6 +112,7 @@ function MediaForm({ show, setShow, media }) {
       else {
         const limitDate = new Date(firstCreditDate);
         limitDate.setFullYear(limitDate.getFullYear() - 10);
+
         if (mediaDate <= limitDate)
           return false;
       }
@@ -115,9 +130,12 @@ function MediaForm({ show, setShow, media }) {
       const addPerson = (p, role) => {
         if (!p)
           return;
+
         const personId = p.actor_id || p.writer_id || p.director_id || p.creator_id;
+
         if (!peopleMap.has(personId))
           peopleMap.set(personId, { id: personId, name: p.name, creator: false, director: false, writer: false, cast: false });
+        
         if (role)
           peopleMap.get(personId)[role] = true;
       };
@@ -126,6 +144,24 @@ function MediaForm({ show, setShow, media }) {
       (media.writers || media.writers_tv || []).forEach(p => addPerson(p, "writer"));
       (media.cast_members || media.cast_members_tv || []).forEach(p => addPerson(p, "cast"));
       cast = Array.from(peopleMap.values());
+
+      if (!media.grade && !media.grade_tv) {
+        media.grade = 0;
+        media.grade_tv = 0;
+      }
+
+      if (parseInt(media.grade, 10) <= 39 || parseInt(media.grade_tv, 10) <= 39) {
+        setPillColor("danger");
+        setPillText("text-white");
+      }
+      else if (parseInt(media.grade, 10) <= 60 || parseInt(media.grade_tv, 10) <= 60) {
+        setPillColor("warning");
+        setPillText("text-black");
+      }
+      else {
+        setPillColor("success");
+        setPillText("text-white");
+      }
 
       if (user.rating_scale == 1) {
         if (parseInt(media.grade, 10) <= 11 || parseInt(media.grade_tv, 10) <= 11)
@@ -136,13 +172,13 @@ function MediaForm({ show, setShow, media }) {
           grade = 1;
         else if (parseInt(media.grade, 10) <= 44 || parseInt(media.grade_tv, 10) <= 44)
           grade = 1.5;
-        else if (parseInt(media.grade, 10) <= 55 || parseInt(media.grade_tv, 10) <= 55)
+        else if (parseInt(media.grade, 10) <= 56 || parseInt(media.grade_tv, 10) <= 56)
           grade = 2;
-        else if (parseInt(media.grade, 10) <= 66 || parseInt(media.grade_tv, 10) <= 66)
+        else if (parseInt(media.grade, 10) <= 67 || parseInt(media.grade_tv, 10) <= 67)
           grade = 2.5;
-        else if (parseInt(media.grade, 10) <= 77 || parseInt(media.grade_tv, 10) <= 77)
+        else if (parseInt(media.grade, 10) <= 78 || parseInt(media.grade_tv, 10) <= 78)
           grade = 3;
-        else if (parseInt(media.grade, 10) <= 88 || parseInt(media.grade_tv, 10) <= 88)
+        else if (parseInt(media.grade, 10) <= 89 || parseInt(media.grade_tv, 10) <= 89)
           grade = 3.5;
         else
           grade = 4;
@@ -158,41 +194,41 @@ function MediaForm({ show, setShow, media }) {
           grade = 1.5;
         else if (parseInt(media.grade, 10) <= 45 || parseInt(media.grade_tv, 10) <= 45)
           grade = 2;
-        else if (parseInt(media.grade, 10) <= 54 || parseInt(media.grade_tv, 10) <= 54)
+        else if (parseInt(media.grade, 10) <= 55 || parseInt(media.grade_tv, 10) <= 55)
           grade = 2.5;
-        else if (parseInt(media.grade, 10) <= 63 || parseInt(media.grade_tv, 10) <= 63)
+        else if (parseInt(media.grade, 10) <= 64 || parseInt(media.grade_tv, 10) <= 64)
           grade = 3;
-        else if (parseInt(media.grade, 10) <= 72 || parseInt(media.grade_tv, 10) <= 72)
+        else if (parseInt(media.grade, 10) <= 73 || parseInt(media.grade_tv, 10) <= 73)
           grade = 3.5;
-        else if (parseInt(media.grade, 10) <= 81 || parseInt(media.grade_tv, 10) <= 81)
+        else if (parseInt(media.grade, 10) <= 82 || parseInt(media.grade_tv, 10) <= 82)
           grade = 4;
-        else if (parseInt(media.grade, 10) <= 90 || parseInt(media.grade_tv, 10) <= 90)
+        else if (parseInt(media.grade, 10) <= 91 || parseInt(media.grade_tv, 10) <= 91)
           grade = 4.5;
         else
           grade = 5;
       }
       else {
-        if (parseInt(media.grade, 10) <= 19 || parseInt(media.grade_tv, 10) <= 19)
+        if (parseInt(media.grade, 10) <= 18 || parseInt(media.grade_tv, 10) <= 18)
           grade = 0;
-        else if (parseInt(media.grade, 10) <= 26 || parseInt(media.grade_tv, 10) <= 26)
+        else if (parseInt(media.grade, 10) <= 24 || parseInt(media.grade_tv, 10) <= 24)
           grade = 1;
         else if (parseInt(media.grade, 10) <= 32 || parseInt(media.grade_tv, 10) <= 32)
           grade = 2;
-        else if (parseInt(media.grade, 10) <= 39 || parseInt(media.grade_tv, 10) <= 39)
+        else if (parseInt(media.grade, 10) <= 38 || parseInt(media.grade_tv, 10) <= 38)
           grade = 3;
-        else if (parseInt(media.grade, 10) <= 46 || parseInt(media.grade_tv, 10) <= 46)
+        else if (parseInt(media.grade, 10) <= 44 || parseInt(media.grade_tv, 10) <= 44)
           grade = 4;
         else if (parseInt(media.grade, 10) <= 52 || parseInt(media.grade_tv, 10) <= 52)
           grade = 5;
-        else if (parseInt(media.grade, 10) <= 59 || parseInt(media.grade_tv, 10) <= 59)
+        else if (parseInt(media.grade, 10) <= 58 || parseInt(media.grade_tv, 10) <= 58)
           grade = 6;
-        else if (parseInt(media.grade, 10) <= 66 || parseInt(media.grade_tv, 10) <= 66)
+        else if (parseInt(media.grade, 10) <= 64 || parseInt(media.grade_tv, 10) <= 64)
           grade = 7;
         else if (parseInt(media.grade, 10) <= 72 || parseInt(media.grade_tv, 10) <= 72)
           grade = 8;
-        else if (parseInt(media.grade, 10) <= 79 || parseInt(media.grade_tv, 10) <= 79)
+        else if (parseInt(media.grade, 10) <= 78 || parseInt(media.grade_tv, 10) <= 78)
           grade = 9;
-        else if (parseInt(media.grade, 10) <= 86 || parseInt(media.grade_tv, 10) <= 86)
+        else if (parseInt(media.grade, 10) <= 84 || parseInt(media.grade_tv, 10) <= 84)
           grade = 10;
         else if (parseInt(media.grade, 10) <= 92 || parseInt(media.grade_tv, 10) <= 92)
           grade = 11;
@@ -241,6 +277,7 @@ function MediaForm({ show, setShow, media }) {
       setCastAndCrew([]);
       return;
     }
+
     setIsLoading(true);
     axios.get("/api/people/select", { params: { searchTerm } })
     .then(response => {
@@ -267,6 +304,19 @@ function MediaForm({ show, setShow, media }) {
     if (key === "type") {
       setFormData({ ...initialFormData, type: value });
       setSelected([]);
+    }
+
+    if (key === "grade" && ((user.rating_scale == 1 && newValue <= 1.5) || (user.rating_scale == 2 && newValue <= 1.5) || (user.rating_scale == 3 && newValue <= 3))) {
+      setPillColor("danger");
+      setPillText("text-white");
+    }
+    else if (key === "grade" && ((user.rating_scale == 1 && newValue == 2) || (user.rating_scale == 2 && newValue <= 3) || (user.rating_scale == 3 && newValue <= 6))) {
+      setPillColor("warning");
+      setPillText("text-black");
+    }
+    else if (key === "grade"){
+      setPillColor("success");
+      setPillText("text-white");
     }
   };
 
@@ -330,77 +380,37 @@ function MediaForm({ show, setShow, media }) {
     e.preventDefault();
     setIsSubmitting(true);
 
-    if (user.rating_scale == 1) {
-      if (formData.grade == 0)
-        formData.grade = 6;
-      else if (formData.grade == 0.5)
-        formData.grade = 17;
-      else if (formData.grade == 1)
-        formData.grade = 28;
-      else if (formData.grade == 1.5)
-        formData.grade = 39;
-      else if (formData.grade == 2)
-        formData.grade = 50;
-      else if (formData.grade == 2.5)
-        formData.grade = 61;
-      else if (formData.grade == 3)
-        formData.grade = 72;
-      else if (formData.grade == 3.5)
-        formData.grade = 83;
-      else
-        formData.grade = 94;
-    }
-    else if (user.rating_scale == 2) {
-      if (formData.grade == 0)
-        formData.grade = 5;
-      else if (formData.grade == 0.5)
-        formData.grade = 14;
-      else if (formData.grade == 1)
-        formData.grade = 23;
-      else if (formData.grade == 1.5)
-        formData.grade = 32;
-      else if (formData.grade == 2)
-        formData.grade = 41;
-      else if (formData.grade == 2.5)
-        formData.grade = 50;
-      else if (formData.grade == 3)
-        formData.grade = 59;
-      else if (formData.grade == 3.5)
-        formData.grade = 68;
-      else if (formData.grade == 4)
-        formData.grade = 77;
-      else if (formData.grade == 4.5)
-        formData.grade = 86;
-      else
-        formData.grade = 95;
-    }
+    if (user.rating_scale == 1)
+      formData.grade = Math.round((formData.grade / 4) * 100);
+    else if (user.rating_scale == 2)
+      formData.grade = Math.round((formData.grade / 5) * 100);
     else {
       if (formData.grade == 0)
-        formData.grade = 10;
+        formData.grade = 0;
       else if (formData.grade == 1)
-        formData.grade = 23;
+        formData.grade = 22;
       else if (formData.grade == 2)
-        formData.grade = 30;
+        formData.grade = 29;
       else if (formData.grade == 3)
         formData.grade = 36;
       else if (formData.grade == 4)
-        formData.grade = 43;
+        formData.grade = 42;
       else if (formData.grade == 5)
-        formData.grade = 50;
+        formData.grade = 49;
       else if (formData.grade == 6)
         formData.grade = 56;
       else if (formData.grade == 7)
-        formData.grade = 63;
+        formData.grade = 62;
       else if (formData.grade == 8)
-        formData.grade = 70;
+        formData.grade = 69;
       else if (formData.grade == 9)
         formData.grade = 76;
       else if (formData.grade == 10)
-        formData.grade = 83;
+        formData.grade = 82;
       else if (formData.grade == 11)
-        formData.grade = 90;
+        formData.grade = 89;
       else
-        formData.grade = 96;
+        formData.grade = 97;
     }
 
     const payload = { ...formData, castAndCrew: selected };
@@ -502,7 +512,7 @@ function MediaForm({ show, setShow, media }) {
             <>
               <hr/>
                 <Form.Group as={Row} className="mb-3">
-                  <Form.Label column sm={3}>Grade: <Badge bg="success">{getGrade(formData.grade)}</Badge></Form.Label>
+                  <Form.Label column sm={3}>Grade: <Badge bg={pillColor} className={pillText}>{getGrade(formData.grade)}</Badge></Form.Label>
                   {user.rating_scale == 1 && <Col sm={9}><Form.Range min="0" max="4" step="0.5" value={formData.grade} onChange={(e) => handleChange(e, "grade")} /></Col>}
                   {user.rating_scale == 2 && <Col sm={9}><Form.Range min="0" max="5" step="0.5" value={formData.grade} onChange={(e) => handleChange(e, "grade")} /></Col>}
                   {user.rating_scale == 3 && <Col sm={9}><Form.Range min="0" max="12" step="1" value={formData.grade} onChange={(e) => handleChange(e, "grade")} /></Col>}
@@ -517,7 +527,7 @@ function MediaForm({ show, setShow, media }) {
                       <Form.Label column sm={3}>Rating</Form.Label>
                       <Col sm={9}>
                         <Form.Select value={formData.rating} isInvalid={!!errors.rating} onChange={(e) => handleChange(e, "rating")}>
-                          {["Not Rated", "G", "PG", "PG-13", "R", "NC-17", "TV-Y", "TV-Y7", "TV-Y7 FV", "TV-G", "TV-PG", "TV-14", "TV-MA"].map(r => <option key={r} value={r}>{r}</option>)}
+                          {formData.type !== "movie" ? ["Not Rated", "TV-Y", "TV-Y7", "TV-Y7 FV", "TV-G", "TV-PG", "TV-14", "TV-MA"].map(r => <option key={r} value={r}>{r}</option>) : ["Not Rated", "G", "PG", "PG-13", "R", "NC-17", "TV-Y", "TV-Y7", "TV-Y7 FV", "TV-G", "TV-PG", "TV-14", "TV-MA"].map(r => <option key={r} value={r}>{r}</option>)}
                         </Form.Select>
                       </Col>
                     </Form.Group>
