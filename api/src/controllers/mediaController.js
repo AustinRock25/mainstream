@@ -22,7 +22,7 @@ const index = (req, res) => {
   
   const sql = `
     WITH NumberedRecords AS (
-      SELECT ROW_NUMBER() OVER (ORDER BY COALESCE(m.release_date, s.end_date) DESC, m.title ASC) AS RowNum, m.id, m.title, m.grade, m.release_date, m.rating, m.poster, m.runtime, m.completed, m.type, s.season, s.grade AS grade_tv, s.episodes, s.start_date, s.end_date, directors, directors_tv, cast_members, cast_members_tv, writers, writers_tv, creators
+      SELECT ROW_NUMBER() OVER (ORDER BY COALESCE(m.release_date, s.start_date) DESC, m.title ASC) AS RowNum, m.id, m.title, m.grade, m.release_date, m.rating, m.poster, m.runtime, m.completed, m.type, s.season, s.grade AS grade_tv, s.episodes, s.start_date, s.end_date, directors, directors_tv, cast_members, cast_members_tv, writers, writers_tv, creators
       FROM media m
       LEFT JOIN seasons s ON m.id = s.show_id
       LEFT JOIN LATERAL (
