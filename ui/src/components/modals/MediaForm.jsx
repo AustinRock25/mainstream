@@ -41,8 +41,7 @@ function MediaForm({ show, setShow, media }) {
     const creditTypes = [
         "credited_as_director", "credited_as_director_tv",
         "credited_as_writer", "credited_as_writer_tv",
-        "credited_as_cast_member", "credited_as_cast_member_tv",
-        "credited_as_creator"
+        "credited_as_cast_member", "credited_as_cast_member_tv"
     ];
 
     creditTypes.forEach(type => {
@@ -125,21 +124,20 @@ function MediaForm({ show, setShow, media }) {
   const loadExistingData = useCallback(() => {
     if (media?.id) {
       let cast = [];
-      let grade;
+      let grade = null;
       const peopleMap = new Map();
       const addPerson = (p, role) => {
         if (!p)
           return;
 
-        const personId = p.actor_id || p.writer_id || p.director_id || p.creator_id;
+        const personId = p.actor_id || p.writer_id || p.director_id;
 
         if (!peopleMap.has(personId))
-          peopleMap.set(personId, { id: personId, name: p.name, creator: false, director: false, writer: false, cast: false });
+          peopleMap.set(personId, { id: personId, name: p.name, director: false, writer: false, cast: false });
         
         if (role)
           peopleMap.get(personId)[role] = true;
       };
-      (media.creators || []).forEach(p => addPerson(p, "creator"));
       (media.directors || media.directors_tv || []).forEach(p => addPerson(p, "director"));
       (media.writers || media.writers_tv || []).forEach(p => addPerson(p, "writer"));
       (media.cast_members || media.cast_members_tv || []).forEach(p => addPerson(p, "cast"));
@@ -150,90 +148,145 @@ function MediaForm({ show, setShow, media }) {
         media.grade_tv = 0;
       }
 
-      if (parseInt(media.grade, 10) <= 39 || parseInt(media.grade_tv, 10) <= 39) {
-        setPillColor("danger");
-        setPillText("text-white");
-      }
-      else if (parseInt(media.grade, 10) <= 60 || parseInt(media.grade_tv, 10) <= 60) {
-        setPillColor("warning");
-        setPillText("text-black");
-      }
-      else {
-        setPillColor("success");
-        setPillText("text-white");
-      }
+      if (!media.grade)
+        media.grade = media.grade_tv;
 
       if (user.rating_scale == 1) {
-        if (parseInt(media.grade, 10) <= 11 || parseInt(media.grade_tv, 10) <= 11)
+        if (media.grade < (25/4))
           grade = 0;
-        else if (parseInt(media.grade, 10) <= 22 || parseInt(media.grade_tv, 10) <= 22)
+        else if (media.grade < (75/4))
           grade = 0.5;
-        else if (parseInt(media.grade, 10) <= 33 || parseInt(media.grade_tv, 10) <= 33)
+        else if (media.grade < (125/4))
           grade = 1;
-        else if (parseInt(media.grade, 10) <= 44 || parseInt(media.grade_tv, 10) <= 44)
+        else if (media.grade < (175/4))
           grade = 1.5;
-        else if (parseInt(media.grade, 10) <= 56 || parseInt(media.grade_tv, 10) <= 56)
+        else if (media.grade < (225/4))
           grade = 2;
-        else if (parseInt(media.grade, 10) <= 67 || parseInt(media.grade_tv, 10) <= 67)
+        else if (media.grade < (275/4))
           grade = 2.5;
-        else if (parseInt(media.grade, 10) <= 78 || parseInt(media.grade_tv, 10) <= 78)
+        else if (media.grade < (325/4))
           grade = 3;
-        else if (parseInt(media.grade, 10) <= 89 || parseInt(media.grade_tv, 10) <= 89)
+        else if (media.grade < (375/4))
           grade = 3.5;
         else
           grade = 4;
+
+        if (grade <= 1.5) {
+          setPillColor("danger");
+          setPillText("text-white");
+        }
+        else if (grade == 2) {
+          setPillColor("warning");
+          setPillText("text-black");
+        }
+        else {
+          setPillColor("success");
+          setPillText("text-white");
+        }
       }
       else if (user.rating_scale == 2) {
-        if (parseInt(media.grade, 10) <= 9 || parseInt(media.grade_tv, 10) <= 9)
+        if (media.grade < (25/5))
           grade = 0;
-        else if (parseInt(media.grade, 10) <= 18 || parseInt(media.grade_tv, 10) <= 18)
+        else if (media.grade < (75/5))
           grade = 0.5;
-        else if (parseInt(media.grade, 10) <= 27 || parseInt(media.grade_tv, 10) <= 27)
+        else if (media.grade < (125/5))
           grade = 1;
-        else if (parseInt(media.grade, 10) <= 36 || parseInt(media.grade_tv, 10) <= 36)
+        else if (media.grade < (175/5))
           grade = 1.5;
-        else if (parseInt(media.grade, 10) <= 45 || parseInt(media.grade_tv, 10) <= 45)
+        else if (media.grade < (225/5))
           grade = 2;
-        else if (parseInt(media.grade, 10) <= 55 || parseInt(media.grade_tv, 10) <= 55)
+        else if (media.grade < (275/5))
           grade = 2.5;
-        else if (parseInt(media.grade, 10) <= 64 || parseInt(media.grade_tv, 10) <= 64)
+        else if (media.grade < (325/5))
           grade = 3;
-        else if (parseInt(media.grade, 10) <= 73 || parseInt(media.grade_tv, 10) <= 73)
+        else if (media.grade < (375/5))
           grade = 3.5;
-        else if (parseInt(media.grade, 10) <= 82 || parseInt(media.grade_tv, 10) <= 82)
+        else if (media.grade < (425/5))
           grade = 4;
-        else if (parseInt(media.grade, 10) <= 91 || parseInt(media.grade_tv, 10) <= 91)
+        else if (media.grade < (475/5))
           grade = 4.5;
         else
           grade = 5;
+
+        if (grade <= 1.5) {
+          setPillColor("danger");
+          setPillText("text-white");
+        }
+        else if (grade <= 3) {
+          setPillColor("warning");
+          setPillText("text-black");
+        }
+        else {
+          setPillColor("success");
+          setPillText("text-white");
+        }
       }
-      else {
-        if (parseInt(media.grade, 10) <= 18 || parseInt(media.grade_tv, 10) <= 18)
+      else if (user.rating_scale == 3) {
+        if (media.grade < (150/13))
           grade = 0;
-        else if (parseInt(media.grade, 10) <= 24 || parseInt(media.grade_tv, 10) <= 24)
+        else if (media.grade < (250/13))
           grade = 1;
-        else if (parseInt(media.grade, 10) <= 32 || parseInt(media.grade_tv, 10) <= 32)
+        else if (media.grade < (350/13))
           grade = 2;
-        else if (parseInt(media.grade, 10) <= 38 || parseInt(media.grade_tv, 10) <= 38)
+        else if (media.grade < (450/13))
           grade = 3;
-        else if (parseInt(media.grade, 10) <= 44 || parseInt(media.grade_tv, 10) <= 44)
+        else if (media.grade < (550/13))
           grade = 4;
-        else if (parseInt(media.grade, 10) <= 52 || parseInt(media.grade_tv, 10) <= 52)
+        else if (media.grade < (650/13))
           grade = 5;
-        else if (parseInt(media.grade, 10) <= 58 || parseInt(media.grade_tv, 10) <= 58)
+        else if (media.grade < (750/13))
           grade = 6;
-        else if (parseInt(media.grade, 10) <= 64 || parseInt(media.grade_tv, 10) <= 64)
+        else if (media.grade < (850/13))
           grade = 7;
-        else if (parseInt(media.grade, 10) <= 72 || parseInt(media.grade_tv, 10) <= 72)
+        else if (media.grade < (950/13))
           grade = 8;
-        else if (parseInt(media.grade, 10) <= 78 || parseInt(media.grade_tv, 10) <= 78)
+        else if (media.grade < (1050/13))
           grade = 9;
-        else if (parseInt(media.grade, 10) <= 84 || parseInt(media.grade_tv, 10) <= 84)
+        else if (media.grade < (1150/13))
           grade = 10;
-        else if (parseInt(media.grade, 10) <= 92 || parseInt(media.grade_tv, 10) <= 92)
+        else if (media.grade < (1250/13))
           grade = 11;
         else
           grade = 12;
+
+        if (grade <= 3) {
+          setPillColor("danger");
+          setPillText("text-white");
+        }
+        else if (grade <= 6) {
+          setPillColor("warning");
+          setPillText("text-black");
+        }
+        else {
+          setPillColor("success");
+          setPillText("text-white");
+        }
+      }
+      else {
+        if (media.grade < (50/9))
+          grade = 0;
+        else if (media.grade < (150/9))
+          grade = 1;
+        else if (media.grade < (250/9))
+          grade = 2;
+        else if (media.grade < (350/9))
+          grade = 3;
+        else if (media.grade < (450/9))
+          grade = 4;
+        else if (media.grade < (550/9))
+          grade = 5;
+        else if (media.grade < (650/9))
+          grade = 6;
+        else if (media.grade < (750/9))
+          grade = 7;
+        else if (media.grade < (850/9))
+          grade = 8;
+        else
+          grade = 9;
+
+        
+        setPillColor("primary");
+        setPillText("text-white");
       }
 
       setFormData({
@@ -306,26 +359,31 @@ function MediaForm({ show, setShow, media }) {
       setSelected([]);
     }
 
-    if (key === "grade" && ((user.rating_scale == 1 && newValue <= 1.5) || (user.rating_scale == 2 && newValue <= 1.5) || (user.rating_scale == 3 && newValue <= 3))) {
+    if (key === "grade" && ((user.rating_scale == 1 && newValue <= 1.5) || (user.rating_scale == 2 && newValue <= 1.5) || (user.rating_scale == 3 && newValue <= 3) || (user.rating_scale == 4 && newValue <= 2))) {
       setPillColor("danger");
       setPillText("text-white");
     }
-    else if (key === "grade" && ((user.rating_scale == 1 && newValue == 2) || (user.rating_scale == 2 && newValue <= 3) || (user.rating_scale == 3 && newValue <= 6))) {
+    else if (key === "grade" && ((user.rating_scale == 1 && newValue == 2) || (user.rating_scale == 2 && newValue <= 3) || (user.rating_scale == 3 && newValue <= 6) || (user.rating_scale == 4 && newValue <= 5))) {
       setPillColor("warning");
       setPillText("text-black");
     }
-    else if (key === "grade"){
+    else if (key === "grade" && user.rating_scale != 4) {
       setPillColor("success");
+      setPillText("text-white");
+    }
+    else if (key === "grade") {
+      setPillColor("primary");
       setPillText("text-white");
     }
   };
 
   const handleSelectPerson = (person) => {
-    setSelected([...selected, { ...person, creator: false, director: false, writer: false, cast: false }]);
+    setSelected([...selected, { ...person, director: false, writer: false, cast: false }]);
     setCastAndCrew(castAndCrew.filter(p => p.id !== person.id));
   };
 
   const handleRemovePerson = (person) => {
+    console.log(selected.filter(p => p.id !== person.id));
     setSelected(selected.filter(p => p.id !== person.id));
   };
 
@@ -346,7 +404,7 @@ function MediaForm({ show, setShow, media }) {
       return grade + "/4";
     else if (user.rating_scale == 2)
       return grade + "/5";
-    else {
+    else if (user.rating_scale == 3) {
       if (grade == 0)
         return "F";
       else if (grade == 1)
@@ -374,6 +432,9 @@ function MediaForm({ show, setShow, media }) {
       else
         return "A+";
     }
+    else {
+      return (parseInt(grade) + 1) + "/10"
+    }
   }
 
   function handleSubmit(e) {
@@ -381,37 +442,15 @@ function MediaForm({ show, setShow, media }) {
     setIsSubmitting(true);
 
     if (user.rating_scale == 1)
-      formData.grade = Math.round((formData.grade / 4) * 100);
+      formData.grade = (formData.grade / 4) * 100;
     else if (user.rating_scale == 2)
-      formData.grade = Math.round((formData.grade / 5) * 100);
-    else {
-      if (formData.grade == 0)
-        formData.grade = 0;
-      else if (formData.grade == 1)
-        formData.grade = 22;
-      else if (formData.grade == 2)
-        formData.grade = 29;
-      else if (formData.grade == 3)
-        formData.grade = 36;
-      else if (formData.grade == 4)
-        formData.grade = 42;
-      else if (formData.grade == 5)
-        formData.grade = 49;
-      else if (formData.grade == 6)
-        formData.grade = 56;
-      else if (formData.grade == 7)
-        formData.grade = 62;
-      else if (formData.grade == 8)
-        formData.grade = 69;
-      else if (formData.grade == 9)
-        formData.grade = 76;
-      else if (formData.grade == 10)
-        formData.grade = 82;
-      else if (formData.grade == 11)
-        formData.grade = 89;
-      else
-        formData.grade = 97;
+      formData.grade = (formData.grade / 5) * 100;
+    else if (user.rating_scale == 3) {
+      if (formData.grade > 0)
+        formData.grade = ((parseInt(formData.grade) + 1) / 13) * 100;
     }
+    else
+      formData.grade = (formData.grade / 9) * 100;
 
     const payload = { ...formData, castAndCrew: selected };
     const apiCall = media?.id ? axios.put(`/api/media/${media.id}`, [payload, media]) : axios.post("/api/media", payload);
@@ -516,6 +555,7 @@ function MediaForm({ show, setShow, media }) {
                   {user.rating_scale == 1 && <Col sm={9}><Form.Range min="0" max="4" step="0.5" value={formData.grade} onChange={(e) => handleChange(e, "grade")} /></Col>}
                   {user.rating_scale == 2 && <Col sm={9}><Form.Range min="0" max="5" step="0.5" value={formData.grade} onChange={(e) => handleChange(e, "grade")} /></Col>}
                   {user.rating_scale == 3 && <Col sm={9}><Form.Range min="0" max="12" step="1" value={formData.grade} onChange={(e) => handleChange(e, "grade")} /></Col>}
+                  {user.rating_scale == 4 && <Col sm={9}><Form.Range min="0" max="9" step="1" value={formData.grade} onChange={(e) => handleChange(e, "grade")} /></Col>}
                 </Form.Group>
                 {(formData.type === "movie" || formData.id == "na" || media?.id) && (
                   <>
@@ -559,7 +599,6 @@ function MediaForm({ show, setShow, media }) {
                               <Button variant="outline-danger" size="sm" onClick={() => handleRemovePerson(p)}>X</Button>
                             </div>
                             <div className="mt-2">
-                              {(formData.id === "na" || media?.season) && <Form.Check inline type="checkbox" label="Creator" checked={p.creator} onChange={e => handleRoleChange(p.id, "creator", e.target.checked)} />}
                               <Form.Check inline type="checkbox" label="Director" checked={p.director} onChange={e => handleRoleChange(p.id, "director", e.target.checked)} />
                               <Form.Check inline type="checkbox" label="Writer" checked={p.writer} onChange={e => handleRoleChange(p.id, "writer", e.target.checked)} />
                               <Form.Check inline type="checkbox" label="Cast" checked={p.cast} onChange={e => handleRoleChange(p.id, "cast", e.target.checked)} />

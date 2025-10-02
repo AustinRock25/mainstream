@@ -23,13 +23,11 @@ function EditMedia() {
     type: "",
     directors: [],
     cast_members: [],
-    writers: [],
-    creators: []
+    writers: []
   });
   let selectedDirectors = [];
   let selectedCastMembers = [];
   let selectedWriters = [];
-  let selectedCreators = [];
 
   useEffect(() => {
     axios.get(`/api/media/${params.id}`)
@@ -58,10 +56,6 @@ function EditMedia() {
           for (let x = 0; x < results.data.writers_tv.length; x++)
             selectedWriters[x] = results.data.writers_tv[x].writer_id;
         }
-        if (!!results.data.creators) {
-          for (let x = 0; x < results.data.creators.length; x++)
-            selectedCreators[x] = results.data.creators[x].creator_id;
-        }
         setMedia({
           id: results.data.id,
           title: results.data.title, 
@@ -79,8 +73,7 @@ function EditMedia() {
           completed: results.data.completed,
           directors: selectedDirectors,
           cast_members: selectedCastMembers,
-          writers: selectedWriters,
-          creators: selectedCreators
+          writers: selectedWriters
         });
         if (media.type == "show")
           setMedia({ grade: results.data.grade_tv })

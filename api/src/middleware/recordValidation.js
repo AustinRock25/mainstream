@@ -38,7 +38,7 @@ const validateMedia = async (req, res, next) => {
     errors.castAndCrew = "At least one is required";
   else {
     for (let x = 0; x < media.castAndCrew.length; x++) {
-      if (media.castAndCrew[x].director == false && media.castAndCrew[x].writer == false && media.castAndCrew[x].cast == false && media.castAndCrew[x].creator == false)
+      if (media.castAndCrew[x].director == false && media.castAndCrew[x].writer == false && media.castAndCrew[x].cast == false)
         errors.castAndCrew = "At least one checkbox must be checked in each row";
     }
   }

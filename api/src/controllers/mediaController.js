@@ -22,7 +22,7 @@ const index = (req, res) => {
   
   const sql = `
     WITH NumberedRecords AS (
-      SELECT ROW_NUMBER() OVER (ORDER BY COALESCE(m.release_date, s.start_date) DESC, m.title ASC) AS RowNum, m.id, m.title, m.grade, m.release_date, m.rating, m.poster, m.runtime, m.completed, m.type, s.season, s.grade AS grade_tv, s.episodes, s.start_date, s.end_date, directors, directors_tv, cast_members, cast_members_tv, writers, writers_tv, creators
+      SELECT ROW_NUMBER() OVER (ORDER BY COALESCE(m.release_date, s.start_date) DESC, m.title ASC) AS RowNum, m.id, m.title, m.grade, m.release_date, m.rating, m.poster, m.runtime, m.completed, m.type, s.season, s.grade AS grade_tv, s.episodes, s.start_date, s.end_date, directors, directors_tv, cast_members, cast_members_tv, writers, writers_tv
       FROM media m
       LEFT JOIN seasons s ON m.id = s.show_id
       LEFT JOIN LATERAL (
@@ -61,12 +61,6 @@ const index = (req, res) => {
         LEFT JOIN people p ON sw.writer_id = p.id
         WHERE m.id = sw.show_id AND s.season = sw.season
       ) sw ON TRUE
-      LEFT JOIN LATERAL (
-        SELECT json_agg(json_build_object('ordering', c.ordering, 'show_id', c.show_id, 'creator_id', c.creator_id, 'name', p.name, 'birth_date', p.birth_date, 'death_date', p.death_date)) AS creators
-        FROM media_creators c
-        LEFT JOIN people p ON c.creator_id = p.id
-        WHERE m.id = c.show_id
-      ) c ON TRUE
       ${searchSystem}
     )
     SELECT 
@@ -122,6 +116,64 @@ const indexShows = (req, res) => {
       LEFT JOIN seasons s ON m.id = s.show_id
       WHERE type = 'show' AND completed = false AND s.season = 1
       ORDER BY s.start_date DESC
+    `;
+
+  pgClient.query(sql)
+  .then(results => {
+    res.status(200).json(results.rows);
+  })
+  .catch((error) => {
+    res.status(500).json({ error: `Error: ${error}.` });
+  });
+}
+
+const indexNew = (req, res) => {
+  pgClient.query("UPDATE media SET date_added = NULL WHERE date_added <= CURRENT_DATE - INTERVAL '1 MONTH'");
+  pgClient.query("UPDATE seasons SET date_added = NULL WHERE date_added <= CURRENT_DATE - INTERVAL '1 MONTH'");
+  
+  const sql = 
+    `
+      SELECT m.id, m.title, m.grade, m.release_date, m.rating, m.poster, m.runtime, m.completed, m.type, s.season, s.grade AS grade_tv, s.episodes, s.start_date, s.end_date, directors, directors_tv, cast_members, cast_members_tv, writers, writers_tv
+      FROM media m
+      LEFT JOIN seasons s ON m.id = s.show_id
+      LEFT JOIN LATERAL (
+        SELECT json_agg(json_build_object('ordering', md.ordering, 'media_id', md.media_id, 'director_id', md.director_id, 'name', p.name, 'birth_date', p.birth_date, 'death_date', p.death_date)) AS directors
+        FROM media_directors md
+        LEFT JOIN people p ON md.director_id = p.id
+        WHERE m.id = md.media_id
+      ) md ON TRUE
+      LEFT JOIN LATERAL (
+        SELECT json_agg(json_build_object('ordering', sd.ordering, 'show_id', sd.show_id, 'director_id', sd.director_id, 'name', p.name, 'birth_date', p.birth_date, 'death_date', p.death_date)) AS directors_tv
+        FROM seasons_directors sd
+        LEFT JOIN people p ON sd.director_id = p.id
+        WHERE m.id = sd.show_id AND s.season = sd.season
+      ) sd ON TRUE
+      LEFT JOIN LATERAL (
+        SELECT json_agg(json_build_object('ordering', mc.ordering, 'media_id', mc.media_id, 'actor_id', mc.actor_id, 'name', p.name, 'birth_date', p.birth_date, 'death_date', p.death_date)) AS cast_members
+        FROM media_cast mc
+        LEFT JOIN people p ON mc.actor_id = p.id
+        WHERE m.id = mc.media_id
+      ) mc ON TRUE
+      LEFT JOIN LATERAL (
+        SELECT json_agg(json_build_object('ordering', sc.ordering, 'show_id', sc.show_id, 'actor_id', sc.actor_id, 'name', p.name, 'birth_date', p.birth_date, 'death_date', p.death_date)) AS cast_members_tv
+        FROM seasons_cast sc
+        LEFT JOIN people p ON sc.actor_id = p.id
+        WHERE m.id = sc.show_id AND s.season = sc.season
+      ) sc ON TRUE
+      LEFT JOIN LATERAL (
+        SELECT json_agg(json_build_object('ordering', mw.ordering, 'media_id', mw.media_id, 'writer_id', mw.writer_id, 'name', p.name, 'birth_date', p.birth_date, 'death_date', p.death_date)) AS writers
+        FROM media_writers mw
+        LEFT JOIN people p ON mw.writer_id = p.id
+        WHERE m.id = mw.media_id
+      ) mw ON TRUE
+      LEFT JOIN LATERAL (
+        SELECT json_agg(json_build_object('ordering', sw.ordering, 'show_id', sw.show_id, 'writer_id', sw.writer_id, 'name', p.name, 'birth_date', p.birth_date, 'death_date', p.death_date)) AS writers_tv
+        FROM seasons_writers sw
+        LEFT JOIN people p ON sw.writer_id = p.id
+        WHERE m.id = sw.show_id AND s.season = sw.season
+      ) sw ON TRUE
+      WHERE (m.date_added IS NOT NULL AND m.date_added > CURRENT_DATE - INTERVAL '1 MONTH') OR (s.date_added IS NOT NULL AND s.date_added > CURRENT_DATE - INTERVAL '1 MONTH')
+      ORDER BY COALESCE(m.date_added, s.date_added) DESC
     `;
 
   pgClient.query(sql)
@@ -197,7 +249,6 @@ const create = async (req, res) => {
   const directors = getIdsByRole("director");
   const writers = getIdsByRole("writer");
   const castMembers = getIdsByRole("cast");
-  const creators = getIdsByRole("creator");
 
   try {
     let result;
@@ -205,7 +256,7 @@ const create = async (req, res) => {
       result = await createMovie(media, { directors, writers, castMembers });
     else if (media.type === "show") {
       if (media.id === "na")
-        result = await createNewShow(media, { directors, writers, castMembers, creators });
+        result = await createNewShow(media, { directors, writers, castMembers });
       else
         result = await addSeasonToShow(media, { directors, writers, castMembers });
     } 
@@ -225,6 +276,21 @@ const create = async (req, res) => {
 const update = async (req, res) => {
   const media = req.body[0];
   const og = req.body[1];
+  const client = await pgClient.connect();
+
+  const originalPersonIds = new Set();
+  
+  const addIdsToSet = (people, idKey) => {
+    if (people && Array.isArray(people))
+      people.forEach(p => originalPersonIds.add(p[idKey]));
+  };
+
+  addIdsToSet(og.directors, 'director_id');
+  addIdsToSet(og.writers, 'writer_id');
+  addIdsToSet(og.cast_members, 'actor_id');
+  addIdsToSet(og.directors_tv, 'director_id');
+  addIdsToSet(og.writers_tv, 'writer_id');
+  addIdsToSet(og.cast_members_tv, 'actor_id');
   
   const getIdsByRole = (role) => media.castAndCrew
     ?.filter(person => person[role])
@@ -233,50 +299,57 @@ const update = async (req, res) => {
   const directors = getIdsByRole("director");
   const writers = getIdsByRole("writer");
   const castMembers = getIdsByRole("cast");
-  const creators = getIdsByRole("creator");
 
   try {
+    await client.query("BEGIN");
+    
     if (media.type === "movie")
       await updateMovie(media, og, { directors, writers, castMembers });
     else if (media.type === "show")
-      await updateShow(media, og, { directors, writers, castMembers, creators });
+      await updateShow(media, og, { directors, writers, castMembers });
     else
       return res.status(400).json({ error: "Invalid media type specified." });
     
+    await deleteOrphanedPeople(Array.from(originalPersonIds));
+    await client.query("COMMIT");
     res.status(200).json({ message: "Title updated successfully." });
   } 
   catch (error) {
+    await client.query("ROLLBACK");
     console.error("Error updating media:", error);
     res.status(500).json({ error: "An error occurred while updating the title." });
+  }
+  finally {
+    client.release();
   }
 };
 
 async function createMovie(media, { directors, writers, castMembers }) {
   const sql = `
     WITH new_media AS (
-      INSERT INTO media (id, title, grade, release_date, rating, poster, runtime, type)
-      SELECT COALESCE(MAX(id), 0) + 1, $1, $2, $3, $4, $5, $6, 'movie'
+      INSERT INTO media (id, title, grade, release_date, rating, poster, runtime, type, date_added)
+      SELECT COALESCE(MAX(id), 0) + 1, $1, $2, $3, $4, $5, $6, 'movie', $7
       FROM media
       RETURNING id
     ),
     insert_directors AS (
       INSERT INTO media_directors (ordering, media_id, director_id)
       SELECT row_number() OVER (), (SELECT id FROM new_media), director_id
-      FROM unnest($7::int[]) AS director_id
+      FROM unnest($8::int[]) AS director_id
     ),
     insert_cast AS (
       INSERT INTO media_cast (ordering, media_id, actor_id)
       SELECT row_number() OVER (), (SELECT id FROM new_media), actor_id
-      FROM unnest($8::int[]) AS actor_id
+      FROM unnest($9::int[]) AS actor_id
     ),
     insert_writers AS (
       INSERT INTO media_writers (ordering, media_id, writer_id)
       SELECT row_number() OVER (), (SELECT id FROM new_media), writer_id
-      FROM unnest($9::int[]) AS writer_id
+      FROM unnest($10::int[]) AS writer_id
     )
     SELECT id FROM new_media;
   `;
-  
+
   const params = [
     media.title, 
     media.grade, 
@@ -284,6 +357,7 @@ async function createMovie(media, { directors, writers, castMembers }) {
     media.rating,
     media.poster, 
     media.runtime,
+    new Date(),
     directors, 
     castMembers, 
     writers
@@ -293,7 +367,7 @@ async function createMovie(media, { directors, writers, castMembers }) {
   return { id: result.rows[0].id };
 }
 
-async function createNewShow(media, { directors, writers, castMembers, creators }) {
+async function createNewShow(media, { directors, writers, castMembers }) {
   const sql = `
     WITH new_media AS (
       INSERT INTO media (id, title, poster, rating, completed, type)
@@ -302,13 +376,8 @@ async function createNewShow(media, { directors, writers, castMembers, creators 
       RETURNING id
     ),
     insert_season AS (
-      INSERT INTO seasons (season, show_id, grade, episodes, start_date, end_date)
-      VALUES (1, (SELECT id FROM new_media), $5, $6, $7, $8)
-    ),
-    insert_creators AS (
-      INSERT INTO media_creators (ordering, show_id, creator_id)
-      SELECT row_number() OVER (), (SELECT id FROM new_media), creator_id
-      FROM unnest($9::int[]) AS creator_id
+      INSERT INTO seasons (season, show_id, grade, episodes, start_date, end_date, date_added)
+      VALUES (1, (SELECT id FROM new_media), $5, $6, $7, $8, $9)
     ),
     insert_directors AS (
       INSERT INTO seasons_directors (ordering, show_id, season, director_id)
@@ -337,7 +406,7 @@ async function createNewShow(media, { directors, writers, castMembers, creators 
     media.episodes, 
     media.start_date, 
     media.end_date,
-    creators, 
+    new Date(),
     directors, 
     castMembers, 
     writers
@@ -357,10 +426,10 @@ async function addSeasonToShow(media, { directors, writers, castMembers }) {
     WITH new_season_info AS (
       SELECT COALESCE(MAX(season), 0) + 1 AS season_num FROM seasons WHERE show_id = $1
     )
-    INSERT INTO seasons (season, show_id, grade, episodes, start_date, end_date)
-    SELECT season_num, $1, $2, $3, $4, $5 FROM new_season_info;
+    INSERT INTO seasons (season, show_id, grade, episodes, start_date, end_date, date_added)
+    SELECT season_num, $1, $2, $3, $4, $5, $6 FROM new_season_info;
   `;
-  await pgClient.query(sql, [media.id, media.grade, media.episodes, media.start_date, media.end_date]);
+  await pgClient.query(sql, [media.id, media.grade, media.episodes, media.start_date, media.end_date, new Date()]);
 
   sql = `
     WITH new_season_info AS (
@@ -428,7 +497,7 @@ async function updateMovie(media, og, { directors, writers, castMembers }) {
     await pgClient.query(sql, [media.rating, media.id]);
   }
 
-  if (!og.directors || !directors || !(directors.every(d => og.directors.some(ogd => ogd["director_id"] === d)))) {
+  if (!og.directors || !directors || og.directors.length != directors.length || !(directors.every(d => og.directors.some(ogd => ogd["director_id"] === d)))) {
     sql = `DELETE FROM media_directors WHERE media_id = $1;`;
     await pgClient.query(sql, [media.id]);
     sql = `
@@ -439,7 +508,7 @@ async function updateMovie(media, og, { directors, writers, castMembers }) {
     await pgClient.query(sql, [media.id, directors]);
   }
 
-  if (!og.writers || !writers || !(writers.every(w => og.writers.some(ogw => ogw["writer_id"] === w)))) {
+  if (!og.writers || !writers || og.writers.length != writers.length || !(writers.every(w => og.writers.some(ogw => ogw["writer_id"] === w)))) {
     sql = `DELETE FROM media_writers WHERE media_id = $1;`;
     await pgClient.query(sql, [media.id]);
     sql = `
@@ -450,7 +519,7 @@ async function updateMovie(media, og, { directors, writers, castMembers }) {
     await pgClient.query(sql, [media.id, writers]);
   }
 
-  if (!og.cast_members || !castMembers || !(castMembers.every(cm => og.cast_members.some(ogcm => ogcm["actor_id"] === cm)))) {
+  if (!og.cast_members || !castMembers || og.cast_members.length != castMembers.length || !(castMembers.every(cm => og.cast_members.some(ogcm => ogcm["actor_id"] === cm)))) {
     sql = `DELETE FROM media_cast WHERE media_id = $1;`;
     await pgClient.query(sql, [media.id]);
     sql = `
@@ -462,7 +531,7 @@ async function updateMovie(media, og, { directors, writers, castMembers }) {
   }
 }
 
-async function updateShow(media, og, { directors, writers, castMembers, creators }) {
+async function updateShow(media, og, { directors, writers, castMembers }) {
   let sql = ``;
 
   if (media.title != og.title) {
@@ -504,20 +573,8 @@ async function updateShow(media, og, { directors, writers, castMembers, creators
     sql = `UPDATE seasons SET episode = $1 WHERE show_id = $2 AND season = $3;`;
     await pgClient.query(sql, [media.episodes, media.id, media.season]);
   }
-  
-  if (!og.creators || !creators || !(creators.every(c => og.creators.some(ogc => ogc["creator_id"] === c)))) {
-    sql = `DELETE FROM media_creators WHERE show_id = $1;`;
-    await pgClient.query(sql, [media.id]);
 
-    sql = `
-      INSERT INTO media_creators (ordering, show_id, creator_id)
-      SELECT row_number() OVER (), $1, creator_id
-      FROM unnest($2::int[]) AS creator_id;
-    `;
-    await pgClient.query(sql, [media.id, creators]);
-  }
-
-  if (!og.directors_tv || !directors || !(directors.every(d => og.directors_tv.some(ogd => ogd["director_id"] === d)))) {
+  if (!og.directors_tv || !directors || og.directors_tv.length != directors.length || !(directors.every(d => og.directors_tv.some(ogd => ogd["director_id"] === d)))) {
     sql = `DELETE FROM seasons_directors WHERE show_id = $1 AND season = $2;`;
     await pgClient.query(sql, [media.id, media.season]);
     
@@ -529,7 +586,7 @@ async function updateShow(media, og, { directors, writers, castMembers, creators
     await pgClient.query(sql, [media.season, media.id, directors]);
   }
 
-  if (!og.writers_tv || !writers || !(writers.every(w => og.writers_tv.some(ogw => ogw["writer_id"] === w)))) {
+  if (!og.writers_tv || !writers || og.writers_tv.length != writers.length || !(writers.every(w => og.writers_tv.some(ogw => ogw["writer_id"] === w)))) {
     sql = `DELETE FROM seasons_writers WHERE show_id = $1 AND season = $2;`;
     await pgClient.query(sql, [media.id, media.season]);
 
@@ -541,7 +598,7 @@ async function updateShow(media, og, { directors, writers, castMembers, creators
     await pgClient.query(sql, [media.season, media.id, writers]);
   }
 
-  if (!og.cast_members_tv || !castMembers || !(castMembers.every(cm => og.cast_members_tv.some(ogcm => ogcm["actor_id"] === cm)))) {
+  if (!og.cast_members_tv || !castMembers || og.cast_members_tv.length != castMembers.length || !(castMembers.every(cm => og.cast_members_tv.some(ogcm => ogcm["actor_id"] === cm)))) {
     sql = `DELETE FROM seasons_cast WHERE show_id = $1 AND season = $2;`;
     await pgClient.query(sql, [media.id, media.season]);
 
@@ -554,4 +611,69 @@ async function updateShow(media, og, { directors, writers, castMembers, creators
   }
 }
 
-module.exports = { index, indexLength, indexShows, seasonCount, show, create, update };
+async function deleteOrphanedPeople(personIds) {
+  let subtractor = 0;
+  if (!personIds || personIds.length === 0)
+    return;
+
+  const uniquePersonIds = [...new Set(personIds)];
+
+  for (let personId of uniquePersonIds) {
+    personId = personId - subtractor;
+    const checkSql = `
+      SELECT SUM(total) as reference_count
+      FROM (
+        SELECT COUNT(*) as total FROM media_directors WHERE director_id = $1
+        UNION ALL
+        SELECT COUNT(*) as total FROM seasons_directors WHERE director_id = $1
+        UNION ALL
+        SELECT COUNT(*) as total FROM media_writers WHERE writer_id = $1
+        UNION ALL
+        SELECT COUNT(*) as total FROM seasons_writers WHERE writer_id = $1
+        UNION ALL
+        SELECT COUNT(*) as total FROM media_cast WHERE actor_id = $1
+        UNION ALL
+        SELECT COUNT(*) as total FROM seasons_cast WHERE actor_id = $1
+      ) as counts;
+    `;
+
+    const result = await pgClient.query(checkSql, [personId]);
+    const referenceCount = parseInt(result.rows[0].reference_count, 10);
+
+    if (referenceCount === 0) {
+      const deleteSql = `DELETE FROM people WHERE id = $1;`;
+      await pgClient.query(deleteSql, [personId]);
+      await shiftIdsAfterDeletion(personId);
+      subtractor++;
+    }
+  }
+}
+
+async function shiftIdsAfterDeletion(deletedPersonId) {
+  const client = await pgClient.connect();
+  try {
+    await client.query("BEGIN");
+
+    const peopleToUpdate = await client.query("SELECT id FROM people WHERE id > $1 ORDER BY id ASC", [deletedPersonId]);
+    const idsToShift = peopleToUpdate.rows.map(p => p.id);
+
+    for (const oldId of idsToShift) {
+      const newId = oldId - 1;
+      await client.query("UPDATE people SET id = $1 WHERE id = $2", [newId, oldId]);
+    }
+
+    const maxIdResult = await client.query("SELECT COALESCE(MAX(id), 0) as max_id FROM people");
+    await client.query(`ALTER SEQUENCE people_id_seq RESTART WITH ${maxIdResult.rows[0].max_id + 1}`);
+    await client.query("COMMIT");
+  } 
+  catch (error) {
+    await client.query("ROLLBACK");
+    console.error("Failed to shift IDs due to an error. Transaction was rolled back.", error);
+    throw error;
+  } 
+  finally {
+    client.release();
+  }
+}
+
+module.exports = { index, indexLength, indexShows, indexNew, seasonCount, show, create, update };

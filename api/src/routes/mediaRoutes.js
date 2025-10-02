@@ -8,6 +8,7 @@ router.get("/", controller.index);
 router.get("/length", controller.indexLength);
 router.get("/shows", controller.indexShows);
 router.get("/seasons", controller.seasonCount);
+router.get("/new", controller.indexNew);
 router.get("/:id", controller.show);
 router.post("/", [authorizeAdmin, validateMedia], controller.create);
 router.put("/:id", [authorizeAdmin, validateMediaUpdate], controller.update);

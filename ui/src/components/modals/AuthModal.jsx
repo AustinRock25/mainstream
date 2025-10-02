@@ -45,6 +45,7 @@ function AuthModal({ show, setShow, action }) {
       .then(response => {
         dispatch(authenticated(response.data));
         handleHide();
+        window.location.reload();
       })
       .catch(error => {
         dispatch(unauthenticated());
@@ -67,6 +68,7 @@ function AuthModal({ show, setShow, action }) {
       .then(response => {
         dispatch(authenticated(response.data));
         handleHide();
+        window.location.reload();
       })
       .catch(error => {
         dispatch(unauthenticated());
@@ -138,7 +140,7 @@ function AuthModal({ show, setShow, action }) {
             <Form.Group className="mb-3">
               <Form.Label column sm={3}>Rating Scale</Form.Label>
               <Form.Select value={formData.rating_scale} isInvalid={!!errors.rating_scale} onChange={(e) => setFormData({ ...formData, rating_scale: e.target.value })}>
-                {[1, 2, 3].map(r => <option key={r} value={r}>{r == 1 && `0 to 4`}{r == 2 && `0 to 5`}{r == 3 && `F to A+`}</option>)}
+                {[1, 2, 3, 4].map(r => <option key={r} value={r}>{r == 1 && `0 to 4`}{r == 2 && `0 to 5`}{r == 3 && `F to A+`}{r == 4 && `1 to 10`}</option>)}
               </Form.Select>
             </Form.Group>
           }

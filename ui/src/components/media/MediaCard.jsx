@@ -16,6 +16,28 @@ function MediaCard ({media}) {
   }
 
   useEffect(() => {
+    if (!!user) {
+      if (!media.grade)
+        media.grade = media.grade_tv;
+
+      if ((user.rating_scale == 1 && media.grade < (175/4)) || (user.rating_scale == 2 && media.grade < (175/5)) || (user.rating_scale == 3 && media.grade < (450/13))) {
+        setPillColor("danger");
+        setPillText("text-white");
+      }
+      else if ((user.rating_scale == 1 && media.grade < (225/4)) || (user.rating_scale == 2 && media.grade < (325/5)) || (user.rating_scale == 3 && media.grade < (750/13))) {
+        setPillColor("warning");
+        setPillText("text-black");
+      }
+      else if (user.rating_scale != 4) {
+        setPillColor("success");
+        setPillText("text-white");
+      }
+      else {
+        setPillColor("primary");
+        setPillText("text-white");
+      }
+    }
+
     if (media.type === "show") {
       axios.get("/api/media/seasons", { params: { id: media.id } })
       .then(response => {
@@ -23,19 +45,6 @@ function MediaCard ({media}) {
       })
       .catch(error => {
       });
-    }
-
-    if (media.grade <= 39) {
-      setPillColor("danger");
-      setPillText("text-white");
-    }
-    else if (media.grade <= 60) {
-      setPillColor("warning");
-      setPillText("text-black");
-    }
-    else {
-      setPillColor("success");
-      setPillText("text-white");
     }
   }, [media.id, media.type]);
 
@@ -55,7 +64,6 @@ function MediaCard ({media}) {
   
   const directors = getNames(media.directors || media.directors_tv);
   const writers = getNames(media.writers || media.writers_tv);
-  const creators = getNames(media.creators);
   const cast = getNames(media.cast_members || media.cast_members_tv);
   const isCombined = combineDirectorsAndWriters(media);
 
@@ -96,7 +104,7 @@ function MediaCard ({media}) {
       if (seasonCount == 1 && media.completed == true)
         return `(${getYearRange(media.start_date, media.end_date)})`;
       else
-        return `Season ${media.season} (${getYearRange(media.start_date, media.end_date)})`;
+        return `season ${media.season} (${getYearRange(media.start_date, media.end_date)})`;
     }
   };
 
@@ -105,76 +113,98 @@ function MediaCard ({media}) {
       media.grade = media.grade_tv;
 
     if (user.rating_scale == 1) {
-      if (media.grade <= 11)
+      if (media.grade < (25/4))
         return "0/4";
-      else if (media.grade <= 22)
+      else if (media.grade < (75/4))
         return "0.5/4";
-      else if (media.grade <= 33)
+      else if (media.grade < (125/4))
         return "1/4";
-      else if (media.grade <= 44)
+      else if (media.grade < (175/4))
         return "1.5/4";
-      else if (media.grade <= 56)
+      else if (media.grade < (225/4))
         return "2/4";
-      else if (media.grade <= 67)
+      else if (media.grade < (275/4))
         return "2.5/4";
-      else if (media.grade <= 78)
+      else if (media.grade < (325/4))
         return "3/4";
-      else if (media.grade <= 89)
+      else if (media.grade < (375/4))
         return "3.5/4";
       else
         return "4/4";
     }
     else if (user.rating_scale == 2) {
-      if (media.grade <= 9)
+      if (media.grade < (25/5))
         return "0/5";
-      else if (media.grade <= 18)
+      else if (media.grade < (75/5))
         return "0.5/5";
-      else if (media.grade <= 27)
+      else if (media.grade < (125/5))
         return "1/5";
-      else if (media.grade <= 36)
+      else if (media.grade < (175/5))
         return "1.5/5";
-      else if (media.grade <= 45)
+      else if (media.grade < (225/5))
         return "2/5";
-      else if (media.grade <= 55)
+      else if (media.grade < (275/5))
         return "2.5/5";
-      else if (media.grade <= 64)
+      else if (media.grade < (325/5))
         return "3/5";
-      else if (media.grade <= 73)
+      else if (media.grade < (375/5))
         return "3.5/5";
-      else if (media.grade <= 82)
+      else if (media.grade < (425/5))
         return "4/5";
-      else if (media.grade <= 91)
+      else if (media.grade < (475/5))
         return "4.5/5";
       else
         return "5/5";
     }
     else if (user.rating_scale == 3) {
-      if (media.grade <= 18)
+      if (media.grade < (150/13))
         return "F";
-      else if (media.grade <= 24)
+      else if (media.grade < (250/13))
         return "D-";
-      else if (media.grade <= 32)
+      else if (media.grade < (350/13))
         return "D";
-      else if (media.grade <= 38)
+      else if (media.grade < (450/13))
         return "D+";
-      else if (media.grade <= 44)
+      else if (media.grade < (550/13))
         return "C-";
-      else if (media.grade <= 52)
+      else if (media.grade < (650/13))
         return "C";
-      else if (media.grade <= 58)
+      else if (media.grade < (750/13))
         return "C+";
-      else if (media.grade <= 64)
+      else if (media.grade < (850/13))
         return "B-";
-      else if (media.grade <= 72)
+      else if (media.grade < (950/13))
         return "B";
-      else if (media.grade <= 78)
+      else if (media.grade < (1050/13))
         return "B+";
-      else if (media.grade <= 84)
+      else if (media.grade < (1150/13))
         return "A-";
-      else if (media.grade <= 92)
+      else if (media.grade < (1250/13))
         return "A";
       else
         return "A+";
+    }
+    else {
+      if (media.grade < (50/9))
+        return "1/10";
+      else if (media.grade < (150/9))
+        return "2/10";
+      else if (media.grade < (250/9))
+        return "3/10";
+      else if (media.grade < (350/9))
+        return "4/10";
+      else if (media.grade < (450/9))
+        return "5/10";
+      else if (media.grade < (550/9))
+        return "6/10";
+      else if (media.grade < (650/9))
+        return "7/10";
+      else if (media.grade < (750/9))
+        return "8/10";
+      else if (media.grade < (850/9))
+        return "9/10";
+      else
+        return "10/10";
     }
   }
 
@@ -192,19 +222,13 @@ function MediaCard ({media}) {
             <span className="fw-normal text-white-50"><i>{media.title}</i> {getYear(media)}</span>
           </Card.Title>
           
-          <Stack direction="horizontal" gap={2} className="mt-2 mb-3">
-            <Badge bg={pillColor} className={pillText} pill>{getGrade(media)}</Badge>
+          <Stack direction="horizontal" gap={3} className="mt-2 mb-3 mx-auto">
+            {!!user && <Badge bg={pillColor} className={pillText} pill>{getGrade(media)}</Badge>}
             <Badge bg="secondary" pill>{media.rating == "Not Rated" ? "NR" : media.rating}</Badge>
             {media.type !== "show" ? <Badge bg="dark" pill>{time(media.runtime)}</Badge> : <Badge bg="dark" pill>{media.episodes} eps</Badge>}
           </Stack>
 
           <div className="small text-white-50" style={{fontSize: "0.8rem"}}>
-            {creators.length > 0 && (
-              <div className="mb-1">
-                <b>Created by</b>
-                {creators.map((name, index) => <div key={`creator-${index}`}>{name}</div>)}
-              </div>
-            )}
             {isCombined && (
               <div className="mb-1">
                 <b>Written & Directed by</b>
@@ -240,7 +264,7 @@ function MediaCard ({media}) {
           </Card.Footer>
         )}
       </Card>
-      <MediaForm show={showMediaModal} setShow={setShowMediaModal} media={media} />
+      {!!user && <MediaForm show={showMediaModal} setShow={setShowMediaModal} media={media} />}
     </Col>
   );
 }

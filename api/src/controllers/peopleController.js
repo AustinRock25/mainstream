@@ -66,14 +66,6 @@ const index = (req, res) => {
       JOIN seasons s ON s.season = scm.season AND s.show_id = scm.show_id
       JOIN media m ON m.id = s.show_id
       GROUP BY scm.actor_id
-    ), CreatorCredits AS (
-      SELECT
-        c.creator_id,
-        json_agg(json_build_object('id', m.id, 'title', m.title, 'start_date', s.start_date, 'end_date', s.end_date)) AS credited_as_creator
-      FROM media_creators c
-      JOIN seasons s ON s.show_id = c.show_id
-      JOIN media m ON m.id = s.show_id
-      GROUP BY c.creator_id
     ), NumberedRecords AS (
       SELECT 
         ROW_NUMBER() OVER (ORDER BY p.birth_date ASC, p.name ASC) AS RowNum,
@@ -86,8 +78,7 @@ const index = (req, res) => {
         w.credited_as_writer,
         wtv.credited_as_writer_tv,
         c.credited_as_cast_member,
-        ctv.credited_as_cast_member_tv,
-        cr.credited_as_creator
+        ctv.credited_as_cast_member_tv
       FROM people p
       LEFT JOIN DirectorCredits d ON p.id = d.director_id
       LEFT JOIN DirectorTVCredits dtv ON p.id = dtv.director_id
@@ -95,7 +86,6 @@ const index = (req, res) => {
       LEFT JOIN WriterTVCredits wtv ON p.id = wtv.writer_id
       LEFT JOIN CastCredits c ON p.id = c.actor_id
       LEFT JOIN CastTVCredits ctv ON p.id = ctv.actor_id
-      LEFT JOIN CreatorCredits cr ON p.id = cr.creator_id
       ${searchSystem}
     )
     SELECT * FROM NumberedRecords
@@ -188,14 +178,6 @@ const indexSelect = (req, res) => {
         JOIN seasons s ON s.season = scm.season AND s.show_id = scm.show_id
         JOIN media m ON m.id = s.show_id
         GROUP BY scm.actor_id
-      ), CreatorCredits AS (
-          SELECT
-            c.creator_id,
-            json_agg(json_build_object('id', m.id, 'title', m.title, 'start_date', s.start_date, 'end_date', s.end_date)) AS credited_as_creator
-          FROM media_creators c
-          JOIN seasons s ON s.show_id = c.show_id
-          JOIN media m ON m.id = s.show_id
-          GROUP BY c.creator_id
       ), Records AS (
           SELECT
             p.id, 
@@ -207,8 +189,7 @@ const indexSelect = (req, res) => {
             w.credited_as_writer,
             wtv.credited_as_writer_tv,
             c.credited_as_cast_member,
-            ctv.credited_as_cast_member_tv,
-            cr.credited_as_creator
+            ctv.credited_as_cast_member_tv
           FROM people p
           LEFT JOIN DirectorCredits d ON p.id = d.director_id
           LEFT JOIN DirectorTVCredits dtv ON p.id = dtv.director_id
@@ -216,7 +197,6 @@ const indexSelect = (req, res) => {
           LEFT JOIN WriterTVCredits wtv ON p.id = wtv.writer_id
           LEFT JOIN CastCredits c ON p.id = c.actor_id
           LEFT JOIN CastTVCredits ctv ON p.id = ctv.actor_id
-          LEFT JOIN CreatorCredits cr ON p.id = cr.creator_id
           WHERE regexp_replace(regexp_replace(regexp_replace(regexp_replace(regexp_replace(regexp_replace(regexp_replace(regexp_replace(regexp_replace(regexp_replace(REPLACE(REPLACE(regexp_replace(regexp_replace(REPLACE(REPLACE(regexp_replace(regexp_replace(regexp_replace(regexp_replace(regexp_replace(regexp_replace(REPLACE(REPLACE(regexp_replace(regexp_replace(regexp_replace(regexp_replace(regexp_replace(regexp_replace(REPLACE(REPLACE(regexp_replace(regexp_replace(regexp_replace(regexp_replace(name, '[ŽŹŻ]+', 'Z'), '[žźż]+', 'z'), '[ŸŶÝ]+', 'Y'), '[ÿŷý]+', 'y'), 'Ŵ', 'W'), 'ŵ', 'w'), '[ŪÚÙÜÛŲŮŰŨǓ]+', 'U'), '[ūúùüûųůűũǔ]+', 'u'), '[ȚŤÞ]+', 'T'), '[țťþ]+', 't'), '[ŚŠẞŞȘ]+', 'S'), '[ßśšşș]+', 's'), 'Ř', 'R'), 'ř', 'r'), '[ÕŌØŒÓÒÖÔŐǑ]+', 'O'), '[õōøœóòöôőǒ]+', 'o'), '[ŃÑŇŅ]+', 'N'), '[ńñňņ]+', 'n'), '[ŁĽĻ]+', 'L'), '[łľļ]+', 'l'), 'Ķ', 'K'), 'ķ', 'k'), '[ÌĮĪÍÏÎİĨǏ]+', 'I'), '[ìįīíïîıĩǐ]+', 'i'), 'Ħ', 'H'), 'ħ', 'h'), '[ĞĠ]+', 'G'), '[ğġ]+', 'g'), '[ÈÉÊËĒĖĘĚẼ]+', 'E'), '[èéêëēėęěẽ]+', 'e'), '[ĎÐ]+', 'D'), '[ďð]+', 'd'), '[ÇĆČĊ]+', 'C'), '[çćčċ]+', 'c'), '[ÀÁÂÄÆÃÅĀǍĂĄ]+', 'A'), '[àáâäæãåāǎăą]+', 'a') ILIKE $1 OR regexp_replace(regexp_replace(regexp_replace(regexp_replace(regexp_replace(regexp_replace(regexp_replace(regexp_replace(regexp_replace(regexp_replace(REPLACE(REPLACE(regexp_replace(regexp_replace(REPLACE(REPLACE(regexp_replace(regexp_replace(regexp_replace(regexp_replace(regexp_replace(regexp_replace(REPLACE(REPLACE(regexp_replace(regexp_replace(regexp_replace(regexp_replace(regexp_replace(regexp_replace(REPLACE(REPLACE(regexp_replace(regexp_replace(regexp_replace(regexp_replace(name, '[ŽŹŻ]+', 'Z'), '[žźż]+', 'z'), '[ŸŶÝ]+', 'Y'), '[ÿŷý]+', 'y'), 'Ŵ', 'W'), 'ŵ', 'w'), '[ŪÚÙÜÛŲŮŰŨǓ]+', 'U'), '[ūúùüûųůűũǔ]+', 'u'), '[ȚŤÞ]+', 'T'), '[țťþ]+', 't'), '[ŚŠẞŞȘ]+', 'S'), '[ßśšşș]+', 's'), 'Ř', 'R'), 'ř', 'r'), '[ÕŌØŒÓÒÖÔŐǑ]+', 'O'), '[õōøœóòöôőǒ]+', 'o'), '[ŃÑŇŅ]+', 'N'), '[ńñňņ]+', 'n'), '[ŁĽĻ]+', 'L'), '[łľļ]+', 'l'), 'Ķ', 'K'), 'ķ', 'k'), '[ÌĮĪÍÏÎİĨǏ]+', 'I'), '[ìįīíïîıĩǐ]+', 'i'), 'Ħ', 'H'), 'ħ', 'h'), '[ĞĠ]+', 'G'), '[ğġ]+', 'g'), '[ÈÉÊËĒĖĘĚẼ]+', 'E'), '[èéêëēėęěẽ]+', 'e'), '[ĎÐ]+', 'D'), '[ďð]+', 'd'), '[ÇĆČĊ]+', 'C'), '[çćčċ]+', 'c'), '[ÀÁÂÄÆÃÅĀǍĂĄ]+', 'A'), '[àáâäæãåāǎăą]+', 'a') ILIKE $2 OR name ILIKE $1 OR name ILIKE $2 ORDER BY birth_date ASC, name ASC
       )
       SELECT * FROM Records;

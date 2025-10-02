@@ -65,7 +65,6 @@ const Person = ({person}) => {
     });
   }, [person]);
 
-
   const formatDate = (dateString) => {
     if (!dateString) 
       return "";
@@ -93,7 +92,7 @@ const Person = ({person}) => {
       <tr>
         <td>{person.name}</td>
         <td>{formatDate(person.birth_date)}</td>
-        <td>{person.death_date ? formatDate(person.death_date) : ""}</td>
+        <td>{!!person.death_date && formatDate(person.death_date)}</td>
         <td>{getAge(person.birth_date, person.death_date)}</td>
         <td>
           {getCredits.map((credit, index) => (
