@@ -1,28 +1,181 @@
 const pgClient = require("../config/pgClient");
 
 const index = (req, res) => {
-  let searchSystem = "";
-  let params = [];
+  const { 
+    searchTerm,
+    beginRecord,
+    endRecord,
+    sortBy,
+    sortOrder = "DESC",
+    filterType,
+    minRuntime,
+    maxRuntime,
+    minEpisodes,
+    maxEpisodes,
+    ratings,
+    grade,
+    startDate,
+    endDate
+  } = req.query;
+  let params = [beginRecord, endRecord];
+  let filterClauses = [];
+  let paramIndex = 3;
 
-  if (req.query.searchTerm != undefined && req.query.searchTerm != "") {
-    searchSystem = "WHERE REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(title, 'à', 'a'), 'One Hundred and One', '101'), '''', ''), 'Thirteen', '13'), 'Twelve', '12'), 'Eleven', '11'), 'é', 'e'), 'Four', '4'), 'IV', '4'), 'Eight', '8'), 'VIII', '8'), 'Seven', '7'), 'VII', '7'), 'Six', '6'), 'VI', '6'), 'Five', '5'), 'V', '5'), 'Three', '3'), 'III', '3'), 'Two', '2'), 'II', '2'), 'Nine', '9'), 'IX', '9'), 'One', '1'), 'I', '1'), '.', ''), '&', 'and'), '-', ''), ':', ''), '!', ''), ',', '') ILIKE $3 OR REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(title, 'à', 'a'), 'One Hundred and One', '101'), '''', ''), 'Thirteen', '13'), 'Twelve', '12'), 'Eleven', '11'), 'é', 'e'), 'Four', '4'), 'IV', '4'), 'Eight', '8'), 'VIII', '8'), 'Seven', '7'), 'VII', '7'), 'Six', '6'), 'VI', '6'), 'Five', '5'), 'V', '5'), 'Three', '3'), 'III', '3'), 'Two', '2'), 'II', '2'), 'Nine', '9'), 'IX', '9'), 'One', '1'), 'I', '1'), '.', ''), '&', 'and'), '-', ''), ':', ''), '!', ''), ',', '') ILIKE $4 OR title ILIKE $3 OR title ILIKE $4";
-    params = [
-      req.query.beginRecord,
-      req.query.endRecord,
-      `% ${req.query.searchTerm}%`,
-      `${req.query.searchTerm}%`
-    ];
+  if (searchTerm) {
+    const searchSystem = `(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(title, 'à', 'a'), 'One Hundred and One', '101'), '''', ''), 'Thirteen', '13'), 'Twelve', '12'), 'Eleven', '11'), 'é', 'e'), 'Four', '4'), 'IV', '4'), 'Eight', '8'), 'VIII', '8'), 'Seven', '7'), 'VII', '7'), 'Six', '6'), 'VI', '6'), 'Five', '5'), 'V', '5'), 'Three', '3'), 'III', '3'), 'Two', '2'), 'II', '2'), 'Nine', '9'), 'IX', '9'), 'One', '1'), 'I', '1'), '.', ''), '&', 'and'), '-', ''), ':', ''), '!', ''), ',', '') ILIKE $${paramIndex++} OR REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(title, 'à', 'a'), 'One Hundred and One', '101'), '''', ''), 'Thirteen', '13'), 'Twelve', '12'), 'Eleven', '11'), 'é', 'e'), 'Four', '4'), 'IV', '4'), 'Eight', '8'), 'VIII', '8'), 'Seven', '7'), 'VII', '7'), 'Six', '6'), 'VI', '6'), 'Five', '5'), 'V', '5'), 'Three', '3'), 'III', '3'), 'Two', '2'), 'II', '2'), 'Nine', '9'), 'IX', '9'), 'One', '1'), 'I', '1'), '.', ''), '&', 'and'), '-', ''), ':', ''), '!', ''), ',', '') ILIKE $${paramIndex++} OR title ILIKE $${paramIndex-2} OR title ILIKE $${paramIndex-1})`;
+    filterClauses.push(searchSystem);
+    params.push(`% ${searchTerm}%`, `${searchTerm}%`);
   }
-  else {
-    params = [
-      req.query.beginRecord,
-      req.query.endRecord
-    ];
+  if (filterType && filterType !== "all") {
+    filterClauses.push(`m.type = $${paramIndex++}`);
+    params.push(filterType);
   }
+  if (minRuntime) {
+    filterClauses.push(`COALESCE(m.runtime, s.runtime) >= $${paramIndex++}`);
+    params.push(minRuntime);
+  }
+  if (maxRuntime) {
+    filterClauses.push(`COALESCE(m.runtime, s.runtime) <= $${paramIndex++}`);
+    params.push(maxRuntime);
+  }
+  if (minEpisodes) {
+    filterClauses.push(`s.episodes >= $${paramIndex++}`);
+    params.push(minEpisodes);
+  }
+  if (maxEpisodes) {
+    filterClauses.push(`s.episodes <= $${paramIndex++}`);
+    params.push(maxEpisodes);
+  }
+  if (ratings) {
+    filterClauses.push(`m.rating = ANY($${paramIndex++})`);
+    params.push(ratings.split(","));
+  }
+  if (startDate) {
+    filterClauses.push(`COALESCE(m.release_date, s.start_date) >= $${paramIndex++}`);
+    params.push(startDate);
+  }
+  if (endDate) {
+    filterClauses.push(`COALESCE(m.release_date, s.start_date) <= $${paramIndex++}`);
+    params.push(endDate);
+  }
+  if (grade) {
+    if (grade == "0/4")
+      filterClauses.push("(COALESCE(m.grade, s.grade) >= 0 AND COALESCE(m.grade, s.grade) < 6.25)");
+    else if (grade == "0.5/4")
+      filterClauses.push("(COALESCE(m.grade, s.grade) >= 6.25 AND COALESCE(m.grade, s.grade) < 18.75)");
+    else if (grade == "1/4")
+      filterClauses.push("(COALESCE(m.grade, s.grade) >= 18.75 AND COALESCE(m.grade, s.grade) < 31.25)");
+    else if (grade == "1.5/4")
+      filterClauses.push("(COALESCE(m.grade, s.grade) >= 31.25 AND COALESCE(m.grade, s.grade) < 43.75)");
+    else if (grade == "2/4")
+      filterClauses.push("(COALESCE(m.grade, s.grade) >= 43.75 AND COALESCE(m.grade, s.grade) < 56.25)");
+    else if (grade == "2.5/4")
+      filterClauses.push("(COALESCE(m.grade, s.grade) >= 56.25 AND COALESCE(m.grade, s.grade) < 68.75)");
+    else if (grade == "3/4")
+      filterClauses.push("(COALESCE(m.grade, s.grade) >= 68.75 AND COALESCE(m.grade, s.grade) < 81.25)");
+    else if (grade == "3.5/4")
+      filterClauses.push("(COALESCE(m.grade, s.grade) >= 81.25 AND COALESCE(m.grade, s.grade) < 93.75)");
+    else if (grade == "4/4")
+      filterClauses.push("(COALESCE(m.grade, s.grade) >= 93.75 AND COALESCE(m.grade, s.grade) <= 100)");
+    else if (grade == "0/5")
+      filterClauses.push("(COALESCE(m.grade, s.grade) >= 0 AND COALESCE(m.grade, s.grade) < 5)");
+    else if (grade == "0.5/5")
+      filterClauses.push("(COALESCE(m.grade, s.grade) >= 5 AND COALESCE(m.grade, s.grade) < 15");
+    else if (grade == "1/5")
+      filterClauses.push("(COALESCE(m.grade, s.grade) >= 15 AND COALESCE(m.grade, s.grade) < 25)");
+    else if (grade == "1.5/5")
+      filterClauses.push("(COALESCE(m.grade, s.grade) >= 25 AND COALESCE(m.grade, s.grade) < 35)");
+    else if (grade == "2/5")
+      filterClauses.push("(COALESCE(m.grade, s.grade) >= 35 AND COALESCE(m.grade, s.grade) < 45)");
+    else if (grade == "2.5/5")
+      filterClauses.push("(COALESCE(m.grade, s.grade) >= 45 AND COALESCE(m.grade, s.grade) < 55)");
+    else if (grade == "3/5")
+      filterClauses.push("(COALESCE(m.grade, s.grade) >= 55 AND COALESCE(m.grade, s.grade) < 65)");
+    else if (grade == "3.5/5")
+      filterClauses.push("(COALESCE(m.grade, s.grade) >= 65 AND COALESCE(m.grade, s.grade) < 75)");
+    else if (grade == "4/5")
+      filterClauses.push("(COALESCE(m.grade, s.grade) >= 75 AND COALESCE(m.grade, s.grade) < 85)");
+    else if (grade == "4.5/5")
+      filterClauses.push("(COALESCE(m.grade, s.grade) >= 85 AND COALESCE(m.grade, s.grade) < 95)");
+    else if (grade == "5/5")
+      filterClauses.push("(COALESCE(m.grade, s.grade) >= 95 AND COALESCE(m.grade, s.grade) <= 100)");
+    else if (grade == "F")
+      filterClauses.push("(COALESCE(m.grade, s.grade) >= 0 AND COALESCE(m.grade, s.grade) <= ((59 * 2) - 100))");
+    else if (grade == "D-")
+      filterClauses.push("(COALESCE(m.grade, s.grade) > ((59 * 2) - 100) AND COALESCE(m.grade, s.grade) <= ((62 * 2) - 100))");
+    else if (grade == "D")
+      filterClauses.push("(COALESCE(m.grade, s.grade) > ((62 * 2) - 100) AND COALESCE(m.grade, s.grade) <= ((66 * 2) - 100))");
+    else if (grade == "D+")
+      filterClauses.push("(COALESCE(m.grade, s.grade) > ((66 * 2) - 100) AND COALESCE(m.grade, s.grade) <= ((69 * 2) - 100))");
+    else if (grade == "C-")
+      filterClauses.push("(COALESCE(m.grade, s.grade) > ((69 * 2) - 100) AND COALESCE(m.grade, s.grade) <= ((72 * 2) - 100))");
+    else if (grade == "C")
+      filterClauses.push("(COALESCE(m.grade, s.grade) > ((72 * 2) - 100) AND COALESCE(m.grade, s.grade) <= ((76 * 2) - 100))");
+    else if (grade == "C+")
+      filterClauses.push("(COALESCE(m.grade, s.grade) > ((76 * 2) - 100) AND COALESCE(m.grade, s.grade) <= ((79 * 2) - 100))");
+    else if (grade == "B-")
+      filterClauses.push("(COALESCE(m.grade, s.grade) > ((79 * 2) - 100) AND COALESCE(m.grade, s.grade) <= ((82 * 2) - 100))");
+    else if (grade == "B")
+      filterClauses.push("(COALESCE(m.grade, s.grade) > ((82 * 2) - 100) AND COALESCE(m.grade, s.grade) <= ((86 * 2) - 100))");
+    else if (grade == "B+")
+      filterClauses.push("(COALESCE(m.grade, s.grade) > ((86 * 2) - 100) AND COALESCE(m.grade, s.grade) <= ((89 * 2) - 100))");
+    else if (grade == "A-")
+      filterClauses.push("(COALESCE(m.grade, s.grade) > ((89 * 2) - 100) AND COALESCE(m.grade, s.grade) <= ((92 * 2) - 100))");
+    else if (grade == "A")
+      filterClauses.push("(COALESCE(m.grade, s.grade) > ((92 * 2) - 100) AND COALESCE(m.grade, s.grade) <= ((96 * 2) - 100))");
+    else if (grade == "A+")
+      filterClauses.push("(COALESCE(m.grade, s.grade) > ((96 * 2) - 100) AND COALESCE(m.grade, s.grade) <= 100)");
+    else if (grade == "1/10")
+      filterClauses.push("(COALESCE(m.grade, s.grade) >= 0 AND COALESCE(m.grade, s.grade) <= 10)");
+    else if (grade == "2/10")
+      filterClauses.push("(COALESCE(m.grade, s.grade) > 10 AND COALESCE(m.grade, s.grade) <= 20)");
+    else if (grade == "3/10")
+      filterClauses.push("(COALESCE(m.grade, s.grade) > 20 AND COALESCE(m.grade, s.grade) <= 30)");
+    else if (grade == "4/10")
+      filterClauses.push("(COALESCE(m.grade, s.grade) > 30 AND COALESCE(m.grade, s.grade) <= 40)");
+    else if (grade == "5/10")
+      filterClauses.push("(COALESCE(m.grade, s.grade) > 40 AND COALESCE(m.grade, s.grade) <= 50)");
+    else if (grade == "6/10")
+      filterClauses.push("(COALESCE(m.grade, s.grade) > 50 AND COALESCE(m.grade, s.grade) <= 60)");
+    else if (grade == "7/10")
+      filterClauses.push("(COALESCE(m.grade, s.grade) > 60 AND COALESCE(m.grade, s.grade) <= 70)");
+    else if (grade == "8/10")
+      filterClauses.push("(COALESCE(m.grade, s.grade) > 70 AND COALESCE(m.grade, s.grade) <= 80)");
+    else if (grade == "9/10")
+      filterClauses.push("(COALESCE(m.grade, s.grade) > 80 AND COALESCE(m.grade, s.grade) <= 90)");
+    else if (grade == "10/10")
+      filterClauses.push("(COALESCE(m.grade, s.grade) > 90 AND COALESCE(m.grade, s.grade) <= 100)");
+  }
+  const whereClause = filterClauses.length > 0 ? `WHERE ${filterClauses.join(" AND ")}` : "";
   
+  let orderByClause = "";
+  const sanitizedSortOrder = ["ASC", "DESC"].includes(sortOrder.toUpperCase()) ? sortOrder.toUpperCase() : "DESC";
+
+  switch (sortBy) {
+    case "title":
+      orderByClause = `ORDER BY m.title ${sanitizedSortOrder}`;
+      break;
+    case "runtime":
+      orderByClause = `ORDER BY COALESCE(m.runtime, s.runtime) ${sanitizedSortOrder}`;
+      break;
+    case "episodes":
+      orderByClause = `ORDER BY s.episodes ${sanitizedSortOrder}`;
+      break;
+    case "grade":
+      orderByClause = `ORDER BY COALESCE(m.grade, s.grade) ${sanitizedSortOrder}`;
+      break;
+    case "release_date":
+    default:
+      orderByClause = `ORDER BY COALESCE(m.release_date, s.start_date) ${sanitizedSortOrder}, m.title ASC`;
+      break;
+  }
+
   const sql = `
     WITH NumberedRecords AS (
-      SELECT ROW_NUMBER() OVER (ORDER BY COALESCE(m.release_date, s.start_date) DESC, m.title ASC) AS RowNum, m.id, m.title, m.grade, m.release_date, m.rating, m.poster, m.runtime, m.completed, m.type, s.season, s.grade AS grade_tv, s.episodes, s.start_date, s.end_date, directors, directors_tv, cast_members, cast_members_tv, writers, writers_tv
+      SELECT ROW_NUMBER() OVER (${orderByClause}) AS RowNum, 
+             m.id, m.title, m.grade, m.release_date, m.rating, m.poster, m.runtime, m.completed, m.type, 
+             s.season, s.grade AS grade_tv, s.episodes, s.runtime AS runtime_tv, s.start_date, s.end_date, 
+             directors, directors_tv, cast_members, cast_members_tv, writers, writers_tv
       FROM media m
       LEFT JOIN seasons s ON m.id = s.show_id
       LEFT JOIN LATERAL (
@@ -61,15 +214,11 @@ const index = (req, res) => {
         LEFT JOIN people p ON sw.writer_id = p.id
         WHERE m.id = sw.show_id AND s.season = sw.season
       ) sw ON TRUE
-      ${searchSystem}
+      ${whereClause}
     )
-    SELECT 
-      *
-    FROM 
-      NumberedRecords
-    WHERE 
-      (RowNum BETWEEN $1 AND $2)`;
-
+    SELECT * FROM NumberedRecords
+    WHERE (RowNum BETWEEN $1 AND $2)`;
+    
   pgClient.query(sql, params)
   .then(results => {
     res.status(200).json(results.rows);
@@ -80,24 +229,156 @@ const index = (req, res) => {
 }
 
 const indexLength = (req, res) => {
-  let searchSystem = "";
-  let params = [];
+  const { 
+    searchTerm,
+    filterType,
+    minRuntime,
+    maxRuntime,
+    minEpisodes,
+    maxEpisodes,
+    ratings,
+    grade,
+    startDate,
+    endDate
+  } = req.query;
 
-  if (req.query.searchTerm != undefined && req.query.searchTerm != "") {
-    searchSystem = "WHERE REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(title, 'à', 'a'), 'One Hundred and One', '101'), '''', ''), 'Thirteen', '13'), 'Twelve', '12'), 'Eleven', '11'), 'é', 'e'), 'Four', '4'), 'IV', '4'), 'Eight', '8'), 'VIII', '8'), 'Seven', '7'), 'VII', '7'), 'Six', '6'), 'VI', '6'), 'Five', '5'), 'V', '5'), 'Three', '3'), 'III', '3'), 'Two', '2'), 'II', '2'), 'Nine', '9'), 'IX', '9'), 'One', '1'), 'I', '1'), '.', ''), '&', 'and'), '-', ''), ':', ''), '!', ''), ',', '') ILIKE $1 OR REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(title, 'à', 'a'), 'One Hundred and One', '101'), '''', ''), 'Thirteen', '13'), 'Twelve', '12'), 'Eleven', '11'), 'é', 'e'), 'Four', '4'), 'IV', '4'), 'Eight', '8'), 'VIII', '8'), 'Seven', '7'), 'VII', '7'), 'Six', '6'), 'VI', '6'), 'Five', '5'), 'V', '5'), 'Three', '3'), 'III', '3'), 'Two', '2'), 'II', '2'), 'Nine', '9'), 'IX', '9'), 'One', '1'), 'I', '1'), '.', ''), '&', 'and'), '-', ''), ':', ''), '!', ''), ',', '') ILIKE $2 OR title ILIKE $1 OR title ILIKE $2";
-    params = [
-      `% ${req.query.searchTerm}%`,
-      `${req.query.searchTerm}%`
-    ];
+  let params = [];
+  let filterClauses = [];
+  let paramIndex = 1;
+
+  if (searchTerm) {
+    const searchSystem = `(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(title, 'à', 'a'), 'One Hundred and One', '101'), '''', ''), 'Thirteen', '13'), 'Twelve', '12'), 'Eleven', '11'), 'é', 'e'), 'Four', '4'), 'IV', '4'), 'Eight', '8'), 'VIII', '8'), 'Seven', '7'), 'VII', '7'), 'Six', '6'), 'VI', '6'), 'Five', '5'), 'V', '5'), 'Three', '3'), 'III', '3'), 'Two', '2'), 'II', '2'), 'Nine', '9'), 'IX', '9'), 'One', '1'), 'I', '1'), '.', ''), '&', 'and'), '-', ''), ':', ''), '!', ''), ',', '') ILIKE $${paramIndex++} OR REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(title, 'à', 'a'), 'One Hundred and One', '101'), '''', ''), 'Thirteen', '13'), 'Twelve', '12'), 'Eleven', '11'), 'é', 'e'), 'Four', '4'), 'IV', '4'), 'Eight', '8'), 'VIII', '8'), 'Seven', '7'), 'VII', '7'), 'Six', '6'), 'VI', '6'), 'Five', '5'), 'V', '5'), 'Three', '3'), 'III', '3'), 'Two', '2'), 'II', '2'), 'Nine', '9'), 'IX', '9'), 'One', '1'), 'I', '1'), '.', ''), '&', 'and'), '-', ''), ':', ''), '!', ''), ',', '') ILIKE $${paramIndex++} OR title ILIKE $${paramIndex-2} OR title ILIKE $${paramIndex-1})`;
+    filterClauses.push(searchSystem);
+    params.push(`% ${searchTerm}%`, `${searchTerm}%`);
+  }
+  if (filterType && filterType !== "all") {
+    filterClauses.push(`m.type = $${paramIndex++}`);
+    params.push(filterType);
+  }
+  if (minRuntime) {
+    filterClauses.push(`COALESCE(m.runtime, s.runtime) >= $${paramIndex++}`);
+    params.push(minRuntime);
+  }
+  if (maxRuntime) {
+    filterClauses.push(`COALESCE(m.runtime, s.runtime) <= $${paramIndex++}`);
+    params.push(maxRuntime);
+  }
+  if (minEpisodes) {
+    filterClauses.push(`s.episodes >= $${paramIndex++}`);
+    params.push(minEpisodes);
+  }
+  if (maxEpisodes) {
+    filterClauses.push(`s.episodes <= $${paramIndex++}`);
+    params.push(maxEpisodes);
+  }
+  if (ratings) {
+    filterClauses.push(`m.rating = ANY($${paramIndex++})`);
+    params.push(ratings.split(','));
+  }
+  if (startDate) {
+    filterClauses.push(`COALESCE(m.release_date, s.start_date) >= $${paramIndex++}`);
+    params.push(startDate);
+  }
+  if (endDate) {
+    filterClauses.push(`COALESCE(m.release_date, s.start_date) <= $${paramIndex++}`);
+    params.push(endDate);
+  }
+  if (grade) {
+    if (grade == "0/4")
+      filterClauses.push("(COALESCE(m.grade, s.grade) >= 0 AND COALESCE(m.grade, s.grade) < 6.25)");
+    else if (grade == "0.5/4")
+      filterClauses.push("(COALESCE(m.grade, s.grade) >= 6.25 AND COALESCE(m.grade, s.grade) < 18.75)");
+    else if (grade == "1/4")
+      filterClauses.push("(COALESCE(m.grade, s.grade) >= 18.75 AND COALESCE(m.grade, s.grade) < 31.25)");
+    else if (grade == "1.5/4")
+      filterClauses.push("(COALESCE(m.grade, s.grade) >= 31.25 AND COALESCE(m.grade, s.grade) < 43.75)");
+    else if (grade == "2/4")
+      filterClauses.push("(COALESCE(m.grade, s.grade) >= 43.75 AND COALESCE(m.grade, s.grade) < 56.25)");
+    else if (grade == "2.5/4")
+      filterClauses.push("(COALESCE(m.grade, s.grade) >= 56.25 AND COALESCE(m.grade, s.grade) < 68.75)");
+    else if (grade == "3/4")
+      filterClauses.push("(COALESCE(m.grade, s.grade) >= 68.75 AND COALESCE(m.grade, s.grade) < 81.25)");
+    else if (grade == "3.5/4")
+      filterClauses.push("(COALESCE(m.grade, s.grade) >= 81.25 AND COALESCE(m.grade, s.grade) < 93.75)");
+    else if (grade == "4/4")
+      filterClauses.push("(COALESCE(m.grade, s.grade) >= 93.75 AND COALESCE(m.grade, s.grade) <= 100)");
+    else if (grade == "0/5")
+      filterClauses.push("(COALESCE(m.grade, s.grade) >= 0 AND COALESCE(m.grade, s.grade) < 5))");
+    else if (grade == "0.5/5")
+      filterClauses.push("(COALESCE(m.grade, s.grade) >= 5) AND COALESCE(m.grade, s.grade) < 15)");
+    else if (grade == "1/5")
+      filterClauses.push("(COALESCE(m.grade, s.grade) >= 15 AND COALESCE(m.grade, s.grade) < 25)");
+    else if (grade == "1.5/5")
+      filterClauses.push("(COALESCE(m.grade, s.grade) >= 25 AND COALESCE(m.grade, s.grade) < 35)");
+    else if (grade == "2/5")
+      filterClauses.push("(COALESCE(m.grade, s.grade) >= 35 AND COALESCE(m.grade, s.grade) < 45)");
+    else if (grade == "2.5/5")
+      filterClauses.push("(COALESCE(m.grade, s.grade) >= 45 AND COALESCE(m.grade, s.grade) < 55)");
+    else if (grade == "3/5")
+      filterClauses.push("(COALESCE(m.grade, s.grade) >= 55 AND COALESCE(m.grade, s.grade) < 65)");
+    else if (grade == "3.5/5")
+      filterClauses.push("(COALESCE(m.grade, s.grade) >= 65 AND COALESCE(m.grade, s.grade) < 75)");
+    else if (grade == "4/5")
+      filterClauses.push("(COALESCE(m.grade, s.grade) >= 75 AND COALESCE(m.grade, s.grade) < 85)");
+    else if (grade == "4.5/5")
+      filterClauses.push("(COALESCE(m.grade, s.grade) >= 85 AND COALESCE(m.grade, s.grade) < 95)");
+    else if (grade == "5/5")
+      filterClauses.push("(COALESCE(m.grade, s.grade) >= 95 AND COALESCE(m.grade, s.grade) <= 100)");
+    else if (grade == "F")
+      filterClauses.push("(COALESCE(m.grade, s.grade) >= 0 AND COALESCE(m.grade, s.grade) <= ((59 * 2) - 100))");
+    else if (grade == "D-")
+      filterClauses.push("(COALESCE(m.grade, s.grade) > ((59 * 2) - 100) AND COALESCE(m.grade, s.grade) <= ((62 * 2) - 100))");
+    else if (grade == "D")
+      filterClauses.push("(COALESCE(m.grade, s.grade) > ((62 * 2) - 100) AND COALESCE(m.grade, s.grade) <= ((66 * 2) - 100))");
+    else if (grade == "D+")
+      filterClauses.push("(COALESCE(m.grade, s.grade) > ((66 * 2) - 100) AND COALESCE(m.grade, s.grade) <= ((69 * 2) - 100))");
+    else if (grade == "C-")
+      filterClauses.push("(COALESCE(m.grade, s.grade) > ((69 * 2) - 100) AND COALESCE(m.grade, s.grade) <= ((72 * 2) - 100))");
+    else if (grade == "C")
+      filterClauses.push("(COALESCE(m.grade, s.grade) > ((72 * 2) - 100) AND COALESCE(m.grade, s.grade) <= ((76 * 2) - 100))");
+    else if (grade == "C+")
+      filterClauses.push("(COALESCE(m.grade, s.grade) > ((76 * 2) - 100) AND COALESCE(m.grade, s.grade) <= ((79 * 2) - 100))");
+    else if (grade == "B-")
+      filterClauses.push("(COALESCE(m.grade, s.grade) > ((79 * 2) - 100) AND COALESCE(m.grade, s.grade) <= ((82 * 2) - 100))");
+    else if (grade == "B")
+      filterClauses.push("(COALESCE(m.grade, s.grade) > ((82 * 2) - 100) AND COALESCE(m.grade, s.grade) <= ((86 * 2) - 100))");
+    else if (grade == "B+")
+      filterClauses.push("(COALESCE(m.grade, s.grade) > ((86 * 2) - 100) AND COALESCE(m.grade, s.grade) <= ((89 * 2) - 100))");
+    else if (grade == "A-")
+      filterClauses.push("(COALESCE(m.grade, s.grade) > ((89 * 2) - 100) AND COALESCE(m.grade, s.grade) <= ((92 * 2) - 100))");
+    else if (grade == "A")
+      filterClauses.push("(COALESCE(m.grade, s.grade) > ((92 * 2) - 100) AND COALESCE(m.grade, s.grade) <= ((96 * 2) - 100))");
+    else if (grade == "A+")
+      filterClauses.push("(COALESCE(m.grade, s.grade) > ((96 * 2) - 100) AND COALESCE(m.grade, s.grade) <= 100)");
+    else if (grade == "1/10")
+      filterClauses.push("(COALESCE(m.grade, s.grade) >= 0 AND COALESCE(m.grade, s.grade) <= 10)");
+    else if (grade == "2/10")
+      filterClauses.push("(COALESCE(m.grade, s.grade) > 10 AND COALESCE(m.grade, s.grade) <= 20)");
+    else if (grade == "3/10")
+      filterClauses.push("(COALESCE(m.grade, s.grade) > 20 AND COALESCE(m.grade, s.grade) <= 30)");
+    else if (grade == "4/10")
+      filterClauses.push("(COALESCE(m.grade, s.grade) > 30 AND COALESCE(m.grade, s.grade) <= 40)");
+    else if (grade == "5/10")
+      filterClauses.push("(COALESCE(m.grade, s.grade) > 40 AND COALESCE(m.grade, s.grade) <= 50)");
+    else if (grade == "6/10")
+      filterClauses.push("(COALESCE(m.grade, s.grade) > 50 AND COALESCE(m.grade, s.grade) <= 60)");
+    else if (grade == "7/10")
+      filterClauses.push("(COALESCE(m.grade, s.grade) > 60 AND COALESCE(m.grade, s.grade) <= 70)");
+    else if (grade == "8/10")
+      filterClauses.push("(COALESCE(m.grade, s.grade) > 70 AND COALESCE(m.grade, s.grade) <= 80)");
+    else if (grade == "9/10")
+      filterClauses.push("(COALESCE(m.grade, s.grade) > 80 AND COALESCE(m.grade, s.grade) <= 90)");
+    else if (grade == "10/10")
+      filterClauses.push("(COALESCE(m.grade, s.grade) > 90 AND COALESCE(m.grade, s.grade) <= 100)");
   }
 
+  const whereClause = filterClauses.length > 0 ? `WHERE ${filterClauses.join(" AND ")}` : "";
+
   const sql = 
-    `
-      SELECT COUNT(*)
-      FROM media m
-      LEFT JOIN seasons s ON m.id = s.show_id
-      ${searchSystem}
-    `;
+    `SELECT COUNT(*)
+     FROM media m
+     LEFT JOIN seasons s ON m.id = s.show_id
+     ${whereClause}`;
 
   pgClient.query(sql, params)
   .then(results => {
@@ -128,12 +409,12 @@ const indexShows = (req, res) => {
 }
 
 const indexNew = (req, res) => {
-  pgClient.query("UPDATE media SET date_added = NULL WHERE date_added <= CURRENT_DATE - INTERVAL '1 MONTH'");
-  pgClient.query("UPDATE seasons SET date_added = NULL WHERE date_added <= CURRENT_DATE - INTERVAL '1 MONTH'");
+  pgClient.query("UPDATE media SET date_added = NULL WHERE date_added <= CURRENT_TIMESTAMP - INTERVAL '1 MONTH'");
+  pgClient.query("UPDATE seasons SET date_added = NULL WHERE date_added <= CURRENT_TIMESTAMP - INTERVAL '1 MONTH'");
   
   const sql = 
     `
-      SELECT m.id, m.title, m.grade, m.release_date, m.rating, m.poster, m.runtime, m.completed, m.type, s.season, s.grade AS grade_tv, s.episodes, s.start_date, s.end_date, directors, directors_tv, cast_members, cast_members_tv, writers, writers_tv
+      SELECT m.id, m.title, m.grade, m.release_date, m.rating, m.poster, m.runtime, m.completed, m.type, s.season, s.grade AS grade_tv, s.episodes, s.runtime AS runtime_tv, s.start_date, s.end_date, directors, directors_tv, cast_members, cast_members_tv, writers, writers_tv
       FROM media m
       LEFT JOIN seasons s ON m.id = s.show_id
       LEFT JOIN LATERAL (
@@ -172,7 +453,7 @@ const indexNew = (req, res) => {
         LEFT JOIN people p ON sw.writer_id = p.id
         WHERE m.id = sw.show_id AND s.season = sw.season
       ) sw ON TRUE
-      WHERE (m.date_added IS NOT NULL AND m.date_added > CURRENT_DATE - INTERVAL '1 MONTH') OR (s.date_added IS NOT NULL AND s.date_added > CURRENT_DATE - INTERVAL '1 MONTH')
+      WHERE (m.date_added IS NOT NULL AND m.date_added > CURRENT_TIMESTAMP - INTERVAL '1 MONTH') OR (s.date_added IS NOT NULL AND s.date_added > CURRENT_TIMESTAMP - INTERVAL '1 MONTH')
       ORDER BY COALESCE(m.date_added, s.date_added) DESC
     `;
 
@@ -376,23 +657,23 @@ async function createNewShow(media, { directors, writers, castMembers }) {
       RETURNING id
     ),
     insert_season AS (
-      INSERT INTO seasons (season, show_id, grade, episodes, start_date, end_date, date_added)
-      VALUES (1, (SELECT id FROM new_media), $5, $6, $7, $8, $9)
+      INSERT INTO seasons (season, show_id, grade, episodes, runtime, start_date, end_date, date_added)
+      VALUES (1, (SELECT id FROM new_media), $5, $6, $7, $8, $9, $10)
     ),
     insert_directors AS (
       INSERT INTO seasons_directors (ordering, show_id, season, director_id)
       SELECT row_number() OVER (), (SELECT id FROM new_media), 1, director_id
-      FROM unnest($10::int[]) AS director_id
+      FROM unnest($11::int[]) AS director_id
     ),
     insert_cast AS (
       INSERT INTO seasons_cast (ordering, season, show_id, actor_id)
       SELECT row_number() OVER (), 1, (SELECT id FROM new_media), actor_id
-      FROM unnest($11::int[]) AS actor_id
+      FROM unnest($12::int[]) AS actor_id
     ),
     insert_writers AS (
       INSERT INTO seasons_writers (ordering, show_id, season, writer_id)
       SELECT row_number() OVER (), (SELECT id FROM new_media), 1, writer_id
-      FROM unnest($12::int[]) AS writer_id
+      FROM unnest($13::int[]) AS writer_id
     )
     SELECT id FROM new_media;
   `;
@@ -404,6 +685,7 @@ async function createNewShow(media, { directors, writers, castMembers }) {
     media.completed || false,
     media.grade, 
     media.episodes, 
+    media.runtime,
     media.start_date, 
     media.end_date,
     new Date(),
@@ -426,10 +708,10 @@ async function addSeasonToShow(media, { directors, writers, castMembers }) {
     WITH new_season_info AS (
       SELECT COALESCE(MAX(season), 0) + 1 AS season_num FROM seasons WHERE show_id = $1
     )
-    INSERT INTO seasons (season, show_id, grade, episodes, start_date, end_date, date_added)
-    SELECT season_num, $1, $2, $3, $4, $5, $6 FROM new_season_info;
+    INSERT INTO seasons (season, show_id, grade, episodes, runtime, start_date, end_date, date_added)
+    SELECT season_num, $1, $2, $3, $4, $5, $6, $7 FROM new_season_info;
   `;
-  await pgClient.query(sql, [media.id, media.grade, media.episodes, media.start_date, media.end_date, new Date()]);
+  await pgClient.query(sql, [media.id, media.grade, media.episodes, media.runtime, media.start_date, media.end_date, new Date()]);
 
   sql = `
     WITH new_season_info AS (
@@ -572,6 +854,11 @@ async function updateShow(media, og, { directors, writers, castMembers }) {
   if (media.episodes != og.episodes) {
     sql = `UPDATE seasons SET episode = $1 WHERE show_id = $2 AND season = $3;`;
     await pgClient.query(sql, [media.episodes, media.id, media.season]);
+  }
+
+  if (media.runtime != og.runtime) {
+    sql = `UPDATE seasons SET runtime = $1 WHERE show_id = $2 AND season = $3;`;
+    await pgClient.query(sql, [media.runtime, media.id, media.season]);
   }
 
   if (!og.directors_tv || !directors || og.directors_tv.length != directors.length || !(directors.every(d => og.directors_tv.some(ogd => ogd["director_id"] === d)))) {

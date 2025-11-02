@@ -148,25 +148,33 @@ function MediaForm({ show, setShow, media }) {
         media.grade_tv = 0;
       }
 
+      if (!media.runtime && !media.runtime_tv) {
+        media.runtime = 0;
+        media.runtime_tv = 0;
+      }
+
       if (!media.grade)
         media.grade = media.grade_tv;
 
+      if (!media.runtime)
+        media.runtime = media.runtime_tv
+
       if (user.rating_scale == 1) {
-        if (media.grade < (25/4))
+        if (media.grade < 6.25)
           grade = 0;
-        else if (media.grade < (75/4))
+        else if (media.grade < 18.75)
           grade = 0.5;
-        else if (media.grade < (125/4))
+        else if (media.grade < 31.25)
           grade = 1;
-        else if (media.grade < (175/4))
+        else if (media.grade < 43.75)
           grade = 1.5;
-        else if (media.grade < (225/4))
+        else if (media.grade < 56.25)
           grade = 2;
-        else if (media.grade < (275/4))
+        else if (media.grade < 68.75)
           grade = 2.5;
-        else if (media.grade < (325/4))
+        else if (media.grade < 81.25)
           grade = 3;
-        else if (media.grade < (375/4))
+        else if (media.grade < 93.75)
           grade = 3.5;
         else
           grade = 4;
@@ -185,25 +193,25 @@ function MediaForm({ show, setShow, media }) {
         }
       }
       else if (user.rating_scale == 2) {
-        if (media.grade < (25/5))
+        if (media.grade < 5)
           grade = 0;
-        else if (media.grade < (75/5))
+        else if (media.grade < 15)
           grade = 0.5;
-        else if (media.grade < (125/5))
+        else if (media.grade < 25)
           grade = 1;
-        else if (media.grade < (175/5))
+        else if (media.grade < 35)
           grade = 1.5;
-        else if (media.grade < (225/5))
+        else if (media.grade < 45)
           grade = 2;
-        else if (media.grade < (275/5))
+        else if (media.grade < 55)
           grade = 2.5;
-        else if (media.grade < (325/5))
+        else if (media.grade < 65)
           grade = 3;
-        else if (media.grade < (375/5))
+        else if (media.grade < 75)
           grade = 3.5;
-        else if (media.grade < (425/5))
+        else if (media.grade < 85)
           grade = 4;
-        else if (media.grade < (475/5))
+        else if (media.grade < 95)
           grade = 4.5;
         else
           grade = 5;
@@ -222,29 +230,29 @@ function MediaForm({ show, setShow, media }) {
         }
       }
       else if (user.rating_scale == 3) {
-        if (media.grade < (150/13))
+        if (media.grade <= ((59 * 2) - 100))
           grade = 0;
-        else if (media.grade < (250/13))
+        else if (media.grade <= ((62 * 2) - 100))
           grade = 1;
-        else if (media.grade < (350/13))
+        else if (media.grade <= ((66 * 2) - 100))
           grade = 2;
-        else if (media.grade < (450/13))
+        else if (media.grade <= ((69 * 2) - 100))
           grade = 3;
-        else if (media.grade < (550/13))
+        else if (media.grade <= ((72 * 2) - 100))
           grade = 4;
-        else if (media.grade < (650/13))
+        else if (media.grade <= ((76 * 2) - 100))
           grade = 5;
-        else if (media.grade < (750/13))
+        else if (media.grade <= ((79 * 2) - 100))
           grade = 6;
-        else if (media.grade < (850/13))
+        else if (media.grade <= ((82 * 2) - 100))
           grade = 7;
-        else if (media.grade < (950/13))
+        else if (media.grade <= ((86 * 2) - 100))
           grade = 8;
-        else if (media.grade < (1050/13))
+        else if (media.grade <= ((89 * 2) - 100))
           grade = 9;
-        else if (media.grade < (1150/13))
+        else if (media.grade <= ((92 * 2) - 100))
           grade = 10;
-        else if (media.grade < (1250/13))
+        else if (media.grade <= ((96 * 2) - 100))
           grade = 11;
         else
           grade = 12;
@@ -263,28 +271,27 @@ function MediaForm({ show, setShow, media }) {
         }
       }
       else {
-        if (media.grade < (50/9))
+        if (media.grade <= 10)
           grade = 0;
-        else if (media.grade < (150/9))
+        else if (media.grade <= 20)
           grade = 1;
-        else if (media.grade < (250/9))
+        else if (media.grade <= 30)
           grade = 2;
-        else if (media.grade < (350/9))
+        else if (media.grade <= 40)
           grade = 3;
-        else if (media.grade < (450/9))
+        else if (media.grade <= 50)
           grade = 4;
-        else if (media.grade < (550/9))
+        else if (media.grade <= 60)
           grade = 5;
-        else if (media.grade < (650/9))
+        else if (media.grade <= 70)
           grade = 6;
-        else if (media.grade < (750/9))
+        else if (media.grade <= 80)
           grade = 7;
-        else if (media.grade < (850/9))
+        else if (media.grade <= 90)
           grade = 8;
         else
           grade = 9;
 
-        
         setPillColor("primary");
         setPillText("text-white");
       }
@@ -383,7 +390,6 @@ function MediaForm({ show, setShow, media }) {
   };
 
   const handleRemovePerson = (person) => {
-    console.log(selected.filter(p => p.id !== person.id));
     setSelected(selected.filter(p => p.id !== person.id));
   };
 
@@ -446,11 +452,55 @@ function MediaForm({ show, setShow, media }) {
     else if (user.rating_scale == 2)
       formData.grade = (formData.grade / 5) * 100;
     else if (user.rating_scale == 3) {
-      if (formData.grade > 0)
-        formData.grade = ((parseInt(formData.grade) + 1) / 13) * 100;
+      if (formData.grade == 0)
+        formData.grade = 0;
+      else if (formData.grade == 1)
+        formData.grade = 22.5;
+      else if (formData.grade == 2)
+        formData.grade = 27.5;
+      else if (formData.grade == 3)
+        formData.grade = 33.75;
+      else if (formData.grade == 4)
+        formData.grade = 38.75;
+      else if (formData.grade == 5)
+        formData.grade = 50;
+      else if (formData.grade == 6)
+        formData.grade = 55;
+      else if (formData.grade == 7)
+        formData.grade = 61.25;
+      else if (formData.grade == 8)
+        formData.grade = 66.25;
+      else if (formData.grade == 9)
+        formData.grade = 77.5;
+      else if (formData.grade == 10)
+        formData.grade = 83.75;
+      else if (formData.grade == 11)
+        formData.grade = 88.75;
+      else
+        formData.grade = 100;
     }
-    else
-      formData.grade = (formData.grade / 9) * 100;
+    else {
+      if (formData.grade == 0)
+        formData.grade = 0;
+      else if (formData.grade == 1)
+        formData.grade = 16.25;
+      else if (formData.grade == 2)
+        formData.grade = 27.5;
+      else if (formData.grade == 3)
+        formData.grade = 38.75;
+      else if (formData.grade == 4)
+        formData.grade = 50;
+      else if (formData.grade == 5)
+        formData.grade = 55;
+      else if (formData.grade == 6)
+        formData.grade = 66.25;
+      else if (formData.grade == 7)
+        formData.grade = 77.5;
+      else if (formData.grade == 8)
+        formData.grade = 88.75;
+      else
+        formData.grade = 100;
+    }
 
     const payload = { ...formData, castAndCrew: selected };
     const apiCall = media?.id ? axios.put(`/api/media/${media.id}`, [payload, media]) : axios.post("/api/media", payload);
@@ -535,17 +585,16 @@ function MediaForm({ show, setShow, media }) {
           )}
 
           {formData.type === "movie" && (
-            <>
-              <Form.Group as={Row} className="mb-3">
-                <Form.Label column sm={3}>Release Date</Form.Label>
-                <Col sm={9}><Form.Control type="date" value={formData.release_date} isInvalid={!!errors.release_date} onChange={e => handleChange(e, "release_date")} /></Col>
-              </Form.Group>
-              <Form.Group as={Row} className="mb-3">
-                <Form.Label column sm={3}>Runtime (mins)</Form.Label>
-                <Col sm={9}><Form.Control type="number" value={formData.runtime} placeholder="e.g., 120" isInvalid={!!errors.runtime} onChange={e => handleChange(e, "runtime")} /></Col>
-              </Form.Group>
-            </>
+            <Form.Group as={Row} className="mb-3">
+              <Form.Label column sm={3}>Release Date</Form.Label>
+              <Col sm={9}><Form.Control type="date" value={formData.release_date} isInvalid={!!errors.release_date} onChange={e => handleChange(e, "release_date")} /></Col>
+            </Form.Group>
           )}
+
+          <Form.Group as={Row} className="mb-3">
+            <Form.Label column sm={3}>Runtime (mins)</Form.Label>
+            <Col sm={9}><Form.Control type="number" value={formData.runtime} placeholder="e.g., 120" isInvalid={!!errors.runtime} onChange={e => handleChange(e, "runtime")} /></Col>
+          </Form.Group>
 
           {formData.type && (
             <>

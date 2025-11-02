@@ -18,6 +18,7 @@ function EditMedia() {
     year: "",
     poster: "", 
     runtime: "",
+    runtime_tv: "",
     episodes: "",
     completed: "",
     type: "",
@@ -68,6 +69,7 @@ function EditMedia() {
           end_date: results.data.end_date,
           poster: results.data.poster, 
           runtime: results.data.runtime,
+          runtime_tv: results.data.runtime_tv,
           episodes: results.data.episodes,
           type: results.data.type,
           completed: results.data.completed,
@@ -76,7 +78,7 @@ function EditMedia() {
           writers: selectedWriters
         });
         if (media.type == "show")
-          setMedia({ grade: results.data.grade_tv })
+          setMedia({ grade: results.data.grade_tv, runtime: results.data.runtime_tv })
       })
       .catch(error => {
         setAlert({ message: "Failed to load media.", variant: "danger" });

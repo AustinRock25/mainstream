@@ -20,6 +20,7 @@ const Person = ({person}) => {
         const id = credit.id;
         if (!creditsMap.has(id)) {
           creditsMap.set(id, {
+            id: credit.id,
             title: credit.title,
             release_date: credit.release_date,
             start_date: credit.start_date,
@@ -61,7 +62,14 @@ const Person = ({person}) => {
       else
         year = new Date(credit.release_date).getFullYear();
 
-      return `${credit.title} (${year})`;
+      if (person.name == "Rose McGowan" && credit.id == 1597)
+        return `Planet Terror (${year})\nDeath Proof (${year})`;
+      else if ((person.name == "Freddy Rodriguez" || person.name == "Michael Biehn" || person.name == "Jeff Fahey" || person.name == "Josh Brolin" || person.name == "Marley Shelton" || person.name == "Robert Rodriguez") && credit.id == 1597)
+        return `Planet Terror (${year})`;
+      else if ((person.name == "Kurt Russell" || person.name == "Rosario Dawson" || person.name == "Vanessa Ferlito" || person.name == "Jordan Ladd" || person.name == "Sydney Tamiia Poitier" || person.name == "Tracie Thoms" || person.name == "Mary Elizabeth Winstead" || person.name == "Zoë Bell" || person.name == "Quentin Tarantino") && credit.id == 1597)
+        return `Death Proof (${year})`;
+      else
+        return `${credit.title} (${year})`;
     });
   }, [person]);
 
@@ -69,8 +77,18 @@ const Person = ({person}) => {
     if (!dateString) 
       return "";
 
+    let suffix = "th";
+
     const date = new Date(dateString);
-    return date.toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric", timeZone: "UTC" });
+
+    if (date.getDate() % 10 === 1 && date.getDate() % 100 !== 11) 
+      suffix = "st";
+    if (date.getDate() % 10 === 2 && date.getDate() % 100 !== 12) 
+      suffix = "nd";
+    if (date.getDate() % 10 === 3 && date.getDate() % 100 !== 13) 
+      suffix = "rd";
+
+    return `${date.toLocaleDateString("en-US", { month: "long" })}  ${date.getDate()}${suffix}, ${date.getFullYear()}`;
   };
 
   const getAge = (birthDate, deathDate) => {
@@ -96,7 +114,7 @@ const Person = ({person}) => {
         <td>{getAge(person.birth_date, person.death_date)}</td>
         <td>
           {getCredits.map((credit, index) => (
-            <div key={index} style={{fontSize: "0.85rem"}} className="text-white-50">{credit}</div>
+            <div key={index} style={{fontSize: "0.85rem", whiteSpace: "pre-line"}} className="text-white-50">{credit}</div>
           ))}
         </td>
         <td className="text-center">

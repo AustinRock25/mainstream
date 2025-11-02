@@ -10,9 +10,17 @@ function MediaCard ({media}) {
   const [pillText, setPillText] = useState("");
   const [seasonCount, setSeasonCount] = useState(0);
   const [showMediaModal, setShowMediaModal] = useState(false);
+  const [showRuntime, setShowRuntime] = useState(false);
 
   function handleEditMediaClick() {
     setShowMediaModal(true);
+  }
+
+  function handlePillClick() {
+    if (showRuntime)
+      setShowRuntime(false);
+    else
+      setShowRuntime(true);
   }
 
   useEffect(() => {
@@ -20,11 +28,11 @@ function MediaCard ({media}) {
       if (!media.grade)
         media.grade = media.grade_tv;
 
-      if ((user.rating_scale == 1 && media.grade < (175/4)) || (user.rating_scale == 2 && media.grade < (175/5)) || (user.rating_scale == 3 && media.grade < (450/13))) {
+      if ((user.rating_scale == 1 && media.grade < 43.75) || (user.rating_scale == 2 && media.grade < 35) || (user.rating_scale == 3 && media.grade <= ((69 * 2) - 100))) {
         setPillColor("danger");
         setPillText("text-white");
       }
-      else if ((user.rating_scale == 1 && media.grade < (225/4)) || (user.rating_scale == 2 && media.grade < (325/5)) || (user.rating_scale == 3 && media.grade < (750/13))) {
+      else if ((user.rating_scale == 1 && media.grade < 56.25) || (user.rating_scale == 2 && media.grade < 65) || (user.rating_scale == 3 && media.grade < ((79 * 2) - 100))) {
         setPillColor("warning");
         setPillText("text-black");
       }
@@ -113,95 +121,95 @@ function MediaCard ({media}) {
       media.grade = media.grade_tv;
 
     if (user.rating_scale == 1) {
-      if (media.grade < (25/4))
+      if (media.grade < 6.25)
         return "0/4";
-      else if (media.grade < (75/4))
+      else if (media.grade < 18.75)
         return "0.5/4";
-      else if (media.grade < (125/4))
+      else if (media.grade < 31.25)
         return "1/4";
-      else if (media.grade < (175/4))
+      else if (media.grade < 43.75)
         return "1.5/4";
-      else if (media.grade < (225/4))
+      else if (media.grade < 56.25)
         return "2/4";
-      else if (media.grade < (275/4))
+      else if (media.grade < 68.75)
         return "2.5/4";
-      else if (media.grade < (325/4))
+      else if (media.grade < 81.25)
         return "3/4";
-      else if (media.grade < (375/4))
+      else if (media.grade < 93.75)
         return "3.5/4";
       else
         return "4/4";
     }
     else if (user.rating_scale == 2) {
-      if (media.grade < (25/5))
+      if (media.grade < 5)
         return "0/5";
-      else if (media.grade < (75/5))
+      else if (media.grade < 15)
         return "0.5/5";
-      else if (media.grade < (125/5))
+      else if (media.grade < 25)
         return "1/5";
-      else if (media.grade < (175/5))
+      else if (media.grade < 35)
         return "1.5/5";
-      else if (media.grade < (225/5))
+      else if (media.grade < 45)
         return "2/5";
-      else if (media.grade < (275/5))
+      else if (media.grade < 55)
         return "2.5/5";
-      else if (media.grade < (325/5))
+      else if (media.grade < 65)
         return "3/5";
-      else if (media.grade < (375/5))
+      else if (media.grade < 75)
         return "3.5/5";
-      else if (media.grade < (425/5))
+      else if (media.grade < 85)
         return "4/5";
-      else if (media.grade < (475/5))
+      else if (media.grade < 95)
         return "4.5/5";
       else
         return "5/5";
     }
     else if (user.rating_scale == 3) {
-      if (media.grade < (150/13))
+      if (media.grade <= ((59 * 2) - 100))
         return "F";
-      else if (media.grade < (250/13))
+      else if (media.grade <= ((62 * 2) - 100))
         return "D-";
-      else if (media.grade < (350/13))
+      else if (media.grade <= ((66 * 2) - 100))
         return "D";
-      else if (media.grade < (450/13))
+      else if (media.grade <= ((69 * 2) - 100))
         return "D+";
-      else if (media.grade < (550/13))
+      else if (media.grade <= ((72 * 2) - 100))
         return "C-";
-      else if (media.grade < (650/13))
+      else if (media.grade <= ((76 * 2) - 100))
         return "C";
-      else if (media.grade < (750/13))
+      else if (media.grade <= ((79 * 2) - 100))
         return "C+";
-      else if (media.grade < (850/13))
+      else if (media.grade <= ((82 * 2) - 100))
         return "B-";
-      else if (media.grade < (950/13))
+      else if (media.grade <= ((86 * 2) - 100))
         return "B";
-      else if (media.grade < (1050/13))
+      else if (media.grade <= ((89 * 2) - 100))
         return "B+";
-      else if (media.grade < (1150/13))
+      else if (media.grade <= ((92 * 2) - 100))
         return "A-";
-      else if (media.grade < (1250/13))
+      else if (media.grade <= ((96 * 2) - 100))
         return "A";
       else
         return "A+";
     }
     else {
-      if (media.grade < (50/9))
+      if (media.grade <= 10)
         return "1/10";
-      else if (media.grade < (150/9))
+      else if (media.grade <= 20)
         return "2/10";
-      else if (media.grade < (250/9))
+      else if (media.grade <= 30)
         return "3/10";
-      else if (media.grade < (350/9))
+      else if (media.grade <= 40)
         return "4/10";
-      else if (media.grade < (450/9))
+      else if (media.grade <= 50)
         return "5/10";
-      else if (media.grade < (550/9))
+      else if (media.grade <= 60)
         return "6/10";
-      else if (media.grade < (650/9))
+      else if (media.grade <= 70)
         return "7/10";
-      else if (media.grade < (750/9))
+      else if (media.grade <= 80)
         return "8/10";
-      else if (media.grade < (850/9))
+      else if (media.grade <= 90)
         return "9/10";
       else
         return "10/10";
@@ -225,35 +233,76 @@ function MediaCard ({media}) {
           <Stack direction="horizontal" gap={3} className="mt-2 mb-3 mx-auto">
             {!!user && <Badge bg={pillColor} className={pillText} pill>{getGrade(media)}</Badge>}
             <Badge bg="secondary" pill>{media.rating == "Not Rated" ? "NR" : media.rating}</Badge>
-            {media.type !== "show" ? <Badge bg="dark" pill>{time(media.runtime)}</Badge> : <Badge bg="dark" pill>{media.episodes} eps</Badge>}
+            {media.type === "movie" ? <Badge bg="dark" pill>{time(media.runtime)}</Badge> : <Badge bg="dark" pill onClick={handlePillClick} style={{ cursor: "pointer" }}>{showRuntime ? time(media.runtime_tv) : media.episodes + "eps"}</Badge>}
           </Stack>
 
-          <div className="small text-white-50" style={{fontSize: "0.8rem"}}>
-            {isCombined && (
-              <div className="mb-1">
-                <b>Written & Directed by</b>
-                {directors.map((name, index) => <div key={`director-writer-${index}`}>{name}</div>)}
+          {(media.id != 1597) 
+            ? 
+              <div className="small text-white-50" style={{fontSize: "0.8rem"}}>
+              {isCombined && (
+                <div className="mb-1">
+                  <b>Written & Directed by</b>
+                  {directors.map((name, index) => <div key={`director-writer-${index}`}>{name}</div>)}
+                </div>
+              )}
+              {!isCombined && directors.length > 0 && (
+                <div className="mb-1">
+                  <b>Directed by</b>
+                  {directors.map((name, index) => <div key={`director-${index}`}>{name}</div>)}
+                </div>
+              )}
+              {!isCombined && writers.length > 0 && (
+                <div className="mb-1">
+                  <b>Written by</b>
+                  {writers.map((name, index) => <div key={`writer-${index}`}>{name}</div>)}
+                </div>
+              )}
+              {cast.length > 0 && (
+                <div className="mb-1">
+                  <b>Starring</b>
+                  {cast.map((name, index) => <div key={`cast-${index}`}>{name}</div>)}
+                </div>
+              )}
               </div>
-            )}
-            {!isCombined && directors.length > 0 && (
-              <div className="mb-1">
-                <b>Directed by</b>
-                {directors.map((name, index) => <div key={`director-${index}`}>{name}</div>)}
+            : 
+            <>
+              <div className="text-white-50">
+                <i>Planet Terror</i>
+                <div className="mb-1 small text-white-50" style={{fontSize: "0.8rem"}}>
+                  <b>Written & Directed by</b>
+                  <div key={`director-writer-0`}>{media.directors[0].name}{media.directors[0].death_date ? "†" : ""}</div>
+                </div>
+                <div className="mb-1 small text-white-50" style={{fontSize: "0.8rem"}}>
+                  <b>Starring</b>
+                  <div key={`cast-0`}>{media.cast_members[0].name}{media.cast_members[0].death_date ? "†" : ""}</div>
+                  <div key={`cast-1`}>{media.cast_members[1].name}{media.cast_members[1].death_date ? "†" : ""}</div>
+                  <div key={`cast-2`}>{media.cast_members[2].name}{media.cast_members[2].death_date ? "†" : ""}</div>
+                  <div key={`cast-3`}>{media.cast_members[3].name}{media.cast_members[3].death_date ? "†" : ""}</div>
+                  <div key={`cast-4`}>{media.cast_members[4].name}{media.cast_members[4].death_date ? "†" : ""}</div>
+                  <div key={`cast-5`}>{media.cast_members[5].name}{media.cast_members[5].death_date ? "†" : ""}</div>
+                </div>
               </div>
-            )}
-            {!isCombined && writers.length > 0 && (
-              <div className="mb-1">
-                <b>Written by</b>
-                {writers.map((name, index) => <div key={`writer-${index}`}>{name}</div>)}
+              <div className="text-white-50">
+                <i>Death Proof</i>
+                <div className="mb-1 small text-white-50" style={{fontSize: "0.8rem"}}>
+                  <b>Written & Directed by</b>
+                  <div key={`director-writer-1`}>{media.directors[1].name}{media.directors[1].death_date ? "†" : ""}</div>
+                </div>
+                <div className="mb-1 small text-white-50" style={{fontSize: "0.8rem"}}>
+                  <b>Starring</b>
+                  <div key={`cast-6`}>{media.cast_members[6].name}{media.cast_members[6].death_date ? "†" : ""}</div>
+                  <div key={`cast-7`}>{media.cast_members[7].name}{media.cast_members[7].death_date ? "†" : ""}</div>
+                  <div key={`cast-8`}>{media.cast_members[8].name}{media.cast_members[8].death_date ? "†" : ""}</div>
+                  <div key={`cast-9`}>{media.cast_members[9].name}{media.cast_members[9].death_date ? "†" : ""}</div>
+                  <div key={`cast-0`}>{media.cast_members[0].name}{media.cast_members[0].death_date ? "†" : ""}</div>
+                  <div key={`cast-10`}>{media.cast_members[10].name}{media.cast_members[10].death_date ? "†" : ""}</div>
+                  <div key={`cast-11`}>{media.cast_members[11].name}{media.cast_members[11].death_date ? "†" : ""}</div>
+                  <div key={`cast-12`}>{media.cast_members[12].name}{media.cast_members[12].death_date ? "†" : ""}</div>
+                  <div key={`cast-13`}>{media.cast_members[13].name}{media.cast_members[13].death_date ? "†" : ""}</div>
+                </div>
               </div>
-            )}
-            {cast.length > 0 && (
-              <div className="mb-1">
-                <b>Starring</b>
-                {cast.map((name, index) => <div key={`cast-${index}`}>{name}</div>)}
-              </div>
-            )}
-          </div>
+            </>
+          }
 
         </Card.Body>
         {isAdmin && (
