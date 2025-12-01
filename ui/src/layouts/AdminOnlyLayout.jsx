@@ -7,7 +7,12 @@ const AdminOnlyLayout = () => {
 
   return (
     <>
-      {isAuthenticated && isAdmin ? <Outlet /> : <Unauthorized />}
+      {isAuthenticated && isAdmin 
+        ? 
+          <Outlet /> 
+        : 
+          <Unauthorized />
+      }
     </>
   )
 }

@@ -1,22 +1,17 @@
+import { Alert, Button, Form, Modal, Spinner } from "react-bootstrap";
 import { authenticated, unauthenticated } from "../../slices/authSlice.js";
 import axios from "axios";
-import { Alert, Button, Form, Modal, Spinner } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 function AuthModal({ show, setShow, action }) {
-  const { user } = useSelector(state => state.auth);
   const dispatch = useDispatch();
   const [errors, setErrors] = useState({});
-  const [formData, setFormData] = useState({ email: "", password: "", rating_scale: 1 });
+  const [formData, setFormData] = useState({ email: "", password: "" });
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
-
-  useEffect(() => {
-    if (!!user)
-      setFormData({ rating_scale: user.rating_scale });
-  }, [user]);
+  const { user } = useSelector(state => state.auth);
 
   function handleSubmit(e) {
     e.preventDefault();
@@ -24,10 +19,8 @@ function AuthModal({ show, setShow, action }) {
 
     if (action === "login")
       login();
-    else if (action === "register")
+    else
       register();
-    else if (action === "change")
-      change();
   }
 
   function handleHide() {
@@ -37,67 +30,49 @@ function AuthModal({ show, setShow, action }) {
 
   function resetForm() {
     setErrors({});
-    setFormData({ email: "", password: "", rating_scale: 1 });
+    setFormData({ email: "", password: "" });
   }
 
   function login() {
     axios.post("/api/auth/login", formData)
-      .then(response => {
-        dispatch(authenticated(response.data));
-        handleHide();
-        window.location.reload();
-      })
-      .catch(error => {
-        dispatch(unauthenticated());
-        if (error.response?.status === 422)
-          setErrors(error.response.data.errors);
-        else if (error.response?.status === 401)
-          setErrors({ email: "Invalid email or password." });
-        else if (error.response?.status === 404)
-          setErrors({ email: "User not found." });
-        else
-          setErrors({ form: "An unexpected error occurred. Please try again later." });
-      })
-      .finally(() => {
-        setIsLoading(false);
-      });
+    .then(response => {
+      dispatch(authenticated(response.data));
+      handleHide();
+      window.location.reload();
+    })
+    .catch(error => {
+      dispatch(unauthenticated());
+      if (error.response?.status === 422)
+        setErrors(error.response.data.errors);
+      else if (error.response?.status === 401)
+        setErrors({ email: "Invalid email or password." });
+      else if (error.response?.status === 404)
+        setErrors({ email: "User not found." });
+      else
+        setErrors({ form: "An unexpected error occurred. Please try again later." });
+    })
+    .finally(() => {
+      setIsLoading(false);
+    });
   }
 
   function register() {
     axios.post("/api/auth/register", formData)
-      .then(response => {
-        dispatch(authenticated(response.data));
-        handleHide();
-        window.location.reload();
-      })
-      .catch(error => {
-        dispatch(unauthenticated());
-        if (error.response?.status === 422)
-          setErrors(error.response.data.errors);
-        else
-          setErrors({ form: "An unexpected error occurred. Please try again later." });
-      })
-      .finally(() => {
-        setIsLoading(false);
-      });
-  }
-
-  function change() {
-    axios.put(`/api/auth/change/${user.id}`, formData)
-      .then(response => {
-        navigate(0);
-        handleHide();
-      })
-      .catch(error => {
-        dispatch(unauthenticated());
-        if (error.response?.status === 422)
-          setErrors(error.response.data.errors);
-        else
-          setErrors({ form: "An unexpected error occurred. Please try again later." });
-      })
-      .finally(() => {
-        setIsLoading(false);
-      });
+    .then(response => {
+      dispatch(authenticated(response.data));
+      handleHide();
+      window.location.reload();
+    })
+    .catch(error => {
+      dispatch(unauthenticated());
+      if (error.response?.status === 422)
+        setErrors(error.response.data.errors);
+      else
+        setErrors({ form: "An unexpected error occurred. Please try again later." });
+    })
+    .finally(() => {
+      setIsLoading(false);
+    });
   }
 
   return (
@@ -121,7 +96,6 @@ function AuthModal({ show, setShow, action }) {
               <Form.Control.Feedback type="invalid">{errors.email}</Form.Control.Feedback>
             </Form.Group>
           }
-          
           {action !== "change" && 
             <Form.Group className="mb-3" controlId="formBasicPassword">
               <Form.Label>Password</Form.Label>
@@ -135,19 +109,23 @@ function AuthModal({ show, setShow, action }) {
               <Form.Control.Feedback type="invalid">{errors.password}</Form.Control.Feedback>
             </Form.Group>
           }
-
-          {action !== "login" && 
-            <Form.Group className="mb-3">
-              <Form.Label column sm={3}>Rating Scale</Form.Label>
-              <Form.Select value={formData.rating_scale} isInvalid={!!errors.rating_scale} onChange={(e) => setFormData({ ...formData, rating_scale: e.target.value })}>
-                {[1, 2, 3, 4].map(r => <option key={r} value={r}>{r == 1 && `0 to 4`}{r == 2 && `0 to 5`}{r == 3 && `F to A+`}{r == 4 && `1 to 10`}</option>)}
-              </Form.Select>
-            </Form.Group>
-          }
-
           <div className="d-grid gap-2 mt-4">
             <Button variant="success" type="submit" disabled={isLoading}>
-              {isLoading ? <Spinner as="span" animation="border" size="sm" role="status" aria-hidden="true" /> : (action === "login" ? "Log In" : action === "register" ? "Register" : "Update")}
+              {isLoading 
+                ? 
+                  <Spinner as="span" animation="border" size="sm" role="status" aria-hidden="true" /> 
+                : 
+                  (action === "login" 
+                    ? 
+                      "Log In" 
+                    : 
+                      action === "register" 
+                        ?
+                          "Register" 
+                        : 
+                          "Update"
+                  )
+              }
             </Button>
             <Button variant="secondary" onClick={handleHide}>Cancel</Button>
           </div>

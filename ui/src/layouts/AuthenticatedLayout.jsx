@@ -7,7 +7,12 @@ const AuthenticatedLayout = () => {
 
   return (
     <>
-      {isAuthenticated ? <Outlet /> : <Unauthenticated />}
+      {isAuthenticated 
+        ?
+          <Outlet /> 
+        : 
+          <Unauthenticated />
+      }
     </>
   )
 }

@@ -17,9 +17,7 @@ function App() {
     <Routes>
       <Route element={<ApplicationLayout />}>
         <Route path="/" element={<Home />} />
-        <Route element={<AuthenticatedLayout />}>
-          <Route path="/media" element={<Media />} />
-        </Route>
+        <Route path="/media" element={<Media />} />
         <Route element={<AdminOnlyLayout />}>
           <Route path="/people" element={<People />} />
           <Route path="/media/new" element={<NewMedia />} />

@@ -5,6 +5,7 @@ import { useCallback, useEffect, useState } from "react";
 
 const getInitialState = () => {
   const savedState = localStorage.getItem("peopleFilters");
+
   const defaults = {
     searchTerm: "",
     sortBy: "birth_date",
@@ -14,6 +15,7 @@ const getInitialState = () => {
     noBirthDate: false,
     noDeathDate: false,
   };
+
   return savedState ? JSON.parse(savedState) : defaults;
 };
 
@@ -44,6 +46,7 @@ const People = () => {
     setIsLoading(true);
     const beginRecord = (page - 1) * 100 + 1;
     const endRecord = page * 100;
+
     const params = {
       beginRecord,
       endRecord,
@@ -59,7 +62,7 @@ const People = () => {
     };
 
     Object.keys(params).forEach(key => (params[key] === "" || params[key] === false) && delete params[key]);
-
+    
     Promise.all([
       axios.get("/api/people/length", { params }),
       axios.get("/api/people", { params })
@@ -88,10 +91,12 @@ const People = () => {
 
     if (name.includes(".")) {
       const [parent, child] = name.split(".");
+
       setFilters(prev => ({
         ...prev,
         [parent]: { ...prev[parent], [child]: value }
       }));
+      
       return;
     }
 
@@ -125,10 +130,14 @@ const People = () => {
 
   return (
     <Container className="pt-3 text-center">
-      {alert?.message && <Alert variant={alert.variant} onClose={() => setAlert({ message: "", variant: "" })} dismissible>{alert.message}</Alert>}
-
+      {alert?.message && 
+        <Alert 
+          variant={alert.variant} 
+          onClose={() => setAlert({ message: "", variant: "" })} 
+          dismissible>{alert.message}
+        </Alert>
+      }
       <h2 className="fw-bolder text-white mb-4">People</h2>
-      
       <Form onSubmit={handleApplyFilters} className="mb-4">
         <Row className="justify-content-center">
           <Col md={8} lg={6} className="d-flex">
@@ -143,7 +152,6 @@ const People = () => {
             <Button onClick={() => setOpen(!open)} aria-controls="filters-collapse" aria-expanded={open} variant="secondary" className="me-2 flex-shrink-0">Filters & Sort</Button>
           </Col>
         </Row>
-        
         <Collapse in={open}>
           <div id="filters-collapse" className="mt-4 p-4 bg-dark text-white rounded">
             <Row className="g-3">
@@ -208,7 +216,6 @@ const People = () => {
           </div>
         </Collapse>
       </Form>
-
       {isLoading 
         ? 
           <div className="d-flex justify-content-center align-items-center" style={{minHeight: "40vh"}}>
@@ -240,7 +247,6 @@ const People = () => {
                     ))}
                   </tbody>
                 </Table>
-
                 <div className="d-flex justify-content-center mt-4">
                   {currentPage > 1 && <Button variant="primary" className="me-2" onClick={() => changePage(1)}>First Page</Button>}
                   {currentPage > 1 && <Button variant="primary" className="me-2" onClick={() => changePage(currentPage - 1)}>Previous</Button>}

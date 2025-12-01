@@ -33,11 +33,6 @@ function ApplicationLayout() {
     setShowAuthModal(true);
   }
 
-  function handleChangeScaleClick() {
-    setAuthAction("change");
-    setShowAuthModal(true);
-  }
-
   function handleAddMediaClick() {
     setShowMediaModal(true);
   }
@@ -48,12 +43,10 @@ function ApplicationLayout() {
 
   function handleLogoutClick() {
     axios.post("/api/auth/logout")
-      .then(response => {
-        dispatch(unauthenticated());
-        navigate("/");
-      })
-      .catch(error => {
-      });
+    .then(response => {
+      dispatch(unauthenticated());
+      navigate("/");
+    });
   }
 
   return (
@@ -71,34 +64,32 @@ function ApplicationLayout() {
               <Navbar.Toggle aria-controls="basic-navbar-nav" />
               <Navbar.Collapse id="basic-navbar-nav">
                 <Nav className="me-auto">
-                    <Nav.Link as={NavLink} to="/">Home</Nav.Link>
-                    {isAuthenticated && <Nav.Link as={NavLink} to="/media">Films & Shows</Nav.Link>}
-                    {isAdmin && <Nav.Link as={NavLink} to="/people">Cast & Crew</Nav.Link>}
+                  <Nav.Link as={NavLink} to="/">Home</Nav.Link>
+                  <Nav.Link as={NavLink} to="/media">Films & Shows</Nav.Link>
+                  {isAdmin && <Nav.Link as={NavLink} to="/people">Cast & Crew</Nav.Link>}
                 </Nav>
                 <Nav>
                   {isAdmin && <Nav.Link onClick={handleAddMediaClick}>Add Media</Nav.Link>}
                   {isAdmin && <Nav.Link onClick={handleAddPersonClick}>Add Person</Nav.Link>}
-                  {isAuthenticated ?
-                    <>
-                      <Nav.Link onClick={handleChangeScaleClick}>Change Rating Scale</Nav.Link>
-                      <Nav.Link onClick={handleLogoutClick}>Log Out</Nav.Link>
-                    </>
+                  {isAuthenticated 
+                    ?
+                      <>
+                        <Nav.Link onClick={handleLogoutClick}>Log Out</Nav.Link>
+                      </>
                     :
-                    <>
-                      <Nav.Link onClick={handleLoginClick}>Log In</Nav.Link>
-                      <Nav.Link onClick={handleRegisterClick}>Register</Nav.Link>
-                    </>
+                      <>
+                        <Nav.Link onClick={handleLoginClick}>Log In</Nav.Link>
+                        <Nav.Link onClick={handleRegisterClick}>Register</Nav.Link>
+                      </>
                   }
                 </Nav>
               </Navbar.Collapse>
             </Container>
           </Navbar>
         </header>
-
         <main id="body" className="px-3 py-4 flex-grow-1">
           <Outlet />
         </main>
-
         <AuthModal show={showAuthModal} action={authAction} setShow={setShowAuthModal}  />
         <MediaForm show={showMediaModal} setShow={setShowMediaModal} />
         <PersonForm show={showPersonModal} setShow={setShowPersonModal} />

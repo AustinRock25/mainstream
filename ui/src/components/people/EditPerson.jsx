@@ -5,6 +5,7 @@ import { useParams } from "react-router-dom";
 
 function EditPerson() {
   const params = useParams();
+
   const [person, setPerson] = useState({ 
     id: "",
     name: "",
@@ -14,20 +15,20 @@ function EditPerson() {
 
   useEffect(() => {
     axios.get(`/api/people/${params.id}`)
-      .then(results => {
-        setPerson({
-          id: results.data.id,
-          name: results.data.name,
-          birth_date: results.data.birth_date,
-          death_date: results.data.death_date
-        });
-      })
-      .catch(error => {
-        setAlert({ message: "Failed to load person.", variant: "danger" });
-      })
-      .finally(() => {
-        setIsLoading(false);
+    .then(results => {
+      setPerson({
+        id: results.data.id,
+        name: results.data.name,
+        birth_date: results.data.birth_date,
+        death_date: results.data.death_date
       });
+    })
+    .catch(error => {
+      setAlert({ message: "Failed to load person.", variant: "danger" });
+    })
+    .finally(() => {
+      setIsLoading(false);
+    });
   }, []);
 
   return (

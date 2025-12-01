@@ -18,6 +18,7 @@ const Person = ({person}) => {
       
       creditList.forEach(credit => {
         const id = credit.id;
+
         if (!creditsMap.has(id)) {
           creditsMap.set(id, {
             id: credit.id,
@@ -29,6 +30,7 @@ const Person = ({person}) => {
         } 
         else {
           const existing = creditsMap.get(id);
+
           if (credit.start_date && new Date(credit.start_date) < new Date(existing.start_date))
             existing.start_date = credit.start_date;
 
@@ -54,6 +56,7 @@ const Person = ({person}) => {
 
     return sortedCredits.map(credit => {
       let year;
+      
       if (credit.end_date) {
         const startYear = new Date(credit.start_date).getFullYear();
         const endYear = new Date(credit.end_date).getFullYear();
@@ -78,14 +81,13 @@ const Person = ({person}) => {
       return "";
 
     let suffix = "th";
-
     const date = new Date(dateString);
 
     if (date.getDate() % 10 === 1 && date.getDate() % 100 !== 11) 
       suffix = "st";
-    if (date.getDate() % 10 === 2 && date.getDate() % 100 !== 12) 
+    else if (date.getDate() % 10 === 2 && date.getDate() % 100 !== 12) 
       suffix = "nd";
-    if (date.getDate() % 10 === 3 && date.getDate() % 100 !== 13) 
+    else if (date.getDate() % 10 === 3 && date.getDate() % 100 !== 13) 
       suffix = "rd";
 
     return `${date.toLocaleDateString("en-US", { month: "long" })}  ${date.getDate()}${suffix}, ${date.getFullYear()}`;
@@ -99,6 +101,7 @@ const Person = ({person}) => {
     const end = deathDate ? new Date(deathDate) : new Date();
     let age = end.getFullYear() - start.getFullYear();
     const m = end.getMonth() - start.getMonth();
+
     if (m < 0 || (m === 0 && end.getDate() < start.getDate()))
       age--;
 
@@ -118,9 +121,7 @@ const Person = ({person}) => {
           ))}
         </td>
         <td className="text-center">
-          <Button variant="outline-light" size="sm" onClick={handleEditPersonClick}>
-            Edit
-          </Button>
+          <Button variant="outline-light" size="sm" onClick={handleEditPersonClick}>Edit</Button>
         </td>
       </tr>
       <PersonForm show={showPersonModal} setShow={setShowPersonModal} person={person} />

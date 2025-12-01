@@ -6,13 +6,12 @@ import { useSelector } from "react-redux";
 
 const safeEncode = (value) => value.replace(/[./-]+/g, "__");
 const RATINGS = ["Not Rated", "G", "PG", "PG-13", "R", "NC-17", "TV-Y", "TV-Y7", "TV-Y7 FV", "TV-G", "TV-PG", "TV-14", "TV-MA"];
-const GRADES1 = ["0/4", "0.5/4", "1/4", "1.5/4", "2/4", "2.5/4", "3/4", "3.5/4", "4/4"];
-const GRADES2 = ["0/5", "0.5/5", "1/5", "1.5/5", "2/5", "2.5/5", "3/5", "3.5/5", "4/5", "4.5/5", "5/5"];
-const GRADES3 = ["F", "D-", "D", "D+", "C-", "C", "C+", "B-", "B", "B+", "A-", "A", "A+"]
-const GRADES4 = ["1/10", "2/10", "3/10", "4/10", "5/10", "6/10", "7/10", "8/10", "9/10", "10/10"];;
+const RATINGSTV = ["Not Rated", "TV-Y", "TV-Y7", "TV-Y7 FV", "TV-G", "TV-PG", "TV-14", "TV-MA"];
+const GRADES = ["F", "D-", "D", "D+", "C-", "C", "C+", "B-", "B", "B+", "A-", "A", "A+"];
 
 const getInitialState = () => {
   const savedState = localStorage.getItem("mediaFilters");
+
   const defaults = {
     searchTerm: "",
     sortBy: "release_date",
@@ -24,6 +23,7 @@ const getInitialState = () => {
     selectedGrade: "",
     dateRange: { start: "", end: "" },
   };
+
   return savedState ? JSON.parse(savedState) : defaults;
 };
 
@@ -57,6 +57,7 @@ function Media() {
     setIsLoading(true);
     const beginRecord = (page - 1) * 60 + 1;
     const endRecord = page * 60;
+
     const params = {
       beginRecord,
       endRecord,
@@ -73,6 +74,7 @@ function Media() {
       startDate: currentFilters.dateRange.start,
       endDate: currentFilters.dateRange.end,
     };
+
     Object.keys(params).forEach(key => (params[key] === "" || params[key] === null || params[key] === undefined) && delete params[key]);
 
     Promise.all([
@@ -108,27 +110,31 @@ function Media() {
         runtime: { min: "", max: "" },
         episodes: { min: "", max: "" },
       }));
+
       return;
     }
     
     if (name.includes(".")) {
       const [parent, child] = name.split(".");
+
       setFilters(prev => ({
         ...prev,
         [parent]: { ...prev[parent], [child]: value }
       }));
+
       return;
     }
     
     if (type === "checkbox") {
       const delimiterIndex = name.indexOf("__");
+
       if (delimiterIndex !== -1) {
         const key = name.substring(0, delimiterIndex);
         const encodedValue = name.substring(delimiterIndex + 2);
         let originalValue;
-        if (key === "selectedRatings") {
+
+        if (key === "selectedRatings")
           originalValue = RATINGS.find(r => safeEncode(r) === encodedValue);
-        }
         
         if (originalValue) {
           setFilters(prev => ({
@@ -166,9 +172,7 @@ function Media() {
   return (
     <Container className="pt-3 text-center">
       {alert?.message && <Alert variant={alert.variant} onClose={() => setAlert({ message: "", variant: "" })} dismissible>{alert.message}</Alert>}
-
       <h2 className="fw-bolder text-white mb-4">Films and TV Shows</h2>
-      
       <Form onSubmit={handleApplyFilters} className="mb-4">
         <Row className="justify-content-center">
           <Col md={8} lg={6} className="d-flex">
@@ -183,7 +187,6 @@ function Media() {
             <Button onClick={() => setOpen(!open)} aria-controls="filters-collapse" aria-expanded={open} variant="secondary" className="me-2 flex-shrink-0">Filters & Sort</Button>
           </Col>
         </Row>
-        
         <Collapse in={open}>
           <div id="filters-collapse" className="mt-4 p-4 bg-dark text-white rounded">
             <Row className="g-3">
@@ -195,7 +198,7 @@ function Media() {
                     <option value="title">Title</option>
                     <option value="grade">Grade</option>
                     <option value="runtime">Runtime</option>
-                    {filters.filterType === 'show' && <option value="episodes">Episode Count</option>}
+                    {filters.filterType === "show" && <option value="episodes">Episode Count</option>}
                   </Form.Select>
                 </Form.Group>
               </Col>
@@ -220,100 +223,88 @@ function Media() {
                 </Form.Group>
               </Col>
               <Col md={4}>
-                 <Form.Group>
-                    <Form.Label>Release Date Start</Form.Label>
-                    <Form.Control type="date" name="dateRange.start" value={filters.dateRange.start} onChange={handleFilterChange} />
+                <Form.Group>
+                  <Form.Label>Release Date Start</Form.Label>
+                  <Form.Control type="date" name="dateRange.start" value={filters.dateRange.start} onChange={handleFilterChange} />
                 </Form.Group>
               </Col>
               <Col md={4}>
-                 <Form.Group>
-                    <Form.Label>Release Date End</Form.Label>
-                    <Form.Control type="date" name="dateRange.end" value={filters.dateRange.end} onChange={handleFilterChange} />
+                <Form.Group>
+                  <Form.Label>Release Date End</Form.Label>
+                  <Form.Control type="date" name="dateRange.end" value={filters.dateRange.end} onChange={handleFilterChange} />
                 </Form.Group>
               </Col>
               <Col md={12}>
                 <Form.Label>Runtime (minutes)</Form.Label>
                 <Row>
-                  <Col><Form.Control type="number" name="runtime.min" value={filters.runtime.min} placeholder="Min" onChange={handleFilterChange} /></Col>
-                  <Col><Form.Control type="number" name="runtime.max" value={filters.runtime.max} placeholder="Max" onChange={handleFilterChange} /></Col>
+                  <Col>
+                    <Form.Control type="number" name="runtime.min" value={filters.runtime.min} placeholder="Min" onChange={handleFilterChange} />
+                  </Col>
+                  <Col>
+                    <Form.Control type="number" name="runtime.max" value={filters.runtime.max} placeholder="Max" onChange={handleFilterChange} />
+                  </Col>
                 </Row>
               </Col>
               {filters.filterType === "show" && (
-                 <Col md={12}>
+                <Col md={12}>
                   <Form.Label>Episode Count</Form.Label>
                   <Row>
-                    <Col><Form.Control type="number" name="episodes.min" value={filters.episodes.min} placeholder="Min" onChange={handleFilterChange} /></Col>
-                    <Col><Form.Control type="number" name="episodes.max" value={filters.episodes.max} placeholder="Max" onChange={handleFilterChange} /></Col>
+                    <Col>
+                      <Form.Control type="number" name="episodes.min" value={filters.episodes.min} placeholder="Min" onChange={handleFilterChange} />
+                    </Col>
+                    <Col>
+                      <Form.Control type="number" name="episodes.max" value={filters.episodes.max} placeholder="Max" onChange={handleFilterChange} />
+                    </Col>
                   </Row>
                 </Col>
               )}
               <Col md={12}>
                 <Form.Label>Ratings</Form.Label>
                 <div className="d-flex flex-wrap" style={{ maxHeight: "150px", overflowY: "auto" }}>
-                  {RATINGS.map(rating => (
-                    <Form.Check 
-                      key={rating} 
-                      type="checkbox" 
-                      name={`selectedRatings__${safeEncode(rating)}`} 
-                      label={rating} 
-                      checked={filters.selectedRatings.includes(rating)} 
-                      onChange={handleFilterChange} 
-                      className="me-3"
-                    />
-                  ))}
+                  {filters.filterType === "show" 
+                    ? 
+                      RATINGSTV.map(rating => (
+                        <Form.Check 
+                          key={rating} 
+                          type="checkbox" 
+                          name={`selectedRatings__${safeEncode(rating)}`} 
+                          label={rating} 
+                          checked={filters.selectedRatings.includes(rating)} 
+                          onChange={handleFilterChange} 
+                          className="me-3"
+                        />
+                      )) 
+                    : 
+                      RATINGS.map(rating => (
+                        <Form.Check 
+                          key={rating} 
+                          type="checkbox" 
+                          name={`selectedRatings__${safeEncode(rating)}`} 
+                          label={rating} 
+                          checked={filters.selectedRatings.includes(rating)} 
+                          onChange={handleFilterChange} 
+                          className="me-3"
+                        />
+                      ))
+                  }
                 </div>
               </Col>
               <Col md={12}>
                 <Form.Label>Grades</Form.Label>
                 <div className="d-flex flex-wrap" style={{ maxHeight: "150px", overflowY: "auto" }}>
-                  {user.rating_scale == 1 && GRADES1.map(grade => (
-                    <Form.Check 
-                      key={grade} 
-                      type="radio" 
-                      name="selectedGrade" 
-                      value={grade}
-                      label={grade} 
-                      checked={filters.selectedGrade === grade} 
-                      onChange={handleFilterChange} 
-                      className="me-3"
-                    />
-                  ))}
-                  {user.rating_scale == 2 && GRADES2.map(grade => (
-                    <Form.Check 
-                      key={grade} 
-                      type="radio" 
-                      name="selectedGrade"
-                      value={grade}
-                      label={grade} 
-                      checked={filters.selectedGrade === grade} 
-                      onChange={handleFilterChange} 
-                      className="me-3"
-                    />
-                  ))}
-                  {user.rating_scale == 3 && GRADES3.map(grade => (
-                    <Form.Check 
-                      key={grade} 
-                      type="radio" 
-                      name="selectedGrade"
-                      value={grade}
-                      label={grade} 
-                      checked={filters.selectedGrade === grade} 
-                      onChange={handleFilterChange} 
-                      className="me-3"
-                    />
-                  ))}
-                  {user.rating_scale == 4 && GRADES4.map(grade => (
-                    <Form.Check 
-                      key={grade} 
-                      type="radio" 
-                      name="selectedGrade"
-                      value={grade}
-                      label={grade} 
-                      checked={filters.selectedGrade === grade} 
-                      onChange={handleFilterChange} 
-                      className="me-3"
-                    />
-                  ))}
+                  {GRADES.map(grade => (
+                      <Form.Check 
+                        key={grade} 
+                        type="radio" 
+                        name="selectedGrade" 
+                        value={grade}
+                        label={grade} 
+                        checked={filters.selectedGrade === grade} 
+                        onChange={handleFilterChange} 
+                        className="me-3"
+                      />
+                    ))
+                  }
                 </div>
               </Col>
               <Col md={12} className="text-end mt-3">
@@ -323,31 +314,35 @@ function Media() {
           </div>
         </Collapse>
       </Form>
-
-      {isLoading ? (
-        <div className="d-flex justify-content-center align-items-center" style={{minHeight: "40vh"}}>
-          <Spinner animation="border" role="status"><span className="visually-hidden">Loading...</span></Spinner>
-        </div>
-      ) : media.length > 0 ? (
-        <>
-          <div className="d-flex justify-content-between align-items-center mb-3">
-            <p className="text-white-50 mb-0">{media.length} result{media.length > 1 && `s`} displayed</p>
-            <h6 className="fw-bolder text-white mb-0">Page {currentPage} of {pages}</h6>
-          </div>
-          
-          <Row className="g-4 justify-content-center" xs={1} sm={2} md={3} lg={4} xl={5}>
-            {media.map(m => <MediaCard key={`${m.id}-${m.type}-${m.season || ''}`} media={m} />)}
-          </Row>
-
-          <div className="d-flex justify-content-center mt-4">
-            {currentPage > 1 && <Button variant="primary" className="me-2" onClick={() => changePage(1)}>First Page</Button>}
-            {currentPage > 1 && <Button variant="primary" className="me-2" onClick={() => changePage(currentPage - 1)}>Previous</Button>}
-            {currentPage < pages && <Button variant="primary" onClick={() => changePage(currentPage + 1)}>Next</Button>}
-          </div>
-        </>
-      ) : (
-        <p className="text-white-50 mt-5">No results found with the specified criteria.</p>
-      )}
+      {isLoading 
+        ? 
+          (
+            <div className="d-flex justify-content-center align-items-center" style={{minHeight: "40vh"}}>
+              <Spinner animation="border" role="status"><span className="visually-hidden">Loading...</span></Spinner>
+            </div>
+          ) 
+        : 
+          media.length > 0 
+            ? 
+              (
+                <>
+                  <div className="d-flex justify-content-between align-items-center mb-3">
+                    <p className="text-white-50 mb-0">{media.length} result{media.length > 1 && `s`} displayed</p>
+                    <h6 className="fw-bolder text-white mb-0">Page {currentPage} of {pages}</h6>
+                  </div>
+                  <Row className="g-4 justify-content-center" xs={1} sm={2} md={3} lg={4} xl={5}>
+                    {media.map(m => <MediaCard key={`${m.id}-${m.type}-${m.season || ''}`} media={m} />)}
+                  </Row>
+                  <div className="d-flex justify-content-center mt-4">
+                    {currentPage > 1 && <Button variant="primary" className="me-2" onClick={() => changePage(1)}>First Page</Button>}
+                    {currentPage > 1 && <Button variant="primary" className="me-2" onClick={() => changePage(currentPage - 1)}>Previous</Button>}
+                    {currentPage < pages && <Button variant="primary" onClick={() => changePage(currentPage + 1)}>Next</Button>}
+                  </div>
+                </>
+              ) 
+            : 
+              <p className="text-white-50 mt-5">No results found with the specified criteria.</p>
+      }
     </Container>
   );
 }

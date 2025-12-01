@@ -8,6 +8,7 @@ function PersonForm({ show, setShow, person }) {
   const [errors, setErrors] = useState({ });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const navigate = useNavigate();
+
   const [formData, setFormData] = useState({
     id: "",
     name: "",
@@ -19,6 +20,7 @@ function PersonForm({ show, setShow, person }) {
     if (person?.id) {
       const birthDate = person.birth_date ? new Date(person.birth_date).toISOString().split("T")[0] : "";
       const deathDate = person.death_date ? new Date(person.death_date).toISOString().split("T")[0] : "";
+      
       setFormData({
         id: person.id,
         name: person.name || "",
@@ -49,28 +51,27 @@ function PersonForm({ show, setShow, person }) {
   function handleSubmit(e) {
     e.preventDefault();
     setIsSubmitting(true);
-    
     const apiCall = person?.id ? axios.put(`/api/people/${person.id}`, formData) : axios.post("/api/people", formData);
     
     apiCall
-      .then(response => {
-        handleHide();
-        navigate("/people");
-        window.location.reload();
-      })
-      .catch(error => {
-        if (error.response?.status === 422)
-          setErrors(error.response.data.errors);
-        else if (error.response?.status === 401)
-          setAlert({ message: `You must be logged in to ${person?.id ? "update" : "create"} a person.`, variant: "danger" });
-        else if (error.response?.status === 403)
-          setAlert({ message: `You do not have permission to ${person?.id ? "update this person" : "create a person"}.`, variant: "danger" });
-        else
-          setAlert({ message: `Failed to ${person?.id ? "update" : "create" } person.`, variant: "danger" });
-      })
-      .finally(() => {
-        setIsSubmitting(false);
-      });
+    .then(response => {
+      handleHide();
+      navigate("/people");
+      window.location.reload();
+    })
+    .catch(error => {
+      if (error.response?.status === 422)
+        setErrors(error.response.data.errors);
+      else if (error.response?.status === 401)
+        setAlert({ message: `You must be logged in to ${person?.id ? "update" : "create"} a person.`, variant: "danger" });
+      else if (error.response?.status === 403)
+        setAlert({ message: `You do not have permission to ${person?.id ? "update this person" : "create a person"}.`, variant: "danger" });
+      else
+        setAlert({ message: `Failed to ${person?.id ? "update" : "create" } person.`, variant: "danger" });
+    })
+    .finally(() => {
+      setIsSubmitting(false);
+    });
   }
 
   return (
@@ -88,7 +89,6 @@ function PersonForm({ show, setShow, person }) {
             {alert.message}
           </Alert>
         }
-
         <Form onSubmit={handleSubmit}>
           <Form.Group className="mb-3">
             <Form.Label>Name</Form.Label>
@@ -124,7 +124,17 @@ function PersonForm({ show, setShow, person }) {
           <div className="d-flex justify-content-end mt-4">
             <Button variant="secondary" type="button" onClick={handleHide} className="me-2">Cancel</Button>
             <Button variant="success" type="submit" disabled={isSubmitting}>
-              {isSubmitting ? <Spinner as="span" size="sm" /> : (person?.id ? "Update" : "Create")}
+              {isSubmitting 
+                ?
+                  <Spinner as="span" size="sm" /> 
+                : 
+                  (person?.id 
+                    ? 
+                      "Update" 
+                    : 
+                      "Create"
+                  )
+              }
             </Button>
           </div>
         </Form>

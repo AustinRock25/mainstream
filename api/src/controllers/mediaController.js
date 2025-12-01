@@ -17,6 +17,7 @@ const index = (req, res) => {
     startDate,
     endDate
   } = req.query;
+
   let params = [beginRecord, endRecord];
   let filterClauses = [];
   let paramIndex = 3;
@@ -26,134 +27,83 @@ const index = (req, res) => {
     filterClauses.push(searchSystem);
     params.push(`% ${searchTerm}%`, `${searchTerm}%`);
   }
+
   if (filterType && filterType !== "all") {
     filterClauses.push(`m.type = $${paramIndex++}`);
     params.push(filterType);
   }
+
   if (minRuntime) {
     filterClauses.push(`COALESCE(m.runtime, s.runtime) >= $${paramIndex++}`);
     params.push(minRuntime);
   }
+
   if (maxRuntime) {
     filterClauses.push(`COALESCE(m.runtime, s.runtime) <= $${paramIndex++}`);
     params.push(maxRuntime);
   }
+
   if (minEpisodes) {
     filterClauses.push(`s.episodes >= $${paramIndex++}`);
     params.push(minEpisodes);
   }
+
   if (maxEpisodes) {
     filterClauses.push(`s.episodes <= $${paramIndex++}`);
     params.push(maxEpisodes);
   }
+
   if (ratings) {
     filterClauses.push(`m.rating = ANY($${paramIndex++})`);
     params.push(ratings.split(","));
   }
+
   if (startDate) {
     filterClauses.push(`COALESCE(m.release_date, s.start_date) >= $${paramIndex++}`);
     params.push(startDate);
   }
+
   if (endDate) {
     filterClauses.push(`COALESCE(m.release_date, s.start_date) <= $${paramIndex++}`);
     params.push(endDate);
   }
+
   if (grade) {
-    if (grade == "0/4")
-      filterClauses.push("(COALESCE(m.grade, s.grade) >= 0 AND COALESCE(m.grade, s.grade) < 6.25)");
-    else if (grade == "0.5/4")
-      filterClauses.push("(COALESCE(m.grade, s.grade) >= 6.25 AND COALESCE(m.grade, s.grade) < 18.75)");
-    else if (grade == "1/4")
-      filterClauses.push("(COALESCE(m.grade, s.grade) >= 18.75 AND COALESCE(m.grade, s.grade) < 31.25)");
-    else if (grade == "1.5/4")
-      filterClauses.push("(COALESCE(m.grade, s.grade) >= 31.25 AND COALESCE(m.grade, s.grade) < 43.75)");
-    else if (grade == "2/4")
-      filterClauses.push("(COALESCE(m.grade, s.grade) >= 43.75 AND COALESCE(m.grade, s.grade) < 56.25)");
-    else if (grade == "2.5/4")
-      filterClauses.push("(COALESCE(m.grade, s.grade) >= 56.25 AND COALESCE(m.grade, s.grade) < 68.75)");
-    else if (grade == "3/4")
-      filterClauses.push("(COALESCE(m.grade, s.grade) >= 68.75 AND COALESCE(m.grade, s.grade) < 81.25)");
-    else if (grade == "3.5/4")
-      filterClauses.push("(COALESCE(m.grade, s.grade) >= 81.25 AND COALESCE(m.grade, s.grade) < 93.75)");
-    else if (grade == "4/4")
-      filterClauses.push("(COALESCE(m.grade, s.grade) >= 93.75 AND COALESCE(m.grade, s.grade) <= 100)");
-    else if (grade == "0/5")
-      filterClauses.push("(COALESCE(m.grade, s.grade) >= 0 AND COALESCE(m.grade, s.grade) < 5)");
-    else if (grade == "0.5/5")
-      filterClauses.push("(COALESCE(m.grade, s.grade) >= 5 AND COALESCE(m.grade, s.grade) < 15");
-    else if (grade == "1/5")
-      filterClauses.push("(COALESCE(m.grade, s.grade) >= 15 AND COALESCE(m.grade, s.grade) < 25)");
-    else if (grade == "1.5/5")
-      filterClauses.push("(COALESCE(m.grade, s.grade) >= 25 AND COALESCE(m.grade, s.grade) < 35)");
-    else if (grade == "2/5")
-      filterClauses.push("(COALESCE(m.grade, s.grade) >= 35 AND COALESCE(m.grade, s.grade) < 45)");
-    else if (grade == "2.5/5")
-      filterClauses.push("(COALESCE(m.grade, s.grade) >= 45 AND COALESCE(m.grade, s.grade) < 55)");
-    else if (grade == "3/5")
-      filterClauses.push("(COALESCE(m.grade, s.grade) >= 55 AND COALESCE(m.grade, s.grade) < 65)");
-    else if (grade == "3.5/5")
-      filterClauses.push("(COALESCE(m.grade, s.grade) >= 65 AND COALESCE(m.grade, s.grade) < 75)");
-    else if (grade == "4/5")
-      filterClauses.push("(COALESCE(m.grade, s.grade) >= 75 AND COALESCE(m.grade, s.grade) < 85)");
-    else if (grade == "4.5/5")
-      filterClauses.push("(COALESCE(m.grade, s.grade) >= 85 AND COALESCE(m.grade, s.grade) < 95)");
-    else if (grade == "5/5")
-      filterClauses.push("(COALESCE(m.grade, s.grade) >= 95 AND COALESCE(m.grade, s.grade) <= 100)");
-    else if (grade == "F")
-      filterClauses.push("(COALESCE(m.grade, s.grade) >= 0 AND COALESCE(m.grade, s.grade) <= ((59 * 2) - 100))");
+    if (grade == "F")
+      filterClauses.push("(COALESCE(m.grade, s.grade) = 'F')");
     else if (grade == "D-")
-      filterClauses.push("(COALESCE(m.grade, s.grade) > ((59 * 2) - 100) AND COALESCE(m.grade, s.grade) <= ((62 * 2) - 100))");
+      filterClauses.push("(COALESCE(m.grade, s.grade) = 'D-')");
     else if (grade == "D")
-      filterClauses.push("(COALESCE(m.grade, s.grade) > ((62 * 2) - 100) AND COALESCE(m.grade, s.grade) <= ((66 * 2) - 100))");
+      filterClauses.push("(COALESCE(m.grade, s.grade) = 'D')");
     else if (grade == "D+")
-      filterClauses.push("(COALESCE(m.grade, s.grade) > ((66 * 2) - 100) AND COALESCE(m.grade, s.grade) <= ((69 * 2) - 100))");
+      filterClauses.push("(COALESCE(m.grade, s.grade) = 'D+')");
     else if (grade == "C-")
-      filterClauses.push("(COALESCE(m.grade, s.grade) > ((69 * 2) - 100) AND COALESCE(m.grade, s.grade) <= ((72 * 2) - 100))");
+      filterClauses.push("(COALESCE(m.grade, s.grade) = 'C-')");
     else if (grade == "C")
-      filterClauses.push("(COALESCE(m.grade, s.grade) > ((72 * 2) - 100) AND COALESCE(m.grade, s.grade) <= ((76 * 2) - 100))");
+      filterClauses.push("(COALESCE(m.grade, s.grade) = 'C')");
     else if (grade == "C+")
-      filterClauses.push("(COALESCE(m.grade, s.grade) > ((76 * 2) - 100) AND COALESCE(m.grade, s.grade) <= ((79 * 2) - 100))");
+      filterClauses.push("(COALESCE(m.grade, s.grade) = 'C+')");
     else if (grade == "B-")
-      filterClauses.push("(COALESCE(m.grade, s.grade) > ((79 * 2) - 100) AND COALESCE(m.grade, s.grade) <= ((82 * 2) - 100))");
+      filterClauses.push("(COALESCE(m.grade, s.grade) = 'B-')");
     else if (grade == "B")
-      filterClauses.push("(COALESCE(m.grade, s.grade) > ((82 * 2) - 100) AND COALESCE(m.grade, s.grade) <= ((86 * 2) - 100))");
+      filterClauses.push("(COALESCE(m.grade, s.grade) = 'B')");
     else if (grade == "B+")
-      filterClauses.push("(COALESCE(m.grade, s.grade) > ((86 * 2) - 100) AND COALESCE(m.grade, s.grade) <= ((89 * 2) - 100))");
+      filterClauses.push("(COALESCE(m.grade, s.grade) = 'B+')");
     else if (grade == "A-")
-      filterClauses.push("(COALESCE(m.grade, s.grade) > ((89 * 2) - 100) AND COALESCE(m.grade, s.grade) <= ((92 * 2) - 100))");
+      filterClauses.push("(COALESCE(m.grade, s.grade) = 'A-')");
     else if (grade == "A")
-      filterClauses.push("(COALESCE(m.grade, s.grade) > ((92 * 2) - 100) AND COALESCE(m.grade, s.grade) <= ((96 * 2) - 100))");
-    else if (grade == "A+")
-      filterClauses.push("(COALESCE(m.grade, s.grade) > ((96 * 2) - 100) AND COALESCE(m.grade, s.grade) <= 100)");
-    else if (grade == "1/10")
-      filterClauses.push("(COALESCE(m.grade, s.grade) >= 0 AND COALESCE(m.grade, s.grade) <= 10)");
-    else if (grade == "2/10")
-      filterClauses.push("(COALESCE(m.grade, s.grade) > 10 AND COALESCE(m.grade, s.grade) <= 20)");
-    else if (grade == "3/10")
-      filterClauses.push("(COALESCE(m.grade, s.grade) > 20 AND COALESCE(m.grade, s.grade) <= 30)");
-    else if (grade == "4/10")
-      filterClauses.push("(COALESCE(m.grade, s.grade) > 30 AND COALESCE(m.grade, s.grade) <= 40)");
-    else if (grade == "5/10")
-      filterClauses.push("(COALESCE(m.grade, s.grade) > 40 AND COALESCE(m.grade, s.grade) <= 50)");
-    else if (grade == "6/10")
-      filterClauses.push("(COALESCE(m.grade, s.grade) > 50 AND COALESCE(m.grade, s.grade) <= 60)");
-    else if (grade == "7/10")
-      filterClauses.push("(COALESCE(m.grade, s.grade) > 60 AND COALESCE(m.grade, s.grade) <= 70)");
-    else if (grade == "8/10")
-      filterClauses.push("(COALESCE(m.grade, s.grade) > 70 AND COALESCE(m.grade, s.grade) <= 80)");
-    else if (grade == "9/10")
-      filterClauses.push("(COALESCE(m.grade, s.grade) > 80 AND COALESCE(m.grade, s.grade) <= 90)");
-    else if (grade == "10/10")
-      filterClauses.push("(COALESCE(m.grade, s.grade) > 90 AND COALESCE(m.grade, s.grade) <= 100)");
+      filterClauses.push("(COALESCE(m.grade, s.grade) = 'A')");
+    else
+      filterClauses.push("(COALESCE(m.grade, s.grade) = 'A+')");
   }
+
   const whereClause = filterClauses.length > 0 ? `WHERE ${filterClauses.join(" AND ")}` : "";
-  
   let orderByClause = "";
   const sanitizedSortOrder = ["ASC", "DESC"].includes(sortOrder.toUpperCase()) ? sortOrder.toUpperCase() : "DESC";
 
   switch (sortBy) {
     case "title":
-      orderByClause = `ORDER BY m.title ${sanitizedSortOrder}`;
+      orderByClause = `ORDER BY m.title ${sanitizedSortOrder}, s.season ${sanitizedSortOrder}`;
       break;
     case "runtime":
       orderByClause = `ORDER BY COALESCE(m.runtime, s.runtime) ${sanitizedSortOrder}`;
@@ -170,54 +120,56 @@ const index = (req, res) => {
       break;
   }
 
-  const sql = `
-    WITH NumberedRecords AS (
-      SELECT ROW_NUMBER() OVER (${orderByClause}) AS RowNum, 
-             m.id, m.title, m.grade, m.release_date, m.rating, m.poster, m.runtime, m.completed, m.type, 
-             s.season, s.grade AS grade_tv, s.episodes, s.runtime AS runtime_tv, s.start_date, s.end_date, 
-             directors, directors_tv, cast_members, cast_members_tv, writers, writers_tv
-      FROM media m
-      LEFT JOIN seasons s ON m.id = s.show_id
-      LEFT JOIN LATERAL (
-        SELECT json_agg(json_build_object('ordering', md.ordering, 'media_id', md.media_id, 'director_id', md.director_id, 'name', p.name, 'birth_date', p.birth_date, 'death_date', p.death_date)) AS directors
-        FROM media_directors md
-        LEFT JOIN people p ON md.director_id = p.id
-        WHERE m.id = md.media_id
-      ) md ON TRUE
-      LEFT JOIN LATERAL (
-        SELECT json_agg(json_build_object('ordering', sd.ordering, 'show_id', sd.show_id, 'director_id', sd.director_id, 'name', p.name, 'birth_date', p.birth_date, 'death_date', p.death_date)) AS directors_tv
-        FROM seasons_directors sd
-        LEFT JOIN people p ON sd.director_id = p.id
-        WHERE m.id = sd.show_id AND s.season = sd.season
-      ) sd ON TRUE
-      LEFT JOIN LATERAL (
-        SELECT json_agg(json_build_object('ordering', mc.ordering, 'media_id', mc.media_id, 'actor_id', mc.actor_id, 'name', p.name, 'birth_date', p.birth_date, 'death_date', p.death_date)) AS cast_members
-        FROM media_cast mc
-        LEFT JOIN people p ON mc.actor_id = p.id
-        WHERE m.id = mc.media_id
-      ) mc ON TRUE
-      LEFT JOIN LATERAL (
-        SELECT json_agg(json_build_object('ordering', sc.ordering, 'show_id', sc.show_id, 'actor_id', sc.actor_id, 'name', p.name, 'birth_date', p.birth_date, 'death_date', p.death_date)) AS cast_members_tv
-        FROM seasons_cast sc
-        LEFT JOIN people p ON sc.actor_id = p.id
-        WHERE m.id = sc.show_id AND s.season = sc.season
-      ) sc ON TRUE
-      LEFT JOIN LATERAL (
-        SELECT json_agg(json_build_object('ordering', mw.ordering, 'media_id', mw.media_id, 'writer_id', mw.writer_id, 'name', p.name, 'birth_date', p.birth_date, 'death_date', p.death_date)) AS writers
-        FROM media_writers mw
-        LEFT JOIN people p ON mw.writer_id = p.id
-        WHERE m.id = mw.media_id
-      ) mw ON TRUE
-      LEFT JOIN LATERAL (
-        SELECT json_agg(json_build_object('ordering', sw.ordering, 'show_id', sw.show_id, 'writer_id', sw.writer_id, 'name', p.name, 'birth_date', p.birth_date, 'death_date', p.death_date)) AS writers_tv
-        FROM seasons_writers sw
-        LEFT JOIN people p ON sw.writer_id = p.id
-        WHERE m.id = sw.show_id AND s.season = sw.season
-      ) sw ON TRUE
-      ${whereClause}
-    )
-    SELECT * FROM NumberedRecords
-    WHERE (RowNum BETWEEN $1 AND $2)`;
+  const sql = 
+    `
+      WITH NumberedRecords AS (
+        SELECT ROW_NUMBER() OVER (${orderByClause}) AS RowNum, 
+              m.id, m.title, m.grade, m.release_date, m.rating, m.poster, m.runtime, m.completed, m.type, 
+              s.season, s.grade AS grade_tv, s.episodes, s.runtime AS runtime_tv, s.start_date, s.end_date, 
+              directors, directors_tv, cast_members, cast_members_tv, writers, writers_tv
+        FROM media m
+        LEFT JOIN seasons s ON m.id = s.show_id
+        LEFT JOIN LATERAL (
+          SELECT json_agg(json_build_object('ordering', md.ordering, 'media_id', md.media_id, 'director_id', md.director_id, 'name', p.name, 'birth_date', p.birth_date, 'death_date', p.death_date)) AS directors
+          FROM media_directors md
+          LEFT JOIN people p ON md.director_id = p.id
+          WHERE m.id = md.media_id
+        ) md ON TRUE
+        LEFT JOIN LATERAL (
+          SELECT json_agg(json_build_object('ordering', sd.ordering, 'show_id', sd.show_id, 'director_id', sd.director_id, 'name', p.name, 'birth_date', p.birth_date, 'death_date', p.death_date)) AS directors_tv
+          FROM seasons_directors sd
+          LEFT JOIN people p ON sd.director_id = p.id
+          WHERE m.id = sd.show_id AND s.season = sd.season
+        ) sd ON TRUE
+        LEFT JOIN LATERAL (
+          SELECT json_agg(json_build_object('ordering', mc.ordering, 'media_id', mc.media_id, 'actor_id', mc.actor_id, 'name', p.name, 'birth_date', p.birth_date, 'death_date', p.death_date)) AS cast_members
+          FROM media_cast mc
+          LEFT JOIN people p ON mc.actor_id = p.id
+          WHERE m.id = mc.media_id
+        ) mc ON TRUE
+        LEFT JOIN LATERAL (
+          SELECT json_agg(json_build_object('ordering', sc.ordering, 'show_id', sc.show_id, 'actor_id', sc.actor_id, 'name', p.name, 'birth_date', p.birth_date, 'death_date', p.death_date)) AS cast_members_tv
+          FROM seasons_cast sc
+          LEFT JOIN people p ON sc.actor_id = p.id
+          WHERE m.id = sc.show_id AND s.season = sc.season
+        ) sc ON TRUE
+        LEFT JOIN LATERAL (
+          SELECT json_agg(json_build_object('ordering', mw.ordering, 'media_id', mw.media_id, 'writer_id', mw.writer_id, 'name', p.name, 'birth_date', p.birth_date, 'death_date', p.death_date)) AS writers
+          FROM media_writers mw
+          LEFT JOIN people p ON mw.writer_id = p.id
+          WHERE m.id = mw.media_id
+        ) mw ON TRUE
+        LEFT JOIN LATERAL (
+          SELECT json_agg(json_build_object('ordering', sw.ordering, 'show_id', sw.show_id, 'writer_id', sw.writer_id, 'name', p.name, 'birth_date', p.birth_date, 'death_date', p.death_date)) AS writers_tv
+          FROM seasons_writers sw
+          LEFT JOIN people p ON sw.writer_id = p.id
+          WHERE m.id = sw.show_id AND s.season = sw.season
+        ) sw ON TRUE
+        ${whereClause}
+      )
+      SELECT * FROM NumberedRecords
+      WHERE (RowNum BETWEEN $1 AND $2);
+    `;
     
   pgClient.query(sql, params)
   .then(results => {
@@ -251,134 +203,85 @@ const indexLength = (req, res) => {
     filterClauses.push(searchSystem);
     params.push(`% ${searchTerm}%`, `${searchTerm}%`);
   }
+
   if (filterType && filterType !== "all") {
     filterClauses.push(`m.type = $${paramIndex++}`);
     params.push(filterType);
   }
+
   if (minRuntime) {
     filterClauses.push(`COALESCE(m.runtime, s.runtime) >= $${paramIndex++}`);
     params.push(minRuntime);
   }
+
   if (maxRuntime) {
     filterClauses.push(`COALESCE(m.runtime, s.runtime) <= $${paramIndex++}`);
     params.push(maxRuntime);
   }
+
   if (minEpisodes) {
     filterClauses.push(`s.episodes >= $${paramIndex++}`);
     params.push(minEpisodes);
   }
+
   if (maxEpisodes) {
     filterClauses.push(`s.episodes <= $${paramIndex++}`);
     params.push(maxEpisodes);
   }
+
   if (ratings) {
     filterClauses.push(`m.rating = ANY($${paramIndex++})`);
     params.push(ratings.split(','));
   }
+
   if (startDate) {
     filterClauses.push(`COALESCE(m.release_date, s.start_date) >= $${paramIndex++}`);
     params.push(startDate);
   }
+
   if (endDate) {
     filterClauses.push(`COALESCE(m.release_date, s.start_date) <= $${paramIndex++}`);
     params.push(endDate);
   }
+
   if (grade) {
-    if (grade == "0/4")
-      filterClauses.push("(COALESCE(m.grade, s.grade) >= 0 AND COALESCE(m.grade, s.grade) < 6.25)");
-    else if (grade == "0.5/4")
-      filterClauses.push("(COALESCE(m.grade, s.grade) >= 6.25 AND COALESCE(m.grade, s.grade) < 18.75)");
-    else if (grade == "1/4")
-      filterClauses.push("(COALESCE(m.grade, s.grade) >= 18.75 AND COALESCE(m.grade, s.grade) < 31.25)");
-    else if (grade == "1.5/4")
-      filterClauses.push("(COALESCE(m.grade, s.grade) >= 31.25 AND COALESCE(m.grade, s.grade) < 43.75)");
-    else if (grade == "2/4")
-      filterClauses.push("(COALESCE(m.grade, s.grade) >= 43.75 AND COALESCE(m.grade, s.grade) < 56.25)");
-    else if (grade == "2.5/4")
-      filterClauses.push("(COALESCE(m.grade, s.grade) >= 56.25 AND COALESCE(m.grade, s.grade) < 68.75)");
-    else if (grade == "3/4")
-      filterClauses.push("(COALESCE(m.grade, s.grade) >= 68.75 AND COALESCE(m.grade, s.grade) < 81.25)");
-    else if (grade == "3.5/4")
-      filterClauses.push("(COALESCE(m.grade, s.grade) >= 81.25 AND COALESCE(m.grade, s.grade) < 93.75)");
-    else if (grade == "4/4")
-      filterClauses.push("(COALESCE(m.grade, s.grade) >= 93.75 AND COALESCE(m.grade, s.grade) <= 100)");
-    else if (grade == "0/5")
-      filterClauses.push("(COALESCE(m.grade, s.grade) >= 0 AND COALESCE(m.grade, s.grade) < 5))");
-    else if (grade == "0.5/5")
-      filterClauses.push("(COALESCE(m.grade, s.grade) >= 5) AND COALESCE(m.grade, s.grade) < 15)");
-    else if (grade == "1/5")
-      filterClauses.push("(COALESCE(m.grade, s.grade) >= 15 AND COALESCE(m.grade, s.grade) < 25)");
-    else if (grade == "1.5/5")
-      filterClauses.push("(COALESCE(m.grade, s.grade) >= 25 AND COALESCE(m.grade, s.grade) < 35)");
-    else if (grade == "2/5")
-      filterClauses.push("(COALESCE(m.grade, s.grade) >= 35 AND COALESCE(m.grade, s.grade) < 45)");
-    else if (grade == "2.5/5")
-      filterClauses.push("(COALESCE(m.grade, s.grade) >= 45 AND COALESCE(m.grade, s.grade) < 55)");
-    else if (grade == "3/5")
-      filterClauses.push("(COALESCE(m.grade, s.grade) >= 55 AND COALESCE(m.grade, s.grade) < 65)");
-    else if (grade == "3.5/5")
-      filterClauses.push("(COALESCE(m.grade, s.grade) >= 65 AND COALESCE(m.grade, s.grade) < 75)");
-    else if (grade == "4/5")
-      filterClauses.push("(COALESCE(m.grade, s.grade) >= 75 AND COALESCE(m.grade, s.grade) < 85)");
-    else if (grade == "4.5/5")
-      filterClauses.push("(COALESCE(m.grade, s.grade) >= 85 AND COALESCE(m.grade, s.grade) < 95)");
-    else if (grade == "5/5")
-      filterClauses.push("(COALESCE(m.grade, s.grade) >= 95 AND COALESCE(m.grade, s.grade) <= 100)");
-    else if (grade == "F")
-      filterClauses.push("(COALESCE(m.grade, s.grade) >= 0 AND COALESCE(m.grade, s.grade) <= ((59 * 2) - 100))");
+    if (grade == "F")
+      filterClauses.push("(COALESCE(m.grade, s.grade) = 'F')");
     else if (grade == "D-")
-      filterClauses.push("(COALESCE(m.grade, s.grade) > ((59 * 2) - 100) AND COALESCE(m.grade, s.grade) <= ((62 * 2) - 100))");
+      filterClauses.push("(COALESCE(m.grade, s.grade) = 'D-')");
     else if (grade == "D")
-      filterClauses.push("(COALESCE(m.grade, s.grade) > ((62 * 2) - 100) AND COALESCE(m.grade, s.grade) <= ((66 * 2) - 100))");
+      filterClauses.push("(COALESCE(m.grade, s.grade) = 'D')");
     else if (grade == "D+")
-      filterClauses.push("(COALESCE(m.grade, s.grade) > ((66 * 2) - 100) AND COALESCE(m.grade, s.grade) <= ((69 * 2) - 100))");
+      filterClauses.push("(COALESCE(m.grade, s.grade) = 'D+')");
     else if (grade == "C-")
-      filterClauses.push("(COALESCE(m.grade, s.grade) > ((69 * 2) - 100) AND COALESCE(m.grade, s.grade) <= ((72 * 2) - 100))");
+      filterClauses.push("(COALESCE(m.grade, s.grade) = 'C-')");
     else if (grade == "C")
-      filterClauses.push("(COALESCE(m.grade, s.grade) > ((72 * 2) - 100) AND COALESCE(m.grade, s.grade) <= ((76 * 2) - 100))");
+      filterClauses.push("(COALESCE(m.grade, s.grade) = 'C')");
     else if (grade == "C+")
-      filterClauses.push("(COALESCE(m.grade, s.grade) > ((76 * 2) - 100) AND COALESCE(m.grade, s.grade) <= ((79 * 2) - 100))");
+      filterClauses.push("(COALESCE(m.grade, s.grade) = 'C+')");
     else if (grade == "B-")
-      filterClauses.push("(COALESCE(m.grade, s.grade) > ((79 * 2) - 100) AND COALESCE(m.grade, s.grade) <= ((82 * 2) - 100))");
+      filterClauses.push("(COALESCE(m.grade, s.grade) = 'B-')");
     else if (grade == "B")
-      filterClauses.push("(COALESCE(m.grade, s.grade) > ((82 * 2) - 100) AND COALESCE(m.grade, s.grade) <= ((86 * 2) - 100))");
+      filterClauses.push("(COALESCE(m.grade, s.grade) = 'B')");
     else if (grade == "B+")
-      filterClauses.push("(COALESCE(m.grade, s.grade) > ((86 * 2) - 100) AND COALESCE(m.grade, s.grade) <= ((89 * 2) - 100))");
+      filterClauses.push("(COALESCE(m.grade, s.grade) = 'B+')");
     else if (grade == "A-")
-      filterClauses.push("(COALESCE(m.grade, s.grade) > ((89 * 2) - 100) AND COALESCE(m.grade, s.grade) <= ((92 * 2) - 100))");
+      filterClauses.push("(COALESCE(m.grade, s.grade) = 'A-')");
     else if (grade == "A")
-      filterClauses.push("(COALESCE(m.grade, s.grade) > ((92 * 2) - 100) AND COALESCE(m.grade, s.grade) <= ((96 * 2) - 100))");
-    else if (grade == "A+")
-      filterClauses.push("(COALESCE(m.grade, s.grade) > ((96 * 2) - 100) AND COALESCE(m.grade, s.grade) <= 100)");
-    else if (grade == "1/10")
-      filterClauses.push("(COALESCE(m.grade, s.grade) >= 0 AND COALESCE(m.grade, s.grade) <= 10)");
-    else if (grade == "2/10")
-      filterClauses.push("(COALESCE(m.grade, s.grade) > 10 AND COALESCE(m.grade, s.grade) <= 20)");
-    else if (grade == "3/10")
-      filterClauses.push("(COALESCE(m.grade, s.grade) > 20 AND COALESCE(m.grade, s.grade) <= 30)");
-    else if (grade == "4/10")
-      filterClauses.push("(COALESCE(m.grade, s.grade) > 30 AND COALESCE(m.grade, s.grade) <= 40)");
-    else if (grade == "5/10")
-      filterClauses.push("(COALESCE(m.grade, s.grade) > 40 AND COALESCE(m.grade, s.grade) <= 50)");
-    else if (grade == "6/10")
-      filterClauses.push("(COALESCE(m.grade, s.grade) > 50 AND COALESCE(m.grade, s.grade) <= 60)");
-    else if (grade == "7/10")
-      filterClauses.push("(COALESCE(m.grade, s.grade) > 60 AND COALESCE(m.grade, s.grade) <= 70)");
-    else if (grade == "8/10")
-      filterClauses.push("(COALESCE(m.grade, s.grade) > 70 AND COALESCE(m.grade, s.grade) <= 80)");
-    else if (grade == "9/10")
-      filterClauses.push("(COALESCE(m.grade, s.grade) > 80 AND COALESCE(m.grade, s.grade) <= 90)");
-    else if (grade == "10/10")
-      filterClauses.push("(COALESCE(m.grade, s.grade) > 90 AND COALESCE(m.grade, s.grade) <= 100)");
+      filterClauses.push("(COALESCE(m.grade, s.grade) = 'A')");
+    else
+      filterClauses.push("(COALESCE(m.grade, s.grade) = 'A+')");
   }
 
   const whereClause = filterClauses.length > 0 ? `WHERE ${filterClauses.join(" AND ")}` : "";
 
   const sql = 
-    `SELECT COUNT(*)
-     FROM media m
-     LEFT JOIN seasons s ON m.id = s.show_id
-     ${whereClause}`;
+    `
+      SELECT COUNT(*)
+      FROM media m
+      LEFT JOIN seasons s ON m.id = s.show_id
+      ${whereClause};
+    `;
 
   pgClient.query(sql, params)
   .then(results => {
@@ -396,7 +299,7 @@ const indexShows = (req, res) => {
       FROM media m
       LEFT JOIN seasons s ON m.id = s.show_id
       WHERE type = 'show' AND completed = false AND s.season = 1
-      ORDER BY s.start_date DESC
+      ORDER BY s.start_date DESC;
     `;
 
   pgClient.query(sql)
@@ -454,7 +357,7 @@ const indexNew = (req, res) => {
         WHERE m.id = sw.show_id AND s.season = sw.season
       ) sw ON TRUE
       WHERE (m.date_added IS NOT NULL AND m.date_added > CURRENT_TIMESTAMP - INTERVAL '1 MONTH') OR (s.date_added IS NOT NULL AND s.date_added > CURRENT_TIMESTAMP - INTERVAL '1 MONTH')
-      ORDER BY COALESCE(m.date_added, s.date_added) DESC
+      ORDER BY COALESCE(m.date_added, s.date_added) DESC;
     `;
 
   pgClient.query(sql)
@@ -472,7 +375,7 @@ const seasonCount = (req, res) => {
       SELECT COUNT(*)
       FROM seasons s
       LEFT JOIN media m ON m.id = s.show_id
-	    WHERE m.id = $1
+	    WHERE m.id = $1;
     `;
 
   pgClient.query(sql, [req.query.id])
@@ -485,28 +388,30 @@ const seasonCount = (req, res) => {
 }
 
 const show = (req, res) => {
-  const sql = `
-    SELECT id, title, grade, release_date, rating, poster, runtime, type, completed, directors, cast_members, writers
-    FROM media m
-    LEFT JOIN LATERAL (
-      SELECT json_agg(json_build_object('ordering', md.ordering, 'media_id', md.media_id, 'director_id', md.director_id, 'name', p.name, 'birth_date', p.birth_date, 'death_date', p.death_date)) AS directors
-      FROM media_directors md
-      LEFT JOIN people p ON md.director_id = p.id
-      WHERE m.id = md.media_id
-    ) md ON TRUE
-    LEFT JOIN LATERAL (
-      SELECT json_agg(json_build_object('ordering', mc.ordering, 'media_id', mc.media_id, 'actor_id', mc.actor_id, 'name', p.name, 'birth_date', p.birth_date, 'death_date', p.death_date)) AS cast_members
-      FROM media_cast mc
-      LEFT JOIN people p ON mc.actor_id = p.id
-      WHERE m.id = mc.media_id
-    ) mc ON TRUE
-    LEFT JOIN LATERAL (
-      SELECT json_agg(json_build_object('ordering', mw.ordering, 'media_id', mw.media_id, 'writer_id', mw.writer_id, 'name', p.name, 'birth_date', p.birth_date, 'death_date', p.death_date)) AS writers
-      FROM media_writers mw
-      LEFT JOIN people p ON mw.writer_id = p.id
-      WHERE m.id = mw.media_id
-    ) mw ON TRUE
-    WHERE id = $1`;
+  const sql = 
+    `
+      SELECT id, title, grade, release_date, rating, poster, runtime, type, completed, directors, cast_members, writers
+      FROM media m
+      LEFT JOIN LATERAL (
+        SELECT json_agg(json_build_object('ordering', md.ordering, 'media_id', md.media_id, 'director_id', md.director_id, 'name', p.name, 'birth_date', p.birth_date, 'death_date', p.death_date)) AS directors
+        FROM media_directors md
+        LEFT JOIN people p ON md.director_id = p.id
+        WHERE m.id = md.media_id
+      ) md ON TRUE
+      LEFT JOIN LATERAL (
+        SELECT json_agg(json_build_object('ordering', mc.ordering, 'media_id', mc.media_id, 'actor_id', mc.actor_id, 'name', p.name, 'birth_date', p.birth_date, 'death_date', p.death_date)) AS cast_members
+        FROM media_cast mc
+        LEFT JOIN people p ON mc.actor_id = p.id
+        WHERE m.id = mc.media_id
+      ) mc ON TRUE
+      LEFT JOIN LATERAL (
+        SELECT json_agg(json_build_object('ordering', mw.ordering, 'media_id', mw.media_id, 'writer_id', mw.writer_id, 'name', p.name, 'birth_date', p.birth_date, 'death_date', p.death_date)) AS writers
+        FROM media_writers mw
+        LEFT JOIN people p ON mw.writer_id = p.id
+        WHERE m.id = mw.media_id
+      ) mw ON TRUE
+      WHERE id = $1;
+    `;
 
   pgClient.query(sql, [req.params.id])
     .then(results => {
@@ -522,17 +427,14 @@ const show = (req, res) => {
 
 const create = async (req, res) => {
   const media = req.body;
-
-  const getIdsByRole = (role) => media.castAndCrew
-    ?.filter(person => person[role])
-    .map(person => person.id) || [];
-
+  const getIdsByRole = (role) => media.castAndCrew?.filter(person => person[role]).map(person => person.id) || [];
   const directors = getIdsByRole("director");
   const writers = getIdsByRole("writer");
   const castMembers = getIdsByRole("cast");
 
   try {
     let result;
+
     if (media.type === "movie")
       result = await createMovie(media, { directors, writers, castMembers });
     else if (media.type === "show") {
@@ -546,7 +448,6 @@ const create = async (req, res) => {
     
     res.location(`/media/${result.id}`);
     res.status(201).json({ id: result.id, message: "Title processed successfully." });
-
   } 
   catch (error) {
     console.error("Error processing media:", error);
@@ -558,9 +459,8 @@ const update = async (req, res) => {
   const media = req.body[0];
   const og = req.body[1];
   const client = await pgClient.connect();
-
   const originalPersonIds = new Set();
-  
+
   const addIdsToSet = (people, idKey) => {
     if (people && Array.isArray(people))
       people.forEach(p => originalPersonIds.add(p[idKey]));
@@ -572,11 +472,7 @@ const update = async (req, res) => {
   addIdsToSet(og.directors_tv, 'director_id');
   addIdsToSet(og.writers_tv, 'writer_id');
   addIdsToSet(og.cast_members_tv, 'actor_id');
-  
-  const getIdsByRole = (role) => media.castAndCrew
-    ?.filter(person => person[role])
-    .map(person => person.id) || [];
-
+  const getIdsByRole = (role) => media.castAndCrew?.filter(person => person[role]).map(person => person.id) || [];
   const directors = getIdsByRole("director");
   const writers = getIdsByRole("writer");
   const castMembers = getIdsByRole("cast");
@@ -606,31 +502,32 @@ const update = async (req, res) => {
 };
 
 async function createMovie(media, { directors, writers, castMembers }) {
-  const sql = `
-    WITH new_media AS (
-      INSERT INTO media (id, title, grade, release_date, rating, poster, runtime, type, date_added)
-      SELECT COALESCE(MAX(id), 0) + 1, $1, $2, $3, $4, $5, $6, 'movie', $7
-      FROM media
-      RETURNING id
-    ),
-    insert_directors AS (
-      INSERT INTO media_directors (ordering, media_id, director_id)
-      SELECT row_number() OVER (), (SELECT id FROM new_media), director_id
-      FROM unnest($8::int[]) AS director_id
-    ),
-    insert_cast AS (
-      INSERT INTO media_cast (ordering, media_id, actor_id)
-      SELECT row_number() OVER (), (SELECT id FROM new_media), actor_id
-      FROM unnest($9::int[]) AS actor_id
-    ),
-    insert_writers AS (
-      INSERT INTO media_writers (ordering, media_id, writer_id)
-      SELECT row_number() OVER (), (SELECT id FROM new_media), writer_id
-      FROM unnest($10::int[]) AS writer_id
-    )
-    SELECT id FROM new_media;
-  `;
-
+  const sql = 
+    `
+      WITH new_media AS (
+        INSERT INTO media (id, title, grade, release_date, rating, poster, runtime, type, date_added)
+        SELECT COALESCE(MAX(id), 0) + 1, $1, $2, $3, $4, $5, $6, 'movie', $7
+        FROM media
+        RETURNING id
+      ),
+      insert_directors AS (
+        INSERT INTO media_directors (ordering, media_id, director_id)
+        SELECT row_number() OVER (), (SELECT id FROM new_media), director_id
+        FROM unnest($8::int[]) AS director_id
+      ),
+      insert_cast AS (
+        INSERT INTO media_cast (ordering, media_id, actor_id)
+        SELECT row_number() OVER (), (SELECT id FROM new_media), actor_id
+        FROM unnest($9::int[]) AS actor_id
+      ),
+      insert_writers AS (
+        INSERT INTO media_writers (ordering, media_id, writer_id)
+        SELECT row_number() OVER (), (SELECT id FROM new_media), writer_id
+        FROM unnest($10::int[]) AS writer_id
+      )
+      SELECT id FROM new_media;
+    `;
+  
   const params = [
     media.title, 
     media.grade, 
@@ -649,35 +546,36 @@ async function createMovie(media, { directors, writers, castMembers }) {
 }
 
 async function createNewShow(media, { directors, writers, castMembers }) {
-  const sql = `
-    WITH new_media AS (
-      INSERT INTO media (id, title, poster, rating, completed, type)
-      SELECT COALESCE(MAX(id), 0) + 1, $1, $2, $3, $4, 'show'
-      FROM media
-      RETURNING id
-    ),
-    insert_season AS (
-      INSERT INTO seasons (season, show_id, grade, episodes, runtime, start_date, end_date, date_added)
-      VALUES (1, (SELECT id FROM new_media), $5, $6, $7, $8, $9, $10)
-    ),
-    insert_directors AS (
-      INSERT INTO seasons_directors (ordering, show_id, season, director_id)
-      SELECT row_number() OVER (), (SELECT id FROM new_media), 1, director_id
-      FROM unnest($11::int[]) AS director_id
-    ),
-    insert_cast AS (
-      INSERT INTO seasons_cast (ordering, season, show_id, actor_id)
-      SELECT row_number() OVER (), 1, (SELECT id FROM new_media), actor_id
-      FROM unnest($12::int[]) AS actor_id
-    ),
-    insert_writers AS (
-      INSERT INTO seasons_writers (ordering, show_id, season, writer_id)
-      SELECT row_number() OVER (), (SELECT id FROM new_media), 1, writer_id
-      FROM unnest($13::int[]) AS writer_id
-    )
-    SELECT id FROM new_media;
-  `;
-
+  const sql = 
+    `
+      WITH new_media AS (
+        INSERT INTO media (id, title, poster, rating, completed, type)
+        SELECT COALESCE(MAX(id), 0) + 1, $1, $2, $3, $4, 'show'
+        FROM media
+        RETURNING id
+      ),
+      insert_season AS (
+        INSERT INTO seasons (season, show_id, grade, episodes, runtime, start_date, end_date, date_added)
+        VALUES (1, (SELECT id FROM new_media), $5, $6, $7, $8, $9, $10)
+      ),
+      insert_directors AS (
+        INSERT INTO seasons_directors (ordering, show_id, season, director_id)
+        SELECT row_number() OVER (), (SELECT id FROM new_media), 1, director_id
+        FROM unnest($11::int[]) AS director_id
+      ),
+      insert_cast AS (
+        INSERT INTO seasons_cast (ordering, season, show_id, actor_id)
+        SELECT row_number() OVER (), 1, (SELECT id FROM new_media), actor_id
+        FROM unnest($12::int[]) AS actor_id
+      ),
+      insert_writers AS (
+        INSERT INTO seasons_writers (ordering, show_id, season, writer_id)
+        SELECT row_number() OVER (), (SELECT id FROM new_media), 1, writer_id
+        FROM unnest($13::int[]) AS writer_id
+      )
+      SELECT id FROM new_media;
+    `;
+  
   const params = [
     media.title, 
     media.poster, 
@@ -693,56 +591,62 @@ async function createNewShow(media, { directors, writers, castMembers }) {
     castMembers, 
     writers
   ];
-
+  
   const result = await pgClient.query(sql, params);
   return { id: result.rows[0].id };
 }
 
 async function addSeasonToShow(media, { directors, writers, castMembers }) {
   let sql = ``;
-
   sql = `UPDATE media SET completed = $1 WHERE id = $2;`;
   await pgClient.query(sql, [media.completed || false, media.id]);
 
-  sql = `
-    WITH new_season_info AS (
-      SELECT COALESCE(MAX(season), 0) + 1 AS season_num FROM seasons WHERE show_id = $1
-    )
-    INSERT INTO seasons (season, show_id, grade, episodes, runtime, start_date, end_date, date_added)
-    SELECT season_num, $1, $2, $3, $4, $5, $6, $7 FROM new_season_info;
-  `;
+  sql = 
+    `
+      WITH new_season_info AS (
+        SELECT COALESCE(MAX(season), 0) + 1 AS season_num FROM seasons WHERE show_id = $1
+      )
+      INSERT INTO seasons (season, show_id, grade, episodes, runtime, start_date, end_date, date_added)
+      SELECT season_num, $1, $2, $3, $4, $5, $6, $7 FROM new_season_info;
+    `;
+
   await pgClient.query(sql, [media.id, media.grade, media.episodes, media.runtime, media.start_date, media.end_date, new Date()]);
 
-  sql = `
-    WITH new_season_info AS (
-      SELECT COALESCE(MAX(season), 0) AS season_num FROM seasons WHERE show_id = $1
-    )
-    INSERT INTO seasons_directors (ordering, show_id, season, director_id)
-    SELECT row_number() OVER (), $1, (SELECT season_num FROM new_season_info), director_id
-    FROM unnest($2::int[]) AS director_id;
-  `;
+  sql = 
+    `
+      WITH new_season_info AS (
+        SELECT COALESCE(MAX(season), 0) AS season_num FROM seasons WHERE show_id = $1
+      )
+      INSERT INTO seasons_directors (ordering, show_id, season, director_id)
+      SELECT row_number() OVER (), $1, (SELECT season_num FROM new_season_info), director_id
+      FROM unnest($2::int[]) AS director_id;
+    `;
+
   await pgClient.query(sql, [media.id, directors]);
 
-  sql = `
-    WITH new_season_info AS (
-      SELECT COALESCE(MAX(season), 0) AS season_num FROM seasons WHERE show_id = $1
-    )
-    INSERT INTO seasons_cast (ordering, season, show_id, actor_id)
-    SELECT row_number() OVER (), (SELECT season_num FROM new_season_info), $1, actor_id
-    FROM unnest($2::int[]) AS actor_id;
-  `;
+  sql = 
+    `
+      WITH new_season_info AS (
+        SELECT COALESCE(MAX(season), 0) AS season_num FROM seasons WHERE show_id = $1
+      )
+      INSERT INTO seasons_cast (ordering, season, show_id, actor_id)
+      SELECT row_number() OVER (), (SELECT season_num FROM new_season_info), $1, actor_id
+      FROM unnest($2::int[]) AS actor_id;
+    `;
+
   await pgClient.query(sql, [media.id, castMembers]);
 
-  sql = `
-    WITH new_season_info AS (
-      SELECT COALESCE(MAX(season), 0) AS season_num FROM seasons WHERE show_id = $1
-    )
-    INSERT INTO seasons_writers (ordering, show_id, season, writer_id)
-    SELECT row_number() OVER (), $1, (SELECT season_num FROM new_season_info), writer_id
-    FROM unnest($2::int[]) AS writer_id;
-  `;
-  await pgClient.query(sql, [media.id, writers]);
+  sql = 
+    `
+      WITH new_season_info AS (
+        SELECT COALESCE(MAX(season), 0) AS season_num FROM seasons WHERE show_id = $1
+      )
+      INSERT INTO seasons_writers (ordering, show_id, season, writer_id)
+      SELECT row_number() OVER (), $1, (SELECT season_num FROM new_season_info), writer_id
+      FROM unnest($2::int[]) AS writer_id;
+    `;
 
+  await pgClient.query(sql, [media.id, writers]);
   return { id: media.id };
 }
 
@@ -782,33 +686,42 @@ async function updateMovie(media, og, { directors, writers, castMembers }) {
   if (!og.directors || !directors || og.directors.length != directors.length || !(directors.every(d => og.directors.some(ogd => ogd["director_id"] === d)))) {
     sql = `DELETE FROM media_directors WHERE media_id = $1;`;
     await pgClient.query(sql, [media.id]);
-    sql = `
-      INSERT INTO media_directors (ordering, media_id, director_id)
-      SELECT row_number() OVER (), $1, director_id
-      FROM unnest($2::int[]) AS director_id;
-    `;
+
+    sql = 
+      `
+        INSERT INTO media_directors (ordering, media_id, director_id)
+        SELECT row_number() OVER (), $1, director_id
+        FROM unnest($2::int[]) AS director_id;
+      `;
+
     await pgClient.query(sql, [media.id, directors]);
   }
 
   if (!og.writers || !writers || og.writers.length != writers.length || !(writers.every(w => og.writers.some(ogw => ogw["writer_id"] === w)))) {
     sql = `DELETE FROM media_writers WHERE media_id = $1;`;
     await pgClient.query(sql, [media.id]);
-    sql = `
-      INSERT INTO media_writers (ordering, media_id, writer_id)
-      SELECT row_number() OVER (), $1, writer_id
-      FROM unnest($2::int[]) AS writer_id;
-    `;
+
+    sql = 
+      `
+        INSERT INTO media_writers (ordering, media_id, writer_id)
+        SELECT row_number() OVER (), $1, writer_id
+        FROM unnest($2::int[]) AS writer_id;
+      `;
+
     await pgClient.query(sql, [media.id, writers]);
   }
 
   if (!og.cast_members || !castMembers || og.cast_members.length != castMembers.length || !(castMembers.every(cm => og.cast_members.some(ogcm => ogcm["actor_id"] === cm)))) {
     sql = `DELETE FROM media_cast WHERE media_id = $1;`;
     await pgClient.query(sql, [media.id]);
-    sql = `
-      INSERT INTO media_cast (ordering, media_id, actor_id)
-      SELECT row_number() OVER (), $1, actor_id
-      FROM unnest($2::int[]) AS actor_id;
-    `;
+
+    sql = 
+      `
+        INSERT INTO media_cast (ordering, media_id, actor_id)
+        SELECT row_number() OVER (), $1, actor_id
+        FROM unnest($2::int[]) AS actor_id;
+      `;
+
     await pgClient.query(sql, [media.id, castMembers]);
   }
 }
@@ -865,11 +778,13 @@ async function updateShow(media, og, { directors, writers, castMembers }) {
     sql = `DELETE FROM seasons_directors WHERE show_id = $1 AND season = $2;`;
     await pgClient.query(sql, [media.id, media.season]);
     
-    sql = `
-      INSERT INTO seasons_directors (ordering, season, show_id, director_id)
-      SELECT row_number() OVER (), $1, $2, director_id
-      FROM unnest($3::int[]) AS director_id;
-    `;
+    sql = 
+      `
+        INSERT INTO seasons_directors (ordering, season, show_id, director_id)
+        SELECT row_number() OVER (), $1, $2, director_id
+        FROM unnest($3::int[]) AS director_id;
+      `;
+
     await pgClient.query(sql, [media.season, media.id, directors]);
   }
 
@@ -877,11 +792,13 @@ async function updateShow(media, og, { directors, writers, castMembers }) {
     sql = `DELETE FROM seasons_writers WHERE show_id = $1 AND season = $2;`;
     await pgClient.query(sql, [media.id, media.season]);
 
-    sql = `
-      INSERT INTO seasons_writers (ordering, season, show_id, writer_id)
-      SELECT row_number() OVER (), $1, $2, writer_id
-      FROM unnest($3::int[]) AS writer_id;
-    `;
+    sql = 
+      `
+        INSERT INTO seasons_writers (ordering, season, show_id, writer_id)
+        SELECT row_number() OVER (), $1, $2, writer_id
+        FROM unnest($3::int[]) AS writer_id;
+      `;
+
     await pgClient.query(sql, [media.season, media.id, writers]);
   }
 
@@ -889,17 +806,20 @@ async function updateShow(media, og, { directors, writers, castMembers }) {
     sql = `DELETE FROM seasons_cast WHERE show_id = $1 AND season = $2;`;
     await pgClient.query(sql, [media.id, media.season]);
 
-    sql = `
-      INSERT INTO seasons_cast (ordering, season, show_id, actor_id)
-      SELECT row_number() OVER (), $1, $2, actor_id
-      FROM unnest($3::int[]) AS actor_id;
-    `;
+    sql = 
+      `
+        INSERT INTO seasons_cast (ordering, season, show_id, actor_id)
+        SELECT row_number() OVER (), $1, $2, actor_id
+        FROM unnest($3::int[]) AS actor_id;
+      `;
+
     await pgClient.query(sql, [media.season, media.id, castMembers]);
   }
 }
 
 async function deleteOrphanedPeople(personIds) {
   let subtractor = 0;
+
   if (!personIds || personIds.length === 0)
     return;
 
@@ -907,22 +827,24 @@ async function deleteOrphanedPeople(personIds) {
 
   for (let personId of uniquePersonIds) {
     personId = personId - subtractor;
-    const checkSql = `
-      SELECT SUM(total) as reference_count
-      FROM (
-        SELECT COUNT(*) as total FROM media_directors WHERE director_id = $1
-        UNION ALL
-        SELECT COUNT(*) as total FROM seasons_directors WHERE director_id = $1
-        UNION ALL
-        SELECT COUNT(*) as total FROM media_writers WHERE writer_id = $1
-        UNION ALL
-        SELECT COUNT(*) as total FROM seasons_writers WHERE writer_id = $1
-        UNION ALL
-        SELECT COUNT(*) as total FROM media_cast WHERE actor_id = $1
-        UNION ALL
-        SELECT COUNT(*) as total FROM seasons_cast WHERE actor_id = $1
-      ) as counts;
-    `;
+
+    const checkSql = 
+      `
+        SELECT SUM(total) as reference_count
+        FROM (
+          SELECT COUNT(*) as total FROM media_directors WHERE director_id = $1
+          UNION ALL
+          SELECT COUNT(*) as total FROM seasons_directors WHERE director_id = $1
+          UNION ALL
+          SELECT COUNT(*) as total FROM media_writers WHERE writer_id = $1
+          UNION ALL
+          SELECT COUNT(*) as total FROM seasons_writers WHERE writer_id = $1
+          UNION ALL
+          SELECT COUNT(*) as total FROM media_cast WHERE actor_id = $1
+          UNION ALL
+          SELECT COUNT(*) as total FROM seasons_cast WHERE actor_id = $1
+        ) as counts;
+      `;
 
     const result = await pgClient.query(checkSql, [personId]);
     const referenceCount = parseInt(result.rows[0].reference_count, 10);
@@ -940,7 +862,6 @@ async function shiftIdsAfterDeletion(deletedPersonId) {
   const client = await pgClient.connect();
   try {
     await client.query("BEGIN");
-
     const peopleToUpdate = await client.query("SELECT id FROM people WHERE id > $1 ORDER BY id ASC", [deletedPersonId]);
     const idsToShift = peopleToUpdate.rows.map(p => p.id);
 

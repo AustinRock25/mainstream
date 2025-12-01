@@ -11,7 +11,7 @@ function authenticate(req, res, next) {
     if (error)
       return res.status(401).json({ error: `Bad token. ${error}` });
     else {
-      pgClient.query("SELECT id, email, is_admin, rating_scale FROM users WHERE id = $1", [decoded.id])
+      pgClient.query("SELECT id, email, is_admin FROM users WHERE id = $1", [decoded.id])
         .then(results => {
           if (results.rowCount > 0) {
             res.locals.user = results.rows[0];
@@ -37,15 +37,14 @@ function authorizeAdmin(req, res, next) {
     if (error)
       return res.status(401).json({ error: `Bad token. ${error}` });
     else {
-      pgClient.query("SELECT id, email, is_admin, rating_scale FROM users WHERE id = $1", [decoded.id])
-        .then(results => {
-          if (!results.rows[0].is_admin) {
-            return res.status(403).json({ error: "Unauthorized." });
-          }
-        })
-        .catch(error => {
-          res.status(401).json({ error: `Unauthorized. ${error}` });
-        })
+      pgClient.query("SELECT id, email, is_admin FROM users WHERE id = $1", [decoded.id])
+      .then(results => {
+        if (!results.rows[0].is_admin)
+          return res.status(403).json({ error: "Unauthorized." });
+      })
+      .catch(error => {
+        res.status(401).json({ error: `Unauthorized. ${error}` });
+      })
     }
     
     next();
