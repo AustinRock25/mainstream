@@ -2,7 +2,7 @@
 -- PostgreSQL database dump
 --
 
-\restrict iMjdFEozEpGrckYCnbBCpmCGhAt0D9tK2jWXnH0FxaGliuL3t56TcFTatst3tuR
+\restrict LIwBTbDsyKAAuoWWYoq6wZB7ebRja1VYeZgKyDcQBIopCihndpN4t8Mrtn22Dc6
 
 -- Dumped from database version 18.1
 -- Dumped by pg_dump version 18.1
@@ -30977,7 +30977,7 @@ COPY public.seasons_writers (ordering, show_id, season, writer_id) FROM stdin;
 --
 
 COPY public.users (id, is_admin, email, password, rating_scale) FROM stdin;
-1	t	austinrock03@gmail.com	$2a$12$AOV0G6DRHhHgUdKAJvNgE.L3vyBjM.6xfjO0rZQKCetMoJPfnEz5S	3
+1	t	austinrock03@gmail.com	$2a$12$AOV0G6DRHhHgUdKAJvNgE.L3vyBjM.6xfjO0rZQKCetMoJPfnEz5S	1
 \.
 
 
@@ -31241,5 +31241,5 @@ ALTER TABLE ONLY public.seasons_writers
 -- PostgreSQL database dump complete
 --
 
-\unrestrict iMjdFEozEpGrckYCnbBCpmCGhAt0D9tK2jWXnH0FxaGliuL3t56TcFTatst3tuR
+\unrestrict LIwBTbDsyKAAuoWWYoq6wZB7ebRja1VYeZgKyDcQBIopCihndpN4t8Mrtn22Dc6
 
