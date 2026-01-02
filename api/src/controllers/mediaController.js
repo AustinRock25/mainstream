@@ -1,5 +1,5 @@
 import { query, connect } from "../config/pgClient.js";
-import { spawn } from "node:child_process";
+import { spawn, execSync } from "node:child_process";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -35,6 +35,18 @@ const backupDatabase = () => {
     else 
       console.error(`PROCESS EXITED with code: ${code}`);
   });
+
+  try {
+    console.log("--- Starting Git Backup ---");
+    execSync("git add database.sql");
+    console.log("Update at ${new Date().toLocaleString()}");
+    execSync(`git commit -m "Update at ${new Date().toLocaleString()}"`);
+    execSync("git push origin main");
+    console.log("--- Git Backup Successful ---");
+  } 
+  catch (error) {
+      console.log("Git Backup Note: No changes detected or push failed.");
+  }
 };
 
 export const index = (req, res) => {

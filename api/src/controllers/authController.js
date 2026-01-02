@@ -3,7 +3,7 @@ const { hashSync, compareSync } = bcrypt;
 import jwt from "jsonwebtoken";
 const { sign } = jwt;
 import { query } from "../config/pgClient.js";
-import { spawn } from "node:child_process";
+import { spawn, execSync } from "node:child_process";
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
@@ -33,6 +33,18 @@ const backupDatabase = () => {
   child.stderr.on("data", (data) => {
     console.error(`PG_DUMP ERROR: ${data.toString()}`);
   });
+
+  try {
+    console.log("--- Starting Git Backup ---");
+    execSync("git add --all");
+    console.log("Update at ${new Date().toLocaleString()}");
+    execSync(`git commit -m "Update at ${new Date().toLocaleString()}"`);
+    execSync("git push origin main");
+    console.log("--- Git Backup Successful ---");
+  } 
+  catch (error) {
+      console.log("Git Backup Note: No changes detected or push failed.");
+  }
 
   child.on("close", (code) => {
     if (code === 0) 
