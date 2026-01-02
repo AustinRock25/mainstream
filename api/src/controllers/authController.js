@@ -37,7 +37,7 @@ const backupDatabase = () => {
   try {
     console.log("--- Starting Git Backup ---");
     execSync("git add --all");
-    console.log("Update at ${new Date().toLocaleString()}");
+    console.log(`Update at ${new Date().toLocaleString()}`);
     execSync(`git commit -m "Update at ${new Date().toLocaleString()}"`);
     execSync("git push origin main");
     console.log("--- Git Backup Successful ---");
