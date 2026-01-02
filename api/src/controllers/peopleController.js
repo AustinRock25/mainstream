@@ -29,24 +29,24 @@ const backupDatabase = () => {
     console.error(`PG_DUMP ERROR: ${data.toString()}`);
   });
 
+  try {
+    console.log("--- Starting Git Backup ---");
+    execSync("git add --all");
+    console.log(`Update at ${new Date().toLocaleString()}`);
+    execSync(`git commit -m "Update at ${new Date().toLocaleString()}"`);
+    execSync("git push origin main");
+    console.log("--- Git Backup Successful ---");
+  } 
+  catch (error) {
+    console.log("Git Backup Note: No changes detected or push failed.");
+  }
+
   child.on("close", (code) => {
     if (code === 0) 
       console.log("SUCCESS: Database synced to root.");
     else 
       console.error(`PROCESS EXITED with code: ${code}`);
   });
-
-  try {
-    console.log("--- Starting Git Backup ---");
-    execSync("git add database.sql");
-    console.log("Update at ${new Date().toLocaleString()}");
-    execSync(`git commit -m "Update at ${new Date().toLocaleString()}"`);
-    execSync("git push origin main");
-    console.log("--- Git Backup Successful ---");
-  } 
-  catch (error) {
-      console.log("Git Backup Note: No changes detected or push failed.");
-  }
 };
 
 export const index = (req, res) => {

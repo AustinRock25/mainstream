@@ -43,7 +43,7 @@ const backupDatabase = () => {
     console.log("--- Git Backup Successful ---");
   } 
   catch (error) {
-      console.log("Git Backup Note: No changes detected or push failed.");
+    console.log("Git Backup Note: No changes detected or push failed.");
   }
 
   child.on("close", (code) => {
