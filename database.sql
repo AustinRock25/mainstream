@@ -2,7 +2,7 @@
 -- PostgreSQL database dump
 --
 
-\restrict LOG2VL7AoXpTSfEz58MlII1vCsauuAxaXhqtmQYY0Ae2MESYIVBz66c6sHV2Fe1
+\restrict d3LhpkH2TrpUIEz7UT16lq9o2ocCjESbuSNaMU2QpCEzTsygS6eRq67oA8zC8ah
 
 -- Dumped from database version 18.1
 -- Dumped by pg_dump version 18.1
@@ -1877,7 +1877,6 @@ The Wiz	G	the-wiz	133	movie	1619	1978-10-24	\N	\N	C+
 The Whale	R	the-whale	117	movie	1620	2022-12-09	\N	\N	A
 Sisu	R	sisu	91	movie	1621	2023-04-28	\N	\N	B+
 The Bad Guys 2	PG	the-bad-guys-2	104	movie	1622	2025-08-01	\N	\N	A-
-Lake Placid	R	lake-placid	82	movie	1627	1999-07-16	\N	2025-12-02 08:48:18.441-05	D+
 Marriage Story	R	marriage-story	137	movie	1628	2019-11-06	\N	2025-12-03 08:51:05.611-05	A-
 Shakespeare in Love	R	shakespeare-in-love	123	movie	1629	1998-12-11	\N	2025-12-04 08:57:11.467-05	B+
 Looper	R	looper	118	movie	1630	2012-09-28	\N	2025-12-05 09:00:22.851-05	A
@@ -1905,6 +1904,7 @@ One Battle After Another	R	one-battle-after-another	162	movie	1645	2025-09-26	\N
 Stranger Things	TV-14	stranger-things	\N	show	1002	\N	t	\N	\N
 Anaconda	PG-13	anaconda	89	movie	1626	1997-04-11	\N	\N	C
 Regretting You	PG-13	regretting-you	116	movie	1646	2025-10-24	\N	2026-01-01 18:26:27.99-05	C+
+Lake Placid	R	lake-placid	82	movie	1627	1999-07-16	\N	\N	D+
 \.
 
 
@@ -26522,7 +26522,6 @@ COPY public.people (id, name, birth_date, death_date) FROM stdin;
 2289	Anna Kendrick	1985-08-09	\N
 2290	Arthur Kennedy	1914-02-17	1990-01-05
 2291	Tig Notaro	1971-03-24	\N
-2292	Frederick Kerr	1858-10-11	1933-05-03
 2293	Irvin Kershner	1923-04-29	2010-11-27
 2294	Irrfan Khan	1967-01-07	2020-04-29
 2295	Margot Kidder	1948-10-17	2018-05-13
@@ -26896,6 +26895,7 @@ COPY public.people (id, name, birth_date, death_date) FROM stdin;
 7890	Sam Morelos	2005-07-07	\N
 7891	Willa Fitzgerald	1991-01-17	\N
 509	Javier Bardem	1969-03-01	\N
+2292	Frederick Kerr	1858-10-11	1933-05-03
 \.
 
 
@@ -31241,5 +31241,5 @@ ALTER TABLE ONLY public.seasons_writers
 -- PostgreSQL database dump complete
 --
 
-\unrestrict LOG2VL7AoXpTSfEz58MlII1vCsauuAxaXhqtmQYY0Ae2MESYIVBz66c6sHV2Fe1
+\unrestrict d3LhpkH2TrpUIEz7UT16lq9o2ocCjESbuSNaMU2QpCEzTsygS6eRq67oA8zC8ah
 
