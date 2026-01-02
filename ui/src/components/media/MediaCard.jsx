@@ -6,6 +6,8 @@ import { useSelector } from "react-redux";
 
 function MediaCard ({media}) {
   const { isAdmin, user } = useSelector(state => state.auth);
+  const [pillColor, setPillColor] = useState("danger");
+  const [pillTextColor, setPillTextColor] = useState("white");
   const [seasonCount, setSeasonCount] = useState(0);
   const [showMediaModal, setShowMediaModal] = useState(false);
   const [showRuntime, setShowRuntime] = useState(false);
@@ -22,9 +24,64 @@ function MediaCard ({media}) {
   }
 
   useEffect(() => {
-    if (!!user) {
-      if (!media.grade)
-        media.grade = media.grade_tv;
+    if (!media.grade)
+      media.grade = media.grade_tv;
+
+    if (!user) {
+      if (media.grade == "0/4" || media.grade == "0.5/4" || media.grade == "1/4" || media.grade == "1.5/4" || media.grade == "0/5" || media.grade == "0.5/5" || media.grade == "1/5" || media.grade == "1.5/5" || media.grade == "2/5" || media.grade == "F" || media.grade == "D-" || media.grade == "D" || media.grade == "D+") {
+        setPillColor("danger");
+        setPillTextColor("white");
+      }
+      else if (media.grade == "2/4" || media.grade == "2.5/5" || media.grade == "3/5" || media.grade == "C-" || media.grade == "C" || media.grade == "C+") {
+        setPillColor("warning");
+        setPillTextColor("black");
+      }
+      else {
+        setPillColor("success");
+        setPillTextColor("white");
+      }
+    }
+    else if (user.rating_scale == 1) {
+      if (media.grade == "0/4" || media.grade == "0.5/4" || media.grade == "1/4" || media.grade == "1.5/4" || media.grade == "0/5" || media.grade == "0.5/5" || media.grade == "F" ||  media.grade == "1/5" || media.grade == "1.5/5" || media.grade == "D-" || media.grade == "D" || media.grade == "D+") {
+        setPillColor("danger");
+        setPillTextColor("white");
+      }
+      else if (media.grade == "2/4" || media.grade == "2/5" || media.grade == "2.5/5" || media.grade == "3/5" || media.grade == "C-" || media.grade == "C" || media.grade == "C+") {
+        setPillColor("warning");
+        setPillTextColor("black");
+      }
+      else {
+        setPillColor("success");
+        setPillTextColor("white");
+      }
+    }
+    else if (user.rating_scale == 2) {
+      if (media.grade == "0/4" || media.grade == "0/5" || media.grade == "F" ||  media.grade == "0.5/5" || media.grade == "1/5" || media.grade == "1.5/5" || media.grade == "D-" || media.grade == "D") {
+        setPillColor("danger");
+        setPillTextColor("white");
+      }
+      else if (media.grade == "1.5/4" || media.grade == "2/5" || media.grade == "D+" || media.grade == "C-" || media.grade == "C" || media.grade == "2.5/5" || media.grade == "2/4" || media.grade == "2.5/4" || media.grade == "3/5" || media.grade == "C+" || media.grade == "B-") {
+        setPillColor("warning");
+        setPillTextColor("black");
+      }
+      else {
+        setPillColor("success");
+        setPillTextColor("white");
+      }
+    }
+    else {
+      if (media.grade == "0/4" || media.grade == "0.5/4" || media.grade == "0/5" || media.grade == "0.5/5" || media.grade == "F" ||  media.grade == "D-" || media.grade == "1/4" || media.grade == "1.5/4" || media.grade == "1/5" || media.grade == "1.5/5" || media.grade == "D" || media.grade == "D+") {
+        setPillColor("danger");
+        setPillTextColor("white");
+      }
+      else if (media.grade == "C-" || media.grade == "2/4" || media.grade == "2/5" || media.grade == "2.5/5" || media.grade == "3/5" || media.grade == "C" || media.grade == "C+") {
+        setPillColor("warning");
+        setPillTextColor("black");
+      }
+      else {
+        setPillColor("success");
+        setPillTextColor("white");
+      }
     }
 
     if (media.type === "show") {
@@ -100,7 +157,100 @@ function MediaCard ({media}) {
     if (!media.grade)
       media.grade = media.grade_tv;
 
-    return media.grade;
+    if (!user) {
+      if (media.grade == "0/4" || media.grade == "0/5" || media.grade == "0.5/5" || media.grade == "F")
+        return "1/10";
+      else if (media.grade == "0.5/4" || media.grade == "1/5")
+        return "2/10";
+      else if (media.grade == "1/4" || media.grade == "1.5/5" || media.grade == "D-" || media.grade == "D")
+        return "3/10";
+      else if (media.grade == "1.5/4" || media.grade == "2/5" || media.grade == "D+")
+        return "4/10";
+      else if (media.grade == "2/4" || media.grade == "2.5/5" || media.grade == "C-" || media.grade == "C")
+        return "5/10";
+      else if (media.grade == "3/5" || media.grade == "C+")
+        return "6/10";
+      else if (media.grade == "2.5/4" || media.grade == "3.5/5" || media.grade == "B-" || media.grade == "B")
+        return "7/10";
+      else if (media.grade == "3/4" || media.grade == "4/5" || media.grade == "B+")
+        return "8/10";
+      else if (media.grade == "3.5/4" || media.grade == "4.5/5" || media.grade == "A-" || media.grade == "A")
+        return "9/10";
+      else
+        return "10/10";
+    }
+    else if (user.rating_scale == 1) {
+      if (media.grade == "0/4" || media.grade == "0/5" || media.grade == "0.5/5" || media.grade == "F")
+        return "0/4";
+      else if (media.grade == "0.5/4")
+        return "0.5/4";
+      else if (media.grade == "1/4" || media.grade == "1/5" || media.grade == "1.5/5" || media.grade == "D-" || media.grade == "D" || media.grade == "D+")
+        return "1/4";
+      else if (media.grade == "1.5/4")
+        return "1.5/4";
+      else if (media.grade == "2/4" || media.grade == "2/5" || media.grade == "2.5/5" || media.grade == "3/5" || media.grade == "C-" || media.grade == "C" || media.grade == "C+")
+        return "2/4";
+      else if (media.grade == "2.5/4")
+        return "2.5/4";
+      else if (media.grade == "3/4" || media.grade == "3.5/5" || media.grade == "4/5" || media.grade == "B-" || media.grade == "B" || media.grade == "B+")
+        return "3/4";
+      else if (media.grade == "3.5/4")
+        return "3.5/4";
+      else
+        return "4/4";
+    }
+    else if (user.rating_scale == 2) {
+      if (media.grade == "0/4" || media.grade == "0/5" || media.grade == "F")
+        return "0/5";
+      else if (media.grade == "0.5/5")
+        return "0.5/5";
+      else if (media.grade == "0.5/4" || media.grade == "1/4" || media.grade == "1/5" || media.grade == "D-" || media.grade == "D")
+        return "1/5";
+      else if (media.grade == "1.5/5")
+        return "1.5/5";
+      else if (media.grade == "1.5/4" || media.grade == "2/5" || media.grade == "D+" || media.grade == "C-" || media.grade == "C")
+        return "2/5";
+      else if (media.grade == "2.5/5")
+        return "2.5/5";
+      else if (media.grade == "2/4" || media.grade == "2.5/4" || media.grade == "3/5" || media.grade == "C+" || media.grade == "B-")
+        return "3/5";
+      else if (media.grade == "3.5/5")
+        return "3.5/5";
+      else if (media.grade == "3/4" || media.grade == "3.5/4" || media.grade == "4/5" || media.grade == "B" || media.grade == "B+" || media.grade == "A-")
+        return "4/5";
+      else if (media.grade == "4.5/5")
+        return "4.5/5";
+      else
+        return "5/5";
+    }
+    else {
+      if (media.grade == "0/4" || media.grade == "0.5/4" || media.grade == "0/5" || media.grade == "0.5/5" || media.grade == "F")
+        return "F";
+      else if (media.grade == "D-")
+        return "D-";
+      else if (media.grade == "1/4" || media.grade == "1.5/4" || media.grade == "1/5" || media.grade == "1.5/5" || media.grade == "D")
+        return "D";
+      else if (media.grade == "D+")
+        return "D+";
+      else if (media.grade == "C-")
+        return "C-";
+      else if (media.grade == "2/4" || media.grade == "2/5" || media.grade == "2.5/5" || media.grade == "3/5" || media.grade == "C")
+        return "C";
+      else if (media.grade == "C+")
+        return "C+";
+      else if (media.grade == "B-")
+        return "B-";
+      else if (media.grade == "2.5/4" || media.grade == "3/4" || media.grade == "3.5/5" || media.grade == "4/5" || media.grade == "B")
+        return "B";
+      else if (media.grade == "B+")
+        return "B+";
+      else if (media.grade == "A-")
+        return "A-";
+      else if (media.grade == "A+")
+        return "A+";
+      else
+        return "A";
+    }
   }
 
   return (
@@ -117,7 +267,7 @@ function MediaCard ({media}) {
             <span className="fw-normal text-white-50"><i>{media.title}</i> {getYear(media)}</span>
           </Card.Title>
           <Stack direction="horizontal" gap={2} className="mt-2 mb-3 mx-auto">
-            <Badge bg="success" pill>{getGrade(media)}</Badge>
+            <Badge bg={pillColor} text={pillTextColor} pill>{getGrade(media)}</Badge>
             <Badge bg="secondary" pill>{media.rating == "Not Rated" ? "NR" : media.rating}</Badge>
             {media.type === "movie" ? <Badge bg="dark" pill>{time(media.runtime)}</Badge> : <Badge bg="dark" pill onClick={handlePillClick} style={{ cursor: "pointer" }}>{showRuntime ? time(media.runtime_tv) : media.episodes + "eps"}</Badge>}
           </Stack>

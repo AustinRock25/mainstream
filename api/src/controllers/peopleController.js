@@ -1,6 +1,43 @@
-const pgClient = require("../config/pgClient");
+import { query } from "../config/pgClient.js";
+import { spawn } from "node:child_process";
+import fs from "node:fs";import path from "node:path";
+import { fileURLToPath } from "node:url";
 
-const index = (req, res) => {
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+const backupDatabase = () => {
+  const rootPath = path.resolve(__dirname, "../../../"); 
+  const backupPath = path.join(rootPath, "database.sql");
+  const pgDumpPath = path.join(rootPath, "sql_binaries/bin/pg_dump.exe");
+
+  if (!fs.existsSync(pgDumpPath)) {
+    console.error(`Binary not found at: ${pgDumpPath}`);
+    return;
+  }
+
+  const fileStream = fs.createWriteStream(backupPath);
+
+  const child = spawn(pgDumpPath, ["-U", "postgres", "--no-owner", "--no-privileges", "--clean", "--if-exists","mainstream"], {
+    shell: true,
+    env: { ...process.env, PGPASSWORD: process.env.DB_PASSWORD }
+  });
+
+  child.stdout.pipe(fileStream);
+
+  child.stderr.on("data", (data) => {
+    console.error(`PG_DUMP ERROR: ${data.toString()}`);
+  });
+
+  child.on("close", (code) => {
+    if (code === 0) 
+      console.log("SUCCESS: Database synced to root.");
+    else 
+      console.error(`PROCESS EXITED with code: ${code}`);
+  });
+};
+
+export const index = (req, res) => {
   const { 
     searchTerm,
     beginRecord,
@@ -150,7 +187,7 @@ const index = (req, res) => {
       WHERE RowNum BETWEEN $1 AND $2;
     `;
 
-  pgClient.query(sql, params)
+  query(sql, params)
   .then(results => {
     res.status(200).json(results.rows);
   })
@@ -159,7 +196,7 @@ const index = (req, res) => {
   });
 }
 
-const indexLength = (req, res) => {
+export const indexLength = (req, res) => {
   const { 
     searchTerm,
     minBirthDate,
@@ -223,7 +260,7 @@ const indexLength = (req, res) => {
       ${whereClause};
     `;
 
-  pgClient.query(sql, params)
+  query(sql, params)
   .then(results => {
     res.status(200).json(results.rows);
   })
@@ -232,7 +269,7 @@ const indexLength = (req, res) => {
   });
 }
 
-const indexSelect = (req, res) => {
+export const indexSelect = (req, res) => {
   let searchSystem = "";
   let params = [];
 
@@ -316,7 +353,7 @@ const indexSelect = (req, res) => {
 
   const sql = `${searchSystem}`;
 
-  pgClient.query(sql, params)
+  query(sql, params)
   .then(results => {
     res.status(200).json(results.rows);
   })
@@ -325,7 +362,7 @@ const indexSelect = (req, res) => {
   });
 }
 
-const show = (req, res) => {
+export const show = (req, res) => {
   const sql = 
     `
       SELECT id, name, birth_date, death_date
@@ -333,7 +370,7 @@ const show = (req, res) => {
       WHERE id = $1;
     `;
 
-  pgClient.query(sql, [req.params.id])
+  query(sql, [req.params.id])
     .then(results => {
       if (results.rowCount > 0)
         res.json(results.rows[0]);
@@ -345,7 +382,7 @@ const show = (req, res) => {
     });
 }
 
-const create = async (req, res) => {
+export const create = async (req, res) => {
   const person = req.body;
 
   if (!person.birth_date)
@@ -371,9 +408,10 @@ const create = async (req, res) => {
     person.death_date
   ];
 
-  pgClient.query(sql, params)
+  query(sql, params)
   .then(result => {
     res.location(`/people/${result.rows[0].id}`);
+    backupDatabase();
     res.status(201).json({ message: "Person created successfully." });
   })
   .catch((error) => {
@@ -381,7 +419,7 @@ const create = async (req, res) => {
   });
 }
 
-const update = async (req, res) => {
+export const update = async (req, res) => {
   const person = req.body;
 
   if (!person.birth_date)
@@ -390,13 +428,12 @@ const update = async (req, res) => {
   if (!person.death_date)
     person.death_date = null;
 
-  pgClient.query("UPDATE people SET name = $1, birth_date = $2, death_date = $3 WHERE id = $4", [person.name, person.birth_date, person.death_date, person.id])
+  query("UPDATE people SET name = $1, birth_date = $2, death_date = $3 WHERE id = $4", [person.name, person.birth_date, person.death_date, person.id])
   .then(results => {
+    backupDatabase();
     res.status(201).json({ message: "Person successfully updated." });
   })
   .catch((error) => {
     res.status(500).json({ error: `Error: ${ error }` });
   })
 }
-
-module.exports = { index, indexLength, indexSelect, show, create, update };

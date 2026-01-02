@@ -1,5 +1,5 @@
 How to run The Mainstream:
 
-1. Import the database.sql file to PostgreSQL. Password to access it is P0$Tgr3$2025
-2. Open two terminals in GitBash, and in one, enter cd ~/'Name of where you stored it here'/mainstream/ui and then npm start. In the other one, enter cd ~/'Name of where you stored it here'/mainstream/api and then npm start.
-3. The url to access the site once it is running is localhost:863
+1. Run the postgresql-18.1-2-windows-x64 installer; make sure everything but Stack Builder is checked before installing.
+2. Open a command prompt (cmd) on your laptop and enter the command cd 'Name of where you stored it here'/mainstream and then npm start.
+3. The url to access the site once it is running is localhost:863.

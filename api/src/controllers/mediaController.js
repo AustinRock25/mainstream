@@ -1,6 +1,43 @@
-const pgClient = require("../config/pgClient");
+import { query, connect } from "../config/pgClient.js";
+import { spawn } from "node:child_process";
+import path from "node:path";
+import { fileURLToPath } from "node:url";
 
-const index = (req, res) => {
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+const backupDatabase = () => {
+  const rootPath = path.resolve(__dirname, "../../../"); 
+  const backupPath = path.join(rootPath, "database.sql");
+  const pgDumpPath = path.join(rootPath, "sql_binaries/bin/pg_dump.exe");
+
+  if (!fs.existsSync(pgDumpPath)) {
+    console.error(`Binary not found at: ${pgDumpPath}`);
+    return;
+  }
+
+  const fileStream = fs.createWriteStream(backupPath);
+
+  const child = spawn(pgDumpPath, ["-U", "postgres", "--no-owner", "--no-privileges", "--clean", "--if-exists","mainstream"], {
+    shell: true,
+    env: { ...process.env, PGPASSWORD: process.env.DB_PASSWORD }
+  });
+
+  child.stdout.pipe(fileStream);
+
+  child.stderr.on("data", (data) => {
+    console.error(`PG_DUMP ERROR: ${data.toString()}`);
+  });
+
+  child.on("close", (code) => {
+    if (code === 0) 
+      console.log("SUCCESS: Database synced to root.");
+    else 
+      console.error(`PROCESS EXITED with code: ${code}`);
+  });
+};
+
+export const index = (req, res) => {
   const { 
     searchTerm,
     beginRecord,
@@ -69,32 +106,92 @@ const index = (req, res) => {
   }
 
   if (grade) {
-    if (grade == "F")
-      filterClauses.push("(COALESCE(m.grade, s.grade) = 'F')");
+    if (grade == "0/4")
+      filterClauses.push("(COALESCE(m.grade, s.grade) = '0/4') OR (COALESCE(m.grade, s.grade) = '0/5') OR (COALESCE(m.grade, s.grade) = '0.5/5') OR (COALESCE(m.grade, s.grade) = 'F')");
+    else if (grade == "0.5/4")
+      filterClauses.push("(COALESCE(m.grade, s.grade) = '0.5/4')");
+    else if (grade == "1/4")
+      filterClauses.push("(COALESCE(m.grade, s.grade) = '1/4') OR (COALESCE(m.grade, s.grade) = '1/5') OR (COALESCE(m.grade, s.grade) = '1.5/5') OR (COALESCE(m.grade, s.grade) = 'D-') OR (COALESCE(m.grade, s.grade) = 'D') OR (COALESCE(m.grade, s.grade) = 'D+')");
+    else if (grade == "1.5/4")
+      filterClauses.push("(COALESCE(m.grade, s.grade) = '1.5/4')");
+    else if (grade == "2/4")
+      filterClauses.push("(COALESCE(m.grade, s.grade) = '2/4') OR (COALESCE(m.grade, s.grade) = '2/5') OR (COALESCE(m.grade, s.grade) = '2.5/5') OR (COALESCE(m.grade, s.grade) = '3/5') OR (COALESCE(m.grade, s.grade) = 'C-') OR (COALESCE(m.grade, s.grade) = 'C') OR (COALESCE(m.grade, s.grade) = 'C+')");
+    else if (grade == "2.5/4")
+      filterClauses.push("(COALESCE(m.grade, s.grade) = '2.5/4')");
+    else if (grade == "3/4")
+      filterClauses.push("(COALESCE(m.grade, s.grade) = '3/4') OR (COALESCE(m.grade, s.grade) = '3.5/5') OR (COALESCE(m.grade, s.grade) = '4/5') OR (COALESCE(m.grade, s.grade) = 'B-') OR (COALESCE(m.grade, s.grade) = 'B') OR (COALESCE(m.grade, s.grade) = 'B+')");
+    else if (grade == "3.5/4")
+      filterClauses.push("(COALESCE(m.grade, s.grade) = '3.5/4')");
+    else if (grade == "4/4")
+      filterClauses.push("(COALESCE(m.grade, s.grade) = '4/4') OR (COALESCE(m.grade, s.grade) = '4.5/5') OR (COALESCE(m.grade, s.grade) = '5/5') OR (COALESCE(m.grade, s.grade) = 'A-') OR (COALESCE(m.grade, s.grade) = 'A') OR (COALESCE(m.grade, s.grade) = 'A+')");
+    else if (grade == "0/5")
+      filterClauses.push("(COALESCE(m.grade, s.grade) = '0/4') OR (COALESCE(m.grade, s.grade) = '0/5') OR (COALESCE(m.grade, s.grade) = 'F')");
+    else if (grade == "0.5/5")
+      filterClauses.push("(COALESCE(m.grade, s.grade) = '0.5/5')");
+    else if (grade == "1/5")
+      filterClauses.push("(COALESCE(m.grade, s.grade) = '0.5/4') OR (COALESCE(m.grade, s.grade) = '1/4') OR (COALESCE(m.grade, s.grade) = '1/5') OR (COALESCE(m.grade, s.grade) = 'D-') OR (COALESCE(m.grade, s.grade) = 'D')");
+    else if (grade == "1.5/5")
+      filterClauses.push("(COALESCE(m.grade, s.grade) = '1.5/5')");
+    else if (grade == "2/5")
+      filterClauses.push("(COALESCE(m.grade, s.grade) = '1.5/4') OR (COALESCE(m.grade, s.grade) = '2/5') OR (COALESCE(m.grade, s.grade) = 'D+') OR (COALESCE(m.grade, s.grade) = 'C-') OR (COALESCE(m.grade, s.grade) = 'C')");
+    else if (grade == "2.5/5")
+      filterClauses.push("(COALESCE(m.grade, s.grade) = '2.5/5')");
+    else if (grade == "3/5")
+      filterClauses.push("(COALESCE(m.grade, s.grade) = '2/4') OR (COALESCE(m.grade, s.grade) = '2.5/4') OR (COALESCE(m.grade, s.grade) = '3/5') OR (COALESCE(m.grade, s.grade) = 'C+') OR (COALESCE(m.grade, s.grade) = 'B-')");
+    else if (grade == "3.5/5")
+      filterClauses.push("(COALESCE(m.grade, s.grade) = '3.5/5')");
+    else if (grade == "4/5")
+      filterClauses.push("(COALESCE(m.grade, s.grade) = '3/4') OR (COALESCE(m.grade, s.grade) = '3.5/4') OR (COALESCE(m.grade, s.grade) = '4/5') OR (COALESCE(m.grade, s.grade) = 'B') OR (COALESCE(m.grade, s.grade) = 'B+') OR (COALESCE(m.grade, s.grade) = 'A-')");
+    else if (grade == "4.5/5")
+      filterClauses.push("(COALESCE(m.grade, s.grade) = '4.5/5')");
+    else if (grade == "5/5")
+      filterClauses.push("(COALESCE(m.grade, s.grade) = '4/4') OR (COALESCE(m.grade, s.grade) = '5/5') OR (COALESCE(m.grade, s.grade) = 'A') OR (COALESCE(m.grade, s.grade) = 'A+')");
+    else if (grade == "F")
+      filterClauses.push("(COALESCE(m.grade, s.grade) = '0/4') OR (COALESCE(m.grade, s.grade) = '0.5/4') OR (COALESCE(m.grade, s.grade) = '0/5') OR (COALESCE(m.grade, s.grade) = '0.5/5') OR (COALESCE(m.grade, s.grade) = 'F')");
     else if (grade == "D-")
       filterClauses.push("(COALESCE(m.grade, s.grade) = 'D-')");
     else if (grade == "D")
-      filterClauses.push("(COALESCE(m.grade, s.grade) = 'D')");
+      filterClauses.push("(COALESCE(m.grade, s.grade) = '1/4') OR (COALESCE(m.grade, s.grade) = '1.5/4') OR (COALESCE(m.grade, s.grade) = '1/5') OR (COALESCE(m.grade, s.grade) = '1.5/5') OR (COALESCE(m.grade, s.grade) = 'D')");
     else if (grade == "D+")
       filterClauses.push("(COALESCE(m.grade, s.grade) = 'D+')");
     else if (grade == "C-")
       filterClauses.push("(COALESCE(m.grade, s.grade) = 'C-')");
     else if (grade == "C")
-      filterClauses.push("(COALESCE(m.grade, s.grade) = 'C')");
+      filterClauses.push("(COALESCE(m.grade, s.grade) = '2/4') OR (COALESCE(m.grade, s.grade) = '2/5') OR (COALESCE(m.grade, s.grade) = '2.5/5') OR (COALESCE(m.grade, s.grade) = '3/5') OR (COALESCE(m.grade, s.grade) = 'C')");
     else if (grade == "C+")
       filterClauses.push("(COALESCE(m.grade, s.grade) = 'C+')");
     else if (grade == "B-")
       filterClauses.push("(COALESCE(m.grade, s.grade) = 'B-')");
     else if (grade == "B")
-      filterClauses.push("(COALESCE(m.grade, s.grade) = 'B')");
+      filterClauses.push("(COALESCE(m.grade, s.grade) = '2.5/4') OR (COALESCE(m.grade, s.grade) = '3/4') OR (COALESCE(m.grade, s.grade) = '3.5/5') OR (COALESCE(m.grade, s.grade) = '4/5') OR (COALESCE(m.grade, s.grade) = 'B')");
     else if (grade == "B+")
       filterClauses.push("(COALESCE(m.grade, s.grade) = 'B+')");
     else if (grade == "A-")
       filterClauses.push("(COALESCE(m.grade, s.grade) = 'A-')");
     else if (grade == "A")
-      filterClauses.push("(COALESCE(m.grade, s.grade) = 'A')");
-    else
+      filterClauses.push("(COALESCE(m.grade, s.grade) = '3.5/4') OR (COALESCE(m.grade, s.grade) = '4/4') OR (COALESCE(m.grade, s.grade) = '4.5/5') OR (COALESCE(m.grade, s.grade) = '5/5') OR (COALESCE(m.grade, s.grade) = 'A')");
+    else if (grade == "A+")
       filterClauses.push("(COALESCE(m.grade, s.grade) = 'A+')");
+    else if (grade == "1/10")
+      filterClauses.push("(COALESCE(m.grade, s.grade) = '0/4') OR (COALESCE(m.grade, s.grade) = '0/5') OR (COALESCE(m.grade, s.grade) = '0.5/5') OR (COALESCE(m.grade, s.grade) = 'F')");
+    else if (grade == "2/10")
+      filterClauses.push("(COALESCE(m.grade, s.grade) = '0.5/4') OR (COALESCE(m.grade, s.grade) = '1/5')");
+    else if (grade == "3/10")
+      filterClauses.push("(COALESCE(m.grade, s.grade) = '1/4') OR (COALESCE(m.grade, s.grade) = '1.5/5') OR (COALESCE(m.grade, s.grade) = 'D-') OR (COALESCE(m.grade, s.grade) = 'D')");
+    else if (grade == "4/10")
+      filterClauses.push("(COALESCE(m.grade, s.grade) = '1.5/4') OR (COALESCE(m.grade, s.grade) = '2/5') OR (COALESCE(m.grade, s.grade) = 'D+')");
+    else if (grade == "5/10")
+      filterClauses.push("(COALESCE(m.grade, s.grade) = '2/4') OR (COALESCE(m.grade, s.grade) = '2.5/5') OR (COALESCE(m.grade, s.grade) = 'C-') OR (COALESCE(m.grade, s.grade) = 'C')");
+    else if (grade == "6/10")
+      filterClauses.push("(COALESCE(m.grade, s.grade) = '3/5') OR (COALESCE(m.grade, s.grade) = 'C+')");
+    else if (grade == "7/10")
+      filterClauses.push("(COALESCE(m.grade, s.grade) = '2.5/4') OR (COALESCE(m.grade, s.grade) = '3.5/5') OR (COALESCE(m.grade, s.grade) = 'B-') OR (COALESCE(m.grade, s.grade) = 'B')");
+    else if (grade == "8/10")
+      filterClauses.push("(COALESCE(m.grade, s.grade) = '3/4') OR (COALESCE(m.grade, s.grade) = '4/5') OR (COALESCE(m.grade, s.grade) = 'B+')");
+    else if (grade == "9/10")
+      filterClauses.push("(COALESCE(m.grade, s.grade) = '3.5/4') OR (COALESCE(m.grade, s.grade) = '4.5/5') OR (COALESCE(m.grade, s.grade) = 'A-') OR (COALESCE(m.grade, s.grade) = 'A')");
+    else if (grade == "10/10")
+      filterClauses.push("(COALESCE(m.grade, s.grade) = '4/4') OR (COALESCE(m.grade, s.grade) = '5/5') OR (COALESCE(m.grade, s.grade) = 'A+')");
   }
 
   const whereClause = filterClauses.length > 0 ? `WHERE ${filterClauses.join(" AND ")}` : "";
@@ -171,7 +268,7 @@ const index = (req, res) => {
       WHERE (RowNum BETWEEN $1 AND $2);
     `;
     
-  pgClient.query(sql, params)
+  query(sql, params)
   .then(results => {
     res.status(200).json(results.rows);
   })
@@ -180,7 +277,7 @@ const index = (req, res) => {
   });
 }
 
-const indexLength = (req, res) => {
+export const indexLength = (req, res) => {
   const { 
     searchTerm,
     filterType,
@@ -245,32 +342,92 @@ const indexLength = (req, res) => {
   }
 
   if (grade) {
-    if (grade == "F")
-      filterClauses.push("(COALESCE(m.grade, s.grade) = 'F')");
+    if (grade == "0/4")
+      filterClauses.push("(COALESCE(m.grade, s.grade) = '0/4') OR (COALESCE(m.grade, s.grade) = '0/5') OR (COALESCE(m.grade, s.grade) = '0.5/5') OR (COALESCE(m.grade, s.grade) = 'F')");
+    else if (grade == "0.5/4")
+      filterClauses.push("(COALESCE(m.grade, s.grade) = '0.5/4')");
+    else if (grade == "1/4")
+      filterClauses.push("(COALESCE(m.grade, s.grade) = '1/4') OR (COALESCE(m.grade, s.grade) = '1/5') OR (COALESCE(m.grade, s.grade) = '1.5/5') OR (COALESCE(m.grade, s.grade) = 'D-') OR (COALESCE(m.grade, s.grade) = 'D') OR (COALESCE(m.grade, s.grade) = 'D+')");
+    else if (grade == "1.5/4")
+      filterClauses.push("(COALESCE(m.grade, s.grade) = '1.5/4')");
+    else if (grade == "2/4")
+      filterClauses.push("(COALESCE(m.grade, s.grade) = '2/4') OR (COALESCE(m.grade, s.grade) = '2/5') OR (COALESCE(m.grade, s.grade) = '2.5/5') OR (COALESCE(m.grade, s.grade) = '3/5') OR (COALESCE(m.grade, s.grade) = 'C-') OR (COALESCE(m.grade, s.grade) = 'C') OR (COALESCE(m.grade, s.grade) = 'C+')");
+    else if (grade == "2.5/4")
+      filterClauses.push("(COALESCE(m.grade, s.grade) = '2.5/4')");
+    else if (grade == "3/4")
+      filterClauses.push("(COALESCE(m.grade, s.grade) = '3/4') OR (COALESCE(m.grade, s.grade) = '3.5/5') OR (COALESCE(m.grade, s.grade) = '4/5') OR (COALESCE(m.grade, s.grade) = 'B-') OR (COALESCE(m.grade, s.grade) = 'B') OR (COALESCE(m.grade, s.grade) = 'B+')");
+    else if (grade == "3.5/4")
+      filterClauses.push("(COALESCE(m.grade, s.grade) = '3.5/4')");
+    else if (grade == "4/4")
+      filterClauses.push("(COALESCE(m.grade, s.grade) = '4/4') OR (COALESCE(m.grade, s.grade) = '4.5/5') OR (COALESCE(m.grade, s.grade) = '5/5') OR (COALESCE(m.grade, s.grade) = 'A-') OR (COALESCE(m.grade, s.grade) = 'A') OR (COALESCE(m.grade, s.grade) = 'A+')");
+    else if (grade == "0/5")
+      filterClauses.push("(COALESCE(m.grade, s.grade) = '0/4') OR (COALESCE(m.grade, s.grade) = '0/5') OR (COALESCE(m.grade, s.grade) = 'F')");
+    else if (grade == "0.5/5")
+      filterClauses.push("(COALESCE(m.grade, s.grade) = '0.5/5')");
+    else if (grade == "1/5")
+      filterClauses.push("(COALESCE(m.grade, s.grade) = '0.5/4') OR (COALESCE(m.grade, s.grade) = '1/4') OR (COALESCE(m.grade, s.grade) = '1/5') OR (COALESCE(m.grade, s.grade) = 'D-') OR (COALESCE(m.grade, s.grade) = 'D')");
+    else if (grade == "1.5/5")
+      filterClauses.push("(COALESCE(m.grade, s.grade) = '1.5/5')");
+    else if (grade == "2/5")
+      filterClauses.push("(COALESCE(m.grade, s.grade) = '1.5/4') OR (COALESCE(m.grade, s.grade) = '2/5') OR (COALESCE(m.grade, s.grade) = 'D+') OR (COALESCE(m.grade, s.grade) = 'C-') OR (COALESCE(m.grade, s.grade) = 'C')");
+    else if (grade == "2.5/5")
+      filterClauses.push("(COALESCE(m.grade, s.grade) = '2.5/5')");
+    else if (grade == "3/5")
+      filterClauses.push("(COALESCE(m.grade, s.grade) = '2/4') OR (COALESCE(m.grade, s.grade) = '2.5/4') OR (COALESCE(m.grade, s.grade) = '3/5') OR (COALESCE(m.grade, s.grade) = 'C+') OR (COALESCE(m.grade, s.grade) = 'B-')");
+    else if (grade == "3.5/5")
+      filterClauses.push("(COALESCE(m.grade, s.grade) = '3.5/5')");
+    else if (grade == "4/5")
+      filterClauses.push("(COALESCE(m.grade, s.grade) = '3/4') OR (COALESCE(m.grade, s.grade) = '3.5/4') OR (COALESCE(m.grade, s.grade) = '4/5') OR (COALESCE(m.grade, s.grade) = 'B') OR (COALESCE(m.grade, s.grade) = 'B+') OR (COALESCE(m.grade, s.grade) = 'A-')");
+    else if (grade == "4.5/5")
+      filterClauses.push("(COALESCE(m.grade, s.grade) = '4.5/5')");
+    else if (grade == "5/5")
+      filterClauses.push("(COALESCE(m.grade, s.grade) = '4/4') OR (COALESCE(m.grade, s.grade) = '5/5') OR (COALESCE(m.grade, s.grade) = 'A') OR (COALESCE(m.grade, s.grade) = 'A+')");
+    else if (grade == "F")
+      filterClauses.push("(COALESCE(m.grade, s.grade) = '0/4') OR (COALESCE(m.grade, s.grade) = '0.5/4') OR (COALESCE(m.grade, s.grade) = '0/5') OR (COALESCE(m.grade, s.grade) = '0.5/5') OR (COALESCE(m.grade, s.grade) = 'F')");
     else if (grade == "D-")
       filterClauses.push("(COALESCE(m.grade, s.grade) = 'D-')");
     else if (grade == "D")
-      filterClauses.push("(COALESCE(m.grade, s.grade) = 'D')");
+      filterClauses.push("(COALESCE(m.grade, s.grade) = '1/4') OR (COALESCE(m.grade, s.grade) = '1.5/4') OR (COALESCE(m.grade, s.grade) = '1/5') OR (COALESCE(m.grade, s.grade) = '1.5/5') OR (COALESCE(m.grade, s.grade) = 'D')");
     else if (grade == "D+")
       filterClauses.push("(COALESCE(m.grade, s.grade) = 'D+')");
     else if (grade == "C-")
       filterClauses.push("(COALESCE(m.grade, s.grade) = 'C-')");
     else if (grade == "C")
-      filterClauses.push("(COALESCE(m.grade, s.grade) = 'C')");
+      filterClauses.push("(COALESCE(m.grade, s.grade) = '2/4') OR (COALESCE(m.grade, s.grade) = '2/5') OR (COALESCE(m.grade, s.grade) = '2.5/5') OR (COALESCE(m.grade, s.grade) = '3/5') OR (COALESCE(m.grade, s.grade) = 'C')");
     else if (grade == "C+")
       filterClauses.push("(COALESCE(m.grade, s.grade) = 'C+')");
     else if (grade == "B-")
       filterClauses.push("(COALESCE(m.grade, s.grade) = 'B-')");
     else if (grade == "B")
-      filterClauses.push("(COALESCE(m.grade, s.grade) = 'B')");
+      filterClauses.push("(COALESCE(m.grade, s.grade) = '2.5/4') OR (COALESCE(m.grade, s.grade) = '3/4') OR (COALESCE(m.grade, s.grade) = '3.5/5') OR (COALESCE(m.grade, s.grade) = '4/5') OR (COALESCE(m.grade, s.grade) = 'B')");
     else if (grade == "B+")
       filterClauses.push("(COALESCE(m.grade, s.grade) = 'B+')");
     else if (grade == "A-")
       filterClauses.push("(COALESCE(m.grade, s.grade) = 'A-')");
     else if (grade == "A")
-      filterClauses.push("(COALESCE(m.grade, s.grade) = 'A')");
-    else
+      filterClauses.push("(COALESCE(m.grade, s.grade) = '3.5/4') OR (COALESCE(m.grade, s.grade) = '4/4') OR (COALESCE(m.grade, s.grade) = '4.5/5') OR (COALESCE(m.grade, s.grade) = '5/5') OR (COALESCE(m.grade, s.grade) = 'A')");
+    else if (grade == "A+")
       filterClauses.push("(COALESCE(m.grade, s.grade) = 'A+')");
+    else if (grade == "1/10")
+      filterClauses.push("(COALESCE(m.grade, s.grade) = '0/4') OR (COALESCE(m.grade, s.grade) = '0/5') OR (COALESCE(m.grade, s.grade) = '0.5/5') OR (COALESCE(m.grade, s.grade) = 'F')");
+    else if (grade == "2/10")
+      filterClauses.push("(COALESCE(m.grade, s.grade) = '0.5/4') OR (COALESCE(m.grade, s.grade) = '1/5')");
+    else if (grade == "3/10")
+      filterClauses.push("(COALESCE(m.grade, s.grade) = '1/4') OR (COALESCE(m.grade, s.grade) = '1.5/5') OR (COALESCE(m.grade, s.grade) = 'D-') OR (COALESCE(m.grade, s.grade) = 'D')");
+    else if (grade == "4/10")
+      filterClauses.push("(COALESCE(m.grade, s.grade) = '1.5/4') OR (COALESCE(m.grade, s.grade) = '2/5') OR (COALESCE(m.grade, s.grade) = 'D+')");
+    else if (grade == "5/10")
+      filterClauses.push("(COALESCE(m.grade, s.grade) = '2/4') OR (COALESCE(m.grade, s.grade) = '2.5/5') OR (COALESCE(m.grade, s.grade) = 'C-') OR (COALESCE(m.grade, s.grade) = 'C')");
+    else if (grade == "6/10")
+      filterClauses.push("(COALESCE(m.grade, s.grade) = '3/5') OR (COALESCE(m.grade, s.grade) = 'C+')");
+    else if (grade == "7/10")
+      filterClauses.push("(COALESCE(m.grade, s.grade) = '2.5/4') OR (COALESCE(m.grade, s.grade) = '3.5/5') OR (COALESCE(m.grade, s.grade) = 'B-') OR (COALESCE(m.grade, s.grade) = 'B')");
+    else if (grade == "8/10")
+      filterClauses.push("(COALESCE(m.grade, s.grade) = '3/4') OR (COALESCE(m.grade, s.grade) = '4/5') OR (COALESCE(m.grade, s.grade) = 'B+')");
+    else if (grade == "9/10")
+      filterClauses.push("(COALESCE(m.grade, s.grade) = '3.5/4') OR (COALESCE(m.grade, s.grade) = '4.5/5') OR (COALESCE(m.grade, s.grade) = 'A-') OR (COALESCE(m.grade, s.grade) = 'A')");
+    else if (grade == "10/10")
+      filterClauses.push("(COALESCE(m.grade, s.grade) = '4/4') OR (COALESCE(m.grade, s.grade) = '5/5') OR (COALESCE(m.grade, s.grade) = 'A+')");
   }
 
   const whereClause = filterClauses.length > 0 ? `WHERE ${filterClauses.join(" AND ")}` : "";
@@ -283,7 +440,7 @@ const indexLength = (req, res) => {
       ${whereClause};
     `;
 
-  pgClient.query(sql, params)
+  query(sql, params)
   .then(results => {
     res.status(200).json(results.rows);
   })
@@ -292,7 +449,7 @@ const indexLength = (req, res) => {
   });
 }
 
-const indexShows = (req, res) => {
+export const indexShows = (req, res) => {
   const sql = 
     `
       SELECT id, title, s.start_date
@@ -302,7 +459,7 @@ const indexShows = (req, res) => {
       ORDER BY s.start_date DESC;
     `;
 
-  pgClient.query(sql)
+  query(sql)
   .then(results => {
     res.status(200).json(results.rows);
   })
@@ -311,9 +468,9 @@ const indexShows = (req, res) => {
   });
 }
 
-const indexNew = (req, res) => {
-  pgClient.query("UPDATE media SET date_added = NULL WHERE date_added <= CURRENT_TIMESTAMP - INTERVAL '1 MONTH'");
-  pgClient.query("UPDATE seasons SET date_added = NULL WHERE date_added <= CURRENT_TIMESTAMP - INTERVAL '1 MONTH'");
+export const indexNew = (req, res) => {
+  query("UPDATE media SET date_added = NULL WHERE date_added <= CURRENT_TIMESTAMP - INTERVAL '1 MONTH'");
+  query("UPDATE seasons SET date_added = NULL WHERE date_added <= CURRENT_TIMESTAMP - INTERVAL '1 MONTH'");
   
   const sql = 
     `
@@ -360,7 +517,7 @@ const indexNew = (req, res) => {
       ORDER BY COALESCE(m.date_added, s.date_added) DESC;
     `;
 
-  pgClient.query(sql)
+  query(sql)
   .then(results => {
     res.status(200).json(results.rows);
   })
@@ -369,7 +526,7 @@ const indexNew = (req, res) => {
   });
 }
 
-const seasonCount = (req, res) => {
+export const seasonCount = (req, res) => {
   const sql = 
     `
       SELECT COUNT(*)
@@ -378,7 +535,7 @@ const seasonCount = (req, res) => {
 	    WHERE m.id = $1;
     `;
 
-  pgClient.query(sql, [req.query.id])
+  query(sql, [req.query.id])
   .then(results => {
     res.status(200).json(results.rows);
   })
@@ -387,7 +544,7 @@ const seasonCount = (req, res) => {
   });
 }
 
-const show = (req, res) => {
+export const show = (req, res) => {
   const sql = 
     `
       SELECT id, title, grade, release_date, rating, poster, runtime, type, completed, directors, cast_members, writers
@@ -413,7 +570,7 @@ const show = (req, res) => {
       WHERE id = $1;
     `;
 
-  pgClient.query(sql, [req.params.id])
+  query(sql, [req.params.id])
     .then(results => {
       if (results.rowCount > 0)
         res.json(results.rows[0]);
@@ -425,7 +582,7 @@ const show = (req, res) => {
     });
 }
 
-const create = async (req, res) => {
+export const create = async (req, res) => {
   const media = req.body;
   const getIdsByRole = (role) => media.castAndCrew?.filter(person => person[role]).map(person => person.id) || [];
   const directors = getIdsByRole("director");
@@ -447,6 +604,7 @@ const create = async (req, res) => {
       return res.status(400).json({ error: "Invalid media type specified." });
     
     res.location(`/media/${result.id}`);
+    backupDatabase();
     res.status(201).json({ id: result.id, message: "Title processed successfully." });
   } 
   catch (error) {
@@ -455,10 +613,10 @@ const create = async (req, res) => {
   }
 };
 
-const update = async (req, res) => {
+export const update = async (req, res) => {
   const media = req.body[0];
   const og = req.body[1];
-  const client = await pgClient.connect();
+  const client = await connect();
   const originalPersonIds = new Set();
 
   const addIdsToSet = (people, idKey) => {
@@ -489,6 +647,7 @@ const update = async (req, res) => {
     
     await deleteOrphanedPeople(Array.from(originalPersonIds));
     await client.query("COMMIT");
+    backupDatabase();
     res.status(200).json({ message: "Title updated successfully." });
   } 
   catch (error) {
@@ -541,7 +700,7 @@ async function createMovie(media, { directors, writers, castMembers }) {
     writers
   ];
 
-  const result = await pgClient.query(sql, params);
+  const result = await query(sql, params);
   return { id: result.rows[0].id };
 }
 
@@ -592,14 +751,14 @@ async function createNewShow(media, { directors, writers, castMembers }) {
     writers
   ];
   
-  const result = await pgClient.query(sql, params);
+  const result = await query(sql, params);
   return { id: result.rows[0].id };
 }
 
 async function addSeasonToShow(media, { directors, writers, castMembers }) {
   let sql = ``;
   sql = `UPDATE media SET completed = $1 WHERE id = $2;`;
-  await pgClient.query(sql, [media.completed || false, media.id]);
+  await query(sql, [media.completed || false, media.id]);
 
   sql = 
     `
@@ -610,7 +769,7 @@ async function addSeasonToShow(media, { directors, writers, castMembers }) {
       SELECT season_num, $1, $2, $3, $4, $5, $6, $7 FROM new_season_info;
     `;
 
-  await pgClient.query(sql, [media.id, media.grade, media.episodes, media.runtime, media.start_date, media.end_date, new Date()]);
+  await query(sql, [media.id, media.grade, media.episodes, media.runtime, media.start_date, media.end_date, new Date()]);
 
   sql = 
     `
@@ -622,7 +781,7 @@ async function addSeasonToShow(media, { directors, writers, castMembers }) {
       FROM unnest($2::int[]) AS director_id;
     `;
 
-  await pgClient.query(sql, [media.id, directors]);
+  await query(sql, [media.id, directors]);
 
   sql = 
     `
@@ -634,7 +793,7 @@ async function addSeasonToShow(media, { directors, writers, castMembers }) {
       FROM unnest($2::int[]) AS actor_id;
     `;
 
-  await pgClient.query(sql, [media.id, castMembers]);
+  await query(sql, [media.id, castMembers]);
 
   sql = 
     `
@@ -646,7 +805,7 @@ async function addSeasonToShow(media, { directors, writers, castMembers }) {
       FROM unnest($2::int[]) AS writer_id;
     `;
 
-  await pgClient.query(sql, [media.id, writers]);
+  await query(sql, [media.id, writers]);
   return { id: media.id };
 }
 
@@ -655,37 +814,37 @@ async function updateMovie(media, og, { directors, writers, castMembers }) {
 
   if (media.title != og.title) {
     sql = `UPDATE media SET title = $1 WHERE id = $2;`;
-    await pgClient.query(sql, [media.title, media.id]);
+    await query(sql, [media.title, media.id]);
   }
 
   if (media.grade != og.grade) {
     sql = `UPDATE media SET grade = $1 WHERE id = $2;`;
-    await pgClient.query(sql, [media.grade, media.id]);
+    await query(sql, [media.grade, media.id]);
   }
 
   if (media.release_date != new Date(og.release_date).toISOString().split("T")[0]) {
     sql = `UPDATE media SET release_date = $1 WHERE id = $2;`;
-    await pgClient.query(sql, [media.release_date, media.id]);
+    await query(sql, [media.release_date, media.id]);
   }
 
   if (media.poster != og.poster) {
     sql = `UPDATE media SET poster = $1 WHERE id = $2;`;
-    await pgClient.query(sql, [media.poster, media.id]);
+    await query(sql, [media.poster, media.id]);
   }
 
   if (media.runtime != og.runtime) {
     sql = `UPDATE media SET runtime = $1 WHERE id = $2;`;
-    await pgClient.query(sql, [media.runtime, media.id]);
+    await query(sql, [media.runtime, media.id]);
   }
 
   if (media.rating != og.rating) {
     sql = `UPDATE media SET rating = $1 WHERE id = $2;`;
-    await pgClient.query(sql, [media.rating, media.id]);
+    await query(sql, [media.rating, media.id]);
   }
 
   if (!og.directors || !directors || og.directors.length != directors.length || !(directors.every(d => og.directors.some(ogd => ogd["director_id"] === d)))) {
     sql = `DELETE FROM media_directors WHERE media_id = $1;`;
-    await pgClient.query(sql, [media.id]);
+    await query(sql, [media.id]);
 
     sql = 
       `
@@ -694,12 +853,12 @@ async function updateMovie(media, og, { directors, writers, castMembers }) {
         FROM unnest($2::int[]) AS director_id;
       `;
 
-    await pgClient.query(sql, [media.id, directors]);
+    await query(sql, [media.id, directors]);
   }
 
   if (!og.writers || !writers || og.writers.length != writers.length || !(writers.every(w => og.writers.some(ogw => ogw["writer_id"] === w)))) {
     sql = `DELETE FROM media_writers WHERE media_id = $1;`;
-    await pgClient.query(sql, [media.id]);
+    await query(sql, [media.id]);
 
     sql = 
       `
@@ -708,12 +867,12 @@ async function updateMovie(media, og, { directors, writers, castMembers }) {
         FROM unnest($2::int[]) AS writer_id;
       `;
 
-    await pgClient.query(sql, [media.id, writers]);
+    await query(sql, [media.id, writers]);
   }
 
   if (!og.cast_members || !castMembers || og.cast_members.length != castMembers.length || !(castMembers.every(cm => og.cast_members.some(ogcm => ogcm["actor_id"] === cm)))) {
     sql = `DELETE FROM media_cast WHERE media_id = $1;`;
-    await pgClient.query(sql, [media.id]);
+    await query(sql, [media.id]);
 
     sql = 
       `
@@ -722,7 +881,7 @@ async function updateMovie(media, og, { directors, writers, castMembers }) {
         FROM unnest($2::int[]) AS actor_id;
       `;
 
-    await pgClient.query(sql, [media.id, castMembers]);
+    await query(sql, [media.id, castMembers]);
   }
 }
 
@@ -731,52 +890,52 @@ async function updateShow(media, og, { directors, writers, castMembers }) {
 
   if (media.title != og.title) {
     sql = `UPDATE media SET title = $1 WHERE id = $2;`;
-    await pgClient.query(sql, [media.title, media.id]);
+    await query(sql, [media.title, media.id]);
   }
 
   if (media.poster != og.poster) {
     sql = `UPDATE media SET poster = $1 WHERE id = $2;`;
-    await pgClient.query(sql, [media.poster, media.id]);
+    await query(sql, [media.poster, media.id]);
   }
 
   if (media.completed != og.completed) {
     sql = `UPDATE media SET completed = $1 WHERE id = $2;`;
-    await pgClient.query(sql, [media.completed || false, media.id]);
+    await query(sql, [media.completed || false, media.id]);
   }
 
   if (media.rating != og.rating) {
     sql = `UPDATE media SET rating = $1 WHERE id = $2;`;
-    await pgClient.query(sql, [media.rating, media.id]);
+    await query(sql, [media.rating, media.id]);
   }
 
   if (media.start_date != new Date(og.start_date).toISOString().split("T")[0]) {
     sql = `UPDATE seasons SET start_date = $1 WHERE show_id = $2 AND season = $3;`;
-    await pgClient.query(sql, [media.start_date, media.id, media.season]);
+    await query(sql, [media.start_date, media.id, media.season]);
   }
 
   if (media.end_date != new Date(og.end_date).toISOString().split("T")[0]) {
     sql = `UPDATE seasons SET end_date = $1 WHERE show_id = $2 AND season = $3;`;
-    await pgClient.query(sql, [media.end_date, media.id, media.season]);
+    await query(sql, [media.end_date, media.id, media.season]);
   }
 
   if (media.grade != og.grade) {
     sql = `UPDATE seasons SET grade = $1 WHERE show_id = $2 AND season = $3;`;
-    await pgClient.query(sql, [media.grade, media.id, media.season]);
+    await query(sql, [media.grade, media.id, media.season]);
   }
 
   if (media.episodes != og.episodes) {
     sql = `UPDATE seasons SET episode = $1 WHERE show_id = $2 AND season = $3;`;
-    await pgClient.query(sql, [media.episodes, media.id, media.season]);
+    await query(sql, [media.episodes, media.id, media.season]);
   }
 
   if (media.runtime != og.runtime) {
     sql = `UPDATE seasons SET runtime = $1 WHERE show_id = $2 AND season = $3;`;
-    await pgClient.query(sql, [media.runtime, media.id, media.season]);
+    await query(sql, [media.runtime, media.id, media.season]);
   }
 
   if (!og.directors_tv || !directors || og.directors_tv.length != directors.length || !(directors.every(d => og.directors_tv.some(ogd => ogd["director_id"] === d)))) {
     sql = `DELETE FROM seasons_directors WHERE show_id = $1 AND season = $2;`;
-    await pgClient.query(sql, [media.id, media.season]);
+    await query(sql, [media.id, media.season]);
     
     sql = 
       `
@@ -785,12 +944,12 @@ async function updateShow(media, og, { directors, writers, castMembers }) {
         FROM unnest($3::int[]) AS director_id;
       `;
 
-    await pgClient.query(sql, [media.season, media.id, directors]);
+    await query(sql, [media.season, media.id, directors]);
   }
 
   if (!og.writers_tv || !writers || og.writers_tv.length != writers.length || !(writers.every(w => og.writers_tv.some(ogw => ogw["writer_id"] === w)))) {
     sql = `DELETE FROM seasons_writers WHERE show_id = $1 AND season = $2;`;
-    await pgClient.query(sql, [media.id, media.season]);
+    await query(sql, [media.id, media.season]);
 
     sql = 
       `
@@ -799,12 +958,12 @@ async function updateShow(media, og, { directors, writers, castMembers }) {
         FROM unnest($3::int[]) AS writer_id;
       `;
 
-    await pgClient.query(sql, [media.season, media.id, writers]);
+    await query(sql, [media.season, media.id, writers]);
   }
 
   if (!og.cast_members_tv || !castMembers || og.cast_members_tv.length != castMembers.length || !(castMembers.every(cm => og.cast_members_tv.some(ogcm => ogcm["actor_id"] === cm)))) {
     sql = `DELETE FROM seasons_cast WHERE show_id = $1 AND season = $2;`;
-    await pgClient.query(sql, [media.id, media.season]);
+    await query(sql, [media.id, media.season]);
 
     sql = 
       `
@@ -813,7 +972,7 @@ async function updateShow(media, og, { directors, writers, castMembers }) {
         FROM unnest($3::int[]) AS actor_id;
       `;
 
-    await pgClient.query(sql, [media.season, media.id, castMembers]);
+    await query(sql, [media.season, media.id, castMembers]);
   }
 }
 
@@ -846,12 +1005,12 @@ async function deleteOrphanedPeople(personIds) {
         ) as counts;
       `;
 
-    const result = await pgClient.query(checkSql, [personId]);
+    const result = await query(checkSql, [personId]);
     const referenceCount = parseInt(result.rows[0].reference_count, 10);
 
     if (referenceCount === 0) {
       const deleteSql = `DELETE FROM people WHERE id = $1;`;
-      await pgClient.query(deleteSql, [personId]);
+      await query(deleteSql, [personId]);
       await shiftIdsAfterDeletion(personId);
       subtractor++;
     }
@@ -859,7 +1018,7 @@ async function deleteOrphanedPeople(personIds) {
 }
 
 async function shiftIdsAfterDeletion(deletedPersonId) {
-  const client = await pgClient.connect();
+  const client = await connect();
   try {
     await client.query("BEGIN");
     const peopleToUpdate = await client.query("SELECT id FROM people WHERE id > $1 ORDER BY id ASC", [deletedPersonId]);
@@ -883,5 +1042,3 @@ async function shiftIdsAfterDeletion(deletedPersonId) {
     client.release();
   }
 }
-
-module.exports = { index, indexLength, indexShows, indexNew, seasonCount, show, create, update };

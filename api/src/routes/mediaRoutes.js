@@ -1,16 +1,16 @@
-const { authorizeAdmin } = require('../middleware/auth');
-const controller = require("../controllers/mediaController");
-const express = require("express");
-const router = express.Router();
-const { validateMedia, validateMediaUpdate } = require("../middleware/recordValidation");
+import { authorizeAdmin } from "../middleware/auth.js";
+import { index, indexLength, indexShows, seasonCount, indexNew, show, create, update } from "../controllers/mediaController.js";
+import { Router } from "express";
+const router = Router();
+import { validateMedia, validateMediaUpdate } from "../middleware/recordValidation.js";
 
-router.get("/", controller.index);
-router.get("/length", controller.indexLength);
-router.get("/shows", controller.indexShows);
-router.get("/seasons", controller.seasonCount);
-router.get("/new", controller.indexNew);
-router.get("/:id", controller.show);
-router.post("/", [authorizeAdmin, validateMedia], controller.create);
-router.put("/:id", [authorizeAdmin, validateMediaUpdate], controller.update);
+router.get("/", index);
+router.get("/length", indexLength);
+router.get("/shows", indexShows);
+router.get("/seasons", seasonCount);
+router.get("/new", indexNew);
+router.get("/:id", show);
+router.post("/", [authorizeAdmin, validateMedia], create);
+router.put("/:id", [authorizeAdmin, validateMediaUpdate], update);
 
-module.exports = router;
+export default router;

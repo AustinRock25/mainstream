@@ -1,20 +1,18 @@
-require("dotenv").config();
-
-const express = require("express");
+import express, { json } from "express";
 
 const app = express();
-app.use(express.json());
+app.use(json());
 
-const cookies = require("cookie-parser");
+import cookies from "cookie-parser";
 app.use(cookies());
 
-const authRoutes = require("./routes/authRoutes");
+import authRoutes from "./routes/authRoutes.js";
 app.use("/auth", authRoutes);
 
-const mediaRoutes = require("./routes/mediaRoutes");
+import mediaRoutes from "./routes/mediaRoutes.js";
 app.use("/media", mediaRoutes);
 
-const peopleRoutes = require("./routes/peopleRoutes");
+import peopleRoutes from "./routes/peopleRoutes.js";
 app.use("/people", peopleRoutes);
 
 const listener = app.listen(process.env.PORT, process.env.HOST, () => {

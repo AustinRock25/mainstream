@@ -8,10 +8,15 @@ import { useNavigate } from "react-router-dom";
 function AuthModal({ show, setShow, action }) {
   const dispatch = useDispatch();
   const [errors, setErrors] = useState({});
-  const [formData, setFormData] = useState({ email: "", password: "" });
+  const [formData, setFormData] = useState({ email: "", password: "", rating_scale: 1  });
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
   const { user } = useSelector(state => state.auth);
+
+  useEffect(() => {
+    if (!!user)
+      setFormData({ rating_scale: user.rating_scale });
+  }, [user]);
 
   function handleSubmit(e) {
     e.preventDefault();
@@ -19,8 +24,10 @@ function AuthModal({ show, setShow, action }) {
 
     if (action === "login")
       login();
-    else
+    else if (action === "register")
       register();
+    else if (action === "change")
+      change();
   }
 
   function handleHide() {
@@ -30,7 +37,7 @@ function AuthModal({ show, setShow, action }) {
 
   function resetForm() {
     setErrors({});
-    setFormData({ email: "", password: "" });
+    setFormData({ email: "", password: "", rating_scale: 1 });
   }
 
   function login() {
@@ -75,6 +82,24 @@ function AuthModal({ show, setShow, action }) {
     });
   }
 
+  function change() {
+    axios.put(`/api/auth/change/${user.id}`, formData)
+      .then(response => {
+        navigate(0);
+        handleHide();
+      })
+      .catch(error => {
+        dispatch(unauthenticated());
+        if (error.response?.status === 422)
+          setErrors(error.response.data.errors);
+        else
+          setErrors({ form: "An unexpected error occurred. Please try again later." });
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
+  }
+
   return (
     <Modal show={show} onHide={handleHide} backdrop="static" centered>
       <Modal.Header>
@@ -84,7 +109,8 @@ function AuthModal({ show, setShow, action }) {
         <Form onSubmit={handleSubmit}>
           {errors.form && <Alert variant="danger">{errors.form}</Alert>}
           {action !== "change" &&
-            <Form.Group className="mb-3" controlId="formBasicEmail">
+            <>
+              <Form.Group className="mb-3" controlId="formBasicEmail">
               <Form.Label>Email address</Form.Label>
               <Form.Control
                 type="email"
@@ -94,19 +120,26 @@ function AuthModal({ show, setShow, action }) {
                 placeholder="Enter email"
               />
               <Form.Control.Feedback type="invalid">{errors.email}</Form.Control.Feedback>
-            </Form.Group>
+              </Form.Group>
+              <Form.Group className="mb-3" controlId="formBasicPassword">
+                <Form.Label>Password</Form.Label>
+                <Form.Control
+                  type="password"
+                  value={formData.password}
+                  isInvalid={!!errors.password}
+                  onChange={(e) => setFormData({ ...formData, password: e.target.value })}
+                  placeholder="Password"
+                />
+                <Form.Control.Feedback type="invalid">{errors.password}</Form.Control.Feedback>
+              </Form.Group>
+            </>
           }
-          {action !== "change" && 
-            <Form.Group className="mb-3" controlId="formBasicPassword">
-              <Form.Label>Password</Form.Label>
-              <Form.Control
-                type="password"
-                value={formData.password}
-                isInvalid={!!errors.password}
-                onChange={(e) => setFormData({ ...formData, password: e.target.value })}
-                placeholder="Password"
-              />
-              <Form.Control.Feedback type="invalid">{errors.password}</Form.Control.Feedback>
+          {action !== "login" && 
+            <Form.Group className="mb-3">
+              <Form.Label column sm={3}>Rating Scale</Form.Label>
+              <Form.Select value={formData.rating_scale} isInvalid={!!errors.rating_scale} onChange={(e) => setFormData({ ...formData, rating_scale: e.target.value })}>
+                {[1, 2, 3].map(r => <option key={r} value={r}>{r == 1 && `0 to 4`}{r == 2 && `0 to 5`}{r == 3 && `F to A+`}</option>)}
+              </Form.Select>
             </Form.Group>
           }
           <div className="d-grid gap-2 mt-4">

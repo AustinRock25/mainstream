@@ -14,7 +14,9 @@ dist-ssr
 .env
 public
 .md
-*.json
+data
+logfile
+package-lock.json
 
 .vscode/*
 !.vscode/extensions.json

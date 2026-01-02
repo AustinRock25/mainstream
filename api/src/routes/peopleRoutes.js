@@ -1,14 +1,14 @@
-const { authorizeAdmin } = require('../middleware/auth');
-const controller = require("../controllers/peopleController");
-const express = require("express");
-const router = express.Router();
-const { validatePerson } = require("../middleware/recordValidation");
+import { authorizeAdmin } from "../middleware/auth.js";
+import { index, indexLength, indexSelect, show, create, update } from "../controllers/peopleController.js";
+import { Router } from "express";
+const router = Router();
+import { validatePerson } from "../middleware/recordValidation.js";
 
-router.get("/", controller.index);
-router.get("/length", controller.indexLength);
-router.get("/select", controller.indexSelect);
-router.get("/:id", controller.show);
-router.post("/", [authorizeAdmin, validatePerson], controller.create);
-router.put("/:id", [authorizeAdmin, validatePerson], controller.update);
+router.get("/", index);
+router.get("/length", indexLength);
+router.get("/select", indexSelect);
+router.get("/:id", show);
+router.post("/", [authorizeAdmin, validatePerson], create);
+router.put("/:id", [authorizeAdmin, validatePerson], update);
 
-module.exports = router;
+export default router;

@@ -1,6 +1,6 @@
-const pgClient = require("../config/pgClient");
+import { query } from "../config/pgClient.js";
 
-const validateMedia = async (req, res, next) => {
+export const validateMedia = async (req, res, next) => {
   const errors = {};
   let media = req.body;
 
@@ -49,7 +49,7 @@ const validateMedia = async (req, res, next) => {
     next();
 }
 
-const validateMediaUpdate = async (req, res, next) => {
+export const validateMediaUpdate = async (req, res, next) => {
   const errors = {};
   let media = req.body[0];
 
@@ -92,7 +92,7 @@ const validateMediaUpdate = async (req, res, next) => {
     next();
 }
 
-const validatePerson = async (req, res, next) => {
+export const validatePerson = async (req, res, next) => {
   const errors = {};
   const person = req.body;
 
@@ -108,7 +108,7 @@ const validatePerson = async (req, res, next) => {
     next();
 }
 
-const validateUser = async (req, res, next) => {
+export const validateUser = async (req, res, next) => {
   const errors = {};
   const user = req.body;
 
@@ -124,7 +124,7 @@ const validateUser = async (req, res, next) => {
   if (user.password && user.password.length > 100)
     errors.password = "Must be less than 100 characters";
 
-  const recordExists = (await pgClient.query("SELECT id FROM users WHERE email = $1", [user.email])).rowCount > 0;
+  const recordExists = (await query("SELECT id FROM users WHERE email = $1", [user.email])).rowCount > 0;
   if (recordExists)
     errors.email = "Already taken.";
 
@@ -133,5 +133,3 @@ const validateUser = async (req, res, next) => {
   else
     next();
 }
-
-module.exports = { validateMedia, validateMediaUpdate, validatePerson, validateUser };

@@ -2,6 +2,7 @@ import { Alert, Button, Form, Modal, Spinner, Col, Row, ListGroup, Badge } from 
 import axios from "axios";
 import { useCallback, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 function MediaForm({ show, setShow, media }) {
   const [alert, setAlert] = useState({ message: "", variant: "" });
@@ -10,9 +11,12 @@ function MediaForm({ show, setShow, media }) {
   const [isLoading, setIsLoading] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const navigate = useNavigate();
+  const [pillColor, setPillColor] = useState("danger");
+  const [pillTextColor, setPillTextColor] = useState("white");
   const [searchTerm, setSearchTerm] = useState("");
   const [selected, setSelected] = useState([]);
   const [shows, setShows] = useState([]);
+  const { user } = useSelector(state => state.auth);
 
   const initialFormData = {
     id: "",
@@ -147,46 +151,130 @@ function MediaForm({ show, setShow, media }) {
         media.grade = 0;
         media.grade_tv = 0;
       }
-
-      if (!media.grade)
+      else if (!media.grade)
         media.grade = media.grade_tv;
 
-      if (media.grade == "F")
-        grade = 0;
-      else if (media.grade == "D-")
-        grade = 1;
-      else if (media.grade == "D")
-        grade = 2;
-      else if (media.grade == "D+")
-        grade = 3;
-      else if (media.grade == "C-")
-        grade = 4;
-      else if (media.grade == "C")
-        grade = 5;
-      else if (media.grade == "C+")
-        grade = 6;
-      else if (media.grade == "B-")
-        grade = 7;
-      else if (media.grade == "B")
-        grade = 8;
-      else if (media.grade == "B+")
-        grade = 9;
-      else if (media.grade == "A-")
-        grade = 10;
-      else if (media.grade == "A")
-        grade = 11;
-      else
-        grade = 12;
+      if (user.rating_scale == 1) {
+        if (media.grade == "0/4" || media.grade == "0.5/4" || media.grade == "1/4" || media.grade == "1.5/4" || media.grade == "0/5" || media.grade == "0.5/5" || media.grade == "F" ||  media.grade == "1/5" || media.grade == "1.5/5" || media.grade == "D-" || media.grade == "D" || media.grade == "D+") {
+          setPillColor("danger");
+          setPillTextColor("white");
+        }
+        else if (media.grade == "2/4" || media.grade == "2/5" || media.grade == "2.5/5" || media.grade == "3/5" || media.grade == "C-" || media.grade == "C" || media.grade == "C+") {
+          setPillColor("warning");
+          setPillTextColor("black");
+        }
+        else {
+          setPillColor("success");
+          setPillTextColor("white");
+        }
+      }
+      else if (user.rating_scale == 2) {
+        if (media.grade == "0/4" || media.grade == "0/5" || media.grade == "F" ||  media.grade == "0.5/5" || media.grade == "1/5" || media.grade == "1.5/5" || media.grade == "D-" || media.grade == "D") {
+          setPillColor("danger");
+          setPillTextColor("white");
+        }
+        else if (media.grade == "1.5/4" || media.grade == "2/5" || media.grade == "D+" || media.grade == "C-" || media.grade == "C" || media.grade == "2.5/5" || media.grade == "2/4" || media.grade == "2.5/4" || media.grade == "3/5" || media.grade == "C+" || media.grade == "B-") {
+          setPillColor("warning");
+          setPillTextColor("black");
+        }
+        else {
+          setPillColor("success");
+          setPillTextColor("white");
+        }
+      }
+      else {
+        if (media.grade == "0/4" || media.grade == "0.5/4" || media.grade == "0/5" || media.grade == "0.5/5" || media.grade == "F" ||  media.grade == "D-" || media.grade == "1/4" || media.grade == "1.5/4" || media.grade == "1/5" || media.grade == "1.5/5" || media.grade == "D" || media.grade == "D+") {
+          setPillColor("danger");
+          setPillTextColor("white");
+        }
+        else if (media.grade == "C-" || media.grade == "2/4" || media.grade == "2/5" || media.grade == "2.5/5" || media.grade == "3/5" || media.grade == "C" || media.grade == "C+") {
+          setPillColor("warning");
+          setPillTextColor("black");
+        }
+        else {
+          setPillColor("success");
+          setPillTextColor("white");
+        }
+      }
+
+      if (user.rating_scale == 1) {
+        if (media.grade == "0/4" || media.grade == "0/5" || media.grade == "0.5/5" || media.grade == "F")
+          grade = 0;
+        else if (media.grade == "0.5/4")
+          grade = 0.5;
+        else if (media.grade == "1/4" || media.grade == "1/5" || media.grade == "1.5/5" || media.grade == "D-" || media.grade == "D" || media.grade == "D+")
+          grade = 1;
+        else if (media.grade == "1.5/4")
+          grade = 1.5;
+        else if (media.grade == "2/4" || media.grade == "2/5" || media.grade == "2.5/5" || media.grade == "3/5" || media.grade == "C-" || media.grade == "C" || media.grade == "C+")
+          grade = 2;
+        else if (media.grade == "2.5/4")
+          grade = 2.5;
+        else if (media.grade == "3/4" || media.grade == "3.5/5" || media.grade == "4/5" || media.grade == "B-" || media.grade == "B" || media.grade == "B+")
+          grade = 3;
+        else if (media.grade == "3.5/4")
+          grade = 3.5;
+        else
+          grade = 4;
+      }
+      else if (user.rating_scale == 2) {
+        if (media.grade == "0/4" || media.grade == "0/5" || media.grade == "F")
+          grade = 0;
+        else if (media.grade == "0.5/4")
+          grade = 0.5;
+        else if (media.grade == "0.5/4" || media.grade == "1/4" || media.grade == "1/5" || media.grade == "D-" || media.grade == "D")
+          grade = 1;
+        else if (media.grade == "1.5/4")
+          grade = 1.5;
+        else if (media.grade == "1.5/4" || media.grade == "2/5" || media.grade == "D+" || media.grade == "C-" || media.grade == "C")
+          grade = 2;
+        else if (media.grade == "2.5/4")
+          grade = 2.5;
+        else if (media.grade == "2/4" || media.grade == "2.5/4" || media.grade == "3/5" || media.grade == "C+" || media.grade == "B-")
+          grade = 3;
+        else if (media.grade == "3.5/4")
+          grade = 3.5;
+        else if (media.grade == "3/4" || media.grade == "3.5/4" || media.grade == "4/5" || media.grade == "B" || media.grade == "B+" || media.grade == "A-")
+          grade = 4;
+        else if (media.grade == "4.5/5")
+          grade = 4.5;
+        else
+          grade = 5;
+      }
+      else if (user.rating_scale == 3) {
+        if (media.grade == "0/4" || media.grade == "0.5/4" || media.grade == "0/5" || media.grade == "0.5/5" || media.grade == "F")
+          grade = 0;
+        else if (media.grade == "D-")
+          grade = 1;
+        else if (media.grade == "1/4" || media.grade == "1.5/4" || media.grade == "1/5" || media.grade == "1.5/5" || media.grade == "D")
+          grade = 2;
+        else if (media.grade == "D+")
+          grade = 3;
+        else if (media.grade == "C-")
+          grade = 4;
+        else if (media.grade == "2/4" || media.grade == "2/5" || media.grade == "2.5/5" || media.grade == "3/5" || media.grade == "C")
+          grade = 5;
+        else if (media.grade == "C+")
+          grade = 6;
+        else if (media.grade == "B-")
+          grade = 7;
+        else if (media.grade == "2.5/4" || media.grade == "3/4" || media.grade == "3.5/5" || media.grade == "4/5" || media.grade == "B")
+          grade = 8;
+        else if (media.grade == "B+")
+          grade = 9;
+        else if (media.grade == "A-")
+          grade = 10;
+        else if (media.grade == "A+")
+          grade = 12;
+        else
+          grade = 11;
+      }
 
       if (!media.runtime && !media.runtime_tv) {
         media.runtime = 0;
         media.runtime_tv = 0;
       }
-
-      if (!media.grade)
-        media.grade = media.grade_tv;
-
-      if (!media.runtime)
+      else if (!media.runtime)
         media.runtime = media.runtime_tv;
 
       setFormData({
@@ -260,6 +348,49 @@ function MediaForm({ show, setShow, media }) {
       setFormData({ ...initialFormData, type: value });
       setSelected([]);
     }
+
+    if (user.rating_scale == 1 && key === "grade") {
+      if (value <= 1.5) {
+        setPillColor("danger");
+        setPillTextColor("white");
+      }
+      else if (value == 2) {
+        setPillColor("warning");
+        setPillTextColor("black");
+      }
+      else {
+        setPillColor("success");
+        setPillTextColor("white");
+      }
+    }
+    else if (user.rating_scale == 2 && key === "grade") {
+      if (value <= 1.5) {
+        setPillColor("danger");
+        setPillTextColor("white");
+      }
+      else if (value <= 3) {
+        setPillColor("warning");
+        setPillTextColor("black");
+      }
+      else {
+        setPillColor("success");
+        setPillTextColor("white");
+      }
+    }
+    else if (user.rating_scale == 3 && key === "grade") {
+      if (value <= 3) {
+        setPillColor("danger");
+        setPillTextColor("white");
+      }
+      else if (value <= 6) {
+        setPillColor("warning");
+        setPillTextColor("black");
+      }
+      else {
+        setPillColor("success");
+        setPillTextColor("white");
+      }
+    }
   };
 
   const handleSelectPerson = (person) => {
@@ -284,64 +415,76 @@ function MediaForm({ show, setShow, media }) {
   }
 
   const getGrade = (grade) => {
-    if (grade == 0)
-      return "F";
-    else if (grade == 1)
-      return "D-";
-    else if (grade == 2)
-      return "D";
-    else if (grade == 3)
-      return "D+";
-    else if (grade == 4)
-      return "C-";
-    else if (grade == 5)
-      return "C";
-    else if (grade == 6)
-      return "C+";
-    else if (grade == 7)
-      return "B-";
-    else if (grade == 8)
-      return "B";
-    else if (grade == 9)
-      return "B+";
-    else if (grade == 10)
-      return "A-";
-    else if (grade == 11)
-      return "A";
-    else
-      return "A+";
+    if (user.rating_scale == 1)
+      return grade + "/4";
+    else if (user.rating_scale == 2)
+      return grade + "/5";
+    if (user.rating_scale == 3) {
+      if (grade == 0)
+        return "F";
+      else if (grade == 1)
+        return "D-";
+      else if (grade == 2)
+        return "D";
+      else if (grade == 3)
+        return "D+";
+      else if (grade == 4)
+        return "C-";
+      else if (grade == 5)
+        return "C";
+      else if (grade == 6)
+        return "C+";
+      else if (grade == 7)
+        return "B-";
+      else if (grade == 8)
+        return "B";
+      else if (grade == 9)
+        return "B+";
+      else if (grade == 10)
+        return "A-";
+      else if (grade == 11)
+        return "A";
+      else
+        return "A+";
+    }
   }
 
   function handleSubmit(e) {
     e.preventDefault();
     setIsSubmitting(true);
 
-    if (formData.grade == 0)
-      formData.grade = "F";
-    else if (formData.grade == 1)
-      formData.grade = "D-";
-    else if (formData.grade == 2)
-      formData.grade = "D";
-    else if (formData.grade == 3)
-      formData.grade = "D+";
-    else if (formData.grade == 4)
-      formData.grade = "C-";
-    else if (formData.grade == 5)
-      formData.grade = "C";
-    else if (formData.grade == 6)
-      formData.grade = "C+";
-    else if (formData.grade == 7)
-      formData.grade = "B-";
-    else if (formData.grade == 8)
-      formData.grade = "B";
-    else if (formData.grade == 9)
-      formData.grade = "B+";
-    else if (formData.grade == 10)
-      formData.grade = "A-";
-    else if (formData.grade == 11)
-      formData.grade = "A";
-    else
-      formData.grade = "A+";
+    if (user.rating_scale == 1)
+      formData.grade = formData.grade + "/4";
+    else if (user.rating_scale == 2)
+      formData.grade = formData.grade + "/5";
+    if (user.rating_scale == 3) {
+      if (formData.grade == 0)
+        formData.grade = "F";
+      else if (formData.grade == 1)
+        formData.grade = "D-";
+      else if (formData.grade == 2)
+        formData.grade = "D";
+      else if (formData.grade == 3)
+        formData.grade = "D+";
+      else if (formData.grade == 4)
+        formData.grade = "C-";
+      else if (formData.grade == 5)
+        formData.grade = "C";
+      else if (formData.grade == 6)
+        formData.grade = "C+";
+      else if (formData.grade == 7)
+        formData.grade = "B-";
+      else if (formData.grade == 8)
+        formData.grade = "B";
+      else if (formData.grade == 9)
+        formData.grade = "B+";
+      else if (formData.grade == 10)
+        formData.grade = "A-";
+      else if (formData.grade == 11)
+        formData.grade = "A";
+      else
+        formData.grade = "A+";
+    }
 
     const payload = { ...formData, castAndCrew: selected };
     const apiCall = media?.id ? axios.put(`/api/media/${media.id}`, [payload, media]) : axios.post("/api/media", payload);
@@ -366,7 +509,7 @@ function MediaForm({ show, setShow, media }) {
   return (
     <Modal show={show} onHide={handleHide} backdrop="static" size="lg" centered>
       <Modal.Header>
-        <Modal.Title>{media?.id ? `Edit ${media.title}` : "Add Film/Show"}</Modal.Title>
+        <Modal.Title>{media?.id ? `Edit ${media.title} ${(media.type == "show" && media.season != 1) ? `season ${media.season}` : ""}` : "Add Film/Show"}</Modal.Title>
       </Modal.Header>
       <Modal.Body>
         {alert.message && 
@@ -440,8 +583,10 @@ function MediaForm({ show, setShow, media }) {
             <>
               <hr/>
                 <Form.Group as={Row} className="mb-3">
-                  <Form.Label column sm={3}>Grade: <Badge bg="success">{getGrade(formData.grade)}</Badge></Form.Label>
-                  <Col sm={9}><Form.Range min="0" max="12" step="1" value={formData.grade} onChange={(e) => handleChange(e, "grade")} /></Col>
+                  <Form.Label column sm={3}>Grade: <Badge bg={pillColor} text={pillTextColor}>{getGrade(formData.grade)}</Badge></Form.Label>
+                  {user.rating_scale == 1 && <Col sm={9}><Form.Range min="0" max="4" step="0.5" value={formData.grade} onChange={(e) => handleChange(e, "grade")} /></Col>}
+                  {user.rating_scale == 2 && <Col sm={9}><Form.Range min="0" max="5" step="0.5" value={formData.grade} onChange={(e) => handleChange(e, "grade")} /></Col>}
+                  {user.rating_scale == 3 && <Col sm={9}><Form.Range min="0" max="12" step="1" value={formData.grade} onChange={(e) => handleChange(e, "grade")} /></Col>}
                 </Form.Group>
                 {(formData.type === "movie" || formData.id == "na" || media?.id) && (
                   <>

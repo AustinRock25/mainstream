@@ -33,6 +33,11 @@ function ApplicationLayout() {
     setShowAuthModal(true);
   }
 
+  function handleChangeScaleClick() {
+    setAuthAction("change");
+    setShowAuthModal(true);
+  }
+
   function handleAddMediaClick() {
     setShowMediaModal(true);
   }
@@ -74,6 +79,7 @@ function ApplicationLayout() {
                   {isAuthenticated 
                     ?
                       <>
+                        <Nav.Link onClick={handleChangeScaleClick}>Change Rating Scale</Nav.Link>
                         <Nav.Link onClick={handleLogoutClick}>Log Out</Nav.Link>
                       </>
                     :
