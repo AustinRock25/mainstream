@@ -1,5 +1,5 @@
-How to run The Mainstream:
+How to run The Mainstream (Use a windows device):
 
-1. Run the postgresql-18.1-2-windows-x64 installer; make sure everything but Stack Builder is checked before installing.
-2. Open a command prompt (cmd) on your laptop and enter the command cd 'Name of where you stored it here'/mainstream and then npm start.
+1. Clone this repo or download all the files to your device (don't put it in your OneDrive).
+2. Go to where you have stored it and double click the setup.bat file to start running it. Follow any instructions that is given to you.
 3. The url to access the site once it is running is localhost:863.
