@@ -24,7 +24,7 @@ const backupDatabase = () => {
 
   const fileStream = fs.createWriteStream(backupPath);
 
-  const child = spawn(pgDumpPath, ["-U", "postgres", "--no-owner", "--no-privileges", "--clean", "--if-exists","mainstream"], {
+  const child = spawn(pgDumpPath, ["-U", "postgres", "--no-owner", "--no-privileges", "--clean", "--if-exists", "mainstream"], {
     shell: true,
     env: { ...process.env, PGPASSWORD: process.env.DB_PASSWORD }
   });
