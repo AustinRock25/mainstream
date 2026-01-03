@@ -10,9 +10,15 @@ const backupDatabase = () => {
   const rootPath = path.resolve(__dirname, "../../../"); 
   const backupPath = path.join(rootPath, "database.sql");
   const pgDumpPath = path.join(rootPath, "sql_binaries/bin/pg_dump.exe");
+  const gitPath = path.join(rootPath, "git_binaries/bin/git.exe");
 
   if (!fs.existsSync(pgDumpPath)) {
     console.error(`Binary not found at: ${pgDumpPath}`);
+    return;
+  }
+
+  if (!fs.existsSync(gitPath)) {
+    console.error(`Binary not found at: ${gitPath}`);
     return;
   }
 
@@ -30,11 +36,12 @@ const backupDatabase = () => {
   });
 
   try {
-    console.log("--- Starting Git Backup ---");
-    execSync("git add --all");
-    console.log(`Update at ${new Date().toLocaleString()}`);
-    execSync(`git commit -m "Update at ${new Date().toLocaleString()}"`);
-    execSync("git push origin main");
+    const gitCmdBase = `"${gitPath}" --work-tree="${rootPath}" --git-dir="${path.join(rootPath, ".git")}"`;
+    
+    execSync(`${gitCmdBase} add --all`, { cwd: rootPath });
+    execSync(`${gitCmdBase} commit -m "Update at ${new Date().toLocaleString()}"`, { cwd: rootPath });
+    execSync(`${gitCmdBase} push origin main`, { cwd: rootPath });
+    
     console.log("--- Git Backup Successful ---");
   } 
   catch (error) {
