@@ -2,7 +2,7 @@
 -- PostgreSQL database dump
 --
 
-\restrict EeNk6z8Gbv3OhiwQyQFlWx6Kp6uZdxONDfE5nZXtVsAxj6MgQtIYaYUA3VYcWfJ
+\restrict lgKyXLUET94Bhbo6imxqFmp9bTKNdyqaDifCs3P5Llj28RSLnCgp7GSgjlq0tOC
 
 -- Dumped from database version 18.1
 -- Dumped by pg_dump version 18.1
@@ -26909,6 +26909,7 @@ COPY public.people (id, name, birth_date, death_date) FROM stdin;
 7894	Florence Lee	1864-02-01	1933-02-17
 7895	Harry C. Myers	1882-09-05	1938-12-25
 7896	Al Ernest Garcia	1887-03-11	1938-09-04
+7897	Paulette Goddard	1910-06-03	1990-04-23
 \.
 
 
@@ -31254,5 +31255,5 @@ ALTER TABLE ONLY public.seasons_writers
 -- PostgreSQL database dump complete
 --
 
-\unrestrict EeNk6z8Gbv3OhiwQyQFlWx6Kp6uZdxONDfE5nZXtVsAxj6MgQtIYaYUA3VYcWfJ
+\unrestrict lgKyXLUET94Bhbo6imxqFmp9bTKNdyqaDifCs3P5Llj28RSLnCgp7GSgjlq0tOC
 
