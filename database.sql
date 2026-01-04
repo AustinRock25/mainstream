@@ -2,7 +2,7 @@
 -- PostgreSQL database dump
 --
 
-\restrict 1fObuda6a4W7qSinwXl3rfDegqOG3Ej9FqxxbEAmkm9CzmdKe5F3cIRhnxV4P66
+\restrict 7xbdrJa5jyHaDrie5BRhjeGRq9U0CKb8Xt2JQCbdB3anNpoOc5bidRLpAU5aQLu
 
 -- Dumped from database version 18.1
 -- Dumped by pg_dump version 18.1
@@ -26912,6 +26912,7 @@ COPY public.people (id, name, birth_date, death_date) FROM stdin;
 7897	Paulette Goddard	1910-06-03	1990-04-23
 7898	Henry Bergman	1868-02-23	1946-10-22
 7899	Tiny Sandford	1894-02-26	1961-10-29
+7900	Chester Conklin	1886-01-11	1971-10-11
 \.
 
 
@@ -31257,5 +31258,5 @@ ALTER TABLE ONLY public.seasons_writers
 -- PostgreSQL database dump complete
 --
 
-\unrestrict 1fObuda6a4W7qSinwXl3rfDegqOG3Ej9FqxxbEAmkm9CzmdKe5F3cIRhnxV4P66
+\unrestrict 7xbdrJa5jyHaDrie5BRhjeGRq9U0CKb8Xt2JQCbdB3anNpoOc5bidRLpAU5aQLu
 
