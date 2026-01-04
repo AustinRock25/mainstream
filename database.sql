@@ -2,7 +2,7 @@
 -- PostgreSQL database dump
 --
 
-\restrict wrS5E5G0Gq53gsiTd7uWr4KfZgdNagDRavy3N78S6zxloPwSOFQ6yABo4Dcn4pt
+\restrict RmjlN8XhGr4qPxIg8DrMiN4PR6iGm9leNm8tHW89QkNg5DSLJ5SajFJlOUjSNv0
 
 -- Dumped from database version 18.1
 -- Dumped by pg_dump version 18.1
@@ -26900,6 +26900,7 @@ COPY public.people (id, name, birth_date, death_date) FROM stdin;
 7893	Virginia Cherrill	1908-04-12	1996-11-14
 7894	Florence Lee	1864-02-01	1933-02-17
 7895	Harry C. Myers	1882-09-05	1938-12-25
+7896	Al Ernest Garcia	1887-03-11	1938-09-04
 \.
 
 
@@ -31245,5 +31246,5 @@ ALTER TABLE ONLY public.seasons_writers
 -- PostgreSQL database dump complete
 --
 
-\unrestrict wrS5E5G0Gq53gsiTd7uWr4KfZgdNagDRavy3N78S6zxloPwSOFQ6yABo4Dcn4pt
+\unrestrict RmjlN8XhGr4qPxIg8DrMiN4PR6iGm9leNm8tHW89QkNg5DSLJ5SajFJlOUjSNv0
 
