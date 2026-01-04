@@ -2,7 +2,7 @@
 -- PostgreSQL database dump
 --
 
-\restrict 9BgNjv7PgUnzN7ssUyOTYdE1dZDxr4fWliOoi0XhgE8V4tb6CAqNK5Vg5exxdr4
+\restrict 3bE4lsljTbcazb1sbgINYwNqtqCjUhiTu0UTktPT8RbUMtyBEoFHFvzJKx5RWKt
 
 -- Dumped from database version 18.1
 -- Dumped by pg_dump version 18.1
@@ -26897,6 +26897,7 @@ COPY public.people (id, name, birth_date, death_date) FROM stdin;
 509	Javier Bardem	1969-03-01	\N
 2292	Frederick Kerr	1858-10-11	1933-05-03
 7892	Charlie Chaplin	1889-04-16	1977-12-25
+7893	Virginia Cherrill	1908-04-12	1996-11-14
 \.
 
 
@@ -31242,5 +31243,5 @@ ALTER TABLE ONLY public.seasons_writers
 -- PostgreSQL database dump complete
 --
 
-\unrestrict 9BgNjv7PgUnzN7ssUyOTYdE1dZDxr4fWliOoi0XhgE8V4tb6CAqNK5Vg5exxdr4
+\unrestrict 3bE4lsljTbcazb1sbgINYwNqtqCjUhiTu0UTktPT8RbUMtyBEoFHFvzJKx5RWKt
 
