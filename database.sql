@@ -2,7 +2,7 @@
 -- PostgreSQL database dump
 --
 
-\restrict KXNsnvydH7tgY4Ve4qwwVMUZOfDEerb7b3uSAcN9SCxz6CTfdfa5qfcgtTiNXVZ
+\restrict 1fObuda6a4W7qSinwXl3rfDegqOG3Ej9FqxxbEAmkm9CzmdKe5F3cIRhnxV4P66
 
 -- Dumped from database version 18.1
 -- Dumped by pg_dump version 18.1
@@ -26911,6 +26911,7 @@ COPY public.people (id, name, birth_date, death_date) FROM stdin;
 7896	Al Ernest Garcia	1887-03-11	1938-09-04
 7897	Paulette Goddard	1910-06-03	1990-04-23
 7898	Henry Bergman	1868-02-23	1946-10-22
+7899	Tiny Sandford	1894-02-26	1961-10-29
 \.
 
 
@@ -31256,5 +31257,5 @@ ALTER TABLE ONLY public.seasons_writers
 -- PostgreSQL database dump complete
 --
 
-\unrestrict KXNsnvydH7tgY4Ve4qwwVMUZOfDEerb7b3uSAcN9SCxz6CTfdfa5qfcgtTiNXVZ
+\unrestrict 1fObuda6a4W7qSinwXl3rfDegqOG3Ej9FqxxbEAmkm9CzmdKe5F3cIRhnxV4P66
 
