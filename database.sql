@@ -2,7 +2,7 @@
 -- PostgreSQL database dump
 --
 
-\restrict CJOoD6g5I01cXsHcMouHBHX5hJNJAjXtsp3BtxdjYinUnecfArdvEwdr6AW6cD3
+\restrict o2Q1DMIVLrOpJPdfjii6GDHtyxBUQ1AKpkSVFliI5LjeCmESh9DyzRNDF7seiit
 
 -- Dumped from database version 18.1
 -- Dumped by pg_dump version 18.1
@@ -1886,7 +1886,6 @@ Jingle Jangle: A Christmas Journey	PG	jingle-jangle	122	movie	1632	2020-11-13	\N
 The Mean One	Not Rated	the-mean-one	93	movie	1633	2022-12-09	\N	2025-12-09 09:19:32.68-05	D-
 The Night Before	R	the-night-before	101	movie	1634	2015-11-20	\N	2025-12-11 09:21:55.173-05	B-
 The Family Stone	PG-13	the-family-stone	104	movie	1635	2005-12-16	\N	2025-12-12 09:24:09.966-05	C
-Wake Up Dead Man: A Knives Out Mystery	PG-13	wake-up-dead-man	144	movie	1636	2025-11-26	\N	2025-12-14 09:27:26.605-05	A-
 The Nativity Story	PG	the-nativity-story	101	movie	1638	2006-12-01	\N	2025-12-15 16:26:32.275-05	B-
 Home Alone: The Holiday Heist	TV-PG	home-alone-the-holiday-heist	90	movie	1640	2012-11-25	\N	2025-12-19 16:59:20.067-05	D
 Home Sweet Home Alone	PG	home-sweet-home-alone	93	movie	1641	2021-11-12	\N	2025-12-20 17:04:05.587-05	D
@@ -1926,6 +1925,7 @@ City Lights	G	city-lights	87	movie	1664	1931-03-07	\N	2026-01-03 23:06:44.478-05
 City Lights	G	city-lights	87	movie	1665	1931-03-07	\N	2026-01-03 23:07:34.592-05	A+
 City Lights	G	city-lights	87	movie	1666	1931-03-07	\N	2026-01-03 23:08:00.343-05	A+
 City Lights	G	city-lights	87	movie	1667	1931-03-07	\N	2026-01-03 23:15:00.251-05	A+
+Wake Up Dead Man: A Knives Out Mystery	PG-13	wake-up-dead-man	144	movie	1636	2025-11-26	\N	2025-12-14 09:27:26.605-05	4/5
 \.
 
 
@@ -31414,5 +31414,5 @@ ALTER TABLE ONLY public.seasons_writers
 -- PostgreSQL database dump complete
 --
 
-\unrestrict CJOoD6g5I01cXsHcMouHBHX5hJNJAjXtsp3BtxdjYinUnecfArdvEwdr6AW6cD3
+\unrestrict o2Q1DMIVLrOpJPdfjii6GDHtyxBUQ1AKpkSVFliI5LjeCmESh9DyzRNDF7seiit
 
