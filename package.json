@@ -13,7 +13,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "server": "cd api && dotenv -e ../.env -- nodemon ./src/server.js",
     "client": "cd ui && vite",
-    "seed": "dotenv -e .env -- cmd /C \"set PATH=%CD%\\sql_binaries\\bin;%PATH% && set \"PGPASSWORD=%DB_PASSWORD%\" && pg_restore -h 127.0.0.1 -U %DB_USER% -d postgres --clean --create --if-exists database.sql\""
+    "seed": "dotenv -e .env -- cmd /C \"set PATH=%CD%\\sql_binaries\\bin;%PATH% && set \"PGPASSWORD=%DB_PASSWORD%\" && dropdb -h 127.0.0.1 -U %DB_USER% --if-exists %DB_NAME% && createdb -h 127.0.0.1 -U %DB_USER% %DB_NAME% && psql -h 127.0.0.1 -U %DB_USER% -d %DB_NAME% -f database.sql\""
   },
   "dependencies": {
     "@reduxjs/toolkit": "^2.2.3",
