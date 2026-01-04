@@ -2,7 +2,7 @@
 -- PostgreSQL database dump
 --
 
-\restrict Gg7lFrxvXgCzO87Zn0As7dZr0Rgub1Pt2Eg9SX4ZxyQgAhavRupxbUquqiwY1vd
+\restrict wrS5E5G0Gq53gsiTd7uWr4KfZgdNagDRavy3N78S6zxloPwSOFQ6yABo4Dcn4pt
 
 -- Dumped from database version 18.1
 -- Dumped by pg_dump version 18.1
@@ -26899,6 +26899,7 @@ COPY public.people (id, name, birth_date, death_date) FROM stdin;
 7892	Charlie Chaplin	1889-04-16	1977-12-25
 7893	Virginia Cherrill	1908-04-12	1996-11-14
 7894	Florence Lee	1864-02-01	1933-02-17
+7895	Harry C. Myers	1882-09-05	1938-12-25
 \.
 
 
@@ -31244,5 +31245,5 @@ ALTER TABLE ONLY public.seasons_writers
 -- PostgreSQL database dump complete
 --
 
-\unrestrict Gg7lFrxvXgCzO87Zn0As7dZr0Rgub1Pt2Eg9SX4ZxyQgAhavRupxbUquqiwY1vd
+\unrestrict wrS5E5G0Gq53gsiTd7uWr4KfZgdNagDRavy3N78S6zxloPwSOFQ6yABo4Dcn4pt
 
