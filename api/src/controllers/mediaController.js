@@ -1,3 +1,4 @@
+import fs from "node:fs";
 import { query, connect } from "../config/pgClient.js";
 import { spawn, execSync } from "node:child_process";
 import path from "node:path";
