@@ -2,7 +2,7 @@
 -- PostgreSQL database dump
 --
 
-\restrict Ev0pd6h47dNIoo0qRecaAZ4ExcYpWiVbLGqGnBfgq4yoJYwu9eQ1A0HXHjcynn6
+\restrict mKnxdISioVrIXrzx6iCBv6dJltsHZMT2qUg8dsahGrMAkAzgmEMdRHLYfFSvbsj
 
 -- Dumped from database version 18.1
 -- Dumped by pg_dump version 18.1
@@ -1523,6 +1523,7 @@ Mean Girls	PG-13	mean-girls-(2024)	112	movie	1229	2024-01-12	\N	\N	C+
 Mars Attacks!	PG-13	mars-attacks	106	movie	1312	1996-12-13	\N	\N	C+
 Damsel	PG-13	damsel	108	movie	1228	2024-03-08	\N	\N	C+
 Megalopolis	R	megalopolis	138	movie	1643	2024-09-27	\N	2025-12-28 21:21:46.064-05	C-
+City Lights	G	city-lights	87	movie	1647	1931-03-07	\N	2026-01-03 22:10:07.221-05	B+
 The SpongeBob SquarePants Movie	PG	the-spongebob-squarepants-movie	87	movie	1230	2004-11-19	\N	\N	C+
 The SpongeBob Movie: Sponge Out of Water	PG	the-spongebob-movie-sponge-out-of-water	92	movie	1231	2015-02-06	\N	\N	C+
 The SpongeBob Movie: Sponge on the Run	PG	the-spongebob-movie-sponge-on-the-run	91	movie	1232	2021-03-04	\N	\N	C+
@@ -1905,6 +1906,21 @@ Stranger Things	TV-14	stranger-things	\N	show	1002	\N	t	\N	\N
 Anaconda	PG-13	anaconda	89	movie	1626	1997-04-11	\N	\N	C
 Regretting You	PG-13	regretting-you	116	movie	1646	2025-10-24	\N	2026-01-01 18:26:27.99-05	C+
 Lake Placid	R	lake-placid	82	movie	1627	1999-07-16	\N	\N	D+
+City Lights	G	city-lights	87	movie	1648	1931-03-07	\N	2026-01-03 22:17:44.045-05	A+
+City Lights	G	city-lights	87	movie	1649	1931-03-07	\N	2026-01-03 22:19:18.177-05	A+
+City Lights	G	city-lights	87	movie	1650	1931-03-07	\N	2026-01-03 22:26:11.862-05	A+
+City Lights	G	city-lights	87	movie	1651	1931-03-07	\N	2026-01-03 22:33:19.419-05	A+
+City Lights	G	city-lights	87	movie	1652	1931-03-07	\N	2026-01-03 22:37:29.808-05	A+
+City Lights	G	city-lights	87	movie	1653	1931-03-07	\N	2026-01-03 22:39:53.794-05	A+
+City Lights	G	city-lights	87	movie	1654	1931-03-07	\N	2026-01-03 22:42:48.797-05	A+
+City Lights	G	city-lights	87	movie	1655	1931-03-07	\N	2026-01-03 22:44:55.353-05	A+
+City Lights	G	city-lights	87	movie	1656	1931-03-07	\N	2026-01-03 22:44:57.421-05	A+
+City Lights	G	city-lights	87	movie	1657	1931-03-07	\N	2026-01-03 22:44:57.537-05	A+
+City Lights	G	city-lights	87	movie	1658	1931-03-07	\N	2026-01-03 22:44:57.678-05	A+
+City Lights	G	city-lights	87	movie	1659	1931-03-07	\N	2026-01-03 22:44:57.832-05	A+
+City Lights	G	city-lights	87	movie	1661	1931-03-07	\N	2026-01-03 22:44:58.101-05	A+
+City Lights	G	city-lights	87	movie	1660	1931-03-07	\N	2026-01-03 22:44:57.953-05	A+
+City Lights	G	city-lights	87	movie	1662	1931-03-07	\N	2026-01-03 22:44:58.242-05	A+
 \.
 
 
@@ -12878,6 +12894,86 @@ COPY public.media_cast (media_id, actor_id, ordering) FROM stdin;
 1646	4064	6
 1646	7891	7
 1646	209	8
+1647	7892	1
+1647	7893	2
+1647	7894	3
+1647	7895	4
+1647	7896	5
+1648	7892	1
+1648	7893	2
+1648	7894	3
+1648	7895	4
+1648	7896	5
+1649	7892	1
+1649	7893	2
+1649	7894	3
+1649	7895	4
+1649	7896	5
+1650	7892	1
+1650	7893	2
+1650	7894	3
+1650	7895	4
+1650	7896	5
+1651	7892	1
+1651	7893	2
+1651	7894	3
+1651	7895	4
+1651	7896	5
+1652	7892	1
+1652	7893	2
+1652	7894	3
+1652	7895	4
+1652	7896	5
+1653	7892	1
+1653	7893	2
+1653	7894	3
+1653	7895	4
+1653	7896	5
+1654	7892	1
+1654	7893	2
+1654	7894	3
+1654	7895	4
+1654	7896	5
+1655	7892	1
+1655	7893	2
+1655	7894	3
+1655	7895	4
+1655	7896	5
+1656	7892	1
+1656	7893	2
+1656	7894	3
+1656	7895	4
+1656	7896	5
+1657	7892	1
+1657	7893	2
+1657	7894	3
+1657	7895	4
+1657	7896	5
+1658	7892	1
+1658	7893	2
+1658	7894	3
+1658	7895	4
+1658	7896	5
+1659	7892	1
+1659	7893	2
+1659	7894	3
+1659	7895	4
+1659	7896	5
+1660	7892	1
+1660	7893	2
+1660	7894	3
+1660	7895	4
+1660	7896	5
+1661	7892	1
+1661	7893	2
+1661	7894	3
+1661	7895	4
+1661	7896	5
+1662	7892	1
+1662	7893	2
+1662	7894	3
+1662	7895	4
+1662	7896	5
 \.
 
 
@@ -14628,6 +14724,22 @@ COPY public.media_directors (media_id, director_id, ordering) FROM stdin;
 1644	1071	1
 1645	7601	1
 1646	3942	1
+1647	7892	1
+1648	7892	1
+1649	7892	1
+1650	7892	1
+1651	7892	1
+1652	7892	1
+1653	7892	1
+1654	7892	1
+1655	7892	1
+1656	7892	1
+1657	7892	1
+1658	7892	1
+1659	7892	1
+1660	7892	1
+1661	7892	1
+1662	7892	1
 \.
 
 
@@ -18997,6 +19109,22 @@ COPY public.media_writers (ordering, media_id, writer_id) FROM stdin;
 2	1644	6183
 1	1645	7601
 1	1646	7889
+1	1647	7892
+1	1648	7892
+1	1649	7892
+1	1650	7892
+1	1651	7892
+1	1652	7892
+1	1653	7892
+1	1654	7892
+1	1655	7892
+1	1656	7892
+1	1657	7892
+1	1658	7892
+1	1659	7892
+1	1660	7892
+1	1661	7892
+1	1662	7892
 \.
 
 
@@ -30982,7 +31110,7 @@ COPY public.seasons_writers (ordering, show_id, season, writer_id) FROM stdin;
 --
 
 COPY public.users (id, is_admin, email, password, rating_scale) FROM stdin;
-1	t	austinrock03@gmail.com	$2a$12$AOV0G6DRHhHgUdKAJvNgE.L3vyBjM.6xfjO0rZQKCetMoJPfnEz5S	3
+1	t	austinrock03@gmail.com	$2a$12$AOV0G6DRHhHgUdKAJvNgE.L3vyBjM.6xfjO0rZQKCetMoJPfnEz5S	1
 \.
 
 
@@ -31246,5 +31374,5 @@ ALTER TABLE ONLY public.seasons_writers
 -- PostgreSQL database dump complete
 --
 
-\unrestrict Ev0pd6h47dNIoo0qRecaAZ4ExcYpWiVbLGqGnBfgq4yoJYwu9eQ1A0HXHjcynn6
+\unrestrict mKnxdISioVrIXrzx6iCBv6dJltsHZMT2qUg8dsahGrMAkAzgmEMdRHLYfFSvbsj
 
