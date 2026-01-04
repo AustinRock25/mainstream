@@ -2,7 +2,7 @@
 -- PostgreSQL database dump
 --
 
-\restrict ziNljnuKkawYFKzrvGkt4ZhsSvoZKuW48RC6y7PY435JOE0d7HTPrzVJus1aGsd
+\restrict CJOoD6g5I01cXsHcMouHBHX5hJNJAjXtsp3BtxdjYinUnecfArdvEwdr6AW6cD3
 
 -- Dumped from database version 18.1
 -- Dumped by pg_dump version 18.1
@@ -1921,6 +1921,11 @@ City Lights	G	city-lights	87	movie	1659	1931-03-07	\N	2026-01-03 22:44:57.832-05
 City Lights	G	city-lights	87	movie	1661	1931-03-07	\N	2026-01-03 22:44:58.101-05	A+
 City Lights	G	city-lights	87	movie	1660	1931-03-07	\N	2026-01-03 22:44:57.953-05	A+
 City Lights	G	city-lights	87	movie	1662	1931-03-07	\N	2026-01-03 22:44:58.242-05	A+
+City Lights	G	city-lights	87	movie	1663	1931-03-07	\N	2026-01-03 23:05:58.391-05	B+
+City Lights	G	city-lights	87	movie	1664	1931-03-07	\N	2026-01-03 23:06:44.478-05	A+
+City Lights	G	city-lights	87	movie	1665	1931-03-07	\N	2026-01-03 23:07:34.592-05	A+
+City Lights	G	city-lights	87	movie	1666	1931-03-07	\N	2026-01-03 23:08:00.343-05	A+
+City Lights	G	city-lights	87	movie	1667	1931-03-07	\N	2026-01-03 23:15:00.251-05	A+
 \.
 
 
@@ -12974,6 +12979,31 @@ COPY public.media_cast (media_id, actor_id, ordering) FROM stdin;
 1662	7894	3
 1662	7895	4
 1662	7896	5
+1663	7892	1
+1663	7893	2
+1663	7894	3
+1663	7895	4
+1663	7896	5
+1664	7892	1
+1664	7893	2
+1664	7894	3
+1664	7895	4
+1664	7896	5
+1665	7892	1
+1665	7893	2
+1665	7894	3
+1665	7895	4
+1665	7896	5
+1666	7892	1
+1666	7893	2
+1666	7894	3
+1666	7895	4
+1666	7896	5
+1667	7892	1
+1667	7893	2
+1667	7894	3
+1667	7895	4
+1667	7896	5
 \.
 
 
@@ -14740,6 +14770,11 @@ COPY public.media_directors (media_id, director_id, ordering) FROM stdin;
 1660	7892	1
 1661	7892	1
 1662	7892	1
+1663	7892	1
+1664	7892	1
+1665	7892	1
+1666	7892	1
+1667	7892	1
 \.
 
 
@@ -19125,6 +19160,11 @@ COPY public.media_writers (ordering, media_id, writer_id) FROM stdin;
 1	1660	7892
 1	1661	7892
 1	1662	7892
+1	1663	7892
+1	1664	7892
+1	1665	7892
+1	1666	7892
+1	1667	7892
 \.
 
 
@@ -31110,7 +31150,7 @@ COPY public.seasons_writers (ordering, show_id, season, writer_id) FROM stdin;
 --
 
 COPY public.users (id, is_admin, email, password, rating_scale) FROM stdin;
-1	t	austinrock03@gmail.com	$2a$12$AOV0G6DRHhHgUdKAJvNgE.L3vyBjM.6xfjO0rZQKCetMoJPfnEz5S	3
+1	t	austinrock03@gmail.com	$2a$12$AOV0G6DRHhHgUdKAJvNgE.L3vyBjM.6xfjO0rZQKCetMoJPfnEz5S	2
 \.
 
 
@@ -31374,5 +31414,5 @@ ALTER TABLE ONLY public.seasons_writers
 -- PostgreSQL database dump complete
 --
 
-\unrestrict ziNljnuKkawYFKzrvGkt4ZhsSvoZKuW48RC6y7PY435JOE0d7HTPrzVJus1aGsd
+\unrestrict CJOoD6g5I01cXsHcMouHBHX5hJNJAjXtsp3BtxdjYinUnecfArdvEwdr6AW6cD3
 
