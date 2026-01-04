@@ -2,7 +2,7 @@
 -- PostgreSQL database dump
 --
 
-\restrict lgKyXLUET94Bhbo6imxqFmp9bTKNdyqaDifCs3P5Llj28RSLnCgp7GSgjlq0tOC
+\restrict KXNsnvydH7tgY4Ve4qwwVMUZOfDEerb7b3uSAcN9SCxz6CTfdfa5qfcgtTiNXVZ
 
 -- Dumped from database version 18.1
 -- Dumped by pg_dump version 18.1
@@ -26910,6 +26910,7 @@ COPY public.people (id, name, birth_date, death_date) FROM stdin;
 7895	Harry C. Myers	1882-09-05	1938-12-25
 7896	Al Ernest Garcia	1887-03-11	1938-09-04
 7897	Paulette Goddard	1910-06-03	1990-04-23
+7898	Henry Bergman	1868-02-23	1946-10-22
 \.
 
 
@@ -31255,5 +31256,5 @@ ALTER TABLE ONLY public.seasons_writers
 -- PostgreSQL database dump complete
 --
 
-\unrestrict lgKyXLUET94Bhbo6imxqFmp9bTKNdyqaDifCs3P5Llj28RSLnCgp7GSgjlq0tOC
+\unrestrict KXNsnvydH7tgY4Ve4qwwVMUZOfDEerb7b3uSAcN9SCxz6CTfdfa5qfcgtTiNXVZ
 
