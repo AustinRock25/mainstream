@@ -2,7 +2,7 @@
 -- PostgreSQL database dump
 --
 
-\restrict 8dzYZEl3d0lq0carK6hydmuAmMR8M3pujcSyNmYKQ5gmspSqsKTg9bvfMwZCvBT
+\restrict grfnsIJzcZgDUByovbYK0ud1ytkGkS1xbieGcUNQgrneAZMu2J1lHHJ0D5jw2ht
 
 -- Dumped from database version 18.1
 -- Dumped by pg_dump version 18.1
@@ -26930,7 +26930,6 @@ COPY public.people (id, name, birth_date, death_date) FROM stdin;
 
 COPY public.seasons (season, show_id, episodes, start_date, end_date, date_added, runtime, grade) FROM stdin;
 1	1498	20	2019-10-06	2020-05-17	\N	834	\N
-1	1295	8	2024-06-04	2024-07-16	\N	304	\N
 1	1094	10	2023-01-12	2023-02-09	\N	252	D
 2	1497	16	2018-10-09	2019-03-18	\N	675	C+
 3	1497	16	2019-10-07	2020-03-09	\N	667	C+
@@ -27064,6 +27063,7 @@ COPY public.seasons (season, show_id, episodes, start_date, end_date, date_added
 4	1485	22	2016-09-20	2017-05-16	\N	934	B+
 1	1494	8	2017-09-29	2017-11-10	\N	338	C
 1	781	9	2022-08-18	2022-10-13	\N	289	C
+1	1295	8	2024-06-04	2024-07-16	\N	304	C
 5	1485	22	2017-12-01	2018-05-18	\N	926	B+
 7	1485	13	2020-05-27	2020-08-12	\N	553	B+
 1	167	15	2014-10-03	2015-03-02	\N	327	B+
@@ -31266,5 +31266,5 @@ ALTER TABLE ONLY public.seasons_writers
 -- PostgreSQL database dump complete
 --
 
-\unrestrict 8dzYZEl3d0lq0carK6hydmuAmMR8M3pujcSyNmYKQ5gmspSqsKTg9bvfMwZCvBT
+\unrestrict grfnsIJzcZgDUByovbYK0ud1ytkGkS1xbieGcUNQgrneAZMu2J1lHHJ0D5jw2ht
 
