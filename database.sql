@@ -2,7 +2,7 @@
 -- PostgreSQL database dump
 --
 
-\restrict 7xbdrJa5jyHaDrie5BRhjeGRq9U0CKb8Xt2JQCbdB3anNpoOc5bidRLpAU5aQLu
+\restrict NrEgAatVHxJ0lGpKb9ZGu6SgdZ8KWO2Yh762WgwU6dVABmglcAxMYbUx0rLG3Nf
 
 -- Dumped from database version 18.1
 -- Dumped by pg_dump version 18.1
@@ -1906,6 +1906,7 @@ Lake Placid	R	lake-placid	82	movie	1627	1999-07-16	\N	\N	D+
 Wake Up Dead Man: A Knives Out Mystery	PG-13	wake-up-dead-man	144	movie	1636	2025-11-26	\N	2025-12-14 09:27:26.605-05	A-
 Marriage Story	R	marriage-story	137	movie	1628	2019-11-06	\N	\N	A-
 Shakespeare in Love	R	shakespeare-in-love	123	movie	1629	1998-12-11	\N	\N	B+
+Modern Times	G	modern-times	87	movie	1648	1936-02-25	\N	2026-01-04 17:59:29.177-05	B
 \.
 
 
@@ -12884,6 +12885,11 @@ COPY public.media_cast (media_id, actor_id, ordering) FROM stdin;
 1647	7894	3
 1647	7895	4
 1647	7896	5
+1648	7892	1
+1648	7897	2
+1648	7898	3
+1648	7899	4
+1648	7900	5
 \.
 
 
@@ -14635,6 +14641,7 @@ COPY public.media_directors (media_id, director_id, ordering) FROM stdin;
 1645	7601	1
 1646	3942	1
 1647	7892	1
+1648	7892	1
 \.
 
 
@@ -19005,6 +19012,7 @@ COPY public.media_writers (ordering, media_id, writer_id) FROM stdin;
 1	1645	7601
 1	1646	7889
 1	1647	7892
+1	1648	7892
 \.
 
 
@@ -31258,5 +31266,5 @@ ALTER TABLE ONLY public.seasons_writers
 -- PostgreSQL database dump complete
 --
 
-\unrestrict 7xbdrJa5jyHaDrie5BRhjeGRq9U0CKb8Xt2JQCbdB3anNpoOc5bidRLpAU5aQLu
+\unrestrict NrEgAatVHxJ0lGpKb9ZGu6SgdZ8KWO2Yh762WgwU6dVABmglcAxMYbUx0rLG3Nf
 
