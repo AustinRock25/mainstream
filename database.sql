@@ -2,7 +2,7 @@
 -- PostgreSQL database dump
 --
 
-\restrict yVqph0gUKFFOsd38XzbEDQ9Mchef2MSfh0eRqGVPb1axKsiShtVy2CyBLk8rCKz
+\restrict WhiQ6KE5rVukYZtT9dkLt4hhX8QcejqkOcklXvfKrly72iVy8hma8jeUCToSuTn
 
 -- Dumped from database version 18.1
 -- Dumped by pg_dump version 18.1
@@ -1878,7 +1878,6 @@ The Wiz	G	the-wiz	133	movie	1619	1978-10-24	\N	\N	C+
 The Whale	R	the-whale	117	movie	1620	2022-12-09	\N	\N	A
 Sisu	R	sisu	91	movie	1621	2023-04-28	\N	\N	B+
 The Bad Guys 2	PG	the-bad-guys-2	104	movie	1622	2025-08-01	\N	\N	A-
-Looper	R	looper	118	movie	1630	2012-09-28	\N	2025-12-05 09:00:22.851-05	A
 Hot Frosty	TV-PG	hot-frosty	92	movie	1631	2024-11-13	\N	2025-12-06 09:12:48.699-05	C
 Jingle Jangle: A Christmas Journey	PG	jingle-jangle	122	movie	1632	2020-11-13	\N	2025-12-08 09:16:33.975-05	B+
 The Mean One	Not Rated	the-mean-one	93	movie	1633	2022-12-09	\N	2025-12-09 09:19:32.68-05	D-
@@ -1907,6 +1906,7 @@ Wake Up Dead Man: A Knives Out Mystery	PG-13	wake-up-dead-man	144	movie	1636	202
 Marriage Story	R	marriage-story	137	movie	1628	2019-11-06	\N	\N	A-
 Shakespeare in Love	R	shakespeare-in-love	123	movie	1629	1998-12-11	\N	\N	B+
 Modern Times	G	modern-times	87	movie	1648	1936-02-25	\N	2026-01-04 17:59:29.177-05	B
+Looper	R	looper	118	movie	1630	2012-09-28	\N	\N	A
 \.
 
 
@@ -26921,6 +26921,7 @@ COPY public.people (id, name, birth_date, death_date) FROM stdin;
 7898	Henry Bergman	1868-02-23	1946-10-22
 7899	Tiny Sandford	1894-02-26	1961-10-29
 7900	Chester Conklin	1886-01-11	1971-10-11
+7901	Jack Oakie	1903-11-12	1978-01-23
 \.
 
 
@@ -31266,5 +31267,5 @@ ALTER TABLE ONLY public.seasons_writers
 -- PostgreSQL database dump complete
 --
 
-\unrestrict yVqph0gUKFFOsd38XzbEDQ9Mchef2MSfh0eRqGVPb1axKsiShtVy2CyBLk8rCKz
+\unrestrict WhiQ6KE5rVukYZtT9dkLt4hhX8QcejqkOcklXvfKrly72iVy8hma8jeUCToSuTn
 
