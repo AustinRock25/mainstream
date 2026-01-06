@@ -2,7 +2,7 @@
 -- PostgreSQL database dump
 --
 
-\restrict vn0GqFz6CMIYCMsFoERVI5TpO8KkOoNneCbBfeyfduxhIG4669zJAt2k3eRDkiN
+\restrict Wgukm05rJDeOynGIDWO3W9Xm6lNaaZpJ1EEQZnPYUbuCl0cPaVwBZ8pyZs7QRRX
 
 -- Dumped from database version 18.1
 -- Dumped by pg_dump version 18.1
@@ -26923,6 +26923,7 @@ COPY public.people (id, name, birth_date, death_date) FROM stdin;
 7900	Chester Conklin	1886-01-11	1971-10-11
 7901	Jack Oakie	1903-11-12	1978-01-23
 7902	Henry Daniell	1894-03-05	1963-10-31
+7903	Reginald Gardiner	1903-02-27	1980-07-07
 \.
 
 
@@ -31268,5 +31269,5 @@ ALTER TABLE ONLY public.seasons_writers
 -- PostgreSQL database dump complete
 --
 
-\unrestrict vn0GqFz6CMIYCMsFoERVI5TpO8KkOoNneCbBfeyfduxhIG4669zJAt2k3eRDkiN
+\unrestrict Wgukm05rJDeOynGIDWO3W9Xm6lNaaZpJ1EEQZnPYUbuCl0cPaVwBZ8pyZs7QRRX
 
