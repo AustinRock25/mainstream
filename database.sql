@@ -2,7 +2,7 @@
 -- PostgreSQL database dump
 --
 
-\restrict WhiQ6KE5rVukYZtT9dkLt4hhX8QcejqkOcklXvfKrly72iVy8hma8jeUCToSuTn
+\restrict vn0GqFz6CMIYCMsFoERVI5TpO8KkOoNneCbBfeyfduxhIG4669zJAt2k3eRDkiN
 
 -- Dumped from database version 18.1
 -- Dumped by pg_dump version 18.1
@@ -26922,6 +26922,7 @@ COPY public.people (id, name, birth_date, death_date) FROM stdin;
 7899	Tiny Sandford	1894-02-26	1961-10-29
 7900	Chester Conklin	1886-01-11	1971-10-11
 7901	Jack Oakie	1903-11-12	1978-01-23
+7902	Henry Daniell	1894-03-05	1963-10-31
 \.
 
 
@@ -31267,5 +31268,5 @@ ALTER TABLE ONLY public.seasons_writers
 -- PostgreSQL database dump complete
 --
 
-\unrestrict WhiQ6KE5rVukYZtT9dkLt4hhX8QcejqkOcklXvfKrly72iVy8hma8jeUCToSuTn
+\unrestrict vn0GqFz6CMIYCMsFoERVI5TpO8KkOoNneCbBfeyfduxhIG4669zJAt2k3eRDkiN
 
