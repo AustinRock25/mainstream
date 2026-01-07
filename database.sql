@@ -2,7 +2,7 @@
 -- PostgreSQL database dump
 --
 
-\restrict 2slGFQPA1sTrkzligxBs1YQh4Ub2xT4UD99yeAtdAEH5WMKvgINcOwBrJRGfCqv
+\restrict GkJUicbRpB22BCRaQXzE4D8BELNhQshz9en3KGmYXDFL31zJzcEfPGl0OKVSPaG
 
 -- Dumped from database version 18.1
 -- Dumped by pg_dump version 18.1
@@ -1907,6 +1907,7 @@ Marriage Story	R	marriage-story	137	movie	1628	2019-11-06	\N	\N	A-
 Shakespeare in Love	R	shakespeare-in-love	123	movie	1629	1998-12-11	\N	\N	B+
 Modern Times	G	modern-times	87	movie	1648	1936-02-25	\N	2026-01-04 17:59:29.177-05	B
 Looper	R	looper	118	movie	1630	2012-09-28	\N	\N	A
+The Great Dictator	G	the-great-dictator	125	movie	1649	1940-10-15	\N	2026-01-05 22:01:25.146-05	A-
 \.
 
 
@@ -12890,6 +12891,13 @@ COPY public.media_cast (media_id, actor_id, ordering) FROM stdin;
 1648	7898	3
 1648	7899	4
 1648	7900	5
+1649	7892	1
+1649	7897	2
+1649	7901	3
+1649	7902	4
+1649	7903	5
+1649	7904	6
+1649	7905	7
 \.
 
 
@@ -14642,6 +14650,7 @@ COPY public.media_directors (media_id, director_id, ordering) FROM stdin;
 1646	3942	1
 1647	7892	1
 1648	7892	1
+1649	7892	1
 \.
 
 
@@ -19013,6 +19022,7 @@ COPY public.media_writers (ordering, media_id, writer_id) FROM stdin;
 1	1646	7889
 1	1647	7892
 1	1648	7892
+1	1649	7892
 \.
 
 
@@ -31271,5 +31281,5 @@ ALTER TABLE ONLY public.seasons_writers
 -- PostgreSQL database dump complete
 --
 
-\unrestrict 2slGFQPA1sTrkzligxBs1YQh4Ub2xT4UD99yeAtdAEH5WMKvgINcOwBrJRGfCqv
+\unrestrict GkJUicbRpB22BCRaQXzE4D8BELNhQshz9en3KGmYXDFL31zJzcEfPGl0OKVSPaG
 
