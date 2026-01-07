@@ -2,7 +2,7 @@
 -- PostgreSQL database dump
 --
 
-\restrict KuXn8QqZCxaC9dtM1th37zcR11Wnx968JsCMWfBohtH5XVNVt1HuhTlWWWP86ex
+\restrict YYvYdZjcMWw8GkVCx7V30ek8Tx8RMJHZpJUOLcJz4Y4WpRBoZvzUyb63pMh0RGm
 
 -- Dumped from database version 18.1
 -- Dumped by pg_dump version 18.1
@@ -26939,6 +26939,7 @@ COPY public.people (id, name, birth_date, death_date) FROM stdin;
 7906	Chris Sparling	1977-03-21	\N
 7907	Hope Davis	1964-03-23	\N
 7908	Roger Dale Floyd	2012-03-26	\N
+7909	King Bach	1988-06-26	\N
 \.
 
 
@@ -31284,5 +31285,5 @@ ALTER TABLE ONLY public.seasons_writers
 -- PostgreSQL database dump complete
 --
 
-\unrestrict KuXn8QqZCxaC9dtM1th37zcR11Wnx968JsCMWfBohtH5XVNVt1HuhTlWWWP86ex
+\unrestrict YYvYdZjcMWw8GkVCx7V30ek8Tx8RMJHZpJUOLcJz4Y4WpRBoZvzUyb63pMh0RGm
 
