@@ -2,7 +2,7 @@
 -- PostgreSQL database dump
 --
 
-\restrict GkJUicbRpB22BCRaQXzE4D8BELNhQshz9en3KGmYXDFL31zJzcEfPGl0OKVSPaG
+\restrict KJnEIPp1WlvvYNZ8ije5KZ834O3sv9gobvTo2qepWhXnRhQw0PtVGiRU4g0U5ce
 
 -- Dumped from database version 18.1
 -- Dumped by pg_dump version 18.1
@@ -1878,7 +1878,6 @@ The Wiz	G	the-wiz	133	movie	1619	1978-10-24	\N	\N	C+
 The Whale	R	the-whale	117	movie	1620	2022-12-09	\N	\N	A
 Sisu	R	sisu	91	movie	1621	2023-04-28	\N	\N	B+
 The Bad Guys 2	PG	the-bad-guys-2	104	movie	1622	2025-08-01	\N	\N	A-
-Hot Frosty	TV-PG	hot-frosty	92	movie	1631	2024-11-13	\N	2025-12-06 09:12:48.699-05	C
 Jingle Jangle: A Christmas Journey	PG	jingle-jangle	122	movie	1632	2020-11-13	\N	2025-12-08 09:16:33.975-05	B+
 The Mean One	Not Rated	the-mean-one	93	movie	1633	2022-12-09	\N	2025-12-09 09:19:32.68-05	D-
 The Night Before	R	the-night-before	101	movie	1634	2015-11-20	\N	2025-12-11 09:21:55.173-05	B-
@@ -1908,6 +1907,7 @@ Shakespeare in Love	R	shakespeare-in-love	123	movie	1629	1998-12-11	\N	\N	B+
 Modern Times	G	modern-times	87	movie	1648	1936-02-25	\N	2026-01-04 17:59:29.177-05	B
 Looper	R	looper	118	movie	1630	2012-09-28	\N	\N	A
 The Great Dictator	G	the-great-dictator	125	movie	1649	1940-10-15	\N	2026-01-05 22:01:25.146-05	A-
+Hot Frosty	TV-PG	hot-frosty	92	movie	1631	2024-11-13	\N	\N	C
 \.
 
 
@@ -26936,6 +26936,7 @@ COPY public.people (id, name, birth_date, death_date) FROM stdin;
 7903	Reginald Gardiner	1903-02-27	1980-07-07
 7904	Billy Gilbert	1894-09-12	1971-09-23
 7905	Maurice Moscovich	1871-11-23	1940-06-18
+7906	Chris Sparling	1977-03-21	\N
 \.
 
 
@@ -31281,5 +31282,5 @@ ALTER TABLE ONLY public.seasons_writers
 -- PostgreSQL database dump complete
 --
 
-\unrestrict GkJUicbRpB22BCRaQXzE4D8BELNhQshz9en3KGmYXDFL31zJzcEfPGl0OKVSPaG
+\unrestrict KJnEIPp1WlvvYNZ8ije5KZ834O3sv9gobvTo2qepWhXnRhQw0PtVGiRU4g0U5ce
 
