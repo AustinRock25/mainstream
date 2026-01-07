@@ -2,7 +2,7 @@
 -- PostgreSQL database dump
 --
 
-\restrict jOgD9HHi7Q0oRfeQOidVnIRYgVKmFBFvOLGyc75ctrX42gxwJAAZvfnFt5e8KSc
+\restrict KuXn8QqZCxaC9dtM1th37zcR11Wnx968JsCMWfBohtH5XVNVt1HuhTlWWWP86ex
 
 -- Dumped from database version 18.1
 -- Dumped by pg_dump version 18.1
@@ -26938,6 +26938,7 @@ COPY public.people (id, name, birth_date, death_date) FROM stdin;
 7905	Maurice Moscovich	1871-11-23	1940-06-18
 7906	Chris Sparling	1977-03-21	\N
 7907	Hope Davis	1964-03-23	\N
+7908	Roger Dale Floyd	2012-03-26	\N
 \.
 
 
@@ -31283,5 +31284,5 @@ ALTER TABLE ONLY public.seasons_writers
 -- PostgreSQL database dump complete
 --
 
-\unrestrict jOgD9HHi7Q0oRfeQOidVnIRYgVKmFBFvOLGyc75ctrX42gxwJAAZvfnFt5e8KSc
+\unrestrict KuXn8QqZCxaC9dtM1th37zcR11Wnx968JsCMWfBohtH5XVNVt1HuhTlWWWP86ex
 
