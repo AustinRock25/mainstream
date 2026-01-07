@@ -2,7 +2,7 @@
 -- PostgreSQL database dump
 --
 
-\restrict YYvYdZjcMWw8GkVCx7V30ek8Tx8RMJHZpJUOLcJz4Y4WpRBoZvzUyb63pMh0RGm
+\restrict qIIKTv4LVDXjaXvgnIRQdwstdjayJBInnumUFK7R8jse6enXF7N8ja0glDQrV49
 
 -- Dumped from database version 18.1
 -- Dumped by pg_dump version 18.1
@@ -26940,6 +26940,7 @@ COPY public.people (id, name, birth_date, death_date) FROM stdin;
 7907	Hope Davis	1964-03-23	\N
 7908	Roger Dale Floyd	2012-03-26	\N
 7909	King Bach	1988-06-26	\N
+7910	Merrin Dungey	1971-08-06	\N
 \.
 
 
@@ -31285,5 +31286,5 @@ ALTER TABLE ONLY public.seasons_writers
 -- PostgreSQL database dump complete
 --
 
-\unrestrict YYvYdZjcMWw8GkVCx7V30ek8Tx8RMJHZpJUOLcJz4Y4WpRBoZvzUyb63pMh0RGm
+\unrestrict qIIKTv4LVDXjaXvgnIRQdwstdjayJBInnumUFK7R8jse6enXF7N8ja0glDQrV49
 
