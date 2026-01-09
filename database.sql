@@ -2,7 +2,7 @@
 -- PostgreSQL database dump
 --
 
-\restrict zmYfIgtwW1smuXEuTqHXITtR1V4eoVXnVxbAmLWutF8f1vpkgKNH8rLkB4d0Njm
+\restrict BhVNx9JCrFlZhObtA9sbdkd8EMqCBRtfL9sXVNe8ywJCAZBsfLgTEX3wmVdz7tA
 
 -- Dumped from database version 18.1
 -- Dumped by pg_dump version 18.1
@@ -1878,7 +1878,6 @@ The Wiz	G	the-wiz	133	movie	1619	1978-10-24	\N	\N	C+
 The Whale	R	the-whale	117	movie	1620	2022-12-09	\N	\N	A
 Sisu	R	sisu	91	movie	1621	2023-04-28	\N	\N	B+
 The Bad Guys 2	PG	the-bad-guys-2	104	movie	1622	2025-08-01	\N	\N	A-
-Jingle Jangle: A Christmas Journey	PG	jingle-jangle	122	movie	1632	2020-11-13	\N	2025-12-08 09:16:33.975-05	B+
 The Mean One	Not Rated	the-mean-one	93	movie	1633	2022-12-09	\N	2025-12-09 09:19:32.68-05	D-
 The Night Before	R	the-night-before	101	movie	1634	2015-11-20	\N	2025-12-11 09:21:55.173-05	B-
 The Family Stone	PG-13	the-family-stone	104	movie	1635	2005-12-16	\N	2025-12-12 09:24:09.966-05	C
@@ -1909,6 +1908,7 @@ Looper	R	looper	118	movie	1630	2012-09-28	\N	\N	A
 The Great Dictator	G	the-great-dictator	125	movie	1649	1940-10-15	\N	2026-01-05 22:01:25.146-05	A-
 Hot Frosty	TV-PG	hot-frosty	92	movie	1631	2024-11-13	\N	\N	C
 Greenland	PG-13	greenland	119	movie	1650	2020-12-18	\N	2026-01-06 22:13:49.566-05	B-
+Jingle Jangle: A Christmas Journey	PG	jingle-jangle	122	movie	1632	2020-11-13	\N	\N	B+
 \.
 
 
@@ -25101,7 +25101,6 @@ COPY public.people (id, name, birth_date, death_date) FROM stdin;
 6874	David Boyd	\N	\N
 6875	Michael Cuesta	1963-07-08	\N
 6876	Jill Blankenship	\N	\N
-6877	Jesse Wigutow	\N	\N
 6878	David Feige	1965-10-08	\N
 6879	Grainne Godfree	\N	\N
 6880	Thomas Wong	\N	\N
@@ -26953,6 +26952,7 @@ COPY public.people (id, name, birth_date, death_date) FROM stdin;
 7908	Roger Dale Floyd	2012-03-26	\N
 7909	King Bach	1988-06-26	\N
 7910	Merrin Dungey	1971-08-06	\N
+6877	Jesse Wigutow	1973-05-25	\N
 \.
 
 
@@ -31298,5 +31298,5 @@ ALTER TABLE ONLY public.seasons_writers
 -- PostgreSQL database dump complete
 --
 
-\unrestrict zmYfIgtwW1smuXEuTqHXITtR1V4eoVXnVxbAmLWutF8f1vpkgKNH8rLkB4d0Njm
+\unrestrict BhVNx9JCrFlZhObtA9sbdkd8EMqCBRtfL9sXVNe8ywJCAZBsfLgTEX3wmVdz7tA
 
