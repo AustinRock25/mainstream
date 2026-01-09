@@ -2,7 +2,7 @@
 -- PostgreSQL database dump
 --
 
-\restrict Z0ofzbchGC1nuGae5JLHGU9RYf99dowHQfckobeOtTaeS4W5mhZYiXcMLMN4O1o
+\restrict UD2Z2UP90CrwGp3v8ZMAJoMNkcsEnJYJbbpDDu644iYaEjAC0j87UKxN1ZQlbdo
 
 -- Dumped from database version 18.1
 -- Dumped by pg_dump version 18.1
@@ -26954,6 +26954,7 @@ COPY public.people (id, name, birth_date, death_date) FROM stdin;
 7910	Merrin Dungey	1971-08-06	\N
 6877	Jesse Wigutow	1973-05-25	\N
 7911	Arturo Castro	1985-11-26	\N
+7912	Gillian Anderson	1968-08-09	\N
 \.
 
 
@@ -31299,5 +31300,5 @@ ALTER TABLE ONLY public.seasons_writers
 -- PostgreSQL database dump complete
 --
 
-\unrestrict Z0ofzbchGC1nuGae5JLHGU9RYf99dowHQfckobeOtTaeS4W5mhZYiXcMLMN4O1o
+\unrestrict UD2Z2UP90CrwGp3v8ZMAJoMNkcsEnJYJbbpDDu644iYaEjAC0j87UKxN1ZQlbdo
 
