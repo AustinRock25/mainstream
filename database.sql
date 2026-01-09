@@ -2,7 +2,7 @@
 -- PostgreSQL database dump
 --
 
-\restrict BhVNx9JCrFlZhObtA9sbdkd8EMqCBRtfL9sXVNe8ywJCAZBsfLgTEX3wmVdz7tA
+\restrict Z0ofzbchGC1nuGae5JLHGU9RYf99dowHQfckobeOtTaeS4W5mhZYiXcMLMN4O1o
 
 -- Dumped from database version 18.1
 -- Dumped by pg_dump version 18.1
@@ -26953,6 +26953,7 @@ COPY public.people (id, name, birth_date, death_date) FROM stdin;
 7909	King Bach	1988-06-26	\N
 7910	Merrin Dungey	1971-08-06	\N
 6877	Jesse Wigutow	1973-05-25	\N
+7911	Arturo Castro	1985-11-26	\N
 \.
 
 
@@ -31298,5 +31299,5 @@ ALTER TABLE ONLY public.seasons_writers
 -- PostgreSQL database dump complete
 --
 
-\unrestrict BhVNx9JCrFlZhObtA9sbdkd8EMqCBRtfL9sXVNe8ywJCAZBsfLgTEX3wmVdz7tA
+\unrestrict Z0ofzbchGC1nuGae5JLHGU9RYf99dowHQfckobeOtTaeS4W5mhZYiXcMLMN4O1o
 
