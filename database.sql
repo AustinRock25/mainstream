@@ -2,7 +2,7 @@
 -- PostgreSQL database dump
 --
 
-\restrict 9VQ0mMOJ7LNIbL77qe1ZURjK3ICGBFlEEQgi8KyizcoaEM57Mx5LXjdRW8GLf2q
+\restrict lBf7BmfxfzhfXtnzb4p2kicyap4dcO4BcMK8rISJwZJo5IR8CL4yzBzalBwLed5
 
 -- Dumped from database version 18.1
 -- Dumped by pg_dump version 18.1
@@ -1910,6 +1910,7 @@ Greenland	PG-13	greenland	119	movie	1650	2020-12-18	\N	2026-01-06 22:13:49.566-0
 Jingle Jangle: A Christmas Journey	PG	jingle-jangle	122	movie	1632	2020-11-13	\N	\N	B+
 Tron: Ares	PG-13	tron-ares	119	movie	1651	2025-10-10	\N	2026-01-08 22:25:50.78-05	C+
 The Mean One	Not Rated	the-mean-one	93	movie	1633	2022-12-09	\N	\N	D-
+When Harry Met Sally...	R	when-harry-met-sally	96	movie	1652	1989-07-21	\N	2026-01-09 20:27:15.997-05	A
 \.
 
 
@@ -12917,6 +12918,10 @@ COPY public.media_cast (media_id, actor_id, ordering) FROM stdin;
 1651	7911	6
 1651	7912	7
 1651	207	8
+1652	226	1
+1652	7914	2
+1652	266	3
+1652	7580	4
 \.
 
 
@@ -14672,6 +14677,7 @@ COPY public.media_directors (media_id, director_id, ordering) FROM stdin;
 1649	7892	1
 1650	7403	1
 1651	3759	1
+1652	868	1
 \.
 
 
@@ -19046,6 +19052,7 @@ COPY public.media_writers (ordering, media_id, writer_id) FROM stdin;
 1	1649	7892
 1	1650	7906
 1	1651	6877
+1	1652	7913
 \.
 
 
@@ -31313,5 +31320,5 @@ ALTER TABLE ONLY public.seasons_writers
 -- PostgreSQL database dump complete
 --
 
-\unrestrict 9VQ0mMOJ7LNIbL77qe1ZURjK3ICGBFlEEQgi8KyizcoaEM57Mx5LXjdRW8GLf2q
+\unrestrict lBf7BmfxfzhfXtnzb4p2kicyap4dcO4BcMK8rISJwZJo5IR8CL4yzBzalBwLed5
 
