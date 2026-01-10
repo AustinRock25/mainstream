@@ -2,7 +2,7 @@
 -- PostgreSQL database dump
 --
 
-\restrict eh9Oisq3TUdOEelq0Vaank7bsOPJIoy5EgepeazI5sbwgOSidmzznVXnsldxdog
+\restrict RBwQTQO2v0hyDIe1yB9jnon3GHx7RcwVsFwWfTaMHBDLcm1WFaRaoXt6sNke8KJ
 
 -- Dumped from database version 18.1
 -- Dumped by pg_dump version 18.1
@@ -27125,8 +27125,8 @@ COPY public.seasons (season, show_id, episodes, start_date, end_date, date_added
 1	1489	13	2015-11-20	2015-11-20	\N	673	A-
 1	1637	8	2025-10-26	2025-12-14	2025-12-14 16:23:26.252-05	482	B+
 1	46	2	1990-11-18	1990-11-20	\N	187	C+
-5	1002	8	2025-11-26	2025-12-31	2025-12-31 23:09:49.555-05	620	A-
 1	1518	6	2025-06-24	2025-07-01	\N	289	C
+5	1002	8	2025-11-26	2025-12-31	2025-12-31 23:09:49.555-05	620	B+
 \.
 
 
@@ -31311,5 +31311,5 @@ ALTER TABLE ONLY public.seasons_writers
 -- PostgreSQL database dump complete
 --
 
-\unrestrict eh9Oisq3TUdOEelq0Vaank7bsOPJIoy5EgepeazI5sbwgOSidmzznVXnsldxdog
+\unrestrict RBwQTQO2v0hyDIe1yB9jnon3GHx7RcwVsFwWfTaMHBDLcm1WFaRaoXt6sNke8KJ
 
