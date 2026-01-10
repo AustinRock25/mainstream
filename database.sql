@@ -2,7 +2,7 @@
 -- PostgreSQL database dump
 --
 
-\restrict ffiKRMgUAfNHchgsfHHIuUD5JfXYh3GYuB2EeRH7awBsfA6g0J97loIohyv0Z46
+\restrict vqsOgNc6gfk9a3lvMUZRvFpTCc2JQsBT58yLA38FCKxtYvWSxJh2XyTSVBdBtrO
 
 -- Dumped from database version 18.1
 -- Dumped by pg_dump version 18.1
@@ -26976,6 +26976,7 @@ COPY public.people (id, name, birth_date, death_date) FROM stdin;
 7913	Nora Ephron	1941-05-19	2012-06-26
 7914	Meg Ryan	1961-11-19	\N
 7915	Joel David Moore	1977-09-25	\N
+7916	Edie Falco	1963-07-05	\N
 \.
 
 
@@ -31321,5 +31322,5 @@ ALTER TABLE ONLY public.seasons_writers
 -- PostgreSQL database dump complete
 --
 
-\unrestrict ffiKRMgUAfNHchgsfHHIuUD5JfXYh3GYuB2EeRH7awBsfA6g0J97loIohyv0Z46
+\unrestrict vqsOgNc6gfk9a3lvMUZRvFpTCc2JQsBT58yLA38FCKxtYvWSxJh2XyTSVBdBtrO
 
