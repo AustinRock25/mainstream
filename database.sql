@@ -2,7 +2,7 @@
 -- PostgreSQL database dump
 --
 
-\restrict kM8YTWIXuuzaRnO8mdGhCjlS9GSnfLEAfhBX4VgSIobFl8dcjpfqd7nCoQjxrd0
+\restrict 9VQ0mMOJ7LNIbL77qe1ZURjK3ICGBFlEEQgi8KyizcoaEM57Mx5LXjdRW8GLf2q
 
 -- Dumped from database version 18.1
 -- Dumped by pg_dump version 18.1
@@ -26967,6 +26967,7 @@ COPY public.people (id, name, birth_date, death_date) FROM stdin;
 7911	Arturo Castro	1985-11-26	\N
 7912	Gillian Anderson	1968-08-09	\N
 7913	Nora Ephron	1941-05-19	2012-06-26
+7914	Meg Ryan	1961-11-19	\N
 \.
 
 
@@ -31312,5 +31313,5 @@ ALTER TABLE ONLY public.seasons_writers
 -- PostgreSQL database dump complete
 --
 
-\unrestrict kM8YTWIXuuzaRnO8mdGhCjlS9GSnfLEAfhBX4VgSIobFl8dcjpfqd7nCoQjxrd0
+\unrestrict 9VQ0mMOJ7LNIbL77qe1ZURjK3ICGBFlEEQgi8KyizcoaEM57Mx5LXjdRW8GLf2q
 
