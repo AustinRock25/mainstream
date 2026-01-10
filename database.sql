@@ -2,7 +2,7 @@
 -- PostgreSQL database dump
 --
 
-\restrict lBf7BmfxfzhfXtnzb4p2kicyap4dcO4BcMK8rISJwZJo5IR8CL4yzBzalBwLed5
+\restrict ffiKRMgUAfNHchgsfHHIuUD5JfXYh3GYuB2EeRH7awBsfA6g0J97loIohyv0Z46
 
 -- Dumped from database version 18.1
 -- Dumped by pg_dump version 18.1
@@ -26975,6 +26975,7 @@ COPY public.people (id, name, birth_date, death_date) FROM stdin;
 7912	Gillian Anderson	1968-08-09	\N
 7913	Nora Ephron	1941-05-19	2012-06-26
 7914	Meg Ryan	1961-11-19	\N
+7915	Joel David Moore	1977-09-25	\N
 \.
 
 
@@ -31320,5 +31321,5 @@ ALTER TABLE ONLY public.seasons_writers
 -- PostgreSQL database dump complete
 --
 
-\unrestrict lBf7BmfxfzhfXtnzb4p2kicyap4dcO4BcMK8rISJwZJo5IR8CL4yzBzalBwLed5
+\unrestrict ffiKRMgUAfNHchgsfHHIuUD5JfXYh3GYuB2EeRH7awBsfA6g0J97loIohyv0Z46
 
