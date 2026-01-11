@@ -155,11 +155,11 @@ function MediaForm({ show, setShow, media }) {
         media.grade = media.grade_tv;
 
       if (user.rating_scale == 1) {
-        if (media.grade == "0/4" || media.grade == "0.5/4" || media.grade == "1/4" || media.grade == "1.5/4" || media.grade == "0/5" || media.grade == "0.5/5" || media.grade == "F" ||  media.grade == "1/5" || media.grade == "1.5/5" || media.grade == "D-" || media.grade == "D" || media.grade == "D+") {
+        if (media.grade < 175/4) {
           setPillColor("danger");
           setPillTextColor("white");
         }
-        else if (media.grade == "2/4" || media.grade == "2/5" || media.grade == "2.5/5" || media.grade == "3/5" || media.grade == "C-" || media.grade == "C" || media.grade == "C+") {
+        else if (media.grade < 225/4) {
           setPillColor("warning");
           setPillTextColor("black");
         }
@@ -169,11 +169,11 @@ function MediaForm({ show, setShow, media }) {
         }
       }
       else if (user.rating_scale == 2) {
-        if (media.grade == "0/4" || media.grade == "0/5" || media.grade == "F" ||  media.grade == "0.5/5" || media.grade == "1/5" || media.grade == "1.5/5" || media.grade == "D-" || media.grade == "D") {
+        if (media.grade < 175/5) {
           setPillColor("danger");
           setPillTextColor("white");
         }
-        else if (media.grade == "1.5/4" || media.grade == "2/5" || media.grade == "D+" || media.grade == "C-" || media.grade == "C" || media.grade == "2.5/5" || media.grade == "2/4" || media.grade == "2.5/4" || media.grade == "3/5" || media.grade == "C+" || media.grade == "B-") {
+        else if (media.grade < 325/5) {
           setPillColor("warning");
           setPillTextColor("black");
         }
@@ -183,11 +183,11 @@ function MediaForm({ show, setShow, media }) {
         }
       }
       else {
-        if (media.grade == "0/4" || media.grade == "0.5/4" || media.grade == "0/5" || media.grade == "0.5/5" || media.grade == "F" ||  media.grade == "D-" || media.grade == "1/4" || media.grade == "1.5/4" || media.grade == "1/5" || media.grade == "1.5/5" || media.grade == "D" || media.grade == "D+") {
+        if (media.grade <= 500/14) {
           setPillColor("danger");
           setPillTextColor("white");
         }
-        else if (media.grade == "C-" || media.grade == "2/4" || media.grade == "2/5" || media.grade == "2.5/5" || media.grade == "3/5" || media.grade == "C" || media.grade == "C+") {
+        else if (media.grade <= 800/14) {
           setPillColor("warning");
           setPillTextColor("black");
         }
@@ -198,76 +198,76 @@ function MediaForm({ show, setShow, media }) {
       }
 
       if (user.rating_scale == 1) {
-        if (media.grade == "0/4" || media.grade == "0/5" || media.grade == "0.5/5" || media.grade == "F")
+        if (media.grade < 25/4)
           grade = 0;
-        else if (media.grade == "0.5/4")
+        else if (media.grade < 75/4)
           grade = 0.5;
-        else if (media.grade == "1/4" || media.grade == "1/5" || media.grade == "1.5/5" || media.grade == "D-" || media.grade == "D" || media.grade == "D+")
+        else if (media.grade < 125/4)
           grade = 1;
-        else if (media.grade == "1.5/4")
+        else if (media.grade < 175/4)
           grade = 1.5;
-        else if (media.grade == "2/4" || media.grade == "2/5" || media.grade == "2.5/5" || media.grade == "3/5" || media.grade == "C-" || media.grade == "C" || media.grade == "C+")
+        else if (media.grade < 225/4)
           grade = 2;
-        else if (media.grade == "2.5/4")
+        else if (media.grade < 275/4)
           grade = 2.5;
-        else if (media.grade == "3/4" || media.grade == "3.5/5" || media.grade == "4/5" || media.grade == "B-" || media.grade == "B" || media.grade == "B+")
+        else if (media.grade < 325/4)
           grade = 3;
-        else if (media.grade == "3.5/4")
+        else if (media.grade < 375/4)
           grade = 3.5;
         else
           grade = 4;
       }
       else if (user.rating_scale == 2) {
-        if (media.grade == "0/4" || media.grade == "0/5" || media.grade == "F")
+        if (media.grade < 25/5)
           grade = 0;
-        else if (media.grade == "0.5/4")
+        else if (media.grade < 75/5)
           grade = 0.5;
-        else if (media.grade == "0.5/4" || media.grade == "1/4" || media.grade == "1/5" || media.grade == "D-" || media.grade == "D")
+        else if (media.grade < 125/5)
           grade = 1;
-        else if (media.grade == "1.5/4")
+        else if (media.grade < 175/5)
           grade = 1.5;
-        else if (media.grade == "1.5/4" || media.grade == "2/5" || media.grade == "D+" || media.grade == "C-" || media.grade == "C")
+        else if (media.grade < 225/5)
           grade = 2;
-        else if (media.grade == "2.5/4")
+        else if (media.grade < 275/5)
           grade = 2.5;
-        else if (media.grade == "2/4" || media.grade == "2.5/4" || media.grade == "3/5" || media.grade == "C+" || media.grade == "B-")
+        else if (media.grade < 325/5)
           grade = 3;
-        else if (media.grade == "3.5/4")
+        else if (media.grade < 375/5)
           grade = 3.5;
-        else if (media.grade == "3/4" || media.grade == "3.5/4" || media.grade == "4/5" || media.grade == "B" || media.grade == "B+" || media.grade == "A-")
+        else if (media.grade < 425/5)
           grade = 4;
-        else if (media.grade == "4.5/5")
+        else if (media.grade < 475/5)
           grade = 4.5;
         else
           grade = 5;
       }
-      else if (user.rating_scale == 3) {
-        if (media.grade == "0/4" || media.grade == "0.5/4" || media.grade == "0/5" || media.grade == "0.5/5" || media.grade == "F")
+      else {
+        if (media.grade <= 200/14)
           grade = 0;
-        else if (media.grade == "D-")
+        else if (media.grade <= 300/14)
           grade = 1;
-        else if (media.grade == "1/4" || media.grade == "1.5/4" || media.grade == "1/5" || media.grade == "1.5/5" || media.grade == "D")
+        else if (media.grade <= 400/14)
           grade = 2;
-        else if (media.grade == "D+")
+        else if (media.grade <= 500/14)
           grade = 3;
-        else if (media.grade == "C-")
+        else if (media.grade <= 600/14)
           grade = 4;
-        else if (media.grade == "2/4" || media.grade == "2/5" || media.grade == "2.5/5" || media.grade == "3/5" || media.grade == "C")
+        else if (media.grade <= 700/14)
           grade = 5;
-        else if (media.grade == "C+")
+        else if (media.grade <= 800/14)
           grade = 6;
-        else if (media.grade == "B-")
+        else if (media.grade <= 900/14)
           grade = 7;
-        else if (media.grade == "2.5/4" || media.grade == "3/4" || media.grade == "3.5/5" || media.grade == "4/5" || media.grade == "B")
+        else if (media.grade <= 1000/14)
           grade = 8;
-        else if (media.grade == "B+")
+        else if (media.grade <= 1100/14)
           grade = 9;
-        else if (media.grade == "A-")
+        else if (media.grade <= 1200/14)
           grade = 10;
-        else if (media.grade == "A+")
-          grade = 12;
-        else
+        else if (media.grade <= 1300/14)
           grade = 11;
+        else
+          grade = 12;
       }
 
       if (!media.runtime && !media.runtime_tv) {
@@ -454,36 +454,14 @@ function MediaForm({ show, setShow, media }) {
     setIsSubmitting(true);
 
     if (user.rating_scale == 1)
-      formData.grade = formData.grade + "/4";
+      formData.grade = parseFloat(formData.grade * 100) / 4;
     else if (user.rating_scale == 2)
-      formData.grade = formData.grade + "/5";
+      formData.grade = parseFloat(formData.grade * 100) / 5;
     if (user.rating_scale == 3) {
       if (formData.grade == 0)
-        formData.grade = "F";
-      else if (formData.grade == 1)
-        formData.grade = "D-";
-      else if (formData.grade == 2)
-        formData.grade = "D";
-      else if (formData.grade == 3)
-        formData.grade = "D+";
-      else if (formData.grade == 4)
-        formData.grade = "C-";
-      else if (formData.grade == 5)
-        formData.grade = "C";
-      else if (formData.grade == 6)
-        formData.grade = "C+";
-      else if (formData.grade == 7)
-        formData.grade = "B-";
-      else if (formData.grade == 8)
-        formData.grade = "B";
-      else if (formData.grade == 9)
-        formData.grade = "B+";
-      else if (formData.grade == 10)
-        formData.grade = "A-";
-      else if (formData.grade == 11)
-        formData.grade = "A";
+        formData.grade = 0;
       else
-        formData.grade = "A+";
+        formData.grade = parseFloat((formData.grade + 1) * 100) / 13;
     }
 
     const payload = { ...formData, castAndCrew: selected };

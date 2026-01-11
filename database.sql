@@ -2,7 +2,7 @@
 -- PostgreSQL database dump
 --
 
-\restrict OMuoKSvckLXUfINQoRjjK81eapc2awZ3e6hdIypTkfFwp04MOaXMN5ghfDGOmIq
+\restrict LKgSlMul0L8kCS6SOeYGGfPn6b4mcfhUsBmUrJyWlx7QslbX4P4baVxZTf9DD9P
 
 -- Dumped from database version 18.1
 -- Dumped by pg_dump version 18.1
@@ -82,7 +82,7 @@ CREATE TABLE public.media (
     release_date date,
     completed boolean,
     date_added timestamp with time zone,
-    grade text
+    grade numeric(10,2)
 );
 
 
@@ -105,18 +105,6 @@ CREATE TABLE public.media_directors (
     media_id integer NOT NULL,
     director_id integer NOT NULL,
     ordering integer
-);
-
-
---
--- Name: media_temp; Type: TABLE; Schema: public; Owner: -
---
-
-CREATE TABLE public.media_temp (
-    rating text,
-    title text,
-    type text,
-    year text
 );
 
 
@@ -324,1593 +312,1594 @@ Alien: Earth	TV-MA	alien-earth	\N	show	1577	\N	f	\N	\N
 Eyes of Wakanda	TV-PG	eyes-of-wakanda	\N	show	1544	\N	t	\N	\N
 Marvel Zombies	TV-MA	marvel-zombies	\N	show	1578	\N	t	\N	\N
 Gen V	TV-MA	gen-v	\N	show	1149	\N	f	\N	\N
-Snow White and the Seven Dwarfs	G	snow-white-and-the-seven-dwarfs	83	movie	803	1937-12-21	\N	\N	B+
+Snow White and the Seven Dwarfs	G	snow-white-and-the-seven-dwarfs	83	movie	803	1937-12-21	\N	\N	76.92
 Peacemaker	TV-MA	peacemaker	\N	show	466	\N	t	\N	\N
 The Mandalorian	TV-14	the-mandalorian	\N	show	550	\N	t	\N	\N
-The Flash	PG-13	the-flash	144	movie	1055	2023-06-16	\N	\N	B-
-The Electric State	PG-13	the-electric-state	128	movie	1439	2025-03-14	\N	\N	C+
-Hop	PG	hop	95	movie	145	2011-04-01	\N	\N	D+
-Elf	PG	elf	97	movie	964	2003-11-07	\N	\N	B-
-Saw IV	R	saw-4	93	movie	120	2007-10-26	\N	\N	C-
-The Tomorrow War	PG-13	the-tomorrow-war	138	movie	565	2021-07-02	\N	\N	C+
-RoboCop 2	R	robocop-2	117	movie	852	1990-06-22	\N	\N	D+
-Friday the 13th	R	friday-the-13th-(2009)	97	movie	306	2009-02-13	\N	\N	C-
-Blade II	R	blade-2	117	movie	14	2002-03-22	\N	\N	C+
-The Santa Clause 3: The Escape Clause	G	the-santa-clause-3	97	movie	95	2006-11-03	\N	\N	D+
-Saw V	R	saw-5	92	movie	488	2008-10-24	\N	\N	D+
-The Curse of La Llorona	R	the-curse-of-la-llorona	93	movie	191	2019-04-19	\N	\N	D+
-No Country for Old Men	R	no-country-for-old-men	122	movie	458	2007-11-09	\N	\N	C+
-Rocky IV	PG	rocky-4	91	movie	69	1985-11-27	\N	\N	B-
-Cinderella	G	cinderella-(1997)	88	movie	1290	1997-11-02	\N	\N	C+
-Godzilla: King of the Monsters	PG-13	godzilla-king-of-the-monsters	132	movie	836	2019-05-31	\N	\N	C+
-The Old Guard	R	the-old-guard	125	movie	723	2020-07-10	\N	\N	C+
-Ouija: Origin of Evil	PG-13	ouija-origin-of-evil	99	movie	1132	2016-10-21	\N	\N	C+
-The Equalizer 3	R	the-equalizer-3	109	movie	1189	2023-09-01	\N	\N	C+
-Star Trek II: The Wrath of Khan	PG	star-trek-2	113	movie	165	1982-06-04	\N	\N	A-
-Aladdin	G	aladdin-(1992)	90	movie	213	1992-11-11	\N	\N	A
+The Flash	PG-13	the-flash	144	movie	1055	2023-06-16	\N	\N	61.54
+The Electric State	PG-13	the-electric-state	128	movie	1439	2025-03-14	\N	\N	53.85
+Hop	PG	hop	95	movie	145	2011-04-01	\N	\N	30.77
+Elf	PG	elf	97	movie	964	2003-11-07	\N	\N	61.54
+Saw IV	R	saw-4	93	movie	120	2007-10-26	\N	\N	38.46
+The Tomorrow War	PG-13	the-tomorrow-war	138	movie	565	2021-07-02	\N	\N	53.85
+RoboCop 2	R	robocop-2	117	movie	852	1990-06-22	\N	\N	30.77
+Friday the 13th	R	friday-the-13th-(2009)	97	movie	306	2009-02-13	\N	\N	38.46
+Blade II	R	blade-2	117	movie	14	2002-03-22	\N	\N	53.85
+The Santa Clause 3: The Escape Clause	G	the-santa-clause-3	97	movie	95	2006-11-03	\N	\N	30.77
+Saw V	R	saw-5	92	movie	488	2008-10-24	\N	\N	30.77
+The Curse of La Llorona	R	the-curse-of-la-llorona	93	movie	191	2019-04-19	\N	\N	30.77
+No Country for Old Men	R	no-country-for-old-men	122	movie	458	2007-11-09	\N	\N	53.85
+Rocky IV	PG	rocky-4	91	movie	69	1985-11-27	\N	\N	61.54
+Cinderella	G	cinderella-(1997)	88	movie	1290	1997-11-02	\N	\N	53.85
+Godzilla: King of the Monsters	PG-13	godzilla-king-of-the-monsters	132	movie	836	2019-05-31	\N	\N	53.85
+The Old Guard	R	the-old-guard	125	movie	723	2020-07-10	\N	\N	53.85
+Ouija: Origin of Evil	PG-13	ouija-origin-of-evil	99	movie	1132	2016-10-21	\N	\N	53.85
+The Equalizer 3	R	the-equalizer-3	109	movie	1189	2023-09-01	\N	\N	53.85
+Star Trek II: The Wrath of Khan	PG	star-trek-2	113	movie	165	1982-06-04	\N	\N	84.62
+Aladdin	G	aladdin-(1992)	90	movie	213	1992-11-11	\N	\N	92.31
 It - Welcome to Derry	TV-MA	it-welcome-to-derry	\N	show	1637	\N	f	\N	\N
-Spider-Man: Into the Spider-Verse	PG	spider-man-into-the-spider-verse	117	movie	613	2018-12-14	\N	\N	A+
-The Empire Strikes Back	PG	the-empire-strikes-back	124	movie	614	1980-05-21	\N	\N	A+
-Soul	PG	soul	100	movie	615	2020-12-25	\N	\N	A+
-Pan's Labyrinth	R	pans-labyrinth	118	movie	616	2006-10-20	\N	\N	A+
-The Dark Knight	PG-13	the-dark-knight	152	movie	617	2008-07-18	\N	\N	A+
-Logan	R	logan	137	movie	618	2017-03-03	\N	\N	A+
-The Lord of the Rings: The Fellowship of the Ring	PG-13	the-lord-of-the-rings-the-fellowship-of-the-ring	178	movie	625	2001-12-19	\N	\N	A+
-The Lord of the Rings: The Two Towers	PG-13	the-lord-of-the-rings-the-two-towers	179	movie	626	2002-12-18	\N	\N	A+
-The Lord of the Rings: The Return of the King	PG-13	the-lord-of-the-rings-the-return-of-the-king	201	movie	627	2003-12-17	\N	\N	A+
-Coco	PG	coco	105	movie	668	2017-11-22	\N	\N	A+
-Raiders of the Lost Ark	PG	raiders-of-the-lost-ark	115	movie	684	1981-06-12	\N	\N	A+
-The Incredibles	PG	the-incredibles	115	movie	720	2004-11-05	\N	\N	A+
-Everything Everywhere All at Once	R	everything-everywhere-all-at-once	139	movie	800	2022-03-25	\N	\N	A+
-Spider-Man: Across the Spider-Verse	PG	spider-man-across-the-spider-verse	140	movie	1126	2023-06-02	\N	\N	A+
-Her	R	her	126	movie	1249	2013-12-18	\N	\N	A+
-Parasite	R	parasite	132	movie	1395	2019-05-30	\N	\N	A+
-The Wild Robot	PG	the-wild-robot	102	movie	1416	2024-09-27	\N	\N	A+
-A Christmas Carol	PG	a-christmas-carol-(2009)	96	movie	1	2009-11-06	\N	\N	C+
+Spider-Man: Into the Spider-Verse	PG	spider-man-into-the-spider-verse	117	movie	613	2018-12-14	\N	\N	100
+The Empire Strikes Back	PG	the-empire-strikes-back	124	movie	614	1980-05-21	\N	\N	100
+Soul	PG	soul	100	movie	615	2020-12-25	\N	\N	100
+Pan's Labyrinth	R	pans-labyrinth	118	movie	616	2006-10-20	\N	\N	100
+The Dark Knight	PG-13	the-dark-knight	152	movie	617	2008-07-18	\N	\N	100
+Logan	R	logan	137	movie	618	2017-03-03	\N	\N	100
+The Lord of the Rings: The Fellowship of the Ring	PG-13	the-lord-of-the-rings-the-fellowship-of-the-ring	178	movie	625	2001-12-19	\N	\N	100
+The Lord of the Rings: The Two Towers	PG-13	the-lord-of-the-rings-the-two-towers	179	movie	626	2002-12-18	\N	\N	100
+The Lord of the Rings: The Return of the King	PG-13	the-lord-of-the-rings-the-return-of-the-king	201	movie	627	2003-12-17	\N	\N	100
+Coco	PG	coco	105	movie	668	2017-11-22	\N	\N	100
+Raiders of the Lost Ark	PG	raiders-of-the-lost-ark	115	movie	684	1981-06-12	\N	\N	100
+The Incredibles	PG	the-incredibles	115	movie	720	2004-11-05	\N	\N	100
+Everything Everywhere All at Once	R	everything-everywhere-all-at-once	139	movie	800	2022-03-25	\N	\N	100
+Spider-Man: Across the Spider-Verse	PG	spider-man-across-the-spider-verse	140	movie	1126	2023-06-02	\N	\N	100
+Her	R	her	126	movie	1249	2013-12-18	\N	\N	100
+Parasite	R	parasite	132	movie	1395	2019-05-30	\N	\N	100
+The Wild Robot	PG	the-wild-robot	102	movie	1416	2024-09-27	\N	\N	100
+A Christmas Carol	PG	a-christmas-carol-(2009)	96	movie	1	2009-11-06	\N	\N	53.85
 It	TV-14	it	\N	show	46	\N	t	\N	\N
-A Nightmare on Elm Street	R	a-nightmare-on-elm-street-(2010)	95	movie	2	2010-04-30	\N	\N	D+
-A Nightmare on Elm Street 3: Dream Warriors	R	a-nightmare-on-elm-street-3	96	movie	3	1987-02-27	\N	\N	C+
-A Wrinkle in Time	PG	a-wrinkle-in-time	109	movie	4	2018-03-09	\N	\N	C+
-Ad Astra	PG-13	ad-astra	123	movie	5	2019-09-20	\N	\N	C+
-Aladdin	PG	aladdin-(2019)	128	movie	6	2019-05-24	\N	\N	C+
-Angels & Demons	PG-13	angels-and-demons	138	movie	7	2009-05-15	\N	\N	B-
-Aquaman	PG-13	aquaman	143	movie	8	2018-12-21	\N	\N	B
-Austin Powers in Goldmember	PG-13	austin-powers-in-goldmember	94	movie	9	2002-07-26	\N	\N	C+
-Austin Powers: The Spy Who Shagged Me	PG-13	austin-powers-the-spy-who-shagged-me	95	movie	10	1999-06-11	\N	\N	C+
-Batman & Robin	PG-13	batman-and-robin	125	movie	11	1997-06-20	\N	\N	D
-Batman v Superman: Dawn of Justice	PG-13	batman-v-superman	151	movie	12	2016-03-25	\N	\N	C+
-Bill & Ted Face the Music	PG-13	bill-and-ted-face-the-music	91	movie	13	2020-08-28	\N	\N	B
-Blade Runner 2049	R	blade-runner-2049	164	movie	15	2017-10-06	\N	\N	B
-Captain Marvel	PG-13	captain-marvel	123	movie	16	2019-03-08	\N	\N	B
-Cars	G	cars	117	movie	17	2006-06-09	\N	\N	B
-Cars 3	G	cars-3	102	movie	18	2017-06-16	\N	\N	B-
-Charlie and the Chocolate Factory	PG	charlie-and-the-chocolate-factory	115	movie	19	2005-07-15	\N	\N	C+
-Christopher Robin	PG	christopher-robin	104	movie	20	2018-08-03	\N	\N	B
-Descendants	TV-G	descendants	112	movie	21	2015-07-31	\N	\N	C+
-Die Hard 2	R	die-hard-2	124	movie	22	1990-07-04	\N	\N	B
-Donnie Darko	R	donnie-darko	113	movie	23	2001-10-26	\N	\N	B
-Eternals	PG-13	eternals	156	movie	24	2021-11-05	\N	\N	C+
-F9: The Fast Saga	PG-13	f9	143	movie	25	2021-06-25	\N	\N	C+
-Fantastic Beasts and Where to Find Them	PG-13	fantastic-beasts-and-where-to-find-them	132	movie	26	2016-11-18	\N	\N	B
-Fantastic Beasts: The Crimes of Grindelwald	PG-13	fantastic-beasts-the-crimes-of-grindelwald	134	movie	27	2018-11-16	\N	\N	C+
-Fast & Furious 6	PG-13	fast-and-furious-6	130	movie	28	2013-05-24	\N	\N	B
-Fast Five	PG-13	fast-five	130	movie	29	2011-04-29	\N	\N	B
-Fear Street Part Three: 1666	R	fear-street-part-3	114	movie	30	2021-07-16	\N	\N	B
-Five Feet Apart	PG-13	five-feet-apart	116	movie	31	2019-03-15	\N	\N	B
-Friday the 13th	R	friday-the-13th-(1980)	95	movie	32	1980-05-09	\N	\N	B-
-Friday the 13th Part VI: Jason Lives	R	friday-the-13th-part-6	86	movie	33	1986-08-01	\N	\N	C-
-Friday the 13th Part VIII: Jason Takes Manhattan	R	friday-the-13th-part-8	100	movie	34	1989-07-28	\N	\N	D
-Frozen II	PG	frozen-2	103	movie	35	2019-11-22	\N	\N	B
-Furious 7	PG-13	furious-7	137	movie	36	2015-04-03	\N	\N	B
-Ghostbusters	PG-13	ghostbusters-(2016)	117	movie	37	2016-07-15	\N	\N	C-
-Ghostbusters II	PG	ghostbusters-2	108	movie	38	1989-06-16	\N	\N	C+
-Godzilla	PG-13	godzilla-(2014)	123	movie	39	2014-05-16	\N	\N	B
-Grease	PG	grease	110	movie	40	1978-06-16	\N	\N	B
-Gremlins 2: The New Batch	PG-13	gremlins-2	106	movie	41	1990-06-15	\N	\N	B
-Hitch	PG-13	hitch	118	movie	42	2005-02-11	\N	\N	C+
-Home Alone 2: Lost in New York	PG	home-alone-2	120	movie	43	1992-11-20	\N	\N	B-
-Hook	PG	hook	142	movie	44	1991-12-11	\N	\N	B
-Iron Man 2	PG-13	iron-man-2	124	movie	45	2010-05-07	\N	\N	B
-It Chapter Two	R	it-chapter-2	169	movie	47	2019-09-06	\N	\N	C+
-Jumanji: The Next Level	PG-13	jumanji-the-next-level	123	movie	48	2019-12-13	\N	\N	B
-Jurassic World	PG-13	jurassic-world	124	movie	49	2015-06-12	\N	\N	B-
-Jurassic World: Fallen Kingdom	PG-13	jurassic-world-fallen-kingdom	128	movie	50	2018-06-22	\N	\N	C-
-Mad Max Beyond Thunderdome	PG-13	mad-max-beyond-thunderdome	107	movie	51	1985-07-10	\N	\N	B
-Monsters University	G	monsters-university	104	movie	52	2013-06-21	\N	\N	B
-Wes Craven's New Nightmare	R	new-nightmare	112	movie	53	1994-10-14	\N	\N	B
-Ocean's Eleven	PG-13	oceans-eleven	116	movie	54	2001-12-07	\N	\N	B-
-Pacific Rim	PG-13	pacific-rim	131	movie	55	2013-07-12	\N	\N	B
-Pacific Rim: Uprising	PG-13	pacific-rim-uprising	111	movie	56	2018-03-23	\N	\N	C+
-Return to Never Land	G	return-to-never-land	72	movie	57	2002-02-15	\N	\N	C+
-Pirates of the Caribbean: At World's End	PG-13	pirates-of-the-caribbean-at-worlds-end	169	movie	58	2007-05-25	\N	\N	C+
-Pirates of the Caribbean: Dead Man's Chest	PG-13	pirates-of-the-caribbean-dead-mans-chest	151	movie	59	2006-07-07	\N	\N	B-
-Power Rangers	PG-13	power-rangers	124	movie	60	2017-03-24	\N	\N	C+
-Predator 2	R	predator-2	108	movie	61	1990-11-21	\N	\N	C+
-Predators	R	predators	107	movie	62	2010-07-09	\N	\N	B
-Puss in Boots	PG	puss-in-boots	90	movie	63	2011-10-28	\N	\N	B
-Rambo III	R	rambo-3	102	movie	64	1988-05-25	\N	\N	C+
-Rambo: First Blood Part II	R	first-blood-part-2	96	movie	65	1985-05-22	\N	\N	C+
-Rambo: Last Blood	R	rambo-last-blood	89	movie	66	2019-09-20	\N	\N	C-
-Rampage	PG-13	rampage	107	movie	67	2018-04-13	\N	\N	C+
-Rocky III	PG	rocky-3	99	movie	68	1982-05-28	\N	\N	B
-Scrooged	PG-13	scrooged	101	movie	70	1988-11-23	\N	\N	B
-Secret Society of Second-Born Royals	TV-PG	secret-society-of-second-born-royals	99	movie	71	2020-09-25	\N	\N	D+
-Sherlock Holmes: A Game of Shadows	PG-13	sherlock-holmes-a-game-of-shadows	129	movie	72	2011-12-16	\N	\N	B
-Solo: A Star Wars Story	PG-13	solo	135	movie	73	2018-05-25	\N	\N	B-
-Space Jam: A New Legacy	PG	space-jam-a-new-legacy	115	movie	74	2021-07-16	\N	\N	D+
-Spider-Man 3	PG-13	spider-man-3	139	movie	75	2007-05-04	\N	\N	C+
-Home Alone 4	TV-PG	home-alone-4	84	movie	1639	2002-11-03	\N	2025-12-18 16:55:05.149-05	D-
-Star Trek III: The Search for Spock	PG	star-trek-3	105	movie	76	1984-06-01	\N	\N	B
-Star Trek IV: The Voyage Home	PG	star-trek-4	119	movie	77	1986-11-26	\N	\N	B+
-Star Trek VI: The Undiscovered Country	PG	star-trek-6	110	movie	78	1991-12-06	\N	\N	B-
-Star Trek: Insurrection	PG	star-trek-insurrection	103	movie	79	1998-12-11	\N	\N	B-
-Star Wars: The Rise of Skywalker	PG-13	star-wars-the-rise-of-skywalker	141	movie	80	2019-12-20	\N	\N	C+
-Terminator Salvation	PG-13	terminator-salvation	115	movie	81	2009-05-21	\N	\N	C+
-The BFG	PG	the-bfg	117	movie	82	2016-07-01	\N	\N	B
-The Golden Compass	PG-13	the-golden-compass	113	movie	83	2007-12-07	\N	\N	C+
-The Hobbit: An Unexpected Journey	PG-13	the-hobbit-an-unexpected-journey	169	movie	84	2012-12-14	\N	\N	B
-The Hobbit: The Desolation of Smaug	PG-13	the-hobbit-the-desolation-of-smaug	161	movie	85	2013-12-13	\N	\N	B
-The Hunger Games	PG-13	the-hunger-games	142	movie	86	2012-03-23	\N	\N	B
-The Hunger Games: Mockingjay - Part 1	PG-13	the-hunger-games-mockingjay-part-1	123	movie	87	2014-11-21	\N	\N	C+
-The Hunger Games: Mockingjay - Part 2	PG-13	the-hunger-games-mockingjay-part-2	137	movie	88	2015-11-20	\N	\N	C+
-The Jungle Book	PG	the-jungle-book-(2016)	106	movie	89	2016-04-15	\N	\N	B+
-The Karate Kid	PG	the-karate-kid-(2010)	140	movie	90	2010-06-11	\N	\N	B
-The Matrix Reloaded	R	the-matrix-reloaded	138	movie	91	2003-05-15	\N	\N	B-
-The New Mutants	PG-13	the-new-mutants	94	movie	92	2020-08-28	\N	\N	C+
-The Sandlot	PG	the-sandlot	101	movie	93	1993-04-07	\N	\N	B
-The Santa Clause	PG	the-santa-clause	97	movie	94	1994-11-11	\N	\N	B-
-The Texas Chain Saw Massacre	R	the-texas-chain-saw-massacre	83	movie	96	1974-10-11	\N	\N	B
-The Twilight Saga: Breaking Dawn - Part 2	PG-13	breaking-dawn-part-2	115	movie	97	2012-11-16	\N	\N	D+
-The Wolverine	PG-13	the-wolverine	126	movie	98	2013-07-26	\N	\N	B
-Transformers	PG-13	transformers	144	movie	99	2007-07-03	\N	\N	C+
-Transformers: Age of Extinction	PG-13	transformers-age-of-extinction	165	movie	100	2014-06-27	\N	\N	D+
-Tucker & Dale vs. Evil	R	tucker-and-dale-vs-evil	89	movie	101	2010-01-22	\N	\N	B
-Venom	PG-13	venom	112	movie	102	2018-10-05	\N	\N	C+
-Watchmen	R	watchmen	162	movie	103	2009-03-06	\N	\N	C+
-X-Men Origins: Wolverine	PG-13	x-men-origins-wolverine	107	movie	105	2009-05-01	\N	\N	D+
-Zombies	TV-G	zombies	94	movie	106	2018-02-16	\N	\N	C+
-Lethal Weapon 2	R	lethal-weapon-2	114	movie	107	1989-07-07	\N	\N	B
-Lethal Weapon 3	R	lethal-weapon-3	118	movie	108	1992-05-15	\N	\N	C+
-Diary of a Wimpy Kid: Rodrick Rules	PG	diary-of-a-wimpy-kid-rodrick-rules	100	movie	109	2011-03-25	\N	\N	C-
-Diary of a Wimpy Kid: Dog Days	PG	diary-of-a-wimpy-kid-dog-days	94	movie	110	2012-08-03	\N	\N	C-
-Black Christmas	PG-13	black-christmas-(2019)	92	movie	111	2019-12-13	\N	\N	D+
-The Amazing Spider-Man	PG-13	the-amazing-spider-man	136	movie	112	2012-07-03	\N	\N	B
-The Amazing Spider-Man 2	PG-13	the-amazing-spider-man-2	142	movie	113	2014-05-02	\N	\N	C+
-Miracle on 34th Street	PG	miracle-on-34th-street-(1994)	114	movie	114	1994-11-18	\N	\N	B
-Scream 3	R	scream-3	116	movie	115	2000-02-04	\N	\N	C+
-Bohemian Rhapsody	PG-13	bohemian-rhapsody	134	movie	116	2018-11-02	\N	\N	B
-Mortal Kombat Legends: Battle of the Realms	R	mortal-kombat-legends-battle-of-the-realms	80	movie	117	2021-08-31	\N	\N	C+
-Injustice	PR	injustice	78	movie	118	2021-10-19	\N	\N	C+
-A Quiet Place Part II	PG-13	a-quiet-place-part-2	97	movie	119	2021-05-28	\N	\N	B
-The Purge: Anarchy	R	the-purge-anarchy	103	movie	121	2014-07-18	\N	\N	C+
-Saw VI	R	saw-6	90	movie	122	2009-10-23	\N	\N	C-
-The Purge: Election Year	R	the-purge-election-year	108	movie	123	2016-07-01	\N	\N	C+
-Saw: The Final Chapter	R	saw-the-final-chapter	90	movie	124	2010-10-29	\N	\N	D
-Hotel Transylvania 2	PG	hotel-transylvania-2	89	movie	125	2015-09-25	\N	\N	C+
-Ralph Breaks the Internet	PG	ralph-breaks-the-internet	112	movie	126	2018-11-21	\N	\N	B
-Ice Age	PG	ice-age	81	movie	127	2002-03-15	\N	\N	B
-Ice Age: The Meltdown	PG	ice-age-the-meltdown	91	movie	128	2006-03-31	\N	\N	C+
-The Cabinet of Dr. Caligari	Not Rated	the-cabinet-of-dr-caligari	67	movie	129	1920-02-26	\N	\N	B
-The Texas Chainsaw Massacre	R	the-texas-chainsaw-massacre	98	movie	131	2003-10-17	\N	\N	D+
-The Texas Chainsaw Massacre: The Beginning	R	the-texas-chainsaw-massacre-the-beginning	91	movie	132	2006-10-06	\N	\N	D
-Texas Chainsaw Massacre	R	texas-chainsaw-massacre	83	movie	133	2022-02-18	\N	\N	D+
-Black Widow	PG-13	black-widow	134	movie	135	2021-07-09	\N	\N	B+
-Child's Play	R	childs-play-(1988)	87	movie	136	1988-11-09	\N	\N	B
-Cloverfield	PG-13	cloverfield	85	movie	137	2008-01-18	\N	\N	A-
-Freddy vs. Jason	R	freddy-vs-jason	97	movie	138	2003-08-15	\N	\N	C-
-Freddy's Dead: The Final Nightmare	R	freddys-dead	89	movie	139	1991-09-13	\N	\N	D+
-Gone with the Wind	G	gone-with-the-wind	238	movie	140	1939-12-15	\N	\N	B+
-Grease 2	PG	grease-2	115	movie	141	1982-06-11	\N	\N	C
-Halloween	R	halloween-(2018)	106	movie	142	2018-10-19	\N	\N	B+
-Halloweentown	TV-PG	halloweentown	84	movie	143	1998-10-17	\N	\N	D+
-Hocus Pocus	PG	hocus-pocus	96	movie	144	1993-07-16	\N	\N	C
-Incredibles 2	PG	incredibles-2	118	movie	146	2018-06-15	\N	\N	B+
-Iron Man 3	PG-13	iron-man-3	130	movie	147	2013-05-03	\N	\N	B+
-Jack and Jill	PG	jack-and-jill	91	movie	148	2011-11-11	\N	\N	D-
-Kill Bill: Vol. 2	R	kill-bill-vol-2	137	movie	149	2004-04-16	\N	\N	B
-Kirk Cameron's Saving Christmas	PG	saving-christmas	79	movie	150	2014-11-14	\N	\N	F
-Kong: Skull Island	PG-13	kong-skull-island	118	movie	151	2017-03-10	\N	\N	B+
-Maleficent: Mistress of Evil	PG	maleficent-mistress-of-evil	119	movie	152	2019-10-18	\N	\N	C
-Mary Poppins Returns	PG	mary-poppins-returns	130	movie	153	2018-12-19	\N	\N	B
-Alice Through the Looking Glass	PG	alice-through-the-looking-glass	113	movie	134	2016-05-27	\N	\N	C-
-Mortal Kombat	PG-13	mortal-kombat-(1995)	101	movie	154	1995-08-18	\N	\N	C
-Pan	PG	pan	111	movie	155	2015-10-09	\N	\N	C
-Pirates of the Caribbean: Dead Men Tell No Tales	PG-13	pirates-of-the-caribbean-dead-men-tell-no-tales	129	movie	156	2017-05-26	\N	\N	C
-Pirates of the Caribbean: On Stranger Tides	PG-13	pirates-of-the-caribbean-on-stranger-tides	137	movie	157	2011-05-20	\N	\N	C
-Pirates of the Caribbean: The Curse of the Black Pearl	PG-13	pirates-of-the-caribbean-the-curse-of-the-black-pearl	143	movie	158	2003-07-09	\N	\N	A-
-Rocky Balboa	PG	rocky-balboa	102	movie	159	2006-12-20	\N	\N	B+
-Rocky II	PG	rocky-2	119	movie	160	1979-06-15	\N	\N	B+
-Scoob!	PG	scoob	93	movie	161	2020-05-15	\N	\N	C
-Sherlock Holmes	PG-13	sherlock-holmes	128	movie	162	2009-12-25	\N	\N	B+
-Shrek 2	PG	shrek-2	93	movie	163	2004-05-19	\N	\N	A-
-Spy Kids 2: Island of Lost Dreams	PG	spy-kids-2	100	movie	164	2002-08-07	\N	\N	C
-Star Trek V: The Final Frontier	PG	star-trek-5	107	movie	166	1989-06-09	\N	\N	C
-Superman IV: The Quest for Peace	PG	superman-4	90	movie	168	1987-07-24	\N	\N	F
-Teen Wolf	PG	teen-wolf	91	movie	169	1985-08-23	\N	\N	C
-Terminator Genisys	PG-13	terminator-genisys	126	movie	170	2015-07-01	\N	\N	C
-The Big Lebowski	R	the-big-lebowski	117	movie	171	1998-03-06	\N	\N	A-
-The Chronicles of Narnia: The Lion, the Witch and the Wardrobe	PG	the-chronicles-of-narnia-the-lion-the-witch-and-the-wardrobe	143	movie	172	2005-12-09	\N	\N	B+
-The Chronicles of Narnia: The Voyage of the Dawn Treader	PG	the-chronicles-of-narnia-the-voyage-of-the-dawn-treader	113	movie	173	2010-12-10	\N	\N	C
-The Day After Tomorrow	PG-13	the-day-after-tomorrow	124	movie	174	2004-05-28	\N	\N	C
-The Divergent Series: Insurgent	PG-13	insurgent	119	movie	175	2015-03-20	\N	\N	C
-The Exorcist	R	the-exorcist	122	movie	176	1973-12-26	\N	\N	B+
-The First Purge	R	the-first-purge	97	movie	177	2018-07-04	\N	\N	C
-The Forever Purge	R	the-forever-purge	103	movie	178	2021-07-02	\N	\N	C
-The Grinch	PG	the-grinch	85	movie	179	2018-11-09	\N	\N	C
-The Hunger Games: Catching Fire	PG-13	the-hunger-games-catching-fire	146	movie	180	2013-11-22	\N	\N	B+
-The Lion King	PG	the-lion-king-(2019)	118	movie	181	2019-07-19	\N	\N	C-
-The NeverEnding Story	PG	the-neverending-story	102	movie	182	1984-07-20	\N	\N	B+
-The Purge	R	the-purge	85	movie	183	2013-06-07	\N	\N	C
-The Santa Clause 2	G	the-santa-clause-2	104	movie	184	2002-11-01	\N	\N	C
-The Space Between Us	PG-13	the-space-between-us	120	movie	185	2017-02-03	\N	\N	C
-Thor	PG-13	thor	115	movie	186	2011-05-06	\N	\N	B+
-Thor: The Dark World	PG-13	thor-the-dark-world	112	movie	187	2013-11-08	\N	\N	C+
-Wrath of the Titans	PG-13	wrath-of-the-titans	99	movie	188	2012-03-30	\N	\N	C
-X2: X-Men United	PG-13	x2	134	movie	189	2003-05-02	\N	\N	B+
-Annabelle: Creation	R	annabelle-creation	109	movie	190	2017-08-11	\N	\N	C+
-The Conjuring: The Devil Made Me Do It	R	the-conjuring-the-devil-made-me-do-it	112	movie	192	2021-06-04	\N	\N	C+
-Halloween II	R	halloween-2-(1981)	92	movie	194	1981-10-30	\N	\N	C+
-Halloween	R	halloween-(2007)	109	movie	195	2007-08-31	\N	\N	C-
-Teen Beach Movie	TV-G	teen-beach-movie	110	movie	196	2013-07-19	\N	\N	C
-The Secret Life of Pets 2	PG	the-secret-life-of-pets-2	86	movie	198	2019-06-07	\N	\N	C
-Despicable Me	PG	despicable-me	95	movie	199	2010-07-09	\N	\N	B+
-Despicable Me 2	PG	despicable-me-2	98	movie	200	2013-07-03	\N	\N	B
-Sing 2	PG	sing-2	110	movie	201	2021-12-22	\N	\N	C+
-Bright	TV-MA	bright	117	movie	202	2017-12-22	\N	\N	C-
-Men in Black II	PG-13	men-in-black-2	88	movie	203	2002-07-03	\N	\N	C
-Men in Black 3	PG-13	men-in-black-3	106	movie	204	2012-05-25	\N	\N	C+
-10 Cloverfield Lane	PG-13	10-cloverfield-lane	103	movie	205	2016-03-11	\N	\N	A
-A Monster Calls	PG-13	a-monster-calls	108	movie	206	2016-12-23	\N	\N	A
-A Nightmare on Elm Street	R	a-nightmare-on-elm-street-(1984)	91	movie	207	1984-11-09	\N	\N	A
-A Nightmare on Elm Street 2: Freddy's Revenge	R	a-nightmare-on-elm-street-2	87	movie	208	1985-11-01	\N	\N	C
-A Quiet Place	PG-13	a-quiet-place	90	movie	209	2018-04-06	\N	\N	A-
-A Star Is Born	R	a-star-is-born	136	movie	210	2018-10-05	\N	\N	B+
-Adventures in Babysitting	PG-13	adventures-in-babysitting-(1987)	102	movie	211	1987-07-03	\N	\N	C+
-Adventures in Babysitting	TV-G	adventures-in-babysitting-(2016)	105	movie	212	2016-06-24	\N	\N	C
-Alien	R	alien	117	movie	215	1979-05-25	\N	\N	A-
-Aliens	R	aliens	137	movie	216	1986-07-18	\N	\N	A
-Alita: Battle Angel	PG-13	alita	122	movie	217	2019-02-14	\N	\N	A-
-Annabelle	R	annabelle	99	movie	218	2014-10-03	\N	\N	C
-Ant-Man	PG-13	ant-man	117	movie	219	2015-07-17	\N	\N	B+
-Ant-Man and the Wasp	PG-13	ant-man-and-the-wasp	118	movie	220	2018-07-06	\N	\N	B+
-Arthur Christmas	PG	arthur-christmas	97	movie	221	2011-11-23	\N	\N	A
-Avatar	PG-13	avatar	162	movie	222	2009-12-18	\N	\N	A-
-Avengers: Endgame	PG-13	avengers-endgame	181	movie	223	2019-04-26	\N	\N	A
-Avengers: Infinity War	PG-13	avengers-infinity-war	149	movie	224	2018-04-27	\N	\N	A
-Bad Boys	R	bad-boys	119	movie	225	1995-04-07	\N	\N	C
-Batman Forever	PG-13	batman-forever	121	movie	226	1995-06-16	\N	\N	C
-Batman Returns	PG-13	batman-returns	126	movie	227	1992-06-19	\N	\N	B+
-Batman: Mask of the Phantasm	PG	batman-mask-of-the-phantasm	76	movie	228	1993-12-25	\N	\N	A-
-Beauty and the Beast	G	beauty-and-the-beast-(1991)	84	movie	229	1991-11-22	\N	\N	A
-Beowulf	PG-13	beowulf	115	movie	230	2007-11-16	\N	\N	B-
-Big Hero 6	PG	big-hero-6	102	movie	231	2014-11-07	\N	\N	A
-Bill & Ted's Excellent Adventure	PG	bill-and-teds-excellent-adventure	90	movie	232	1989-02-17	\N	\N	B+
-Bird Box	R	bird-box	124	movie	233	2018-12-14	\N	\N	B-
-Labyrinth	PG	labyrinth	101	movie	314	1986-06-27	\N	\N	B+
-Alien: Covenant	R	alien-covenant	122	movie	193	2017-05-19	\N	\N	C+
-Birds of Prey (And the Fantabulous Emancipation of One Harley Quinn)	R	birds-of-prey	109	movie	234	2020-02-07	\N	\N	B+
-Black Christmas	R	black-christmas-(1974)	98	movie	235	1974-10-11	\N	\N	B
-Black Panther	PG-13	black-panther	134	movie	236	2018-02-16	\N	\N	A-
-Blade Runner	R	blade-runner	117	movie	237	1982-06-25	\N	\N	B+
-Bram Stoker's Dracula	R	bram-stokers-dracula	128	movie	238	1992-11-13	\N	\N	B-
-Brokeback Mountain	R	brokeback-mountain	134	movie	239	2005-12-09	\N	\N	B
-Bumblebee	PG-13	bumblebee	114	movie	240	2018-12-21	\N	\N	A-
-Captain America: Civil War	PG-13	captain-america-civil-war	147	movie	241	2016-05-06	\N	\N	A
-Captain America: The First Avenger	PG-13	captain-america-the-first-avenger	124	movie	242	2011-07-22	\N	\N	A-
-Captain America: The Winter Soldier	PG-13	captain-america-the-winter-soldier	136	movie	243	2014-04-04	\N	\N	A
-Cars 2	G	cars-2	106	movie	244	2011-06-24	\N	\N	C
-Children of the Corn	R	children-of-the-corn	92	movie	246	1984-03-09	\N	\N	C-
-Chip 'n Dale: Rescue Rangers	PG	chip-n-dale	97	movie	247	2022-05-20	\N	\N	B+
-Con Air	R	con-air	115	movie	249	1997-06-06	\N	\N	B+
-Corpse Bride	PG	corpse-bride	77	movie	250	2005-09-23	\N	\N	A-
-Crimson Peak	R	crimson-peak	119	movie	251	2015-10-16	\N	\N	A-
-Deadpool	R	deadpool	108	movie	252	2016-02-12	\N	\N	A
-Deadpool 2	R	deadpool-2	119	movie	253	2018-05-18	\N	\N	A-
-Deck the Halls	PG	deck-the-halls	93	movie	254	2006-11-22	\N	\N	D+
-Descendants 3	TV-G	descendants-3	106	movie	255	2019-08-02	\N	\N	C-
-North by Northwest	Not Rated	north-by-northwest	136	movie	256	1959-07-01	\N	\N	A-
-Dune: Part Two	PG-13	dune-part-2	166	movie	257	2024-03-01	\N	\N	A-
-Split	PG-13	split	117	movie	258	2017-01-20	\N	\N	A-
-Godzilla Minus One	PG-13	godzilla-minus-one	124	movie	259	2023-11-03	\N	\N	A
-Hellboy II: The Golden Army	PG-13	hellboy-2	120	movie	260	2008-07-11	\N	\N	A-
-South Park: Bigger, Longer & Uncut	R	south-park	81	movie	261	1999-06-30	\N	\N	A
-Pearl	R	pearl	103	movie	262	2022-09-16	\N	\N	A-
-Deadpool & Wolverine	R	deadpool-and-wolverine	128	movie	263	2024-07-26	\N	\N	A-
-Anchorman: The Legend of Ron Burgundy	PG-13	anchorman	94	movie	264	2004-07-09	\N	\N	A-
-Lilo & Stitch	PG	lilo-and-stitch-(2002)	85	movie	265	2002-06-21	\N	\N	A-
-Don't Breathe	R	dont-breathe	88	movie	266	2016-08-26	\N	\N	A-
-Upgrade	R	upgrade	100	movie	267	2018-06-01	\N	\N	A
-Ben-Hur	G	ben-hur	212	movie	268	1959-11-18	\N	\N	A-
-Smile 2	R	smile-2	127	movie	269	2024-10-18	\N	\N	A-
-Speed	R	speed	116	movie	270	1994-06-10	\N	\N	A-
-The Witch	R	the-witch	92	movie	271	2016-02-19	\N	\N	A-
-The Northman	R	the-northman	136	movie	272	2022-04-22	\N	\N	A-
-G.I. Joe: The Rise of Cobra	PG-13	gi-joe-the-rise-of-cobra	118	movie	273	2009-08-07	\N	\N	D+
-Ouija	PG-13	ouija	89	movie	274	2014-10-24	\N	\N	C
-Pet Sematary	R	pet-sematary-(2019)	100	movie	275	2019-04-05	\N	\N	C
-The Mummy	PG-13	the-mummy-(2017)	110	movie	276	2017-06-09	\N	\N	D+
-Valentine's Day	PG-13	valentines-day	125	movie	277	2010-02-12	\N	\N	C
-Battle for the Planet of the Apes	G	battle-for-the-planet-of-the-apes	93	movie	278	1973-06-13	\N	\N	C
-Bad Moms	R	bad-moms	100	movie	279	2016-07-29	\N	\N	C
-The School for Good and Evil	PG-13	the-school-for-good-and-evil	147	movie	280	2022-10-19	\N	\N	C
-Hellraiser III: Hell on Earth	R	hellraiser-3	93	movie	281	1992-09-11	\N	\N	C+
-Escape Room: Tournament of Champions	PG-13	escape-room-tournament-of-champions	88	movie	282	2021-07-16	\N	\N	C
-The Phantom of the Opera	PG-13	the-phantom-of-the-opera	143	movie	283	2004-12-22	\N	\N	B-
-The Lord of the Rings	PG	the-lord-of-the-rings	133	movie	284	1978-11-15	\N	\N	C
-Battle Royale	Not Rated	battle-royale	114	movie	285	2000-12-16	\N	\N	B
-Chicken Little	G	chicken-little	81	movie	286	2005-11-04	\N	\N	C
-I Now Pronounce You Chuck & Larry	PG-13	i-now-pronounce-you-chuck-and-larry	115	movie	287	2007-07-20	\N	\N	C-
-Beverly Hills Cop III	R	beverly-hills-cop-3	104	movie	288	1994-05-25	\N	\N	C
-Terrifier	Not Rated	terrifier	85	movie	289	2018-03-15	\N	\N	C
-Terrifier 2	Not Rated	terrifier-2	138	movie	290	2022-10-06	\N	\N	B
-Don't Breathe 2	R	dont-breathe-2	98	movie	291	2021-08-13	\N	\N	B-
-Spawn	PG-13	spawn	96	movie	292	1997-08-01	\N	\N	D
-Escape Room	PG-13	escape-room	100	movie	293	2019-01-04	\N	\N	C+
-Tooth Fairy	PG	tooth-fairy	101	movie	294	2010-01-22	\N	\N	D
-Red One	PG-13	red-one	123	movie	295	2024-11-15	\N	\N	C
-The Last Airbender	PG	the-last-airbender	103	movie	296	2010-07-01	\N	\N	D+
-The Mortal Instruments: City of Bones	PG-13	the-mortal-instruments	130	movie	297	2013-08-21	\N	\N	C-
-Aliens vs. Predator: Requiem	R	aliens-vs-predator-requiem	94	movie	298	2007-12-25	\N	\N	D
-Middle School: The Worst Years of My Life	PG	middle-school	92	movie	299	2016-10-07	\N	\N	C
-A Christmas Story Christmas	PG	a-christmas-story-christmas	98	movie	300	2022-11-17	\N	\N	B-
-Les Misérables	PG-13	les-miserables	158	movie	301	2012-12-25	\N	\N	B-
-Scary Movie 3	PG-13	scary-movie-3	84	movie	302	2003-10-24	\N	\N	D
-Us	R	us	116	movie	303	2019-03-22	\N	\N	A-
-After Earth	PG-13	after-earth	100	movie	304	2013-05-31	\N	\N	D
-The Mummy: Tomb of the Dragon Emperor	PG-13	the-mummy-tomb-of-the-dragon-emperor	112	movie	305	2008-08-01	\N	\N	D
-How to Train Your Dragon: The Hidden World	PG	how-to-train-your-dragon-the-hidden-world	104	movie	307	2019-02-22	\N	\N	A-
-Magic Mike's Last Dance	R	magic-mikes-last-dance	112	movie	308	2023-02-10	\N	\N	C
-Catwoman	PG-13	catwoman	104	movie	310	2004-07-23	\N	\N	D
-Elektra	PG-13	elektra	97	movie	311	2005-01-14	\N	\N	D+
-Mission: Impossible - Dead Reckoning Part One	PG-13	mission-impossible-dead-reckoning-part-1	163	movie	312	2023-07-12	\N	\N	A-
-Godzilla x Kong: The New Empire	PG-13	godzilla-x-kong-the-new-empire	115	movie	313	2024-03-29	\N	\N	C+
-Unbreakable	PG-13	unbreakable	106	movie	315	2000-11-22	\N	\N	B+
-Bad Boys for Life	R	bad-boys-for-life	124	movie	316	2020-01-17	\N	\N	C+
-Team America: World Police	R	team-america	98	movie	317	2004-10-15	\N	\N	A-
-Twisters	PG-13	twisters	122	movie	318	2024-07-19	\N	\N	B+
-Warcraft	PG-13	warcraft	123	movie	319	2016-06-10	\N	\N	D+
-Final Destination 5	R	final-destination-5	92	movie	320	2011-08-12	\N	\N	B-
-Firestarter	R	firestarter-(2022)	94	movie	321	2022-05-13	\N	\N	C
-Transformers One	PG	transformers-one	104	movie	322	2024-09-20	\N	\N	B+
-Brother Bear	G	brother-bear	85	movie	323	2003-11-01	\N	\N	B-
-Oz the Great and Powerful	PG	oz-the-great-and-powerful	130	movie	324	2013-03-08	\N	\N	C+
-Kick-Ass	R	kick-ass	118	movie	325	2010-04-16	\N	\N	A-
-Die Hard	R	die-hard	132	movie	326	1988-07-15	\N	\N	A
-District 9	R	district-9	112	movie	327	2009-08-14	\N	\N	B+
-Django Unchained	R	django-unchained	165	movie	328	2012-12-25	\N	\N	A-
-Doctor Strange in the Multiverse of Madness	PG-13	doctor-strange-in-the-multiverse-of-madness	126	movie	329	2022-05-06	\N	\N	B+
-Halloween: The Curse of Michael Myers	R	halloween-the-curse-of-michael-myers	87	movie	330	1995-09-29	\N	\N	D
-Jason Goes to Hell: The Final Friday	R	jason-goes-to-hell	87	movie	331	1993-08-13	\N	\N	D-
-Scooby-Doo	PG	scooby-doo	89	movie	332	2002-06-14	\N	\N	D-
-Dragonball Evolution	PG	dragonball-evolution	85	movie	333	2009-04-10	\N	\N	F
-Alone in the Dark	R	alone-in-the-dark	99	movie	334	2005-01-28	\N	\N	F
-Mortal Kombat: Annihilation	PG-13	mortal-kombat-annihilation	95	movie	335	1997-11-21	\N	\N	F
-Star Wars Holiday Special	TV-PG	the-star-wars-holiday-special	97	movie	336	1978-11-17	\N	\N	F
-Billy Madison	PG-13	billy-madison	89	movie	337	1995-02-10	\N	\N	D+
-Halloween 5: The Revenge of Michael Myers	R	halloween-5	96	movie	338	1989-10-13	\N	\N	D+
-The Room	R	the-room	99	movie	339	2003-06-27	\N	\N	F
-Hellbound: Hellraiser II	R	hellbound	97	movie	340	1988-12-23	\N	\N	C
-Friday the 13th Part VII: The New Blood	R	friday-the-13th-part-7	88	movie	341	1988-05-13	\N	\N	D+
-Leprechaun	R	leprechaun	92	movie	342	1993-01-08	\N	\N	D+
-Super Mario Bros.	PG	super-mario-bros	104	movie	343	1993-05-28	\N	\N	D
-Dungeons & Dragons	PG-13	dungeons-and-dragons	107	movie	344	2000-12-08	\N	\N	D-
-Halloween 4: The Return of Michael Myers	R	halloween-4	88	movie	345	1988-10-21	\N	\N	C-
-Hancock	PG-13	hancock	92	movie	346	2008-07-02	\N	\N	C
-Music	PG-13	music	107	movie	347	2021-02-12	\N	\N	F
-Signs	PG-13	signs	106	movie	348	2002-08-02	\N	\N	C-
-Dracula	Not Rated	dracula	75	movie	349	1931-02-14	\N	\N	B
-Dune	PG-13	dune-(2021)	155	movie	350	2021-10-22	\N	\N	A-
-Encanto	PG	encanto	102	movie	351	2021-11-24	\N	\N	A
-Evil Dead II	R	evil-dead-2	84	movie	352	1987-03-13	\N	\N	A
-Ewoks: The Battle for Endor	TV-PG	ewoks-the-battle-for-endor	94	movie	353	1985-11-24	\N	\N	D
-Face/Off	R	face-off	138	movie	354	1997-06-27	\N	\N	A-
-Fargo	R	fargo	98	movie	355	1996-03-08	\N	\N	C+
-Fear Street Part One: 1994	R	fear-street-part-1	107	movie	356	2021-07-02	\N	\N	B+
-Fear Street Part Two: 1978	R	fear-street-part-2	109	movie	357	2021-07-09	\N	\N	B+
-Finding Dory	PG	finding-dory	97	movie	358	2016-06-17	\N	\N	B+
-First Blood	R	first-blood	93	movie	359	1982-10-22	\N	\N	A-
-Friday the 13th: A New Beginning	R	friday-the-13th-a-new-beginning	92	movie	361	1985-03-22	\N	\N	D
-Frozen	PG	frozen	102	movie	362	2013-11-27	\N	\N	A
-Galaxy Quest	PG	galaxy-quest	102	movie	363	1999-12-25	\N	\N	A-
-Get Out	R	get-out	104	movie	365	2017-02-24	\N	\N	A
-Ghost Rider	PG-13	ghost-rider	110	movie	366	2007-02-16	\N	\N	D+
-Ghostbusters	PG	ghostbusters-(1984)	105	movie	367	1984-06-08	\N	\N	A-
-Glory	R	glory	122	movie	368	1989-12-15	\N	\N	B+
-Godzilla	PG-13	godzilla-(1998)	139	movie	369	1998-05-20	\N	\N	D+
-Gremlins	PG	gremlins	106	movie	370	1984-06-08	\N	\N	A-
-Guardians of the Galaxy	PG-13	guardians-of-the-galaxy	121	movie	371	2014-08-01	\N	\N	A
-Halloween	R	halloween-(1978)	91	movie	372	1978-10-24	\N	\N	A
-Halloween H20: 20 Years Later	R	halloween-h20	86	movie	373	1998-08-05	\N	\N	C+
-Halloween II	R	halloween-2-(2009)	105	movie	374	2009-08-28	\N	\N	D
-Halloween III: Season of the Witch	R	halloween-3	98	movie	375	1982-10-22	\N	\N	C
-Halloweentown High	TV-G	halloweentown-high	82	movie	376	2004-10-08	\N	\N	D
-Harry Potter and the Deathly Hallows - Part 2	PG-13	harry-potter-and-the-deathly-hallows-part-2	130	movie	377	2011-07-15	\N	\N	A
-Harry Potter and the Goblet of Fire	PG-13	harry-potter-and-the-goblet-of-fire	157	movie	378	2005-11-18	\N	\N	A
-Harry Potter and the Half-Blood Prince	PG	harry-potter-and-the-half-blood-prince	153	movie	379	2009-07-15	\N	\N	A-
-Harry Potter and the Order of the Phoenix	PG-13	harry-potter-and-the-order-of-the-phoenix	138	movie	380	2007-07-11	\N	\N	A-
-The Notebook	PG-13	the-notebook	123	movie	892	2004-06-25	\N	\N	B-
-Harry Potter and the Prisoner of Azkaban	PG	harry-potter-and-the-prisoner-of-azkaban	142	movie	381	2004-06-04	\N	\N	A
-Harry Potter and the Sorcerer's Stone	PG	harry-potter-and-the-sorcerers-stone	152	movie	382	2001-11-16	\N	\N	A-
-Home Alone	PG	home-alone	103	movie	383	1990-11-16	\N	\N	A-
-Hotel Transylvania: Transformania	PG	hotel-transylvania-transformania	87	movie	384	2022-01-14	\N	\N	C-
-How to Train Your Dragon	PG	how-to-train-your-dragon-(2010)	98	movie	385	2010-03-26	\N	\N	A
-How to Train Your Dragon 2	PG	how-to-train-your-dragon-2	102	movie	386	2014-06-13	\N	\N	A
-Hugo	PG	hugo	126	movie	387	2011-11-23	\N	\N	A-
-Ice Age: Continental Drift	PG	ice-age-continental-drift	88	movie	388	2012-07-13	\N	\N	C
-In the Heights	PG-13	in-the-heights	143	movie	389	2021-06-10	\N	\N	A-
-Inception	PG-13	inception	148	movie	390	2010-07-16	\N	\N	A-
-Indiana Jones and the Last Crusade	PG-13	indiana-jones-and-the-last-crusade	127	movie	391	1989-05-24	\N	\N	A
-Indiana Jones and the Temple of Doom	PG	indiana-jones-and-the-temple-of-doom	118	movie	392	1984-05-23	\N	\N	A-
-Inglourious Basterds	R	inglourious-basterds	153	movie	393	2009-08-21	\N	\N	A-
-Caravan of Courage: An Ewok Adventure	TV-PG	caravan-of-courage	96	movie	394	1984-11-25	\N	\N	D
-Jaws 3-D	PG	jaws-3	99	movie	395	1983-07-22	\N	\N	D+
-Superman III	PG	superman-3	125	movie	396	1983-06-17	\N	\N	D
-History of the World, Part I	R	history-of-the-world	92	movie	397	1981-06-12	\N	\N	C
-Silent Night, Deadly Night Part 2	R	silent-night-deadly-night-part-2	88	movie	398	1987-04-10	\N	\N	F
-Iron Man	PG-13	iron-man	126	movie	399	2008-05-02	\N	\N	A
-It	R	it	135	movie	400	2017-09-08	\N	\N	A-
-It Follows	R	it-follows	100	movie	401	2015-03-13	\N	\N	A-
-Jaws	PG	jaws	124	movie	402	1975-06-20	\N	\N	A-
-John Wick: Chapter 2	R	john-wick-chapter-2	122	movie	403	2017-02-10	\N	\N	A-
-John Wick: Chapter 3 - Parabellum	R	john-wick-chapter-3	130	movie	404	2019-05-17	\N	\N	A-
-Jojo Rabbit	PG-13	jojo-rabbit	108	movie	405	2019-10-18	\N	\N	B
-Joker	R	joker	122	movie	406	2019-10-04	\N	\N	A-
-Jumanji: Welcome to the Jungle	PG-13	jumanji-welcome-to-the-jungle	119	movie	407	2017-12-20	\N	\N	B+
-Jupiter Ascending	PG-13	jupiter-ascending	127	movie	408	2015-02-06	\N	\N	D
-Jurassic Park	PG-13	jurassic-park	127	movie	409	1993-06-11	\N	\N	A
-A Clockwork Orange	R	a-clockwork-orange	136	movie	410	1972-02-02	\N	\N	A-
-A Beautiful Day in the Neighborhood	PG	a-beautiful-day-in-the-neighborhood	109	movie	411	2019-11-22	\N	\N	A-
-A Bug's Life	G	a-bugs-life	95	movie	412	1998-11-20	\N	\N	B+
-A Christmas Story	PG	a-christmas-story	93	movie	413	1983-11-18	\N	\N	B+
-Kill Bill: Vol. 1	R	kill-bill-vol-1	111	movie	414	2003-10-17	\N	\N	A
-Killer Klowns from Outer Space	PG-13	killer-klowns-from-outer-space	88	movie	415	1988-05-27	\N	\N	C
-Knives Out	PG-13	knives-out	130	movie	416	2019-11-27	\N	\N	A-
-Lady Bird	R	lady-bird	94	movie	417	2017-11-03	\N	\N	B+
-Lady and the Tramp	G	lady-and-the-tramp-(1955)	76	movie	418	1955-06-22	\N	\N	B+
-Lara Croft: Tomb Raider - The Cradle of Life	PG-13	lara-croft-tomb-raider-the-cradle-of-life	117	movie	419	2003-07-25	\N	\N	C
-Lara Croft: Tomb Raider	PG-13	lara-croft-tomb-raider	100	movie	420	2001-06-15	\N	\N	C
-Lethal Weapon	R	lethal-weapon	109	movie	421	1987-03-06	\N	\N	A
-Lethal Weapon 4	R	lethal-weapon-4	127	movie	422	1998-07-10	\N	\N	C
-Love, Simon	PG-13	love-simon	110	movie	424	2018-03-16	\N	\N	B+
-Luca	PG	luca	95	movie	425	2021-06-18	\N	\N	A
-Mad Max	R	mad-max	91	movie	426	1979-04-12	\N	\N	A-
-Mad Max: Fury Road	R	mad-max-fury-road	120	movie	427	2015-05-15	\N	\N	A-
-Mary Poppins	G	mary-poppins	139	movie	428	1964-08-27	\N	\N	A
-Men in Black	PG-13	men-in-black	98	movie	429	1997-07-02	\N	\N	A-
-Sky High	PG	sky-high	100	movie	430	2005-07-29	\N	\N	B+
-A Nightmare on Elm Street 4: The Dream Master	R	a-nightmare-on-elm-street-4	93	movie	431	1988-08-19	\N	\N	C
-A Nightmare on Elm Street 5: The Dream Child	R	a-nightmare-on-elm-street-5	89	movie	432	1989-08-11	\N	\N	C
-Army of the Dead	R	army-of-the-dead	148	movie	433	2021-05-14	\N	\N	C+
-Avengers: Age of Ultron	PG-13	avengers-age-of-ultron	141	movie	434	2015-05-01	\N	\N	A-
-Back to the Future Part II	PG	back-to-the-future-part-2	108	movie	435	1989-11-22	\N	\N	A-
-Back to the Future Part III	PG	back-to-the-future-part-3	118	movie	436	1990-05-25	\N	\N	A-
-Batman	PG-13	batman	126	movie	437	1989-06-23	\N	\N	A-
-Batman Begins	PG-13	batman-begins	140	movie	438	2005-06-15	\N	\N	A-
-Bedtime Stories	PG	bedtime-stories	99	movie	439	2008-12-25	\N	\N	C-
-Clash of the Titans	PG-13	clash-of-the-titans-(2010)	106	movie	440	2010-04-02	\N	\N	C
-Diary of a Wimpy Kid: The Long Haul	PG	diary-of-a-wimpy-kid-the-long-haul	91	movie	441	2017-05-19	\N	\N	D-
-Event Horizon	R	event-horizon	96	movie	442	1997-08-15	\N	\N	C
-Ghost Rider: Spirit of Vengeance	PG-13	ghost-rider-spirit-of-vengeance	96	movie	443	2012-02-17	\N	\N	D
-How the Grinch Stole Christmas	PG	how-the-grinch-stole-christmas	104	movie	444	2000-11-17	\N	\N	C-
-It's a Wonderful Life	PG	its-a-wonderful-life	130	movie	445	1946-12-20	\N	\N	A
-Jaws 2	PG	jaws-2	116	movie	446	1978-06-16	\N	\N	C
-Jem and the Holograms	PG	jem-and-the-holograms	118	movie	447	2015-10-23	\N	\N	C-
-Jigsaw	R	jigsaw	92	movie	448	2017-10-27	\N	\N	C-
-Jingle All the Way	PG	jingle-all-the-way	89	movie	449	1996-11-22	\N	\N	D+
-John Wick	R	john-wick	101	movie	450	2014-10-24	\N	\N	A-
-Miracle on 34th Street	Not Rated	miracle-on-34th-street-(1947)	96	movie	451	1947-06-11	\N	\N	A-
-Moana	PG	moana	107	movie	452	2016-11-23	\N	\N	A
-Mulan	G	mulan-(1998)	87	movie	454	1998-06-19	\N	\N	A-
-National Lampoon's Christmas Vacation	PG-13	christmas-vacation	97	movie	455	1989-12-01	\N	\N	A-
-National Treasure: Book of Secrets	PG	national-treasure-book-of-secrets	124	movie	456	2007-12-21	\N	\N	C
-Night of the Living Dead	Not Rated	night-of-the-living-dead	96	movie	457	1968-10-04	\N	\N	B+
-Nosferatu	Not Rated	nosferatu-(1922)	94	movie	459	1922-03-04	\N	\N	B
-Ocean's Thirteen	PG-13	oceans-thirteen	122	movie	460	2007-06-08	\N	\N	C
-Ocean's Twelve	PG-13	oceans-twelve	125	movie	461	2004-12-10	\N	\N	C
-One Hundred and One Dalmatians	G	one-hundred-and-one-dalmatians	79	movie	462	1961-01-25	\N	\N	B+
-Onward	PG	onward	102	movie	463	2020-03-06	\N	\N	B+
-ParaNorman	PG	paranorman	92	movie	464	2012-08-17	\N	\N	A-
-Paranormal Activity	R	paranormal-activity	86	movie	465	2009-09-25	\N	\N	C-
-Pearl Harbor	PG-13	pearl-harbor	183	movie	467	2001-05-25	\N	\N	C
-Percy Jackson: Sea of Monsters	PG	percy-jackson-sea-of-monsters	106	movie	468	2013-08-07	\N	\N	C
-WarGames	PG	wargames	114	movie	469	1983-06-03	\N	\N	B-
-Peter Pan	G	peter-pan-(1953)	77	movie	470	1953-02-05	\N	\N	A-
-Phineas and Ferb the Movie: Across the 2nd Dimension	TV-G	phineas-and-ferb-the-movie-across-the-2nd-dimension	78	movie	471	2011-08-05	\N	\N	A-
-Planes	PG	planes	91	movie	472	2013-08-09	\N	\N	C-
-Platoon	R	platoon	120	movie	473	1986-12-19	\N	\N	A-
-Poltergeist	PG	poltergeist	114	movie	474	1982-06-04	\N	\N	A-
-Psycho	R	psycho	109	movie	475	1960-09-08	\N	\N	A-
-Pulp Fiction	PG-13	pulp-fiction	154	movie	476	1994-10-14	\N	\N	A
-Rain Man	R	rain-man	133	movie	477	1988-12-16	\N	\N	B+
-Ratatouille	G	ratatouille	111	movie	478	2007-06-29	\N	\N	A
-Raya and the Last Dragon	PG	raya-and-the-last-dragon	107	movie	479	2021-03-05	\N	\N	B+
-Return to Oz	PG	return-to-oz	113	movie	480	1985-06-21	\N	\N	B-
-RoboCop 3	PG-13	robocop-3	104	movie	481	1993-11-05	\N	\N	C
-Rocketman	R	rocketman	121	movie	482	2019-05-31	\N	\N	A-
-Rocky	PG	rocky	120	movie	483	1976-12-03	\N	\N	A
-Rogue One: A Star Wars Story	PG-13	rogue-one	133	movie	484	2016-12-16	\N	\N	A-
-Saving Mr. Banks	PG-13	saving-mr-banks	125	movie	485	2013-12-13	\N	\N	A-
-Saw	R	saw	103	movie	486	2004-10-29	\N	\N	B-
-Saw II	R	saw-2	93	movie	487	2005-10-28	\N	\N	C+
-Schindler's List	R	schindlers-list	195	movie	489	1993-12-15	\N	\N	A-
-Scooby-Doo 2: Monsters Unleashed	PG	scooby-doo-2	93	movie	490	2004-03-26	\N	\N	D
-Home Alone 3	PG	home-alone-3	102	movie	491	1997-12-12	\N	\N	D
-Scott Pilgrim vs. the World	PG-13	scott-pilgrim-vs-the-world	112	movie	492	2010-08-13	\N	\N	A
-Scream	R	scream-(1996)	111	movie	493	1996-12-20	\N	\N	A
-Scream	R	scream-(2022)	114	movie	494	2022-01-14	\N	\N	B+
-Scream 2	R	scream-2	120	movie	495	1997-12-12	\N	\N	B
-Shang-Chi and the Legend of the Ten Rings	PG-13	shang-chi-and-the-legend-of-the-ten-rings	132	movie	496	2021-09-03	\N	\N	A-
-Sharknado	TV-14	sharknado	86	movie	497	2013-07-11	\N	\N	D
-Sharknado 2: The Second One	TV-14	sharknado-2	95	movie	498	2014-07-30	\N	\N	D
-Sharknado 3: Oh Hell No!	TV-14	sharknado-3	93	movie	499	2015-07-22	\N	\N	D
-Sharknado: The 4th Awakens	TV-14	sharknado-the-4th-awakens	95	movie	500	2016-07-31	\N	\N	D
-Sharknado 5: Global Swarming	TV-14	sharknado-5	93	movie	501	2017-08-06	\N	\N	D
-Shazam!	PG-13	shazam	132	movie	502	2019-04-05	\N	\N	A
-Shrek the Third	PG	shrek-the-third	93	movie	503	2007-05-18	\N	\N	C
-Shutter Island	R	shutter-island	138	movie	504	2010-02-19	\N	\N	A-
-Sin City	R	sin-city	124	movie	505	2005-04-01	\N	\N	B+
-Sinister	R	sinister	110	movie	506	2012-10-12	\N	\N	B+
-Sleeping Beauty	G	sleeping-beauty	75	movie	507	1959-01-29	\N	\N	B
-Sleepy Hollow	R	sleepy-hollow	105	movie	508	1999-11-19	\N	\N	A-
-Snowpiercer	R	snowpiercer	126	movie	509	2014-06-27	\N	\N	A
-Spaceballs	PG	spaceballs	96	movie	510	1987-06-24	\N	\N	A-
-Spider-Man 2	PG-13	spider-man-2	127	movie	511	2004-06-30	\N	\N	A-
-Spider-Man: Far From Home	PG-13	spider-man-far-from-home	129	movie	512	2019-07-02	\N	\N	A-
-Spider-Man: Homecoming	PG-13	spider-man-homecoming	133	movie	513	2017-07-07	\N	\N	A
-Spider-Man: No Way Home	PG-13	spider-man-no-way-home	148	movie	514	2021-12-17	\N	\N	A
-Spirited Away	PG	spirited-away	125	movie	515	2001-07-20	\N	\N	A-
-Star Trek: First Contact	PG-13	star-trek-first-contact	111	movie	516	1996-11-22	\N	\N	A-
-Sucker Punch	PG-13	sucker-punch	110	movie	518	2011-03-25	\N	\N	C-
-Superman	PG	superman-(1978)	143	movie	519	1978-12-15	\N	\N	A-
-Tangled	PG	tangled	100	movie	520	2010-11-24	\N	\N	A
-Teen Beach 2	TV-G	teen-beach-2	104	movie	521	2015-06-26	\N	\N	C
-Terminator 2: Judgment Day	R	terminator-2	137	movie	522	1991-07-03	\N	\N	A
-Terminator 3: Rise of the Machines	R	terminator-3	109	movie	523	2003-07-02	\N	\N	C-
-The Addams Family	PG-13	the-addams-family-(1991)	99	movie	524	1991-11-22	\N	\N	A-
-The Adventures of Sharkboy and Lavagirl	PG	the-adventures-of-sharkboy-and-lavagirl	93	movie	525	2005-06-10	\N	\N	D
-The Avengers	PG-13	the-avengers	143	movie	526	2012-05-04	\N	\N	A
-The Batman	PG-13	the-batman	176	movie	527	2022-03-04	\N	\N	A-
-The Boy	PG-13	the-boy	97	movie	528	2016-01-22	\N	\N	C-
-The Cabin in the Woods	R	the-cabin-in-the-woods	95	movie	530	2012-04-13	\N	\N	B+
-The Conjuring	R	the-conjuring	112	movie	531	2013-07-19	\N	\N	A-
-The Croods	PG	the-croods	98	movie	532	2013-03-22	\N	\N	B+
-The Dark Knight Rises	PG-13	the-dark-knight-rises	164	movie	533	2012-07-20	\N	\N	B+
-The Disaster Artist	R	the-disaster-artist	104	movie	534	2017-12-01	\N	\N	A
-The Evil Dead	NC-17	the-evil-dead	85	movie	535	1983-04-15	\N	\N	A
-The Fault in Our Stars	PG-13	the-fault-in-our-stars	126	movie	537	2014-06-06	\N	\N	A-
-The Fifth Element	PG-13	the-fifth-element	126	movie	538	1997-05-07	\N	\N	B+
-The Godfather	R	the-godfather	175	movie	539	1972-03-24	\N	\N	A-
-The Green Mile	R	the-green-mile	189	movie	540	1999-12-10	\N	\N	A-
-Trick 'r Treat	R	trick-r-treat	82	movie	541	2009-10-06	\N	\N	A-
-Arrival	PG-13	arrival	116	movie	542	2016-11-11	\N	\N	A
-The Happening	R	the-happening	91	movie	543	2008-06-13	\N	\N	D
-The Haunted Mansion	PG	the-haunted-mansion	99	movie	544	2003-11-26	\N	\N	C
-The Iron Giant	PG	the-iron-giant	86	movie	545	1999-08-06	\N	\N	A
-Napoleon Dynamite	PG	napoleon-dynamite	96	movie	1181	2004-06-11	\N	\N	C+
-The Jungle Book	G	the-jungle-book-(1967)	78	movie	546	1967-10-18	\N	\N	B+
-The Karate Kid	PG	the-karate-kid-(1984)	126	movie	547	1984-06-22	\N	\N	A-
-BlacKkKlansman	R	blackkklansman	135	movie	895	2018-08-10	\N	\N	A
-Green Book	PG-13	green-book	130	movie	896	2018-11-16	\N	\N	A-
-Creed	PG-13	creed	133	movie	897	2015-11-25	\N	\N	A-
-The Last Sharknado: It's About Time	TV-14	the-last-sharknado	86	movie	548	2018-08-19	\N	\N	D
-The Lion King	G	the-lion-king-(1994)	88	movie	549	1994-06-24	\N	\N	A
-The Matrix	R	the-matrix	136	movie	551	1999-03-31	\N	\N	A-
-The Muppet Christmas Carol	G	the-muppet-christmas-carol	85	movie	552	1992-12-11	\N	\N	A-
-The Nightmare Before Christmas	PG	the-nightmare-before-christmas	76	movie	553	1993-10-29	\N	\N	A-
-The Nun	R	the-nun	96	movie	554	2018-09-07	\N	\N	C-
-The Polar Express	G	the-polar-express	100	movie	555	2004-11-10	\N	\N	B
-The Princess Bride	PG	the-princess-bride	98	movie	556	1987-09-25	\N	\N	A
-The Ring	PG-13	the-ring	115	movie	557	2002-10-18	\N	\N	A-
-The Secret Life of Pets	PG	the-secret-life-of-pets	87	movie	558	2016-07-08	\N	\N	C
-2012	PG-13	2012	158	movie	820	2009-11-13	\N	\N	C
-The Shawshank Redemption	R	the-shawshank-redemption	142	movie	559	1994-09-23	\N	\N	A
-The Silence of the Lambs	R	the-silence-of-the-lambs	118	movie	560	1991-02-14	\N	\N	A-
-The Sixth Sense	PG-13	the-sixth-sense	107	movie	561	1999-08-06	\N	\N	A-
-The Social Network	PG-13	the-social-network	120	movie	562	2010-10-01	\N	\N	A-
-The Suicide Squad	R	the-suicide-squad	132	movie	563	2021-08-06	\N	\N	A
-The Terminator	R	the-terminator	107	movie	564	1984-10-26	\N	\N	A
-The Wizard of Oz	G	the-wizard-of-oz	102	movie	566	1939-08-25	\N	\N	A
-Thor: Ragnarok	PG-13	thor-ragnarok	130	movie	567	2017-11-03	\N	\N	A
-Titanic	PG-13	titanic	194	movie	568	1997-12-19	\N	\N	A-
-Top Gun: Maverick	PG-13	top-gun-maverick	130	movie	569	2022-05-27	\N	\N	A-
-Total Recall	R	total-recall	113	movie	570	1990-06-01	\N	\N	A-
-Starship Troopers	R	starship-troopers	129	movie	571	1997-11-07	\N	\N	B
-Toy Story	G	toy-story	81	movie	572	1995-11-22	\N	\N	A
-Toy Story 2	G	toy-story-2	92	movie	573	1999-11-24	\N	\N	A
-Toy Story 3	G	toy-story-3	103	movie	574	2010-06-18	\N	\N	A
-Toy Story 4	G	toy-story-4	100	movie	575	2019-06-21	\N	\N	A-
-Transformers: The Last Knight	PG-13	transformers-the-last-knight	154	movie	576	2017-06-21	\N	\N	D
-Transformers: Revenge of the Fallen	PG-13	transformers-revenge-of-the-fallen	149	movie	577	2009-06-24	\N	\N	D+
-Transformers: Dark of the Moon	PG-13	transformers-dark-of-the-moon	154	movie	578	2011-06-29	\N	\N	C
-Turning Red	PG	turning-red	100	movie	579	2022-03-11	\N	\N	A-
-Uncut Gems	R	uncut-gems	135	movie	580	2019-12-13	\N	\N	A-
-V for Vendetta	R	v-for-vendetta	132	movie	581	2006-03-17	\N	\N	A
-WALL-E	G	wall-e	98	movie	582	2008-06-27	\N	\N	A
-West Side Story	Not Rated	west-side-story-(1961)	153	movie	584	1961-10-18	\N	\N	A
-West Side Story	PG-13	west-side-story-(2021)	156	movie	585	2021-12-10	\N	\N	A-
-Who Framed Roger Rabbit	PG	who-framed-roger-rabbit	104	movie	586	1988-06-24	\N	\N	A
-Willy Wonka & the Chocolate Factory	G	willy-wonka-and-the-chocolate-factory	100	movie	587	1971-06-30	\N	\N	A
-Wonder Woman	PG-13	wonder-woman	141	movie	588	2017-06-02	\N	\N	A
-Wreck-It Ralph	PG	wreck-it-ralph	101	movie	589	2012-11-02	\N	\N	B+
-X-Men	PG-13	x-men	104	movie	590	2000-07-14	\N	\N	B+
-X-Men: Days of Future Past	PG-13	x-men-days-of-future-past	132	movie	591	2014-05-23	\N	\N	A-
-X-Men: First Class	PG-13	x-men-first-class	131	movie	592	2011-06-03	\N	\N	A
-Zombies 2	TV-G	zombies-2	84	movie	593	2020-02-14	\N	\N	C
-Zootopia	PG	zootopia	108	movie	594	2016-03-04	\N	\N	A
-Cats	PG	cats	110	movie	595	2019-12-20	\N	\N	D-
-Alien 3	R	alien-3	114	movie	596	1992-05-22	\N	\N	C
-The Conjuring 2	R	the-conjuring-2	134	movie	597	2016-06-10	\N	\N	B+
-Zombieland: Double Tap	R	zombieland-double-tap	99	movie	598	2019-10-18	\N	\N	B
-Kung Fu Panda	PG	kung-fu-panda	92	movie	599	2008-06-06	\N	\N	A
-Kung Fu Panda 2	PG	kung-fu-panda-2	90	movie	600	2011-05-26	\N	\N	A
-Kung Fu Panda 3	PG	kung-fu-panda-3	95	movie	602	2016-01-29	\N	\N	B+
-Megamind	PG	megamind	95	movie	603	2010-11-05	\N	\N	B
-Bee Movie	PG	bee-movie	91	movie	604	2007-11-02	\N	\N	C
-Zombies 3	TV-G	zombies-3	88	movie	605	2022-07-15	\N	\N	C
-The Giver	PG-13	the-giver	97	movie	606	2014-08-15	\N	\N	C+
-Ghostbusters: Afterlife	PG-13	ghostbusters-afterlife	124	movie	607	2021-11-19	\N	\N	B
-Maze Runner: The Scorch Trials	PG-13	the-scorch-trials	131	movie	608	2015-09-18	\N	\N	C+
-Mrs. Doubtfire	PG-13	mrs-doubtfire	125	movie	610	1993-11-24	\N	\N	B
-Maze Runner: The Death Cure	PG-13	the-death-cure	143	movie	611	2018-01-26	\N	\N	C+
-The Darkest Minds	PG-13	the-darkest-minds	104	movie	612	2018-08-03	\N	\N	C-
-RoboCop	R	robocop-(1987)	102	movie	619	1987-07-17	\N	\N	A-
-Predator	R	predator	107	movie	620	1987-06-12	\N	\N	A-
-Phineas and Ferb the Movie: Candace Against the Universe	TV-G	phineas-and-ferb-the-movie-candace-against-the-universe	86	movie	621	2020-08-28	\N	\N	B+
-Scary Movie 2	R	scary-movie-2	83	movie	622	2001-07-04	\N	\N	F
-Ice Age: Collision Course	PG	ice-age-collision-course	94	movie	623	2016-07-22	\N	\N	C
-I Still Know What You Did Last Summer	R	i-still-know-what-you-did-last-summer	100	movie	624	1998-11-13	\N	\N	C-
-Jaws: The Revenge	PG-13	jaws-the-revenge	89	movie	628	1987-07-17	\N	\N	D+
-Green Lantern	PG-13	green-lantern	114	movie	629	2011-06-17	\N	\N	D+
-Jason X	R	jason-x	92	movie	630	2002-04-26	\N	\N	D+
-A Good Day to Die Hard	R	a-good-day-to-die-hard	98	movie	631	2013-02-14	\N	\N	D+
-Supergirl	PG	supergirl	124	movie	632	1984-07-19	\N	\N	D
-Justice League: The Flashpoint Paradox	PG-13	justice-league-the-flashpoint-paradox	75	movie	633	2013-07-30	\N	\N	B+
-Justice League: War	PG-13	justice-league-war	79	movie	634	2014-02-04	\N	\N	B
-Son of Batman	PG-13	son-of-batman	74	movie	635	2014-04-22	\N	\N	B
-Thor: Love and Thunder	PG-13	thor-love-and-thunder	118	movie	636	2022-07-08	\N	\N	B
-Casablanca	PG	casablanca	102	movie	245	1942-11-26	\N	\N	A
-Justice League: Throne of Atlantis	PG-13	justice-league-throne-of-atlantis	72	movie	637	2015-01-13	\N	\N	B
-Batman: Bad Blood	PG-13	batman-bad-blood	72	movie	638	2016-01-20	\N	\N	B-
-Justice League vs. Teen Titans	PG-13	justice-league-vs-teen-titans	78	movie	639	2016-03-29	\N	\N	B
-Batman vs. Robin	PG-13	batman-vs-robin	80	movie	640	2015-04-07	\N	\N	B+
-Teen Titans: The Judas Contract	PG-13	teen-titans-the-judas-contract	84	movie	641	2017-04-04	\N	\N	B+
-Suicide Squad: Hell to Pay	R	suicide-squad-hell-to-pay	86	movie	642	2018-03-27	\N	\N	B
-Constantine: City of Demons	R	constantine-city-of-demons	90	movie	643	2018-10-09	\N	\N	B
-Batman: Hush	PG-13	batman-hush	81	movie	644	2019-07-20	\N	\N	B
-Wonder Woman: Bloodlines	PG-13	wonder-woman-bloodlines	83	movie	645	2019-10-05	\N	\N	C+
-Lightyear	PG	lightyear	105	movie	646	2022-06-17	\N	\N	C+
-Alien vs. Predator	PG-13	alien-vs-predator	101	movie	647	2004-08-13	\N	\N	C
-Blade: Trinity	R	blade-trinity	113	movie	648	2004-12-08	\N	\N	C-
-Christmas with the Kranks	PG	christmas-with-the-kranks	99	movie	649	2004-11-24	\N	\N	D+
-Skyscraper	PG-13	skyscraper	102	movie	650	2018-07-13	\N	\N	C
-Space Jam	PG	space-jam	88	movie	651	1996-11-15	\N	\N	D+
-Star Wars: The Clone Wars	PG	star-wars-the-clone-wars	98	movie	652	2008-08-15	\N	\N	C
-Surviving Christmas	PG-13	surviving-christmas	91	movie	653	2004-10-22	\N	\N	D+
-The Fast and the Furious: Tokyo Drift	PG-13	the-fast-and-the-furious-tokyo-drift	104	movie	654	2006-06-16	\N	\N	C-
-The Grudge	PG-13	the-grudge	91	movie	655	2004-10-22	\N	\N	C-
-The NeverEnding Story II: The Next Chapter	PG	the-neverending-story-2	90	movie	656	1991-02-08	\N	\N	D+
-The Next Karate Kid	PG	the-next-karate-kid	107	movie	657	1994-09-09	\N	\N	C
-The Nutcracker and the Four Realms	PG	the-nutcracker-and-the-four-realms	99	movie	658	2018-11-02	\N	\N	C-
-The Twilight Saga: Breaking Dawn - Part 1	PG-13	breaking-dawn-part-1	117	movie	659	2011-11-18	\N	\N	D+
-The Twilight Saga: Eclipse	PG-13	eclipse	124	movie	660	2010-06-30	\N	\N	D+
-The Twilight Saga: New Moon	PG-13	new-moon	130	movie	661	2009-11-20	\N	\N	D+
-The Village	PG-13	the-village	108	movie	662	2004-07-30	\N	\N	C
-Alice in Wonderland	PG	alice-in-wonderland-(2010)	108	movie	663	2010-03-05	\N	\N	C
-The Divergent Series: Allegiant	PG-13	allegiant	120	movie	664	2016-03-18	\N	\N	C-
-Beauty and the Beast	PG	beauty-and-the-beast-(2017)	129	movie	665	2017-03-17	\N	\N	C+
-Clash of the Titans	PG	clash-of-the-titans-(1981)	118	movie	666	1981-06-12	\N	\N	C+
-Cloud Atlas	R	cloud-atlas	172	movie	667	2012-10-26	\N	\N	B
-Avatar: The Way of Water	PG-13	avatar-the-way-of-water	192	movie	669	2022-12-16	\N	\N	B+
-Warm Bodies	PG-13	warm-bodies	98	movie	670	2013-02-01	\N	\N	B+
-Little Shop of Horrors	PG-13	little-shop-of-horrors	94	movie	671	1986-12-19	\N	\N	A-
-Dear Evan Hansen	PG-13	dear-evan-hansen	137	movie	672	2021-09-24	\N	\N	C+
-Despicable Me 3	PG	despicable-me-3	89	movie	673	2017-06-30	\N	\N	C
-Diary of a Wimpy Kid	PG	diary-of-a-wimpy-kid	94	movie	674	2010-03-19	\N	\N	D+
-Dumbo	G	dumbo-(1941)	64	movie	675	1941-10-23	\N	\N	B-
-Dumbo	PG	dumbo-(2019)	112	movie	676	2019-03-29	\N	\N	C+
-Fantastic Beasts: The Secrets of Dumbledore	PG-13	fantastic-beasts-the-secrets-of-dumbledore	142	movie	677	2022-04-15	\N	\N	C+
-Fast & Furious	PG-13	fast-and-furious	107	movie	678	2009-04-03	\N	\N	C+
-Finding Nemo	PG	finding-nemo	100	movie	679	2003-05-30	\N	\N	A
-Geostorm	PG-13	geostorm	109	movie	680	2017-10-20	\N	\N	C-
-Halloween Kills	R	halloween-kills	105	movie	681	2021-10-15	\N	\N	C+
-Halloween: Resurrection	R	halloween-resurrection	90	movie	682	2002-07-12	\N	\N	D+
-Ice Age: Dawn of the Dinosaurs	PG	ice-age-dawn-of-the-dinosaurs	94	movie	683	2009-07-01	\N	\N	B-
-Inside Out	PG	inside-out	95	movie	685	2015-06-19	\N	\N	A
-Jurassic Park III	PG-13	jurassic-park-3	92	movie	686	2001-07-18	\N	\N	C
-Justice League	PG-13	justice-league	120	movie	687	2017-11-17	\N	\N	C
-Justice League Dark	R	justice-league-dark	75	movie	688	2017-01-24	\N	\N	B
-Lady and the Tramp	PG	lady-and-the-tramp-(2019)	111	movie	689	2019-11-12	\N	\N	C+
-Man of Steel	PG-13	man-of-steel	143	movie	690	2013-06-14	\N	\N	B-
-Monsters, Inc.	G	monsters-inc	92	movie	691	2001-11-02	\N	\N	A
-Mulan	PG-13	mulan-(2020)	115	movie	692	2020-09-04	\N	\N	C+
-Percy Jackson & the Olympians: The Lightning Thief	PG	percy-jackson-and-the-olympians-the-lightning-thief	118	movie	693	2010-02-12	\N	\N	C+
-Rambo	R	rambo	92	movie	694	2008-01-25	\N	\N	C-
-Real Steel	PG-13	real-steel	127	movie	695	2011-10-07	\N	\N	B+
-Reign of the Supermen	PG-13	reign-of-the-supermen	87	movie	696	2019-01-29	\N	\N	B
-Rocky V	PG-13	rocky-5	104	movie	697	1990-11-16	\N	\N	C+
-Shrek	PG	shrek	90	movie	698	2001-05-18	\N	\N	B+
-Sing	PG	sing	108	movie	699	2016-12-21	\N	\N	C+
-Star Trek: Nemesis	PG-13	star-trek-nemesis	116	movie	700	2002-12-13	\N	\N	B
-Star Trek: Generations	PG	star-trek-generations	118	movie	701	1994-11-18	\N	\N	B
-Star Trek: The Motion Picture	PG	star-trek-the-motion-picture	143	movie	702	1979-12-07	\N	\N	C+
-Return of the Jedi	PG	return-of-the-jedi	131	movie	704	1983-05-25	\N	\N	A
-Star Wars: The Force Awakens	PG-13	star-wars-the-force-awakens	138	movie	705	2015-12-18	\N	\N	A-
-Star Wars: The Last Jedi	PG-13	star-wars-the-last-jedi	152	movie	706	2017-12-15	\N	\N	B+
-Suicide Squad	PG-13	suicide-squad	123	movie	707	2016-08-05	\N	\N	C
-Super 8	PG-13	super-8	112	movie	708	2011-06-10	\N	\N	B+
-Superman II	PG	superman-2	127	movie	709	1981-06-19	\N	\N	B
-Superman Returns	PG-13	superman-returns	154	movie	710	2006-06-28	\N	\N	C+
-Terminator: Dark Fate	R	terminator-dark-fate	128	movie	711	2019-11-01	\N	\N	B-
-The Adam Project	PG-13	the-adam-project	106	movie	712	2022-03-11	\N	\N	B+
-The Bye Bye Man	PG-13	the-bye-bye-man	96	movie	713	2017-01-13	\N	\N	D+
-The Christmas Chronicles	PG	the-christmas-chronicles	104	movie	714	2018-11-22	\N	\N	B
-The Da Vinci Code	PG-13	the-da-vinci-code	149	movie	715	2006-05-19	\N	\N	C+
-The Godfather Part III	R	the-godfather-part-3	162	movie	716	1990-12-25	\N	\N	B
-The Good Dinosaur	PG	the-good-dinosaur	93	movie	717	2015-11-25	\N	\N	C+
-The Great Gatsby	PG-13	the-great-gatsby	143	movie	718	2013-05-10	\N	\N	B
-The Greatest Showman	PG	the-greatest-showman	105	movie	719	2017-12-20	\N	\N	B
-The Lost World: Jurassic Park	PG-13	the-lost-world	129	movie	721	1997-05-23	\N	\N	C+
-The Matrix Revolutions	R	the-matrix-revolutions	129	movie	722	2003-11-05	\N	\N	C+
-The Patriot	R	the-patriot	165	movie	724	2000-06-30	\N	\N	B-
-The Producers	PG-13	the-producers	134	movie	725	2005-12-16	\N	\N	B+
-The Rock	R	the-rock	136	movie	726	1996-06-07	\N	\N	B
-Troll 2	PG-13	troll-2	95	movie	727	1990-10-12	\N	\N	F
-Twilight	PG-13	twilight	122	movie	728	2008-11-21	\N	\N	D+
-Underworld	R	underworld	121	movie	729	2003-09-19	\N	\N	C+
-Underworld: Evolution	R	underworld-evolution	106	movie	730	2006-01-20	\N	\N	C-
-Underworld: Rise of the Lycans	R	underworld-rise-of-the-lycans	92	movie	731	2009-01-23	\N	\N	C
-Wonder Woman 1984	PG-13	wonder-woman-1984	151	movie	732	2020-12-25	\N	\N	C+
-World War Z	PG-13	world-war-z	116	movie	733	2013-06-21	\N	\N	C+
-Zack Snyder's Justice League	R	zack-snyders-justice-league	242	movie	734	2021-03-18	\N	\N	B
-A League of Their Own	PG	a-league-of-their-own	128	movie	735	1992-07-01	\N	\N	A-
-Alien Resurrection	R	alien-resurrection	109	movie	738	1997-11-26	\N	\N	C-
-Daredevil	PG-13	daredevil	103	movie	739	2003-02-14	\N	\N	D+
-Hulk	PG-13	hulk	138	movie	741	2003-06-20	\N	\N	C
-Goodfellas	R	goodfellas	145	movie	742	1990-09-18	\N	\N	A
-Antz	PG	antz	83	movie	743	1998-10-02	\N	\N	B+
-The Expendables	R	the-expendables	103	movie	744	2010-08-13	\N	\N	C+
-The Expendables 3	PG-13	the-expendables-3	126	movie	745	2014-08-15	\N	\N	C+
-Samaritan	PG-13	samaritan	102	movie	746	2022-08-26	\N	\N	C+
-Fast Times at Ridgemont High	R	fast-times-at-ridgemont-high	90	movie	747	1982-08-13	\N	\N	B+
-The Breakfast Club	R	the-breakfast-club	97	movie	748	1985-02-15	\N	\N	A
-Ferris Bueller's Day Off	PG-13	ferris-buellers-day-off	103	movie	749	1986-06-11	\N	\N	B+
-Clueless	PG-13	clueless	97	movie	750	1995-07-19	\N	\N	B
-Mean Girls	PG-13	mean-girls-(2004)	97	movie	751	2004-04-30	\N	\N	A-
-Elvis	PG-13	elvis	159	movie	752	2022-06-24	\N	\N	B+
-Mars Needs Moms	PG	mars-needs-moms	88	movie	753	2011-03-11	\N	\N	D+
-Pinocchio	G	pinocchio-(1940)	88	movie	754	1940-02-23	\N	\N	A-
-Pinocchio	PG	pinocchio-(2022)	105	movie	755	2022-09-08	\N	\N	C-
-Cinderella	G	cinderella-(1950)	74	movie	756	1950-03-04	\N	\N	B+
-Clerks	R	clerks	92	movie	757	1994-10-19	\N	\N	A
-The Muppet Movie	G	the-muppet-movie	95	movie	758	1979-06-22	\N	\N	A
-The Great Muppet Caper	G	the-great-muppet-caper	97	movie	759	1981-06-26	\N	\N	B+
-The Muppets Take Manhattan	G	the-muppets-take-manhattan	94	movie	760	1984-07-13	\N	\N	B+
-Muppet Treasure Island	G	muppet-treasure-island	99	movie	761	1996-02-16	\N	\N	B+
-Muppets from Space	G	muppets-from-space	87	movie	762	1999-07-14	\N	\N	C+
-The Muppets	PG	the-muppets	120	movie	763	2011-11-23	\N	\N	A
-Muppets Most Wanted	PG	muppets-most-wanted	107	movie	764	2014-03-21	\N	\N	B
-Coraline	PG	coraline	100	movie	765	2009-02-06	\N	\N	A
-Monster House	PG	monster-house	91	movie	766	2006-07-21	\N	\N	B-
-The Addams Family 2	PG	the-addams-family-2	93	movie	767	2021-10-01	\N	\N	D+
-Hellraiser	R	hellraiser-(1987)	94	movie	768	1987-09-10	\N	\N	A-
-The Blair Witch Project	R	the-blair-witch-project	81	movie	769	1999-07-14	\N	\N	B-
-Hocus Pocus 2	PG	hocus-pocus-2	103	movie	770	2022-09-30	\N	\N	C+
-The Mummy	Not Rated	the-mummy-(1932)	73	movie	771	1932-12-22	\N	\N	B
-The Invisible Man	Not Rated	the-invisible-man-(1933)	71	movie	772	1933-10-31	\N	\N	B+
-The Wolf Man	Not Rated	the-wolf-man	70	movie	773	1941-12-09	\N	\N	B
-Creature from the Black Lagoon	G	creature-from-the-black-lagoon	79	movie	774	1954-02-12	\N	\N	B
-Spiral: From the Book of Saw	R	spiral	93	movie	775	2021-05-14	\N	\N	C
-Hellraiser	R	hellraiser-(2022)	121	movie	776	2022-10-07	\N	\N	B
-Candyman	R	candyman-(1992)	99	movie	777	1992-10-16	\N	\N	A-
-Candyman	R	candyman-(2021)	91	movie	778	2021-08-27	\N	\N	B+
-Birdemic: Shock and Terror	Not Rated	birdemic	105	movie	779	2010-02-27	\N	\N	F
-Jurassic World Dominion	PG-13	jurassic-world-dominion	147	movie	780	2022-06-10	\N	\N	C-
-The Black Phone	R	the-black-phone	103	movie	782	2022-06-24	\N	\N	B+
-The Mist	R	the-mist	126	movie	784	2007-11-21	\N	\N	B-
-Carrie	R	carrie-(1976)	98	movie	785	1976-11-03	\N	\N	A
-Misery	R	misery	107	movie	786	1990-11-30	\N	\N	A
-Morbius	PG-13	morbius	104	movie	787	2022-04-01	\N	\N	C
-Beetlejuice	PG	beetlejuice	92	movie	788	1988-03-30	\N	\N	A-
-Edward Scissorhands	PG-13	edward-scissorhands	105	movie	790	1990-12-07	\N	\N	A
-Sweeney Todd: The Demon Barber of Fleet Street	R	sweeney-todd	116	movie	791	2007-12-21	\N	\N	B+
-Black Adam	PG-13	black-adam	125	movie	792	2022-10-21	\N	\N	C+
-Dark Shadows	PG-13	dark-shadows	113	movie	793	2012-05-11	\N	\N	C+
-Wendell & Wild	PG-13	wendell-and-wild	105	movie	794	2022-10-21	\N	\N	B
-Seven	R	seven	127	movie	795	1995-09-22	\N	\N	A
-Zodiac	R	zodiac	157	movie	796	2007-03-02	\N	\N	B+
-Halloween Ends	R	halloween-ends	111	movie	797	2022-10-14	\N	\N	C
-Enola Holmes	PG-13	enola-holmes	123	movie	798	2020-09-23	\N	\N	B+
-Enola Holmes 2	PG-13	enola-holmes-2	129	movie	799	2022-11-04	\N	\N	B+
-Full Metal Jacket	R	full-metal-jacket	116	movie	801	1987-06-26	\N	\N	B+
-Saving Private Ryan	R	saving-private-ryan	169	movie	802	1998-07-24	\N	\N	A
-The Princess and the Frog	G	the-princess-and-the-frog	97	movie	804	2009-12-11	\N	\N	A-
-Enchanted	PG	enchanted	107	movie	805	2007-11-21	\N	\N	A-
-Tron	PG	tron	96	movie	806	1982-07-09	\N	\N	B+
-Willow	PG	willow	126	movie	808	1988-05-20	\N	\N	B-
-Klaus	PG	klaus	96	movie	809	2019-11-08	\N	\N	A
-A Christmas Prince	TV-PG	a-christmas-prince	92	movie	810	2017-11-17	\N	\N	C
-Nope	R	nope	130	movie	811	2022-07-22	\N	\N	B+
-Strange World	PG	strange-world	102	movie	812	2022-11-23	\N	\N	B
-The Unbearable Weight of Massive Talent	R	the-unbearable-weight-of-massive-talent	107	movie	813	2022-04-22	\N	\N	B+
-Bullet Train	R	bullet-train	127	movie	814	2022-08-05	\N	\N	B+
-The Expendables 2	R	the-expendables-2	103	movie	815	2012-08-17	\N	\N	C+
-Lawrence of Arabia	PG	lawrence-of-arabia	227	movie	816	1962-12-10	\N	\N	A-
-Mortal Kombat Legends: Snow Blind	R	mortal-kombat-legends-snow-blind	82	movie	817	2022-10-09	\N	\N	B-
-2 Fast 2 Furious	PG-13	2-fast-2-furious	107	movie	818	2003-06-06	\N	\N	C
-2001: A Space Odyssey	G	2001	149	movie	819	1968-04-03	\N	\N	B
-A Christmas Prince: The Royal Baby	TV-PG	a-christmas-prince-the-royal-baby	84	movie	821	2019-12-05	\N	\N	D+
-Bill & Ted's Bogus Journey	PG	bill-and-teds-bogus-journey	93	movie	822	1991-07-19	\N	\N	B+
-Black Panther: Wakanda Forever	PG-13	black-panther-wakanda-forever	161	movie	823	2022-11-11	\N	\N	B+
-Bride of Frankenstein	Not Rated	bride-of-frankenstein	75	movie	824	1935-04-20	\N	\N	B+
-Cinderella	PG	cinderella-(2015)	105	movie	825	2015-03-13	\N	\N	B-
-Citizen Kane	PG	citizen-kane	119	movie	826	1941-09-05	\N	\N	B+
-Descendants 2	TV-G	descendants-2	111	movie	827	2017-07-21	\N	\N	C
-Die Hard with a Vengeance	R	die-hard-with-a-vengeance	128	movie	828	1995-05-19	\N	\N	B+
-Doctor Sleep	R	doctor-sleep	152	movie	829	2019-11-08	\N	\N	B+
-Dune	PG-13	dune-(1984)	137	movie	830	1984-12-14	\N	\N	C
-E.T. the Extra-Terrestrial	PG	et	115	movie	831	1982-06-11	\N	\N	B+
-Free Guy	PG-13	free-guy	115	movie	832	2021-08-13	\N	\N	B+
-Game Night	R	game-night	100	movie	833	2018-02-23	\N	\N	B+
-Glass Onion: A Knives Out Mystery	PG-13	glass-onion	139	movie	834	2022-11-23	\N	\N	A-
-Godzilla vs. Kong	PG-13	godzilla-vs-kong	113	movie	835	2021-03-31	\N	\N	C+
-Guillermo del Toro's Pinocchio	PG	guillermo-del-toros-pinocchio	117	movie	837	2022-11-09	\N	\N	A-
-Hacksaw Ridge	R	hacksaw-ridge	139	movie	838	2016-11-04	\N	\N	B+
-Halloweentown II: Kalabar's Revenge	TV-PG	halloweentown-2	81	movie	839	2001-10-12	\N	\N	C-
-Harry Potter and the Chamber of Secrets	PG	harry-potter-and-the-chamber-of-secrets	161	movie	840	2002-11-15	\N	\N	B+
-Harry Potter and the Deathly Hallows - Part 1	PG-13	harry-potter-and-the-deathly-hallows-part-1	146	movie	841	2010-11-19	\N	\N	B+
-I Know What You Did Last Summer	R	i-know-what-you-did-last-summer-(1997)	101	movie	842	1997-10-17	\N	\N	C+
-Inferno	PG-13	inferno	121	movie	843	2016-10-28	\N	\N	C
-Juno	PG-13	juno	96	movie	845	2007-12-05	\N	\N	B+
-Justice League Dark: Apokolips War	R	justice-league-dark-apokolips-war	90	movie	846	2020-05-05	\N	\N	B+
-Maleficent	PG	maleficent	97	movie	847	2014-05-30	\N	\N	C+
-National Treasure	PG	national-treasure	131	movie	848	2004-11-19	\N	\N	B-
-Night at the Museum: Battle of the Smithsonian	PG	night-at-the-museum-battle-of-the-smithsonian	105	movie	849	2009-05-22	\N	\N	C
-Ocean's Eight	PG-13	oceans-eight	110	movie	850	2018-06-08	\N	\N	C
-Pokémon: Detective Pikachu	PG	detective-pikachu	104	movie	851	2019-05-10	\N	\N	B+
-Saw III	R	saw-3	108	movie	853	2006-10-27	\N	\N	C
-Spider-Man	PG-13	spider-man	121	movie	854	2002-05-03	\N	\N	B+
-Spy Kids 3-D: Game Over	PG	spy-kids-3	84	movie	855	2003-07-25	\N	\N	D+
-Star Wars: Episode I - The Phantom Menace	PG	star-wars-episode-1	136	movie	856	1999-05-19	\N	\N	C
-Star Wars: Episode II - Attack of the Clones	PG	star-wars-episode-2	142	movie	857	2002-05-16	\N	\N	C
-Star Wars: Episode III - Revenge of the Sith	PG-13	star-wars-episode-3	140	movie	858	2005-05-19	\N	\N	B-
-The Christmas Chronicles Part Two	PG	the-christmas-chronicles-2	112	movie	859	2020-11-25	\N	\N	B-
-The Death of Superman	PG-13	the-death-of-superman	81	movie	860	2018-07-24	\N	\N	B+
-The Godfather Part II	R	the-godfather-part-2	202	movie	861	1974-12-20	\N	\N	B+
-The Meg	PG-13	the-meg	113	movie	862	2018-08-10	\N	\N	C
-Mad Max 2	R	mad-max-2	96	movie	863	1981-12-24	\N	\N	B
-Up	PG	up	96	movie	864	2009-05-29	\N	\N	A-
-White Christmas	Not Rated	white-christmas	120	movie	866	1954-10-14	\N	\N	B+
-Once Upon a Time in... Hollywood	R	once-upon-a-time-in-hollywood	161	movie	867	2019-07-26	\N	\N	A-
-The Bourne Identity	PG-13	the-bourne-identity	119	movie	868	2002-06-14	\N	\N	A-
-The Bourne Supremacy	PG-13	the-bourne-supremacy	108	movie	869	2004-07-23	\N	\N	B+
-The Bourne Legacy	PG-13	the-bourne-legacy	135	movie	870	2012-08-10	\N	\N	B-
-Extraction	R	extraction	116	movie	871	2020-04-24	\N	\N	C+
-A Haunting in Venice	PG-13	a-haunting-in-venice	103	movie	872	2023-09-15	\N	\N	B-
-Mortal Kombat Legends: Cage Match	R	mortal-kombat-legends-cage-match	76	movie	873	2023-10-17	\N	\N	C+
-Saw X	R	saw-x	118	movie	874	2023-09-29	\N	\N	B-
-Kung Fu Panda 4	PG	kung-fu-panda-4	94	movie	875	2024-03-08	\N	\N	B
-Migration	PG	migration	83	movie	876	2023-12-22	\N	\N	C+
-Plan 9 From Outer Space	Not Rated	plan-9-from-outer-space	80	movie	877	1957-03-15	\N	\N	D-
-Unfriended	R	unfriended	83	movie	878	2015-04-17	\N	\N	B-
-Jason Bourne	PG-13	jason-bourne	123	movie	879	2016-07-29	\N	\N	C+
-Taken	PG-13	taken	90	movie	880	2008-02-27	\N	\N	B+
-Taken 2	PG-13	taken-2	92	movie	881	2012-10-05	\N	\N	C
-Taken 3	PG-13	taken-3	108	movie	882	2015-01-09	\N	\N	C-
-The Prince of Egypt	PG	the-prince-of-egypt	99	movie	883	1998-12-18	\N	\N	A
-Star Trek	PG-13	star-trek	127	movie	884	2009-05-08	\N	\N	A
-Star Trek Beyond	PG-13	star-trek-beyond	122	movie	885	2016-07-22	\N	\N	B+
-Bruce Almighty	PG-13	bruce-almighty	101	movie	886	2003-05-23	\N	\N	C+
-Magic Mike XXL	R	magic-mike-xxl	115	movie	887	2015-07-01	\N	\N	C+
-Matilda	PG	matilda	98	movie	888	1996-08-02	\N	\N	B+
-The Mighty Ducks	PG	the-mighty-ducks	104	movie	889	1992-10-02	\N	\N	C+
-Basic Instinct	R	basic-instinct	127	movie	890	1992-03-20	\N	\N	B+
-Showgirls	NC-17	showgirls	128	movie	891	1995-09-22	\N	\N	D+
-Honey, I Shrunk the Kids	PG	honey-i-shrunk-the-kids	93	movie	893	1989-06-23	\N	\N	B-
-Hidden Figures	PG	hidden-figures	127	movie	894	2017-01-06	\N	\N	B+
-Creed II	PG-13	creed-2	130	movie	898	2018-11-21	\N	\N	B+
-M3GAN	PG-13	m3gan	102	movie	899	2023-01-06	\N	\N	B+
-Ant-Man and the Wasp: Quantumania	PG-13	ant-man-and-the-wasp-quantumania	124	movie	900	2023-02-17	\N	\N	B-
-Forrest Gump	PG-13	forrest-gump	142	movie	901	1994-07-06	\N	\N	A
-Braveheart	R	braveheart	178	movie	902	1995-05-24	\N	\N	A
-Gladiator	R	gladiator	155	movie	903	2000-05-05	\N	\N	B+
-Puss in Boots: The Last Wish	PG	puss-in-boots-the-last-wish	102	movie	904	2022-12-21	\N	\N	A
-Chicago	PG-13	chicago	113	movie	906	2002-12-27	\N	\N	B+
-The Sound of Music	R	the-sound-of-music	172	movie	907	1965-03-02	\N	\N	A-
-Nobody	R	nobody	92	movie	908	2021-03-26	\N	\N	B+
-Point Break	R	point-break	122	movie	909	1991-07-12	\N	\N	A-
-DC League of Super-Pets	PG	league-of-super-pets	105	movie	910	2022-07-29	\N	\N	C+
-Pixels	PG-13	pixels	105	movie	911	2015-07-24	\N	\N	D+
-Murder Mystery	PG-13	murder-mystery	97	movie	912	2019-06-14	\N	\N	C
-Murder Mystery 2	PG-13	murder-mystery-2	90	movie	913	2023-03-31	\N	\N	C-
-Knock at the Cabin	R	knock-at-the-cabin	100	movie	914	2023-02-03	\N	\N	C+
-Vampire's Kiss	R	vampires-kiss	103	movie	915	1989-06-02	\N	\N	C-
-The Mummy	PG-13	the-mummy-(1999)	124	movie	916	1999-05-07	\N	\N	B
-The Mummy Returns	PG-13	the-mummy-returns	130	movie	917	2001-05-04	\N	\N	C
-The Scorpion King	PG-13	the-scorpion-king	92	movie	918	2002-04-19	\N	\N	C-
-Van Helsing	PG-13	van-helsing	131	movie	919	2004-05-07	\N	\N	C-
-Patriots Day	R	patriots-day	133	movie	920	2016-12-21	\N	\N	B+
-Cocaine Bear	R	cocaine-bear	95	movie	921	2023-02-24	\N	\N	B
-Pete's Dragon	G	petes-dragon-(1977)	128	movie	922	1977-11-03	\N	\N	C+
-Pete's Dragon	PG	petes-dragon-(2016)	102	movie	923	2016-08-12	\N	\N	B+
-Peter Pan & Wendy	PG	peter-pan-and-wendy	106	movie	924	2023-04-28	\N	\N	C+
-Scream VI	R	scream-6	122	movie	925	2023-03-10	\N	\N	B+
-Fatal Attraction	R	fatal-attraction	119	movie	926	1987-09-18	\N	\N	B+
-Fifty Shades of Grey	R	fifty-shades-of-grey	125	movie	927	2015-02-13	\N	\N	D
-Fifty Shades Darker	R	fifty-shades-darker	118	movie	928	2017-02-10	\N	\N	D
-Fifty Shades Freed	R	fifty-shades-freed	105	movie	929	2018-02-09	\N	\N	D
-Mamma Mia!	PG-13	mamma-mia	108	movie	930	2008-07-18	\N	\N	C+
-Mamma Mia! Here We Go Again	PG-13	mamma-mia-here-we-go-again	114	movie	931	2018-07-20	\N	\N	B-
-Guardians of the Galaxy Vol. 3	PG-13	guardians-of-the-galaxy-vol-3	150	movie	932	2023-05-05	\N	\N	B+
-xXx	PG-13	xxx	124	movie	933	2002-08-09	\N	\N	C
-Shazam! Fury of the Gods	PG-13	shazam-fury-of-the-gods	130	movie	934	2023-03-17	\N	\N	B
-Final Destination	R	final-destination	98	movie	935	2000-03-17	\N	\N	C+
-The Final Destination	R	the-final-destination	82	movie	936	2009-08-28	\N	\N	D+
-xXx: State of the Union	PG-13	xxx-state-of-the-union	101	movie	937	2005-04-29	\N	\N	C-
-xXx: Return of Xander Cage	PG-13	xxx-return-of-xander-cage	107	movie	938	2017-01-20	\N	\N	C
-White Men Can't Jump	R	white-men-cant-jump	115	movie	939	1992-03-27	\N	\N	B+
-Dungeons & Dragons: Honor Among Thieves	PG-13	dungeons-and-dragons-honor-among-thieves	134	movie	940	2023-03-31	\N	\N	B+
-Into the Woods	PG	into-the-woods	125	movie	941	2014-12-25	\N	\N	C+
-The Hunchback of Notre Dame	G	the-hunchback-of-notre-dame	91	movie	942	1996-06-21	\N	\N	A-
-Tarzan	G	tarzan	88	movie	943	1999-06-18	\N	\N	A-
-Cloudy with a Chance of Meatballs	PG	cloudy-with-a-chance-of-meatballs	90	movie	944	2009-09-18	\N	\N	B+
-101 Dalmatians	G	101-dalmatians	103	movie	945	1996-11-27	\N	\N	C-
-102 Dalmatians	G	102-dalmatians	100	movie	946	2000-11-22	\N	\N	D+
-A Christmas Prince: The Royal Wedding	TV-PG	a-christmas-prince-the-royal-wedding	92	movie	947	2018-11-30	\N	\N	C-
-Lemony Snicket's A Series of Unfortunate Events	PG	a-series-of-unfortunate-events	108	movie	948	2004-12-17	\N	\N	B-
-Army of Darkness	R	army-of-darkness	81	movie	949	1993-02-19	\N	\N	A-
-Artemis Fowl	PG	artemis-fowl	95	movie	950	2020-06-12	\N	\N	D+
-Austin Powers: International Man of Mystery	PG-13	austin-powers-international-man-of-mystery	94	movie	951	1997-05-02	\N	\N	B
-Back to the Future	PG	back-to-the-future	116	movie	952	1985-07-03	\N	\N	A
-Bad Boys II	R	bad-boys-2	147	movie	953	2003-07-18	\N	\N	D+
-Blade	R	blade	120	movie	954	1998-08-21	\N	\N	B
-Brave	PG	brave	93	movie	955	2012-06-22	\N	\N	B-
-Carrie	R	carrie-(2013)	100	movie	956	2013-10-18	\N	\N	B-
-Child's Play	R	childs-play-(2019)	90	movie	957	2019-06-21	\N	\N	B-
-Coming 2 America	PG-13	coming-2-america	110	movie	958	2021-03-05	\N	\N	D+
-Coming to America	R	coming-to-america	117	movie	959	1988-06-29	\N	\N	B-
-Cruella	PG-13	cruella	134	movie	960	2021-05-28	\N	\N	B
-X-Men: Dark Phoenix	PG-13	dark-phoenix	113	movie	961	2019-06-07	\N	\N	C-
-Disenchanted	PG	disenchanted	119	movie	962	2022-11-18	\N	\N	B-
-Divergent	PG-13	divergent	139	movie	963	2014-03-21	\N	\N	C+
-Evil Dead	R	evil-dead	91	movie	965	2013-04-05	\N	\N	B
-Fast & Furious Presents: Hobbs & Shaw	PG-13	hobbs-and-shaw	137	movie	966	2019-08-02	\N	\N	B+
-Fred Claus	PG	fred-claus	116	movie	967	2007-11-09	\N	\N	C
-Godmothered	PG	godmothered	110	movie	968	2020-12-04	\N	\N	C-
-Groundhog Day	PG	groundhog-day	101	movie	969	1993-02-12	\N	\N	B+
-Guardians of the Galaxy Vol. 2	PG-13	guardians-of-the-galaxy-vol-2	136	movie	970	2017-05-05	\N	\N	A-
-Happy Gilmore	PG-13	happy-gilmore	92	movie	971	1996-02-16	\N	\N	B-
-Hercules	G	hercules	93	movie	973	1997-06-13	\N	\N	B+
-High School Musical	TV-G	high-school-musical	98	movie	974	2006-01-20	\N	\N	C+
-High School Musical 3: Senior Year	G	high-school-musical-3	112	movie	975	2008-10-24	\N	\N	C+
-Hubie Halloween	PG-13	hubie-halloween	103	movie	976	2020-10-07	\N	\N	D+
-Independence Day	PG-13	independence-day	145	movie	977	1996-07-03	\N	\N	B-
-Live Free or Die Hard	PG-13	live-free-or-die-hard	128	movie	978	2007-06-27	\N	\N	B
-Magic Mike	R	magic-mike	110	movie	979	2012-06-29	\N	\N	B-
-Minions	PG	minions	91	movie	980	2015-07-10	\N	\N	C
-Minions: The Rise of Gru	PG	minions-the-rise-of-gru	87	movie	981	2022-07-01	\N	\N	C
-Monster Hunter	PG-13	monster-hunter	103	movie	982	2020-12-18	\N	\N	C-
-Mortal Kombat	R	mortal-kombat-(2021)	110	movie	983	2021-04-23	\N	\N	B-
-Night at the Museum	PG	night-at-the-museum	108	movie	984	2006-12-22	\N	\N	B-
-Night at the Museum: Secret of the Tomb	PG	night-at-the-museum-secret-of-the-tomb	98	movie	985	2014-12-19	\N	\N	C+
-Noelle	G	noelle	100	movie	986	2019-11-12	\N	\N	C+
-Old	PG-13	old	108	movie	987	2021-07-23	\N	\N	C+
-Peter Pan	PG	peter-pan-(2003)	113	movie	988	2003-12-25	\N	\N	A-
-Planes: Fire & Rescue	PG	planes-fire-and-rescue	83	movie	989	2014-07-18	\N	\N	C
-Pocahontas	G	pocahontas	81	movie	990	1995-06-23	\N	\N	B
-Prometheus	R	prometheus	124	movie	991	2012-06-08	\N	\N	B-
-Return to Halloweentown	TV-PG	return-to-halloweentown	88	movie	992	2006-10-20	\N	\N	D+
-Rise of the Guardians	PG	rise-of-the-guardians	97	movie	993	2012-11-21	\N	\N	B+
-Santa Claus: The Movie	PG	santa-claus	107	movie	994	1985-11-27	\N	\N	C
-Scary Movie	R	scary-movie	88	movie	995	2000-07-07	\N	\N	D
-Scream 4	R	scream-4	111	movie	996	2011-04-15	\N	\N	B-
-Shrek Forever After	PG	shrek-forever-after	95	movie	997	2010-05-21	\N	\N	B-
-Sonic the Hedgehog	PG	sonic-the-hedgehog	99	movie	998	2020-02-14	\N	\N	B-
-Sonic the Hedgehog 2	PG	sonic-the-hedgehog-2	122	movie	999	2022-04-08	\N	\N	B
-Star Trek Into Darkness	PG-13	star-trek-into-darkness	132	movie	1000	2013-05-15	\N	\N	A-
-Stargate	PG-13	stargate	116	movie	1001	1994-10-28	\N	\N	C+
-TMNT	PG	tmnt	87	movie	1003	2007-03-23	\N	\N	B
-Tron: Legacy	PG	tron-legacy	125	movie	1004	2010-12-17	\N	\N	B
-Final Destination 3	R	final-destination-3	93	movie	1005	2006-02-10	\N	\N	C
-Teenage Mutant Ninja Turtles	PG	teenage-mutant-ninja-turtles-(1990)	93	movie	1006	1990-03-30	\N	\N	B-
-Teenage Mutant Ninja Turtles	PG-13	teenage-mutant-ninja-turtles-(2014)	101	movie	1007	2014-08-08	\N	\N	C-
-Teenage Mutant Ninja Turtles: Out of the Shadows	PG-13	teenage-mutant-ninja-turtles-out-of-the-shadows	112	movie	1008	2016-06-03	\N	\N	C-
-The Addams Family	PG	the-addams-family-(2019)	86	movie	1009	2019-10-11	\N	\N	C-
-The Bourne Ultimatum	PG-13	the-bourne-ultimatum	115	movie	1010	2007-08-03	\N	\N	B+
-The Chronicles of Narnia: Prince Caspian	PG	the-chronicles-of-narnia-prince-caspian	150	movie	1011	2008-05-16	\N	\N	B-
-The Cloverfield Paradox	PG-13	the-cloverfield-paradox	102	movie	1012	2018-02-04	\N	\N	B-
-The Fast and the Furious	PG-13	the-fast-and-the-furious	106	movie	1013	2001-06-22	\N	\N	B-
-The Fate of the Furious	PG-13	the-fate-of-the-furious	136	movie	1014	2017-04-14	\N	\N	B-
-The Hateful Eight	R	the-hateful-eight	168	movie	1015	2015-12-25	\N	\N	B+
-The Hobbit: The Battle of the Five Armies	PG-13	the-hobbit-the-battle-of-the-five-armies	144	movie	1016	2014-12-17	\N	\N	B-
-The Incredible Hulk	PG-13	the-incredible-hulk	112	movie	1017	2008-06-13	\N	\N	B-
-The Karate Kid Part II	PG	the-karate-kid-part-2	113	movie	1018	1986-06-20	\N	\N	C+
-The Lorax	PG	the-lorax	86	movie	1019	2012-03-02	\N	\N	C
-The Matrix Resurrections	R	the-matrix-resurrections	148	movie	1020	2021-12-22	\N	\N	B-
-The Maze Runner	PG-13	the-maze-runner	113	movie	1021	2014-09-19	\N	\N	B-
-The Passion of the Christ	R	the-passion-of-the-christ	127	movie	1022	2004-02-25	\N	\N	C-
-The Predator	R	the-predator	107	movie	1023	2018-09-14	\N	\N	C+
-The Shining	R	the-shining	146	movie	1024	1980-05-23	\N	\N	A-
-The Witches	PG	the-witches-(1990)	91	movie	1025	1990-08-24	\N	\N	B-
-The Witches	PG	the-witches-(2020)	106	movie	1026	2020-10-22	\N	\N	C-
-Tom & Jerry	PG	tom-and-jerry	101	movie	1027	2021-02-26	\N	\N	C
-Twister	PG-13	twister	113	movie	1028	1996-05-10	\N	\N	C+
-Uncharted	PG-13	uncharted	116	movie	1029	2022-02-18	\N	\N	B-
-Venom: Let There Be Carnage	PG-13	venom-let-there-be-carnage	97	movie	1030	2021-10-01	\N	\N	C
-We Can Be Heroes	PG	we-can-be-heroes	100	movie	1031	2020-12-25	\N	\N	D
-X-Men: Apocalypse	PG-13	x-men-apocalypse	144	movie	1032	2016-05-27	\N	\N	C+
-X-Men: The Last Stand	PG-13	x-men-the-last-stand	104	movie	1033	2006-05-26	\N	\N	B-
-Zombieland	R	zombieland	88	movie	1034	2009-10-02	\N	\N	A
-Cloudy with a Chance of Meatballs 2	PG	cloudy-with-a-chance-of-meatballs-2	95	movie	1035	2013-09-27	\N	\N	C+
-The Mitchells vs the Machines	PG	the-mitchells-vs-the-machines	114	movie	1036	2021-04-23	\N	\N	A
-The LEGO Movie	PG	the-lego-movie	100	movie	1037	2014-02-07	\N	\N	A-
-The LEGO Batman Movie	PG	the-lego-batman-movie	104	movie	1038	2017-02-10	\N	\N	A-
-The LEGO Movie 2: The Second Part	PG	the-lego-movie-2	107	movie	1039	2019-02-08	\N	\N	B+
-The Transformers: The Movie	PG	the-transformers	84	movie	1040	1986-08-08	\N	\N	B-
-Deep Impact	PG-13	deep-impact	120	movie	1041	1998-05-08	\N	\N	B-
-Armageddon	PG-13	armageddon	151	movie	1042	1998-07-01	\N	\N	C+
-Creed III	PG-13	creed-3	116	movie	1043	2023-03-03	\N	\N	A-
-Red Notice	PG-13	red-notice	118	movie	1044	2021-11-05	\N	\N	C+
-The Gray Man	PG-13	the-gray-man	122	movie	1045	2022-07-15	\N	\N	C+
-Extraction 2	R	extraction-2	122	movie	1046	2023-06-16	\N	\N	C+
-Tommy Boy	PG-13	tommy-boy	97	movie	1047	1995-03-31	\N	\N	B-
-6 Underground	R	6-underground	128	movie	1048	2019-12-13	\N	\N	C
-12 Years a Slave	R	12-years-a-slave	134	movie	1049	2013-11-08	\N	\N	B+
-Renfield	R	renfield	93	movie	1050	2023-04-14	\N	\N	B
-National Lampoon's Vacation	R	vacation	98	movie	1051	1983-07-29	\N	\N	A-
-National Lampoon's European Vacation	PG-13	european-vacation	95	movie	1052	1985-07-26	\N	\N	B
-Transformers: Rise of the Beasts	PG-13	transformers-rise-of-the-beasts	127	movie	1053	2023-06-09	\N	\N	B
-Evil Dead Rise	R	evil-dead-rise	96	movie	1054	2023-04-21	\N	\N	B
-Insidious	PG-13	insidious	103	movie	1056	2011-04-01	\N	\N	B-
-Fantastic Mr. Fox	PG	fantastic-mr-fox	87	movie	1057	2009-11-13	\N	\N	B+
-School of Rock	PG-13	school-of-rock	109	movie	1058	2003-10-03	\N	\N	B+
-Insidious: Chapter 2	PG-13	insidious-chapter-2	106	movie	1059	2013-09-13	\N	\N	C+
-Mission: Impossible	PG-13	mission-impossible	110	movie	1060	1996-05-22	\N	\N	B
-Mission: Impossible II	PG-13	mission-impossible-2	123	movie	1061	2000-05-24	\N	\N	C+
-Mission: Impossible III	PG-13	mission-impossible-3	126	movie	1062	2006-05-05	\N	\N	B
-Mission: Impossible - Ghost Protocol	PG-13	mission-impossible-ghost-protocol	132	movie	1063	2011-12-16	\N	\N	A-
-Mission: Impossible - Rogue Nation	PG-13	mission-impossible-rogue-nation	131	movie	1064	2015-07-31	\N	\N	A-
-Mission: Impossible - Fallout	PG-13	mission-impossible-fallout	147	movie	1065	2018-07-27	\N	\N	A-
-Interstellar	PG-13	interstellar	169	movie	1066	2014-11-05	\N	\N	A-
-Dunkirk	PG-13	dunkirk	106	movie	1067	2017-07-21	\N	\N	B+
-Indiana Jones and the Dial of Destiny	PG-13	indiana-jones-and-the-dial-of-destiny	154	movie	1068	2023-06-30	\N	\N	B
-It Ends with Us	PG-13	it-ends-with-us	130	movie	1069	2024-08-09	\N	\N	B
-Final Destination 2	R	final-destination-2	90	movie	1070	2003-01-31	\N	\N	C+
-John Wick: Chapter 4	R	john-wick-chapter-4	169	movie	1071	2023-03-24	\N	\N	A-
-The Princess Diaries	G	the-princess-diaries	115	movie	1072	2001-08-03	\N	\N	C+
-The Princess Diaries 2: Royal Engagement	G	the-princess-diaries-2	113	movie	1073	2004-08-11	\N	\N	C-
-Where the Crawdads Sing	PG-13	where-the-crawdads-sing	125	movie	1074	2022-07-15	\N	\N	B
-Tomorrowland	PG	tomorrowland	130	movie	1076	2015-05-22	\N	\N	B
-Barbie	PG-13	barbie	114	movie	1077	2023-07-21	\N	\N	A-
-Hereditary	R	hereditary	127	movie	1078	2018-06-08	\N	\N	A
-CODA	PG-13	coda	111	movie	1079	2021-08-13	\N	\N	A
-Deep Blue Sea	R	deep-blue-sea	105	movie	1080	1999-07-28	\N	\N	C
-The Super Mario Bros. Movie	PG	the-super-mario-bros-movie	92	movie	1081	2023-04-05	\N	\N	C+
-Elysium	R	elysium	109	movie	1082	2013-08-09	\N	\N	B-
-American Graffiti	PG	american-graffiti	110	movie	1083	1973-08-11	\N	\N	B
-Heathers	R	heathers	103	movie	1084	1989-03-31	\N	\N	A-
-Enter the Dragon	R	enter-the-dragon	102	movie	1085	1973-08-19	\N	\N	B+
-Big	PG	big	104	movie	1086	1988-06-03	\N	\N	B+
-The Goonies	PG	the-goonies	114	movie	1087	1985-06-07	\N	\N	B+
-Stand by Me	R	stand-by-me	89	movie	1088	1986-08-22	\N	\N	A
-Fantastic Four	PG-13	fantastic-four-(2005)	106	movie	1089	2005-07-08	\N	\N	C-
-The Emoji Movie	PG	the-emoji-movie	86	movie	1090	2017-07-28	\N	\N	D
-Top Gun	PG	top-gun	109	movie	1091	1986-05-16	\N	\N	B-
-Fantastic Four: Rise of the Silver Surfer	PG-13	fantastic-four-rise-of-the-silver-surfer	92	movie	1092	2007-06-15	\N	\N	C
-Fantastic Four	PG-13	fantastic-four-(2015)	100	movie	1093	2015-08-07	\N	\N	D+
-Training Day	R	training-day	122	movie	1095	2001-10-05	\N	\N	A-
-Animal House	R	animal-house	109	movie	1096	1978-07-28	\N	\N	B+
-My Big Fat Greek Wedding	PG	my-big-fat-greek-wedding	95	movie	1097	2002-04-19	\N	\N	B-
-My Big Fat Greek Wedding 2	PG-13	my-big-fat-greek-wedding-2	94	movie	1098	2016-03-25	\N	\N	C-
-The Little Mermaid	PG	the-little-mermaid-(2023)	135	movie	1099	2023-05-26	\N	\N	C+
-Battleship	PG-13	battleship	131	movie	1100	2012-05-18	\N	\N	C
-Clue	PG	clue	94	movie	1101	1985-12-13	\N	\N	B
-Gravity	PG-13	gravity	91	movie	1102	2013-10-04	\N	\N	A-
-Friday the 13th Part 2	R	friday-the-13th-part-2	87	movie	1103	1981-05-01	\N	\N	C
-Friday the 13th Part III	R	friday-the-13th-part-3	95	movie	1104	1982-08-13	\N	\N	C
-Friday the 13th: The Final Chapter	R	friday-the-13th-the-final-chapter	91	movie	1105	1984-04-13	\N	\N	C-
-The Little Mermaid	G	the-little-mermaid-(1989)	83	movie	1106	1989-11-17	\N	\N	A-
-Addams Family Values	PG-13	addams-family-values	94	movie	1107	1993-11-19	\N	\N	A-
-Jumanji	PG	jumanji	104	movie	1108	1995-12-15	\N	\N	B-
-Mortal Kombat Legends: Scorpion's Revenge	R	mortal-kombat-legends-scorpions-revenge	80	movie	1109	2020-04-14	\N	\N	B
-Moonfall	PG-13	moonfall	130	movie	1110	2022-02-04	\N	\N	C-
-Death on the Nile	PG-13	death-on-the-nile	127	movie	1111	2022-02-11	\N	\N	B-
-Elemental	PG	elemental	101	movie	1112	2023-06-16	\N	\N	B+
-Spy Kids	PG	spy-kids	88	movie	1113	2001-03-30	\N	\N	B-
-Indiana Jones and the Kingdom of the Crystal Skull	PG-13	indiana-jones-and-the-kingdom-of-the-crystal-skull	122	movie	1114	2008-05-22	\N	\N	C
-Independence Day: Resurgence	PG-13	independence-day-resurgence	120	movie	1115	2016-06-24	\N	\N	C-
-Doctor Strange	PG-13	doctor-strange	115	movie	1116	2016-11-04	\N	\N	A-
-Murder on the Orient Express	PG-13	murder-on-the-orient-express	114	movie	1117	2017-11-10	\N	\N	B-
-Ready Player One	PG-13	ready-player-one	140	movie	1118	2018-03-29	\N	\N	B+
-Hotel Transylvania 3: Summer Vacation	PG	hotel-transylvania-3	97	movie	1119	2018-07-13	\N	\N	C-
-Annabelle Comes Home	R	annabelle-comes-home	106	movie	1120	2019-06-26	\N	\N	B-
-Prey	R	prey	100	movie	1121	2022-08-05	\N	\N	B+
-G.I. Joe: Retaliation	PG-13	gi-joe-retaliation	110	movie	1122	2013-03-28	\N	\N	C
-Snake Eyes: G.I. Joe Origins	PG-13	snake-eyes	121	movie	1123	2021-07-23	\N	\N	C+
-Bloodsport	R	bloodsport	92	movie	1124	1988-02-26	\N	\N	B
-Fast X	PG-13	fast-x	141	movie	1125	2023-05-19	\N	\N	C+
-Teenage Mutant Ninja Turtles: Mutant Mayhem	PG	teenage-mutant-ninja-turtles-mutant-mayhem	99	movie	1127	2023-08-02	\N	\N	A-
-Meg 2: The Trench	PG-13	meg-2	116	movie	1128	2023-08-04	\N	\N	C-
-The Wolf of Wall Street	R	the-wolf-of-wall-street	180	movie	1129	2013-12-25	\N	\N	A
-American Psycho	R	american-psycho	102	movie	1130	2000-04-14	\N	\N	B+
-Haunted Mansion	PG-13	haunted-mansion	123	movie	1133	2023-07-28	\N	\N	B
-Goosebumps	PG	goosebumps	103	movie	1134	2015-10-16	\N	\N	B-
-Goosebumps 2: Haunted Halloween	PG	goosebumps-2	90	movie	1135	2018-10-12	\N	\N	C
-The Lost Boys	R	the-lost-boys	97	movie	1136	1987-07-31	\N	\N	A-
-Interview with the Vampire: The Vampire Chronicles	R	interview-with-the-vampire	123	movie	1137	1994-11-11	\N	\N	B+
-The Boondock Saints	R	the-boondock-saints	108	movie	1138	2000-01-21	\N	\N	C
-They Live	R	they-live	94	movie	1139	1988-11-04	\N	\N	B+
-Smile	R	smile	115	movie	1140	2022-09-30	\N	\N	B+
-The Invisible Man	R	the-invisible-man-(2020)	124	movie	1141	2020-02-28	\N	\N	A
-The Birds	PG-13	the-birds	119	movie	1142	1963-03-28	\N	\N	B+
-Jennifer's Body	R	jennifers-body	102	movie	1143	2009-09-18	\N	\N	B-
-Freaky	R	freaky	102	movie	1144	2020-11-13	\N	\N	B+
-Willy's Wonderland	Not Rated	willys-wonderland	88	movie	1145	2021-02-12	\N	\N	B-
-Five Nights at Freddy's	PG-13	five-nights-at-freddys	109	movie	1146	2023-10-27	\N	\N	C
-The Nun II	R	the-nun-2	110	movie	1147	2023-09-08	\N	\N	C
-Constantine	R	constantine	121	movie	1148	2005-02-18	\N	\N	C+
-Tropic Thunder	R	tropic-thunder	107	movie	1150	2008-08-13	\N	\N	B+
-Scarface	R	scarface	170	movie	1151	1983-12-09	\N	\N	B+
-The Marvels	PG-13	the-marvels	105	movie	1152	2023-11-10	\N	\N	C+
-Trolls	PG	trolls	92	movie	1153	2016-11-04	\N	\N	C+
-Trolls World Tour	PG	trolls-world-tour	91	movie	1154	2020-04-10	\N	\N	C+
-King Kong	Not Rated	king-kong-(1933)	100	movie	1155	1933-04-07	\N	\N	B+
-Godzilla	Not Rated	godzilla-(1954)	96	movie	1156	1954-11-03	\N	\N	A-
-Blue Beetle	PG-13	blue-beetle	127	movie	1157	2023-08-18	\N	\N	B
-Meet the Robinsons	G	meet-the-robinsons	95	movie	1158	2007-03-30	\N	\N	B-
-Planes, Trains & Automobiles	R	planes-trains-and-automobiles	93	movie	1159	1987-11-25	\N	\N	A
-Dances with Wolves	PG-13	dances-with-wolves	181	movie	1160	1990-11-09	\N	\N	A-
-Instant Family	PG-13	instant-family	118	movie	1161	2018-11-16	\N	\N	B+
-Daddy's Home 2	PG-13	daddys-home-2	100	movie	1162	2017-11-10	\N	\N	D+
-Spirited	PG-13	spirited	127	movie	1163	2022-11-11	\N	\N	B
-Santa Claus Conquers the Martians	Not Rated	santa-claus-conquers-the-martians	81	movie	1164	1964-11-14	\N	\N	F
-Silent Night, Deadly Night	R	silent-night-deadly-night	79	movie	1165	1984-11-09	\N	\N	C-
-Krampus	PG-13	krampus	98	movie	1166	2015-12-04	\N	\N	B+
-Violent Night	R	violent-night	112	movie	1167	2022-12-02	\N	\N	B
-Love Actually	R	love-actually	135	movie	1168	2003-11-14	\N	\N	B
-Jack Frost	PG	jack-frost	101	movie	1169	1998-12-11	\N	\N	C
-300	R	300	117	movie	1170	2007-03-09	\N	\N	B-
-300: Rise of an Empire	R	300-rise-of-an-empire	102	movie	1171	2014-03-07	\N	\N	C+
-The Color Purple	PG-13	the-color-purple-(1985)	154	movie	1172	1985-12-18	\N	\N	A-
-The Exorcist: Believer	R	the-exorcist-believer	111	movie	1173	2023-10-06	\N	\N	C+
-The Nutcracker: The Untold Story	PG	the-nutcracker-the-untold-story	110	movie	1174	2010-11-24	\N	\N	D
-Rebel Moon - Part One: A Child of Fire	PG-13	rebel-moon-part-1	133	movie	1175	2023-12-15	\N	\N	C
-Oppenheimer	R	oppenheimer	180	movie	1176	2023-07-21	\N	\N	A-
-James and the Giant Peach	PG	james-and-the-giant-peach	79	movie	1177	1996-04-12	\N	\N	B-
-Atlantis: The Lost Empire	PG	atlantis	95	movie	1178	2001-06-15	\N	\N	B+
-Gran Turismo	PG-13	gran-turismo	134	movie	1179	2023-08-25	\N	\N	B
-Crank	R	crank	88	movie	1180	2006-09-01	\N	\N	C+
-Aquaman and the Lost Kingdom	PG-13	aquaman-and-the-lost-kingdom	124	movie	1183	2023-12-22	\N	\N	C+
-Wonka	PG	wonka	116	movie	1184	2023-12-15	\N	\N	B+
-The Rocky Horror Picture Show	R	the-rocky-horror-picture-show	100	movie	1186	1975-09-26	\N	\N	A-
-The Equalizer	R	the-equalizer	132	movie	1187	2014-09-26	\N	\N	B
-The Equalizer 2	R	the-equalizer-2	121	movie	1188	2018-07-20	\N	\N	B
-Ted	R	ted	106	movie	1190	2012-06-29	\N	\N	B
-Ted 2	R	ted-2	115	movie	1191	2015-06-26	\N	\N	B-
-Kingsman: The Secret Service	R	kingsman-the-secret-service	129	movie	1193	2015-02-13	\N	\N	A
-Kingsman: The Golden Circle	R	kingsman-the-golden-circle	141	movie	1194	2017-09-22	\N	\N	B+
-The King's Man	R	the-kings-man	131	movie	1195	2021-12-22	\N	\N	B-
-The LEGO Ninjago Movie	PG	the-lego-ninjago-movie	101	movie	1196	2017-09-22	\N	\N	B
-Final Fantasy: The Spirits Within	PG-13	final-fantasy	106	movie	1197	2001-07-11	\N	\N	C
-Mr. & Mrs. Smith	PG-13	mr-and-mrs-smith	120	movie	1199	2005-06-10	\N	\N	C+
-My Fair Lady	G	my-fair-lady	170	movie	1200	1964-10-21	\N	\N	B+
-Batman: Assault on Arkham	PG-13	batman-assault-on-arkham	76	movie	1201	2014-07-29	\N	\N	B+
-American Pie 2	R	american-pie-2	108	movie	1203	2001-08-10	\N	\N	B-
-IF	PG	if	104	movie	1204	2024-05-17	\N	\N	B
-Polar	TV-MA	polar	118	movie	1205	2019-01-25	\N	\N	D+
-Jack Reacher	PG-13	jack-reacher	130	movie	1206	2012-12-21	\N	\N	B-
-Jack Reacher: Never Go Back	PG-13	jack-reacher-never-go-back	118	movie	1207	2016-10-21	\N	\N	C
-Rudy	PG	rudy	114	movie	1208	1993-10-15	\N	\N	B+
-Remember the Titans	PG	remember-the-titans	113	movie	1209	2000-09-29	\N	\N	A
-Hamilton	PG-13	hamilton	160	movie	1210	2020-07-03	\N	\N	B+
-RoboCop	PG-13	robocop-(2014)	117	movie	1211	2014-02-12	\N	\N	C+
-Chronicle	PG-13	chronicle	89	movie	1212	2012-02-03	\N	\N	A-
-Air Force One	R	air-force-one	124	movie	1213	1997-07-25	\N	\N	B+
-Madame Web	PG-13	madame-web	116	movie	1214	2024-02-14	\N	\N	D+
-Lincoln	PG-13	lincoln	150	movie	1215	2012-11-16	\N	\N	B+
-Selma	PG-13	selma	128	movie	1216	2014-12-25	\N	\N	A-
-The Color Purple	PG-13	the-color-purple-(2023)	141	movie	1217	2023-12-25	\N	\N	B+
-Madagascar	PG	madagascar	86	movie	1218	2005-05-27	\N	\N	B
-Madagascar: Escape 2 Africa	PG	madagascar-escape-2-africa	89	movie	1219	2008-11-07	\N	\N	B+
-Madagascar 3: Europe's Most Wanted	PG	madagascar-3	95	movie	1220	2012-06-08	\N	\N	B
-Penguins of Madagascar	PG	penguins-of-madagascar	92	movie	1221	2014-11-26	\N	\N	B
-Monsters vs. Aliens	PG	monsters-vs-aliens	94	movie	1222	2009-03-27	\N	\N	C+
-American Beauty	R	american-beauty	122	movie	1223	1999-10-01	\N	\N	B+
-Slumdog Millionaire	R	slumdog-millionaire	120	movie	1224	2008-11-12	\N	\N	A-
-Birdman or (The Unexpected Virtue of Ignorance)	R	birdman	119	movie	1225	2014-10-17	\N	\N	A
-La La Land	PG-13	la-la-land	128	movie	1226	2016-12-09	\N	\N	B+
-Moonlight	R	moonlight	111	movie	1227	2016-10-21	\N	\N	B
-Mean Girls	PG-13	mean-girls-(2024)	112	movie	1229	2024-01-12	\N	\N	C+
-Mars Attacks!	PG-13	mars-attacks	106	movie	1312	1996-12-13	\N	\N	C+
-Damsel	PG-13	damsel	108	movie	1228	2024-03-08	\N	\N	C+
-Megalopolis	R	megalopolis	138	movie	1643	2024-09-27	\N	2025-12-28 21:21:46.064-05	C-
-City Lights	G	city-lights	87	movie	1647	1931-03-07	\N	2026-01-03 22:10:07.221-05	B+
-The SpongeBob SquarePants Movie	PG	the-spongebob-squarepants-movie	87	movie	1230	2004-11-19	\N	\N	C+
-The SpongeBob Movie: Sponge Out of Water	PG	the-spongebob-movie-sponge-out-of-water	92	movie	1231	2015-02-06	\N	\N	C+
-The SpongeBob Movie: Sponge on the Run	PG	the-spongebob-movie-sponge-on-the-run	91	movie	1232	2021-03-04	\N	\N	C+
-Dirty Dancing	PG-13	dirty-dancing	100	movie	1233	1987-08-21	\N	\N	B+
-Road House	R	road-house-(1989)	114	movie	1234	1989-05-19	\N	\N	B
-Ghost	PG-13	ghost	127	movie	1235	1990-07-13	\N	\N	A-
-Trolls Band Together	PG	trolls-band-together	91	movie	1236	2023-11-17	\N	\N	C+
-Road House	R	road-house-(2024)	121	movie	1237	2024-03-21	\N	\N	C+
-Death Note	TV-MA	death-note	101	movie	1238	2017-08-25	\N	\N	C+
-King Kong	PG-13	king-kong-(2005)	187	movie	1239	2005-12-14	\N	\N	A-
-Fight Club	R	fight-club	139	movie	1240	1999-10-15	\N	\N	A
-Footloose	PG	footloose	107	movie	1241	1984-02-17	\N	\N	B
-The Croods: A New Age	PG	the-croods-a-new-age	95	movie	1242	2020-11-25	\N	\N	C+
-The Omen	R	the-omen	111	movie	1243	1976-06-25	\N	\N	A
-Wish	PG	wish	95	movie	1244	2023-11-22	\N	\N	B-
-The Green Knight	R	the-green-knight	130	movie	1245	2021-07-30	\N	\N	B+
-A.I. Artificial Intelligence	PG-13	ai	146	movie	1246	2001-06-29	\N	\N	B
-The Creator	PG-13	the-creator	133	movie	1247	2023-09-29	\N	\N	B
-Ex Machina	R	ex-machina	108	movie	1248	2015-04-10	\N	\N	A
-Argylle	PG-13	argylle	139	movie	1251	2024-02-02	\N	\N	C
-Lisa Frankenstein	PG-13	lisa-frankenstein	101	movie	1252	2024-02-09	\N	\N	B-
-Seven Samurai	Not Rated	seven-samurai	207	movie	1253	1954-04-26	\N	\N	B+
-Rebel Moon - Part Two: The Scargiver	PG-13	rebel-moon-part-2	122	movie	1254	2024-04-12	\N	\N	D+
-The Mask	PG-13	the-mask	101	movie	1255	1994-07-29	\N	\N	B+
-Dumb and Dumber	PG-13	dumb-and-dumber	107	movie	1256	1994-12-16	\N	\N	B
-Liar Liar	PG-13	liar-liar	86	movie	1257	1997-03-21	\N	\N	B+
-The Truman Show	PG	the-truman-show	103	movie	1258	1998-06-05	\N	\N	A
-King Richard	PG-13	king-richard	144	movie	1259	2021-11-19	\N	\N	B
-Civil War	R	civil-war	109	movie	1260	2024-04-12	\N	\N	B+
-Planet of the Apes	G	planet-of-the-apes-(1968)	112	movie	1261	1968-04-03	\N	\N	A
-Beneath the Planet of the Apes	G	beneath-the-planet-of-the-apes	95	movie	1262	1970-05-26	\N	\N	B
-Escape from the Planet of the Apes	G	escape-from-the-planet-of-the-apes	98	movie	1263	1971-05-26	\N	\N	B
-Conquest of the Planet of the Apes	PG	conquest-of-the-planet-of-the-apes	88	movie	1264	1972-06-14	\N	\N	C+
-Planet of the Apes	PG-13	planet-of-the-apes-(2001)	120	movie	1265	2001-07-27	\N	\N	C
-Rise of the Planet of the Apes	PG-13	rise-of-the-planet-of-the-apes	105	movie	1266	2011-08-05	\N	\N	A-
-Dawn of the Planet of the Apes	PG-13	dawn-of-the-planet-of-the-apes	130	movie	1267	2014-07-11	\N	\N	A
-Daddy's Home	PG-13	daddys-home	96	movie	1268	2015-12-25	\N	\N	C
-War for the Planet of the Apes	PG-13	war-for-the-planet-of-the-apes	140	movie	1269	2017-07-14	\N	\N	A
-A Bad Moms Christmas	R	a-bad-moms-christmas	104	movie	1270	2017-11-01	\N	\N	D+
-The Strangers	R	the-strangers	86	movie	1271	2008-05-30	\N	\N	C+
-The Strangers: Prey at Night	R	the-strangers-prey-at-night	85	movie	1272	2018-03-09	\N	\N	C
-The Dark Crystal	PG	the-dark-crystal	93	movie	1273	1982-12-17	\N	\N	B+
-Garfield: The Movie	PG	garfield-the-movie	80	movie	1274	2004-06-11	\N	\N	D+
-Garfield: A Tail of Two Kitties	PG	garfield-a-tail-of-two-kitties	82	movie	1275	2006-06-16	\N	\N	D+
-The Emperor's New Groove	G	the-emperors-new-groove	78	movie	1276	2000-12-15	\N	\N	A
-Furiosa: A Mad Max Saga	R	furiosa	148	movie	1277	2024-05-24	\N	\N	B+
-American Sniper	R	american-sniper	133	movie	1278	2014-12-25	\N	\N	B+
-The Hunger Games: The Ballad of Songbirds & Snakes	PG-13	the-hunger-games-the-ballad-of-songbirds-and-snakes	157	movie	1279	2023-11-17	\N	\N	B-
-Glass	PG-13	glass	129	movie	1280	2019-01-18	\N	\N	B
-I, Robot	PG-13	i-robot	115	movie	1281	2004-07-16	\N	\N	B-
-Hellboy	PG-13	hellboy-(2004)	122	movie	1282	2004-04-02	\N	\N	A-
-Hellboy	R	hellboy-(2019)	120	movie	1283	2019-04-12	\N	\N	C+
-X	R	x	105	movie	1284	2022-03-18	\N	\N	B+
-Beverly Hills Cop	R	beverly-hills-cop	105	movie	1285	1984-12-05	\N	\N	A
-Beverly Hills Cop II	R	beverly-hills-cop-2	100	movie	1286	1987-05-20	\N	\N	B
-American Pie	R	american-pie	95	movie	1287	1999-07-09	\N	\N	B+
-Beverly Hills Cop: Axel F	R	beverly-hills-cop-axel-f	118	movie	1288	2024-07-03	\N	\N	B
-Poor Things	R	poor-things	141	movie	1289	2023-12-08	\N	\N	A
-Princess Protection Program	TV-G	princess-protection-program	90	movie	1291	2009-06-26	\N	\N	C
-Sausage Party	R	sausage-party	89	movie	1292	2016-08-12	\N	\N	B
-Dante's Peak	PG-13	dantes-peak	108	movie	1293	1997-02-07	\N	\N	B
-Volcano	PG-13	volcano	104	movie	1294	1997-04-25	\N	\N	C
-San Andreas	PG-13	san-andreas	114	movie	1296	2015-05-29	\N	\N	C+
-Ghostbusters: Frozen Empire	PG-13	ghostbusters-frozen-empire	115	movie	1297	2024-03-22	\N	\N	B
-Girl, Interrupted	R	girl-interrupted	127	movie	1298	1999-12-21	\N	\N	A-
-Love Lies Bleeding	R	love-lies-bleeding	104	movie	1299	2024-03-08	\N	\N	B+
-Anchorman 2: The Legend Continues	PG-13	anchorman-2	119	movie	1300	2013-12-18	\N	\N	B-
-The Visit	PG-13	the-visit	94	movie	1301	2015-09-11	\N	\N	A-
-Kingdom of the Planet of the Apes	PG-13	kingdom-of-the-planet-of-the-apes	145	movie	1302	2024-05-10	\N	\N	B+
-Conan the Barbarian	R	conan-the-barbarian	129	movie	1303	1982-05-14	\N	\N	C+
-Conan the Destroyer	PG	conan-the-destroyer	101	movie	1304	1984-06-29	\N	\N	C-
-True Lies	R	true-lies	141	movie	1305	1994-07-15	\N	\N	B+
-The Crow	R	the-crow	102	movie	1306	1994-05-13	\N	\N	A-
-Rear Window	PG	rear-window	111	movie	1307	1954-09-01	\N	\N	B
-Steel Magnolias	PG	steel-magnolias	118	movie	1308	1989-11-15	\N	\N	C+
-A Quiet Place: Day One	PG-13	a-quiet-place-day-one	99	movie	1309	2024-06-28	\N	\N	B
-Bambi	G	bambi	70	movie	1310	1942-08-13	\N	\N	B
-Apocalypse Now	R	apocalypse-now	147	movie	1311	1979-08-15	\N	\N	A
-Miss Peregrine's Home for Peculiar Children	PG-13	miss-peregrines-home-for-peculiar-children	127	movie	1313	2016-09-30	\N	\N	B-
-Midsommar	R	midsommar	147	movie	1314	2019-07-03	\N	\N	B+
-Charlie's Angels	PG-13	charlies-angels-(2000)	98	movie	1315	2000-11-03	\N	\N	C
-Charlie's Angels	PG-13	charlies-angels-(2019)	118	movie	1316	2019-11-15	\N	\N	C+
-Eragon	PG	eragon	103	movie	1317	2006-12-15	\N	\N	C-
-Blazing Saddles	R	blazing-saddles	93	movie	1318	1974-02-07	\N	\N	A
-The Usual Suspects	R	the-usual-suspects	106	movie	1319	1995-08-16	\N	\N	A
-The Craft	R	the-craft	101	movie	1320	1996-05-03	\N	\N	B+
-The Craft: Legacy	PG-13	the-craft-legacy	97	movie	1321	2020-10-28	\N	\N	C
-The Sorcerer's Apprentice	PG	the-sorcerers-apprentice	109	movie	1322	2010-07-14	\N	\N	C+
-Whiplash	R	whiplash	106	movie	1323	2014-10-10	\N	\N	A
-Rosemary's Baby	R	rosemarys-baby	137	movie	1324	1968-06-12	\N	\N	A-
-The Outsiders	PG	the-outsiders	91	movie	1325	1983-03-25	\N	\N	B
-Inside Out 2	PG	inside-out-2	96	movie	1326	2024-06-14	\N	\N	A+
-Challengers	R	challengers	131	movie	1327	2024-04-26	\N	\N	B+
-The Fall Guy	PG-13	the-fall-guy	126	movie	1328	2024-05-03	\N	\N	B+
-Abigail	R	abigail	109	movie	1329	2024-04-19	\N	\N	B+
-Insidious: Chapter 3	PG-13	insidious-chapter-3	98	movie	1330	2015-06-05	\N	\N	C+
-Insidious: The Last Key	PG-13	insidious-the-last-key	103	movie	1331	2018-01-05	\N	\N	C
-Insidious: The Red Door	PG-13	insidious-the-red-door	107	movie	1332	2023-07-07	\N	\N	C+
-The Amityville Horror	R	the-amityville-horror-(2005)	89	movie	1333	2005-04-15	\N	\N	C-
-Joker: Folie à Deux	R	joker-folie-a-deux	138	movie	1334	2024-10-04	\N	\N	C+
-Winnie-the-Pooh: Blood and Honey 2	Not Rated	winnie-the-pooh-blood-and-honey-2	94	movie	1335	2024-03-26	\N	\N	D
-The Thing	R	the-thing	109	movie	1336	1982-06-25	\N	\N	A
-MaXXXine	R	maxxxine	104	movie	1337	2024-07-05	\N	\N	B
-Hellraiser: Bloodline	R	hellraiser-bloodline	85	movie	1338	1996-03-08	\N	\N	C-
-Brightburn	R	brightburn	90	movie	1339	2019-05-24	\N	\N	C+
-Trap	PG-13	trap	105	movie	1340	2024-08-02	\N	\N	B-
-Firestarter	R	firestarter-(1984)	114	movie	1341	1984-05-11	\N	\N	C
-Orphan	R	orphan	123	movie	1342	2009-07-24	\N	\N	B+
-The Wicker Man	PG-13	the-wicker-man	102	movie	1344	2006-09-01	\N	\N	D+
-Venom: The Last Dance	PG-13	venom-the-last-dance	109	movie	1345	2024-10-25	\N	\N	C+
-Troy	R	troy	163	movie	1346	2004-05-14	\N	\N	B+
-Napoleon	R	napoleon	157	movie	1347	2023-11-22	\N	\N	B
-Edge of Tomorrow	PG-13	edge-of-tomorrow	113	movie	1348	2014-06-06	\N	\N	A-
-Nimona	PG	nimona	99	movie	1349	2023-06-23	\N	\N	A
-Black Hawk Down	R	black-hawk-down	144	movie	1351	2001-12-28	\N	\N	B
-Ghosted	PG-13	ghosted	116	movie	1352	2023-04-21	\N	\N	C+
-Dr. Strangelove	PG	dr-strangelove	94	movie	1353	1964-01-29	\N	\N	A-
-Alien: Romulus	R	alien-romulus	119	movie	1354	2024-08-16	\N	\N	B+
-Treasure Planet	PG	treasure-planet	95	movie	1355	2002-11-27	\N	\N	B+
-Thanksgiving	R	thanksgiving	106	movie	1356	2023-11-17	\N	\N	B-
-Despicable Me 4	PG	despicable-me-4	95	movie	1357	2024-07-03	\N	\N	C
-Beetlejuice Beetlejuice	PG-13	beetlejuice-beetlejuice	104	movie	1358	2024-09-06	\N	\N	B+
-Moana 2	PG	moana-2	100	movie	1359	2024-11-27	\N	\N	B
-The Lighthouse	R	the-lighthouse	109	movie	1360	2019-10-18	\N	\N	B
-The Holdovers	R	the-holdovers	133	movie	1361	2023-10-27	\N	\N	A
-Bad Santa	R	bad-santa	92	movie	1362	2003-11-26	\N	\N	B+
-Trading Places	R	trading-places	116	movie	1363	1983-06-08	\N	\N	B+
-Meet Me in St. Louis	Not Rated	meet-me-in-st-louis	113	movie	1364	1944-11-22	\N	\N	B+
-Eyes Wide Shut	R	eyes-wide-shut	159	movie	1366	1999-07-16	\N	\N	B-
-Wicked	PG	wicked	160	movie	1367	2024-11-22	\N	\N	A
-Alvin and the Chipmunks	PG	alvin-and-the-chipmunks	92	movie	1368	2007-12-14	\N	\N	D+
-Alvin and the Chipmunks: The Squeakquel	PG	alvin-and-the-chipmunks-the-squeakquel	88	movie	1369	2009-12-23	\N	\N	D
-Alvin and the Chipmunks: Chipwrecked	G	alvin-and-the-chipmunks-chipwrecked	87	movie	1370	2011-12-16	\N	\N	D-
-Alvin and the Chipmunks: The Road Chip	PG	alvin-and-the-chipmunks-the-road-chip	92	movie	1371	2015-12-18	\N	\N	D
-Den of Thieves	R	den-of-thieves	140	movie	1372	2018-01-19	\N	\N	C
-12 Angry Men	Not Rated	12-angry-men	96	movie	1374	1957-04-10	\N	\N	A
-The Mouse Trap	Not Rated	the-mouse-trap	80	movie	1375	2024-08-06	\N	\N	F
-An American Werewolf in London	R	an-american-werewolf-in-london	97	movie	1376	1981-08-21	\N	\N	B+
-Amadeus	PG	amadeus	161	movie	1378	1984-09-19	\N	\N	B+
-Turbo	PG	turbo	96	movie	1379	2013-07-17	\N	\N	C+
-Gladiator II	R	gladiator-2	148	movie	1380	2024-11-22	\N	\N	B+
-Mr. Peabody & Sherman	PG	mr-peabody-and-sherman	92	movie	1381	2014-03-07	\N	\N	B
-Home	PG	home	94	movie	1382	2015-03-27	\N	\N	C+
-Abominable	PG	abominable	97	movie	1383	2019-09-27	\N	\N	B
-The Bad Guys	PG	the-bad-guys	100	movie	1384	2022-04-22	\N	\N	A
-Ruby Gillman, Teenage Kraken	PG	ruby-gillman	91	movie	1385	2023-06-30	\N	\N	B-
-Barbarian	R	barbarian	102	movie	1386	2022-09-09	\N	\N	B+
-Bridget Jones: The Edge of Reason	R	bridget-jones-the-edge-of-reason	108	movie	1387	2004-11-12	\N	\N	C
-Bridget Jones's Baby	R	bridget-joness-baby	123	movie	1388	2016-09-16	\N	\N	B+
-Paddington 2	PG	paddington-2	104	movie	1389	2017-11-10	\N	\N	A
-Kiki's Delivery Service	G	kikis-delivery-service	102	movie	1390	1989-07-29	\N	\N	A
-Captain America: Brave New World	PG-13	captain-america-brave-new-world	118	movie	1391	2025-02-14	\N	\N	B
-Sonic the Hedgehog 3	PG	sonic-the-hedgehog-3	110	movie	1392	2024-12-20	\N	\N	B+
-Castle in the Sky	PG	castle-in-the-sky	124	movie	1393	1986-08-02	\N	\N	B+
-Captain Underpants: The First Epic Movie	PG	captain-underpants	90	movie	1394	2017-06-02	\N	\N	B+
-High School Musical 2	TV-G	high-school-musical-2	104	movie	1396	2007-08-17	\N	\N	C+
-Hotel Transylvania	PG	hotel-transylvania	91	movie	1397	2012-09-28	\N	\N	B
-Jungle Cruise	PG-13	jungle-cruise	127	movie	1398	2021-07-30	\N	\N	B-
-Romeo + Juliet	PG-13	romeo-+-juliet	120	movie	1399	1996-11-01	\N	\N	C-
-Teenage Mutant Ninja Turtles II: The Secret of the Ooze	PG	teenage-mutant-ninja-turtles-2	88	movie	1400	1991-03-22	\N	\N	C
-Teenage Mutant Ninja Turtles III	PG	teenage-mutant-ninja-turtles-3	96	movie	1401	1993-03-19	\N	\N	C
-The Karate Kid Part III	PG	the-karate-kid-part-3	112	movie	1402	1989-06-30	\N	\N	C
-Ace Ventura: Pet Detective	PG-13	ace-ventura-pet-detective	86	movie	1403	1994-02-04	\N	\N	C-
-Pet Sematary	R	pet-sematary-(1989)	103	movie	1404	1989-04-21	\N	\N	C
-Winnie-the-Pooh: Blood and Honey	Not Rated	winnie-the-pooh-blood-and-honey	84	movie	1405	2023-02-15	\N	\N	F
-Casper	PG	casper	100	movie	1406	1995-05-26	\N	\N	C
-The Blind Side	PG-13	the-blind-side	129	movie	1407	2009-11-20	\N	\N	B
-Ace Ventura: When Nature Calls	PG-13	ace-ventura-when-nature-calls	90	movie	1408	1995-11-10	\N	\N	C
-Descendants: The Rise of Red	TV-G	descendants-the-rise-of-red	91	movie	1409	2024-07-12	\N	\N	D+
-The Amityville Horror	R	the-amityville-horror-(1979)	118	movie	1410	1979-07-27	\N	\N	B-
-Terrifier 3	Not Rated	terrifier-3	125	movie	1411	2024-10-11	\N	\N	B
-The Boss Baby: Family Business	PG	the-boss-baby-family-business	107	movie	1412	2021-07-02	\N	\N	C
-The Punisher	R	the-punisher-(2004)	123	movie	1413	2004-04-16	\N	\N	C+
-The Departed	R	the-departed	151	movie	1414	2006-10-06	\N	\N	A
-Bad Boys: Ride or Die	R	bad-boys-ride-or-die	115	movie	1415	2024-06-07	\N	\N	B-
-Life is Beautiful	PG-13	life-is-beautiful	116	movie	1417	1997-12-20	\N	\N	A
-The Boss Baby	PG	the-boss-baby	97	movie	1418	2017-03-31	\N	\N	C
-American History X	R	american-history-x	119	movie	1419	1998-10-30	\N	\N	B+
-The Punisher	R	the-punisher-(1989)	89	movie	1420	1991-04-25	\N	\N	C+
-One Flew Over the Cuckoo's Nest	R	one-flew-over-the-cuckoos-nest	135	movie	1421	1975-11-19	\N	\N	A-
-Metropolis	Not Rated	metropolis	153	movie	1422	1927-01-10	\N	\N	B
-Nosferatu	R	nosferatu-(2024)	132	movie	1423	2024-12-25	\N	\N	B+
-The Apartment	Not Rated	the-apartment	125	movie	1424	1960-06-15	\N	\N	A-
-Paddington	PG	paddington	95	movie	1425	2014-11-28	\N	\N	A
-My Neighbor Totoro	G	my-neighbor-totoro	86	movie	1426	1988-04-16	\N	\N	A
-Howard the Duck	PG	howard-the-duck	111	movie	1427	1986-08-01	\N	\N	D
-Howl's Moving Castle	PG	howls-moving-castle	119	movie	1428	2004-11-20	\N	\N	B+
-Bridget Jones's Diary	R	bridget-joness-diary	96	movie	1429	2001-04-13	\N	\N	B
-Captain America	PG-13	captain-america	97	movie	1430	1992-07-22	\N	\N	D+
-Bridget Jones: Mad About the Boy	R	bridget-jones-mad-about-the-boy	125	movie	1431	2025-02-13	\N	\N	B
-Punisher: War Zone	R	punisher-war-zone	103	movie	1433	2008-12-05	\N	\N	D+
-Longlegs	R	longlegs	101	movie	1435	2024-07-12	\N	\N	B+
-Borderlands	PG-13	borderlands	101	movie	1436	2024-08-09	\N	\N	D+
-Dead Poets Society	PG	dead-poets-society	128	movie	1437	1989-06-02	\N	\N	B+
-Kraven the Hunter	R	kraven-the-hunter	127	movie	1438	2024-12-13	\N	\N	C
-Emilia Pérez	R	emilia-perez	132	movie	1440	2024-08-21	\N	\N	B-
-Anora	R	anora	139	movie	1441	2024-10-18	\N	\N	B+
-Mirror Mirror	PG	mirror-mirror	106	movie	1442	2012-03-30	\N	\N	C+
-Snow White and the Huntsman	PG-13	snow-white-and-the-huntsman	127	movie	1443	2012-06-01	\N	\N	C
-The Huntsman: Winter's War	PG-13	the-huntsman-winters-war	114	movie	1444	2016-04-22	\N	\N	C
-Looney Tunes: Back in Action	PG	looney-tunes-back-in-action	91	movie	1445	2003-11-14	\N	\N	B
-Alexander and the Terrible, Horrible, No Good, Very Bad Day	PG	alexander-and-the-terrible-horrible-no-good-very-bad-day	81	movie	1446	2014-10-10	\N	\N	B-
-Mufasa: The Lion King	PG	mufasa	118	movie	1447	2024-12-20	\N	\N	B-
-The Beekeeper	R	the-beekeeper	105	movie	1448	2024-01-12	\N	\N	B
-Underworld: Awakening	R	underworld-awakening	86	movie	1449	2012-01-20	\N	\N	D+
-Underworld: Blood Wars	R	underworld-blood-wars	91	movie	1450	2017-01-06	\N	\N	D+
-Resident Evil	R	resident-evil	100	movie	1451	2002-03-15	\N	\N	C
-Resident Evil: Apocalypse	R	resident-evil-apocalypse	93	movie	1452	2004-09-10	\N	\N	D
-Resident Evil: Afterlife	R	resident-evil-afterlife	97	movie	1454	2010-09-10	\N	\N	D+
-Resident Evil: Retribution	R	resident-evil-retribution	96	movie	1455	2012-09-14	\N	\N	D
-Resident Evil: The Final Chapter	R	resident-evil-the-final-chapter	107	movie	1456	2017-01-27	\N	\N	C-
-Resident Evil: Welcome to Raccoon City	R	resident-evil-welcome-to-raccoon-city	107	movie	1457	2021-11-24	\N	\N	C+
-Happy Death Day	PG-13	happy-death-day	96	movie	1458	2017-10-13	\N	\N	B+
-Happy Death Day 2U	PG-13	happy-death-day-2u	100	movie	1459	2019-02-13	\N	\N	B
-The Monkey	R	the-monkey	98	movie	1460	2025-02-21	\N	\N	B+
-Tombstone	R	tombstone	130	movie	1461	1993-12-25	\N	\N	A
-Pride & Prejudice	PG	pride-and-prejudice	127	movie	1463	2005-11-23	\N	\N	B+
-Monty Python and the Holy Grail	PG	monty-python-and-the-holy-grail	92	movie	1464	1975-04-03	\N	\N	A-
-Wolf Man	R	wolf-man	103	movie	1465	2025-01-17	\N	\N	C+
-Princess Mononoke	PG-13	princess-mononoke	133	movie	1466	1997-07-12	\N	\N	A
-From Dusk till Dawn	R	from-dusk-till-dawn	108	movie	1467	1996-01-19	\N	\N	B
-Memento	R	memento	113	movie	1469	2001-03-16	\N	\N	A
-The Prestige	PG-13	the-prestige	130	movie	1470	2006-10-20	\N	\N	A
-Paper Towns	PG-13	paper-towns	109	movie	1471	2015-07-24	\N	\N	B
-Reservoir Dogs	R	reservoir-dogs	99	movie	1472	1992-10-09	\N	\N	A
-A Fish Called Wanda	R	a-fish-called-wanda	108	movie	1473	1988-07-15	\N	\N	A-
-Eternal Sunshine of the Spotless Mind	R	eternal-sunshine-of-the-spotless-mind	108	movie	1474	2004-03-19	\N	\N	B+
-Mystery Men	PG-13	mystery-men	120	movie	1475	1999-08-06	\N	\N	C
-Thunderbolts*	PG-13	thunderbolts	126	movie	1476	2025-05-02	\N	\N	A-
-The Accountant	R	the-accountant	128	movie	1468	2016-10-14	\N	\N	C+
-Resident Evil: Extinction	R	resident-evil-extinction	94	movie	1453	2007-09-21	\N	\N	C-
-Days of Thunder	PG-13	days-of-thunder	108	movie	1477	1990-06-27	\N	\N	C+
-Jerry Maguire	R	jerry-maguire	139	movie	1478	1996-12-13	\N	\N	A-
-Minority Report	PG-13	minority-report	145	movie	1479	2002-06-21	\N	\N	A-
-War of the Worlds	PG-13	war-of-the-worlds-(2005)	117	movie	1480	2005-06-29	\N	\N	B+
-Fear Street: Prom Queen	R	fear-street-prom-queen	90	movie	1481	2025-05-23	\N	\N	C+
-Lilo & Stitch	PG	lilo-and-stitch-(2025)	108	movie	1482	2025-05-23	\N	\N	B-
-Mickey 17	R	mickey-17	137	movie	1483	2025-03-07	\N	\N	B+
-Battlefield Earth	PG-13	battlefield-earth	117	movie	1501	2000-05-12	\N	\N	D
-Atomic Blonde	R	atomic-blonde	115	movie	1503	2017-07-28	\N	\N	B+
-Predator: Killer of Killers	R	predator-killer-of-killers	85	movie	1504	2025-06-06	\N	\N	A-
-The Grand Budapest Hotel	R	the-grand-budapest-hotel	100	movie	1505	2014-03-07	\N	\N	A-
-The Road to El Dorado	PG	the-road-to-el-dorado	89	movie	1506	2000-03-31	\N	\N	B+
-Shark Tale	PG	shark-tale	90	movie	1507	2004-10-01	\N	\N	C-
-Over the Hedge	PG	over-the-hedge	83	movie	1508	2006-05-19	\N	\N	C+
-Snow White	PG	snow-white	109	movie	1509	2025-03-21	\N	\N	C-
-28 Days Later	R	28-days-later	113	movie	1510	2002-11-01	\N	\N	B+
-28 Weeks Later	R	28-weeks-later	99	movie	1511	2007-05-11	\N	\N	C+
-A Minecraft Movie	PG	a-minecraft-movie	101	movie	1513	2025-04-04	\N	\N	C
-Speed Racer	PG	speed-racer	135	movie	1514	2008-05-09	\N	\N	D+
-65	PG-13	65	93	movie	1515	2023-03-10	\N	\N	C+
-Olympus Has Fallen	R	olympus-has-fallen	119	movie	1516	2013-03-22	\N	\N	C
-White House Down	PG-13	white-house-down	131	movie	1517	2013-06-28	\N	\N	C+
-The Old Guard 2	R	the-old-guard-2	104	movie	1519	2025-07-02	\N	\N	C+
-F1	PG-13	f1	156	movie	1520	2025-06-27	\N	\N	A-
-Sinners	R	sinners	137	movie	1521	2025-04-18	\N	\N	A+
-London Has Fallen	R	london-has-fallen	99	movie	1522	2016-03-04	\N	\N	C
-Angel Has Fallen	R	angel-has-fallen	121	movie	1523	2019-08-23	\N	\N	C
-Requiem for a Dream	Not Rated	requiem-for-a-dream	102	movie	1524	2000-10-06	\N	\N	B+
-The Pianist	R	the-pianist	150	movie	1525	2002-09-06	\N	\N	B+
-Dora and the Lost City of Gold	PG	dora-and-the-lost-city-of-gold	102	movie	1526	2019-08-09	\N	\N	B
-Zombies 4: Dawn of the Vampires	TV-G	zombies-4	88	movie	1527	2025-07-10	\N	\N	C-
-The Smurfs	PG	the-smurfs	103	movie	1528	2011-07-29	\N	\N	D+
-The Smurfs 2	PG	the-smurfs-2	105	movie	1529	2013-07-31	\N	\N	D
-Smurfs: The Lost Village	PG	smurfs-the-lost-village	90	movie	1530	2017-04-07	\N	\N	C+
-Superman	PG-13	superman-(2025)	129	movie	1531	2025-07-11	\N	\N	A-
-Beau Is Afraid	R	beau-is-afraid	179	movie	1532	2023-04-14	\N	\N	B
-The Waterboy	PG-13	the-waterboy	90	movie	1533	1998-11-06	\N	\N	D+
-Little Nicky	PG-13	little-nicky	90	movie	1534	2000-11-10	\N	\N	D-
-Click	PG-13	click	107	movie	1535	2006-06-23	\N	\N	C-
-You Don't Mess with the Zohan	PG-13	you-dont-mess-with-the-zohan	113	movie	1536	2008-06-06	\N	\N	C
-Grown Ups	PG-13	grown-ups	102	movie	1537	2010-06-25	\N	\N	D+
-Grown Ups 2	PG-13	grown-ups-2	101	movie	1538	2013-07-12	\N	\N	D
-Caddyshack	R	caddyshack	98	movie	1539	1980-07-25	\N	\N	B
-Happy Gilmore 2	PG-13	happy-gilmore-2	118	movie	1540	2025-07-25	\N	\N	C+
-The Naked Gun: From the Files of Police Squad!	PG-13	the-naked-gun-from-the-files-of-police-squad	85	movie	1541	1988-12-02	\N	\N	A
-The Naked Gun 2½: The Smell of Fear	PG-13	the-naked-gun-2-1-2	85	movie	1542	1991-06-28	\N	\N	A-
-Naked Gun 33⅓: The Final Insult	PG-13	naked-gun-33-1-3	83	movie	1543	1994-03-18	\N	\N	B
-Final Destination Bloodlines	R	final-destination-bloodlines	110	movie	1545	2025-05-16	\N	\N	B+
-The Fantastic Four: First Steps	PG-13	the-fantastic-four-first-steps	114	movie	1546	2025-07-25	\N	\N	A-
-Freaky Friday	PG	freaky-friday	97	movie	1547	2003-08-06	\N	\N	A-
-Jurassic World Rebirth	PG-13	jurassic-world-rebirth	133	movie	1548	2025-07-02	\N	\N	C+
-KPop Demon Hunters	PG	kpop-demon-hunters	97	movie	1549	2025-06-20	\N	\N	A
-Red Sonja	PG-13	red-sonja	89	movie	1550	1985-07-03	\N	\N	D+
-Apollo 13	PG-13	apollo-13	140	movie	1551	1995-06-30	\N	\N	A-
-Cast Away	PG-13	cast-away	143	movie	1552	2000-12-22	\N	\N	A-
-The Martian	PG-13	the-martian	142	movie	1553	2015-10-02	\N	\N	A
-War of the Worlds	PG-13	war-of-the-worlds-(2025)	91	movie	1554	2025-07-30	\N	\N	F
-Black Swan	R	black-swan	108	movie	1555	2010-12-17	\N	\N	A-
-Death of a Unicorn	R	death-of-a-unicorn	107	movie	1556	2025-03-28	\N	\N	C+
-Léon: The Professional	R	leon	110	movie	1557	1994-09-14	\N	\N	A
-Good Will Hunting	R	good-will-hunting	126	movie	1558	1997-12-05	\N	\N	A
-The War of the Roses	R	the-war-of-the-roses	116	movie	1559	1989-12-08	\N	\N	B+
-The Toxic Avenger	R	the-toxic-avenger	82	movie	1560	1984-04-04	\N	\N	D+
-Flash Gordon	PG	flash-gordon	111	movie	1561	1980-12-05	\N	\N	C+
-Lights Out	PG-13	lights-out	81	movie	1562	2016-07-22	\N	\N	B+
-Maximum Overdrive	R	maximum-overdrive	98	movie	1563	1986-07-25	\N	\N	C-
-Ender's Game	PG-13	ender's-game	114	movie	1564	2013-11-01	\N	\N	C+
-Downton Abbey	PG	downton-abbey	122	movie	1565	2019-09-20	\N	\N	B
-Downton Abbey: A New Era	PG	downton-abbey-a-new-era	124	movie	1566	2022-05-20	\N	\N	B+
-This Is Spinal Tap	R	this-is-spinal-tap	82	movie	1567	1984-03-02	\N	\N	A-
-The Devil Wears Prada	PG-13	the-devil-wears-prada	109	movie	1568	2006-06-30	\N	\N	A-
-Moneyball	PG-13	moneyball	133	movie	1569	2011-09-23	\N	\N	A-
-A Few Good Men	R	a-few-good-men	138	movie	1570	1992-12-11	\N	\N	A
-The Long Walk	R	the-long-walk	108	movie	1571	2025-09-12	\N	\N	A
-Elio	PG	elio	98	movie	1572	2025-06-20	\N	\N	B+
-Smurfs	PG	smurfs	90	movie	1573	2025-07-18	\N	\N	D+
-Punch-Drunk Love	R	punch-drunk-love	95	movie	1574	2002-11-01	\N	\N	B
-Boogie Nights	R	boogie-nights	155	movie	1575	1997-10-10	\N	\N	A
-There Will Be Blood	R	there-will-be-blood	158	movie	1576	2007-12-26	\N	\N	A
-M3GAN 2.0	PG-13	m3gan-2	120	movie	1579	2025-06-27	\N	\N	C+
-Karate Kid: Legends	PG-13	karate-kid-legends	94	movie	1580	2025-05-30	\N	\N	B-
-Until Dawn	R	until-dawn	103	movie	1581	2025-04-25	\N	\N	C+
-28 Years Later	R	28-years-later	115	movie	1582	2025-06-20	\N	\N	B
-Central Intelligence	PG-13	central-intelligence	107	movie	1583	2016-06-17	\N	\N	C+
-The Naked Gun	PG-13	the-naked-gun	85	movie	1584	2025-08-01	\N	\N	A-
-The Night of the Hunter	Not Rated	the-night-of-the-hunter	92	movie	1585	1955-07-26	\N	\N	B-
-The Human Centipede (First Sequence)	R	the-human-centipede	92	movie	1586	2010-04-30	\N	\N	D-
-Cannibal Holocaust	Not Rated	cannibal-holocaust	96	movie	1587	1980-02-07	\N	\N	D
-How to Train Your Dragon	PG	how-to-train-your-dragon-(2025)	125	movie	1588	2025-06-13	\N	\N	A-
-Suspiria	R	suspiria-(1977)	99	movie	1589	1977-02-01	\N	\N	B
-Suspiria	R	suspiria-(2018)	152	movie	1590	2018-10-26	\N	\N	B
-Fright Night	R	fright-night	106	movie	1592	1985-08-02	\N	\N	A
-I Know What You Did Last Summer	R	i-know-what-you-did-last-summer-(2025)	111	movie	1593	2025-07-18	\N	\N	C
-Tremors	PG-13	tremors	96	movie	1594	1990-01-19	\N	\N	B+
-Ginger Snaps	R	ginger-snaps	108	movie	1595	2001-05-11	\N	\N	B+
-Doom	R	doom	105	movie	1596	2005-10-21	\N	\N	D+
-Grindhouse	R	grindhouse	191	movie	1597	2007-04-06	\N	\N	A-
-Cabin Fever	R	cabin-fever	95	movie	1598	2003-09-12	\N	\N	B
-House of 1000 Corpses	R	house-of-1000-corpses	89	movie	1599	2003-04-11	\N	\N	C+
-The Devil's Rejects	R	the-devils-rejects	109	movie	1600	2005-07-22	\N	\N	B-
-Weapons	R	weapons	128	movie	1601	2025-08-08	\N	\N	A
-The Fly	R	the-fly	96	movie	1602	1986-08-15	\N	\N	A
-The Fly II	R	the-fly-2	105	movie	1603	1989-02-10	\N	\N	C
-The Others	PG-13	the-others	104	movie	1604	2001-08-10	\N	\N	A+
-Commando	R	commando	90	movie	1605	1985-10-04	\N	\N	B-
-Young Frankenstein	PG	young-frankenstein	106	movie	1606	1974-12-15	\N	\N	A
-Mary Shelley's Frankenstein	R	mary-shelleys-frankenstein	123	movie	1607	1994-11-04	\N	\N	C+
-Frankenweenie	PG	frankenweenie	87	movie	1608	2012-10-05	\N	\N	B
-The Shape of Water	R	the-shape-of-water	123	movie	1609	2017-12-01	\N	\N	A-
-Frankenstein	R	frankenstein-(2025)	150	movie	1610	2025-10-17	\N	\N	A
-The Running Man	R	the-running-man-(1987)	101	movie	1611	1987-11-13	\N	\N	C+
-Now You See Me	PG-13	now-you-see-me	115	movie	1612	2013-05-31	\N	\N	C+
-Now You See Me 2	PG-13	now-you-see-me-2	129	movie	1613	2016-06-10	\N	\N	C+
-Freakier Friday	PG	freakier-friday	111	movie	1614	2025-08-08	\N	\N	B
-Baby Driver	R	baby-driver	113	movie	1615	2017-06-28	\N	\N	A
-The Running Man	R	the-running-man-(2025)	133	movie	1616	2025-11-14	\N	\N	B
-Eddington	R	eddington	149	movie	1617	2025-07-18	\N	\N	B-
-Nobody 2	R	nobody-2	89	movie	1618	2025-08-15	\N	\N	B
-The Wiz	G	the-wiz	133	movie	1619	1978-10-24	\N	\N	C+
-The Whale	R	the-whale	117	movie	1620	2022-12-09	\N	\N	A
-Sisu	R	sisu	91	movie	1621	2023-04-28	\N	\N	B+
-The Bad Guys 2	PG	the-bad-guys-2	104	movie	1622	2025-08-01	\N	\N	A-
-The Night Before	R	the-night-before	101	movie	1634	2015-11-20	\N	2025-12-11 09:21:55.173-05	B-
-The Family Stone	PG-13	the-family-stone	104	movie	1635	2005-12-16	\N	2025-12-12 09:24:09.966-05	C
-The Nativity Story	PG	the-nativity-story	101	movie	1638	2006-12-01	\N	2025-12-15 16:26:32.275-05	B-
-Home Alone: The Holiday Heist	TV-PG	home-alone-the-holiday-heist	90	movie	1640	2012-11-25	\N	2025-12-19 16:59:20.067-05	D
-Home Sweet Home Alone	PG	home-sweet-home-alone	93	movie	1641	2021-11-12	\N	2025-12-20 17:04:05.587-05	D
-Sleepaway Camp	R	sleepaway-camp	84	movie	1591	1983-11-18	\N	\N	C+
-Reefer Madness	Not Rated	reefer-madness	66	movie	737	1936-01-01	\N	\N	D+
-Alice in Wonderland	G	alice-in-wonderland-(1951)	75	movie	214	1951-07-28	\N	\N	A-
-Frankenstein	Not Rated	frankenstein-(1931)	70	movie	360	1931-11-21	\N	\N	B
-Paddington in Peru	PG	paddington-in-peru	106	movie	1500	2024-11-08	\N	\N	A-
-Star Wars	PG	star-wars	121	movie	703	1977-05-25	\N	\N	A
-A Christmas Carol	PG	a-christmas-carol-(1984)	100	movie	1642	1984-12-17	\N	2025-12-23 21:16:31.287-05	A
-The Conjuring: Last Rites	R	the-conjuring-last-rites	135	movie	1623	2025-09-05	\N	\N	C+
-Free Birds	PG	free-birds	91	movie	1624	2013-11-01	\N	\N	C-
-Wicked: For Good	PG	wicked-for-good	137	movie	1625	2025-11-21	\N	\N	B+
-Mission: Impossible - The Final Reckoning	PG-13	mission-impossible-the-final-reckoning	170	movie	1644	2025-05-23	\N	2025-12-29 22:21:27.23-05	B+
-One Battle After Another	R	one-battle-after-another	162	movie	1645	2025-09-26	\N	2025-12-30 22:59:22.708-05	A-
+A Nightmare on Elm Street	R	a-nightmare-on-elm-street-(2010)	95	movie	2	2010-04-30	\N	\N	30.77
+A Nightmare on Elm Street 3: Dream Warriors	R	a-nightmare-on-elm-street-3	96	movie	3	1987-02-27	\N	\N	53.85
+A Wrinkle in Time	PG	a-wrinkle-in-time	109	movie	4	2018-03-09	\N	\N	53.85
+Ad Astra	PG-13	ad-astra	123	movie	5	2019-09-20	\N	\N	53.85
+Aladdin	PG	aladdin-(2019)	128	movie	6	2019-05-24	\N	\N	53.85
+Angels & Demons	PG-13	angels-and-demons	138	movie	7	2009-05-15	\N	\N	61.54
+Aquaman	PG-13	aquaman	143	movie	8	2018-12-21	\N	\N	69.23
+Austin Powers in Goldmember	PG-13	austin-powers-in-goldmember	94	movie	9	2002-07-26	\N	\N	53.85
+Austin Powers: The Spy Who Shagged Me	PG-13	austin-powers-the-spy-who-shagged-me	95	movie	10	1999-06-11	\N	\N	53.85
+Batman & Robin	PG-13	batman-and-robin	125	movie	11	1997-06-20	\N	\N	23.08
+Batman v Superman: Dawn of Justice	PG-13	batman-v-superman	151	movie	12	2016-03-25	\N	\N	53.85
+Bill & Ted Face the Music	PG-13	bill-and-ted-face-the-music	91	movie	13	2020-08-28	\N	\N	69.23
+Blade Runner 2049	R	blade-runner-2049	164	movie	15	2017-10-06	\N	\N	69.23
+Captain Marvel	PG-13	captain-marvel	123	movie	16	2019-03-08	\N	\N	69.23
+Cars	G	cars	117	movie	17	2006-06-09	\N	\N	69.23
+Cars 3	G	cars-3	102	movie	18	2017-06-16	\N	\N	61.54
+Charlie and the Chocolate Factory	PG	charlie-and-the-chocolate-factory	115	movie	19	2005-07-15	\N	\N	53.85
+Christopher Robin	PG	christopher-robin	104	movie	20	2018-08-03	\N	\N	69.23
+Descendants	TV-G	descendants	112	movie	21	2015-07-31	\N	\N	53.85
+Die Hard 2	R	die-hard-2	124	movie	22	1990-07-04	\N	\N	69.23
+Donnie Darko	R	donnie-darko	113	movie	23	2001-10-26	\N	\N	69.23
+Eternals	PG-13	eternals	156	movie	24	2021-11-05	\N	\N	53.85
+F9: The Fast Saga	PG-13	f9	143	movie	25	2021-06-25	\N	\N	53.85
+Fantastic Beasts and Where to Find Them	PG-13	fantastic-beasts-and-where-to-find-them	132	movie	26	2016-11-18	\N	\N	69.23
+Fantastic Beasts: The Crimes of Grindelwald	PG-13	fantastic-beasts-the-crimes-of-grindelwald	134	movie	27	2018-11-16	\N	\N	53.85
+Fast & Furious 6	PG-13	fast-and-furious-6	130	movie	28	2013-05-24	\N	\N	69.23
+Fast Five	PG-13	fast-five	130	movie	29	2011-04-29	\N	\N	69.23
+Fear Street Part Three: 1666	R	fear-street-part-3	114	movie	30	2021-07-16	\N	\N	69.23
+Five Feet Apart	PG-13	five-feet-apart	116	movie	31	2019-03-15	\N	\N	69.23
+Friday the 13th	R	friday-the-13th-(1980)	95	movie	32	1980-05-09	\N	\N	61.54
+Friday the 13th Part VI: Jason Lives	R	friday-the-13th-part-6	86	movie	33	1986-08-01	\N	\N	38.46
+Friday the 13th Part VIII: Jason Takes Manhattan	R	friday-the-13th-part-8	100	movie	34	1989-07-28	\N	\N	23.08
+Frozen II	PG	frozen-2	103	movie	35	2019-11-22	\N	\N	69.23
+Furious 7	PG-13	furious-7	137	movie	36	2015-04-03	\N	\N	69.23
+Ghostbusters	PG-13	ghostbusters-(2016)	117	movie	37	2016-07-15	\N	\N	38.46
+Ghostbusters II	PG	ghostbusters-2	108	movie	38	1989-06-16	\N	\N	53.85
+Godzilla	PG-13	godzilla-(2014)	123	movie	39	2014-05-16	\N	\N	69.23
+Grease	PG	grease	110	movie	40	1978-06-16	\N	\N	69.23
+Gremlins 2: The New Batch	PG-13	gremlins-2	106	movie	41	1990-06-15	\N	\N	69.23
+Hitch	PG-13	hitch	118	movie	42	2005-02-11	\N	\N	53.85
+Home Alone 2: Lost in New York	PG	home-alone-2	120	movie	43	1992-11-20	\N	\N	61.54
+Hook	PG	hook	142	movie	44	1991-12-11	\N	\N	69.23
+Iron Man 2	PG-13	iron-man-2	124	movie	45	2010-05-07	\N	\N	69.23
+It Chapter Two	R	it-chapter-2	169	movie	47	2019-09-06	\N	\N	53.85
+Jumanji: The Next Level	PG-13	jumanji-the-next-level	123	movie	48	2019-12-13	\N	\N	69.23
+Jurassic World	PG-13	jurassic-world	124	movie	49	2015-06-12	\N	\N	61.54
+Jurassic World: Fallen Kingdom	PG-13	jurassic-world-fallen-kingdom	128	movie	50	2018-06-22	\N	\N	38.46
+Mad Max Beyond Thunderdome	PG-13	mad-max-beyond-thunderdome	107	movie	51	1985-07-10	\N	\N	69.23
+Monsters University	G	monsters-university	104	movie	52	2013-06-21	\N	\N	69.23
+Wes Craven's New Nightmare	R	new-nightmare	112	movie	53	1994-10-14	\N	\N	69.23
+Ocean's Eleven	PG-13	oceans-eleven	116	movie	54	2001-12-07	\N	\N	61.54
+Pacific Rim	PG-13	pacific-rim	131	movie	55	2013-07-12	\N	\N	69.23
+Pacific Rim: Uprising	PG-13	pacific-rim-uprising	111	movie	56	2018-03-23	\N	\N	53.85
+Return to Never Land	G	return-to-never-land	72	movie	57	2002-02-15	\N	\N	53.85
+Pirates of the Caribbean: At World's End	PG-13	pirates-of-the-caribbean-at-worlds-end	169	movie	58	2007-05-25	\N	\N	53.85
+Pirates of the Caribbean: Dead Man's Chest	PG-13	pirates-of-the-caribbean-dead-mans-chest	151	movie	59	2006-07-07	\N	\N	61.54
+Power Rangers	PG-13	power-rangers	124	movie	60	2017-03-24	\N	\N	53.85
+Predator 2	R	predator-2	108	movie	61	1990-11-21	\N	\N	53.85
+Predators	R	predators	107	movie	62	2010-07-09	\N	\N	69.23
+Puss in Boots	PG	puss-in-boots	90	movie	63	2011-10-28	\N	\N	69.23
+Rambo III	R	rambo-3	102	movie	64	1988-05-25	\N	\N	53.85
+Rambo: First Blood Part II	R	first-blood-part-2	96	movie	65	1985-05-22	\N	\N	53.85
+Rambo: Last Blood	R	rambo-last-blood	89	movie	66	2019-09-20	\N	\N	38.46
+Rampage	PG-13	rampage	107	movie	67	2018-04-13	\N	\N	53.85
+Rocky III	PG	rocky-3	99	movie	68	1982-05-28	\N	\N	69.23
+Scrooged	PG-13	scrooged	101	movie	70	1988-11-23	\N	\N	69.23
+Secret Society of Second-Born Royals	TV-PG	secret-society-of-second-born-royals	99	movie	71	2020-09-25	\N	\N	30.77
+Sherlock Holmes: A Game of Shadows	PG-13	sherlock-holmes-a-game-of-shadows	129	movie	72	2011-12-16	\N	\N	69.23
+Solo: A Star Wars Story	PG-13	solo	135	movie	73	2018-05-25	\N	\N	61.54
+Space Jam: A New Legacy	PG	space-jam-a-new-legacy	115	movie	74	2021-07-16	\N	\N	30.77
+Spider-Man 3	PG-13	spider-man-3	139	movie	75	2007-05-04	\N	\N	53.85
+Home Alone 4	TV-PG	home-alone-4	84	movie	1639	2002-11-03	\N	2025-12-18 16:55:05.149-05	15.38
+Star Trek III: The Search for Spock	PG	star-trek-3	105	movie	76	1984-06-01	\N	\N	69.23
+Star Trek IV: The Voyage Home	PG	star-trek-4	119	movie	77	1986-11-26	\N	\N	76.92
+Star Trek VI: The Undiscovered Country	PG	star-trek-6	110	movie	78	1991-12-06	\N	\N	61.54
+Star Trek: Insurrection	PG	star-trek-insurrection	103	movie	79	1998-12-11	\N	\N	61.54
+Star Wars: The Rise of Skywalker	PG-13	star-wars-the-rise-of-skywalker	141	movie	80	2019-12-20	\N	\N	53.85
+Terminator Salvation	PG-13	terminator-salvation	115	movie	81	2009-05-21	\N	\N	53.85
+The BFG	PG	the-bfg	117	movie	82	2016-07-01	\N	\N	69.23
+The Golden Compass	PG-13	the-golden-compass	113	movie	83	2007-12-07	\N	\N	53.85
+The Hobbit: An Unexpected Journey	PG-13	the-hobbit-an-unexpected-journey	169	movie	84	2012-12-14	\N	\N	69.23
+The Hobbit: The Desolation of Smaug	PG-13	the-hobbit-the-desolation-of-smaug	161	movie	85	2013-12-13	\N	\N	69.23
+The Hunger Games	PG-13	the-hunger-games	142	movie	86	2012-03-23	\N	\N	69.23
+The Hunger Games: Mockingjay - Part 1	PG-13	the-hunger-games-mockingjay-part-1	123	movie	87	2014-11-21	\N	\N	53.85
+The Hunger Games: Mockingjay - Part 2	PG-13	the-hunger-games-mockingjay-part-2	137	movie	88	2015-11-20	\N	\N	53.85
+The Jungle Book	PG	the-jungle-book-(2016)	106	movie	89	2016-04-15	\N	\N	76.92
+The Karate Kid	PG	the-karate-kid-(2010)	140	movie	90	2010-06-11	\N	\N	69.23
+The Matrix Reloaded	R	the-matrix-reloaded	138	movie	91	2003-05-15	\N	\N	61.54
+The New Mutants	PG-13	the-new-mutants	94	movie	92	2020-08-28	\N	\N	53.85
+The Sandlot	PG	the-sandlot	101	movie	93	1993-04-07	\N	\N	69.23
+The Santa Clause	PG	the-santa-clause	97	movie	94	1994-11-11	\N	\N	61.54
+The Texas Chain Saw Massacre	R	the-texas-chain-saw-massacre	83	movie	96	1974-10-11	\N	\N	69.23
+The Twilight Saga: Breaking Dawn - Part 2	PG-13	breaking-dawn-part-2	115	movie	97	2012-11-16	\N	\N	30.77
+The Wolverine	PG-13	the-wolverine	126	movie	98	2013-07-26	\N	\N	69.23
+Transformers	PG-13	transformers	144	movie	99	2007-07-03	\N	\N	53.85
+Transformers: Age of Extinction	PG-13	transformers-age-of-extinction	165	movie	100	2014-06-27	\N	\N	30.77
+Tucker & Dale vs. Evil	R	tucker-and-dale-vs-evil	89	movie	101	2010-01-22	\N	\N	69.23
+Venom	PG-13	venom	112	movie	102	2018-10-05	\N	\N	53.85
+Watchmen	R	watchmen	162	movie	103	2009-03-06	\N	\N	53.85
+X-Men Origins: Wolverine	PG-13	x-men-origins-wolverine	107	movie	105	2009-05-01	\N	\N	30.77
+Zombies	TV-G	zombies	94	movie	106	2018-02-16	\N	\N	53.85
+Lethal Weapon 2	R	lethal-weapon-2	114	movie	107	1989-07-07	\N	\N	69.23
+Lethal Weapon 3	R	lethal-weapon-3	118	movie	108	1992-05-15	\N	\N	53.85
+Diary of a Wimpy Kid: Rodrick Rules	PG	diary-of-a-wimpy-kid-rodrick-rules	100	movie	109	2011-03-25	\N	\N	38.46
+Diary of a Wimpy Kid: Dog Days	PG	diary-of-a-wimpy-kid-dog-days	94	movie	110	2012-08-03	\N	\N	38.46
+Black Christmas	PG-13	black-christmas-(2019)	92	movie	111	2019-12-13	\N	\N	30.77
+The Amazing Spider-Man	PG-13	the-amazing-spider-man	136	movie	112	2012-07-03	\N	\N	69.23
+The Amazing Spider-Man 2	PG-13	the-amazing-spider-man-2	142	movie	113	2014-05-02	\N	\N	53.85
+Miracle on 34th Street	PG	miracle-on-34th-street-(1994)	114	movie	114	1994-11-18	\N	\N	69.23
+Scream 3	R	scream-3	116	movie	115	2000-02-04	\N	\N	53.85
+Bohemian Rhapsody	PG-13	bohemian-rhapsody	134	movie	116	2018-11-02	\N	\N	69.23
+Mortal Kombat Legends: Battle of the Realms	R	mortal-kombat-legends-battle-of-the-realms	80	movie	117	2021-08-31	\N	\N	53.85
+Injustice	PR	injustice	78	movie	118	2021-10-19	\N	\N	53.85
+A Quiet Place Part II	PG-13	a-quiet-place-part-2	97	movie	119	2021-05-28	\N	\N	69.23
+The Purge: Anarchy	R	the-purge-anarchy	103	movie	121	2014-07-18	\N	\N	53.85
+Saw VI	R	saw-6	90	movie	122	2009-10-23	\N	\N	38.46
+The Purge: Election Year	R	the-purge-election-year	108	movie	123	2016-07-01	\N	\N	53.85
+Saw: The Final Chapter	R	saw-the-final-chapter	90	movie	124	2010-10-29	\N	\N	23.08
+Hotel Transylvania 2	PG	hotel-transylvania-2	89	movie	125	2015-09-25	\N	\N	53.85
+Ralph Breaks the Internet	PG	ralph-breaks-the-internet	112	movie	126	2018-11-21	\N	\N	69.23
+Ice Age	PG	ice-age	81	movie	127	2002-03-15	\N	\N	69.23
+Ice Age: The Meltdown	PG	ice-age-the-meltdown	91	movie	128	2006-03-31	\N	\N	53.85
+The Cabinet of Dr. Caligari	Not Rated	the-cabinet-of-dr-caligari	67	movie	129	1920-02-26	\N	\N	69.23
+The Texas Chainsaw Massacre	R	the-texas-chainsaw-massacre	98	movie	131	2003-10-17	\N	\N	30.77
+The Texas Chainsaw Massacre: The Beginning	R	the-texas-chainsaw-massacre-the-beginning	91	movie	132	2006-10-06	\N	\N	23.08
+Texas Chainsaw Massacre	R	texas-chainsaw-massacre	83	movie	133	2022-02-18	\N	\N	30.77
+Black Widow	PG-13	black-widow	134	movie	135	2021-07-09	\N	\N	76.92
+Child's Play	R	childs-play-(1988)	87	movie	136	1988-11-09	\N	\N	69.23
+Cloverfield	PG-13	cloverfield	85	movie	137	2008-01-18	\N	\N	84.62
+Freddy vs. Jason	R	freddy-vs-jason	97	movie	138	2003-08-15	\N	\N	38.46
+Freddy's Dead: The Final Nightmare	R	freddys-dead	89	movie	139	1991-09-13	\N	\N	30.77
+Gone with the Wind	G	gone-with-the-wind	238	movie	140	1939-12-15	\N	\N	76.92
+Grease 2	PG	grease-2	115	movie	141	1982-06-11	\N	\N	46.15
+Halloween	R	halloween-(2018)	106	movie	142	2018-10-19	\N	\N	76.92
+Halloweentown	TV-PG	halloweentown	84	movie	143	1998-10-17	\N	\N	30.77
+Hocus Pocus	PG	hocus-pocus	96	movie	144	1993-07-16	\N	\N	46.15
+Incredibles 2	PG	incredibles-2	118	movie	146	2018-06-15	\N	\N	76.92
+Iron Man 3	PG-13	iron-man-3	130	movie	147	2013-05-03	\N	\N	76.92
+Jack and Jill	PG	jack-and-jill	91	movie	148	2011-11-11	\N	\N	15.38
+Kill Bill: Vol. 2	R	kill-bill-vol-2	137	movie	149	2004-04-16	\N	\N	69.23
+Kirk Cameron's Saving Christmas	PG	saving-christmas	79	movie	150	2014-11-14	\N	\N	0
+Kong: Skull Island	PG-13	kong-skull-island	118	movie	151	2017-03-10	\N	\N	76.92
+Maleficent: Mistress of Evil	PG	maleficent-mistress-of-evil	119	movie	152	2019-10-18	\N	\N	46.15
+Mary Poppins Returns	PG	mary-poppins-returns	130	movie	153	2018-12-19	\N	\N	69.23
+Alice Through the Looking Glass	PG	alice-through-the-looking-glass	113	movie	134	2016-05-27	\N	\N	38.46
+Mortal Kombat	PG-13	mortal-kombat-(1995)	101	movie	154	1995-08-18	\N	\N	46.15
+Pan	PG	pan	111	movie	155	2015-10-09	\N	\N	46.15
+Pirates of the Caribbean: Dead Men Tell No Tales	PG-13	pirates-of-the-caribbean-dead-men-tell-no-tales	129	movie	156	2017-05-26	\N	\N	46.15
+Pirates of the Caribbean: On Stranger Tides	PG-13	pirates-of-the-caribbean-on-stranger-tides	137	movie	157	2011-05-20	\N	\N	46.15
+Pirates of the Caribbean: The Curse of the Black Pearl	PG-13	pirates-of-the-caribbean-the-curse-of-the-black-pearl	143	movie	158	2003-07-09	\N	\N	84.62
+Rocky Balboa	PG	rocky-balboa	102	movie	159	2006-12-20	\N	\N	76.92
+Rocky II	PG	rocky-2	119	movie	160	1979-06-15	\N	\N	76.92
+Scoob!	PG	scoob	93	movie	161	2020-05-15	\N	\N	46.15
+Sherlock Holmes	PG-13	sherlock-holmes	128	movie	162	2009-12-25	\N	\N	76.92
+Shrek 2	PG	shrek-2	93	movie	163	2004-05-19	\N	\N	84.62
+Spy Kids 2: Island of Lost Dreams	PG	spy-kids-2	100	movie	164	2002-08-07	\N	\N	46.15
+Star Trek V: The Final Frontier	PG	star-trek-5	107	movie	166	1989-06-09	\N	\N	46.15
+Superman IV: The Quest for Peace	PG	superman-4	90	movie	168	1987-07-24	\N	\N	0
+Teen Wolf	PG	teen-wolf	91	movie	169	1985-08-23	\N	\N	46.15
+Terminator Genisys	PG-13	terminator-genisys	126	movie	170	2015-07-01	\N	\N	46.15
+The Big Lebowski	R	the-big-lebowski	117	movie	171	1998-03-06	\N	\N	84.62
+The Chronicles of Narnia: The Lion, the Witch and the Wardrobe	PG	the-chronicles-of-narnia-the-lion-the-witch-and-the-wardrobe	143	movie	172	2005-12-09	\N	\N	76.92
+The Chronicles of Narnia: The Voyage of the Dawn Treader	PG	the-chronicles-of-narnia-the-voyage-of-the-dawn-treader	113	movie	173	2010-12-10	\N	\N	46.15
+The Day After Tomorrow	PG-13	the-day-after-tomorrow	124	movie	174	2004-05-28	\N	\N	46.15
+The Divergent Series: Insurgent	PG-13	insurgent	119	movie	175	2015-03-20	\N	\N	46.15
+The Exorcist	R	the-exorcist	122	movie	176	1973-12-26	\N	\N	76.92
+The First Purge	R	the-first-purge	97	movie	177	2018-07-04	\N	\N	46.15
+The Forever Purge	R	the-forever-purge	103	movie	178	2021-07-02	\N	\N	46.15
+The Grinch	PG	the-grinch	85	movie	179	2018-11-09	\N	\N	46.15
+The Hunger Games: Catching Fire	PG-13	the-hunger-games-catching-fire	146	movie	180	2013-11-22	\N	\N	76.92
+The Lion King	PG	the-lion-king-(2019)	118	movie	181	2019-07-19	\N	\N	38.46
+The NeverEnding Story	PG	the-neverending-story	102	movie	182	1984-07-20	\N	\N	76.92
+The Purge	R	the-purge	85	movie	183	2013-06-07	\N	\N	46.15
+The Santa Clause 2	G	the-santa-clause-2	104	movie	184	2002-11-01	\N	\N	46.15
+The Space Between Us	PG-13	the-space-between-us	120	movie	185	2017-02-03	\N	\N	46.15
+Thor	PG-13	thor	115	movie	186	2011-05-06	\N	\N	76.92
+Thor: The Dark World	PG-13	thor-the-dark-world	112	movie	187	2013-11-08	\N	\N	53.85
+Wrath of the Titans	PG-13	wrath-of-the-titans	99	movie	188	2012-03-30	\N	\N	46.15
+X2: X-Men United	PG-13	x2	134	movie	189	2003-05-02	\N	\N	76.92
+Annabelle: Creation	R	annabelle-creation	109	movie	190	2017-08-11	\N	\N	53.85
+The Conjuring: The Devil Made Me Do It	R	the-conjuring-the-devil-made-me-do-it	112	movie	192	2021-06-04	\N	\N	53.85
+Halloween II	R	halloween-2-(1981)	92	movie	194	1981-10-30	\N	\N	53.85
+Halloween	R	halloween-(2007)	109	movie	195	2007-08-31	\N	\N	38.46
+Teen Beach Movie	TV-G	teen-beach-movie	110	movie	196	2013-07-19	\N	\N	46.15
+The Secret Life of Pets 2	PG	the-secret-life-of-pets-2	86	movie	198	2019-06-07	\N	\N	46.15
+Despicable Me	PG	despicable-me	95	movie	199	2010-07-09	\N	\N	76.92
+Despicable Me 2	PG	despicable-me-2	98	movie	200	2013-07-03	\N	\N	69.23
+Sing 2	PG	sing-2	110	movie	201	2021-12-22	\N	\N	53.85
+Bright	TV-MA	bright	117	movie	202	2017-12-22	\N	\N	38.46
+Men in Black II	PG-13	men-in-black-2	88	movie	203	2002-07-03	\N	\N	46.15
+Men in Black 3	PG-13	men-in-black-3	106	movie	204	2012-05-25	\N	\N	53.85
+10 Cloverfield Lane	PG-13	10-cloverfield-lane	103	movie	205	2016-03-11	\N	\N	92.31
+A Monster Calls	PG-13	a-monster-calls	108	movie	206	2016-12-23	\N	\N	92.31
+A Nightmare on Elm Street	R	a-nightmare-on-elm-street-(1984)	91	movie	207	1984-11-09	\N	\N	92.31
+A Nightmare on Elm Street 2: Freddy's Revenge	R	a-nightmare-on-elm-street-2	87	movie	208	1985-11-01	\N	\N	46.15
+A Quiet Place	PG-13	a-quiet-place	90	movie	209	2018-04-06	\N	\N	84.62
+A Star Is Born	R	a-star-is-born	136	movie	210	2018-10-05	\N	\N	76.92
+Adventures in Babysitting	PG-13	adventures-in-babysitting-(1987)	102	movie	211	1987-07-03	\N	\N	53.85
+Adventures in Babysitting	TV-G	adventures-in-babysitting-(2016)	105	movie	212	2016-06-24	\N	\N	46.15
+Alien	R	alien	117	movie	215	1979-05-25	\N	\N	84.62
+Aliens	R	aliens	137	movie	216	1986-07-18	\N	\N	92.31
+Alita: Battle Angel	PG-13	alita	122	movie	217	2019-02-14	\N	\N	84.62
+Annabelle	R	annabelle	99	movie	218	2014-10-03	\N	\N	46.15
+Ant-Man	PG-13	ant-man	117	movie	219	2015-07-17	\N	\N	76.92
+Ant-Man and the Wasp	PG-13	ant-man-and-the-wasp	118	movie	220	2018-07-06	\N	\N	76.92
+Arthur Christmas	PG	arthur-christmas	97	movie	221	2011-11-23	\N	\N	92.31
+Avatar	PG-13	avatar	162	movie	222	2009-12-18	\N	\N	84.62
+Avengers: Endgame	PG-13	avengers-endgame	181	movie	223	2019-04-26	\N	\N	92.31
+Avengers: Infinity War	PG-13	avengers-infinity-war	149	movie	224	2018-04-27	\N	\N	92.31
+Bad Boys	R	bad-boys	119	movie	225	1995-04-07	\N	\N	46.15
+Batman Forever	PG-13	batman-forever	121	movie	226	1995-06-16	\N	\N	46.15
+Batman Returns	PG-13	batman-returns	126	movie	227	1992-06-19	\N	\N	76.92
+Batman: Mask of the Phantasm	PG	batman-mask-of-the-phantasm	76	movie	228	1993-12-25	\N	\N	84.62
+Beauty and the Beast	G	beauty-and-the-beast-(1991)	84	movie	229	1991-11-22	\N	\N	92.31
+Beowulf	PG-13	beowulf	115	movie	230	2007-11-16	\N	\N	61.54
+Big Hero 6	PG	big-hero-6	102	movie	231	2014-11-07	\N	\N	92.31
+Bill & Ted's Excellent Adventure	PG	bill-and-teds-excellent-adventure	90	movie	232	1989-02-17	\N	\N	76.92
+Bird Box	R	bird-box	124	movie	233	2018-12-14	\N	\N	61.54
+Labyrinth	PG	labyrinth	101	movie	314	1986-06-27	\N	\N	76.92
+Alien: Covenant	R	alien-covenant	122	movie	193	2017-05-19	\N	\N	53.85
+Birds of Prey (And the Fantabulous Emancipation of One Harley Quinn)	R	birds-of-prey	109	movie	234	2020-02-07	\N	\N	76.92
+Black Christmas	R	black-christmas-(1974)	98	movie	235	1974-10-11	\N	\N	69.23
+Black Panther	PG-13	black-panther	134	movie	236	2018-02-16	\N	\N	84.62
+Blade Runner	R	blade-runner	117	movie	237	1982-06-25	\N	\N	76.92
+Bram Stoker's Dracula	R	bram-stokers-dracula	128	movie	238	1992-11-13	\N	\N	61.54
+Brokeback Mountain	R	brokeback-mountain	134	movie	239	2005-12-09	\N	\N	69.23
+Bumblebee	PG-13	bumblebee	114	movie	240	2018-12-21	\N	\N	84.62
+Captain America: Civil War	PG-13	captain-america-civil-war	147	movie	241	2016-05-06	\N	\N	92.31
+Captain America: The First Avenger	PG-13	captain-america-the-first-avenger	124	movie	242	2011-07-22	\N	\N	84.62
+Captain America: The Winter Soldier	PG-13	captain-america-the-winter-soldier	136	movie	243	2014-04-04	\N	\N	92.31
+Cars 2	G	cars-2	106	movie	244	2011-06-24	\N	\N	46.15
+Children of the Corn	R	children-of-the-corn	92	movie	246	1984-03-09	\N	\N	38.46
+Chip 'n Dale: Rescue Rangers	PG	chip-n-dale	97	movie	247	2022-05-20	\N	\N	76.92
+Con Air	R	con-air	115	movie	249	1997-06-06	\N	\N	76.92
+Corpse Bride	PG	corpse-bride	77	movie	250	2005-09-23	\N	\N	84.62
+Crimson Peak	R	crimson-peak	119	movie	251	2015-10-16	\N	\N	84.62
+Deadpool	R	deadpool	108	movie	252	2016-02-12	\N	\N	92.31
+Deadpool 2	R	deadpool-2	119	movie	253	2018-05-18	\N	\N	84.62
+Deck the Halls	PG	deck-the-halls	93	movie	254	2006-11-22	\N	\N	30.77
+Descendants 3	TV-G	descendants-3	106	movie	255	2019-08-02	\N	\N	38.46
+North by Northwest	Not Rated	north-by-northwest	136	movie	256	1959-07-01	\N	\N	84.62
+Dune: Part Two	PG-13	dune-part-2	166	movie	257	2024-03-01	\N	\N	84.62
+Split	PG-13	split	117	movie	258	2017-01-20	\N	\N	84.62
+Godzilla Minus One	PG-13	godzilla-minus-one	124	movie	259	2023-11-03	\N	\N	92.31
+Hellboy II: The Golden Army	PG-13	hellboy-2	120	movie	260	2008-07-11	\N	\N	84.62
+South Park: Bigger, Longer & Uncut	R	south-park	81	movie	261	1999-06-30	\N	\N	92.31
+Pearl	R	pearl	103	movie	262	2022-09-16	\N	\N	84.62
+Deadpool & Wolverine	R	deadpool-and-wolverine	128	movie	263	2024-07-26	\N	\N	84.62
+Anchorman: The Legend of Ron Burgundy	PG-13	anchorman	94	movie	264	2004-07-09	\N	\N	84.62
+Lilo & Stitch	PG	lilo-and-stitch-(2002)	85	movie	265	2002-06-21	\N	\N	84.62
+Don't Breathe	R	dont-breathe	88	movie	266	2016-08-26	\N	\N	84.62
+Upgrade	R	upgrade	100	movie	267	2018-06-01	\N	\N	92.31
+Ben-Hur	G	ben-hur	212	movie	268	1959-11-18	\N	\N	84.62
+Smile 2	R	smile-2	127	movie	269	2024-10-18	\N	\N	84.62
+Speed	R	speed	116	movie	270	1994-06-10	\N	\N	84.62
+The Witch	R	the-witch	92	movie	271	2016-02-19	\N	\N	84.62
+The Northman	R	the-northman	136	movie	272	2022-04-22	\N	\N	84.62
+G.I. Joe: The Rise of Cobra	PG-13	gi-joe-the-rise-of-cobra	118	movie	273	2009-08-07	\N	\N	30.77
+Ouija	PG-13	ouija	89	movie	274	2014-10-24	\N	\N	46.15
+Pet Sematary	R	pet-sematary-(2019)	100	movie	275	2019-04-05	\N	\N	46.15
+The Mummy	PG-13	the-mummy-(2017)	110	movie	276	2017-06-09	\N	\N	30.77
+Valentine's Day	PG-13	valentines-day	125	movie	277	2010-02-12	\N	\N	46.15
+Battle for the Planet of the Apes	G	battle-for-the-planet-of-the-apes	93	movie	278	1973-06-13	\N	\N	46.15
+Bad Moms	R	bad-moms	100	movie	279	2016-07-29	\N	\N	46.15
+The School for Good and Evil	PG-13	the-school-for-good-and-evil	147	movie	280	2022-10-19	\N	\N	46.15
+Hellraiser III: Hell on Earth	R	hellraiser-3	93	movie	281	1992-09-11	\N	\N	53.85
+Escape Room: Tournament of Champions	PG-13	escape-room-tournament-of-champions	88	movie	282	2021-07-16	\N	\N	46.15
+The Phantom of the Opera	PG-13	the-phantom-of-the-opera	143	movie	283	2004-12-22	\N	\N	61.54
+The Lord of the Rings	PG	the-lord-of-the-rings	133	movie	284	1978-11-15	\N	\N	46.15
+Battle Royale	Not Rated	battle-royale	114	movie	285	2000-12-16	\N	\N	69.23
+Chicken Little	G	chicken-little	81	movie	286	2005-11-04	\N	\N	46.15
+I Now Pronounce You Chuck & Larry	PG-13	i-now-pronounce-you-chuck-and-larry	115	movie	287	2007-07-20	\N	\N	38.46
+Beverly Hills Cop III	R	beverly-hills-cop-3	104	movie	288	1994-05-25	\N	\N	46.15
+Terrifier	Not Rated	terrifier	85	movie	289	2018-03-15	\N	\N	46.15
+Terrifier 2	Not Rated	terrifier-2	138	movie	290	2022-10-06	\N	\N	69.23
+Don't Breathe 2	R	dont-breathe-2	98	movie	291	2021-08-13	\N	\N	61.54
+Spawn	PG-13	spawn	96	movie	292	1997-08-01	\N	\N	23.08
+Escape Room	PG-13	escape-room	100	movie	293	2019-01-04	\N	\N	53.85
+Tooth Fairy	PG	tooth-fairy	101	movie	294	2010-01-22	\N	\N	23.08
+Red One	PG-13	red-one	123	movie	295	2024-11-15	\N	\N	46.15
+The Last Airbender	PG	the-last-airbender	103	movie	296	2010-07-01	\N	\N	30.77
+The Mortal Instruments: City of Bones	PG-13	the-mortal-instruments	130	movie	297	2013-08-21	\N	\N	38.46
+Aliens vs. Predator: Requiem	R	aliens-vs-predator-requiem	94	movie	298	2007-12-25	\N	\N	23.08
+Middle School: The Worst Years of My Life	PG	middle-school	92	movie	299	2016-10-07	\N	\N	46.15
+A Christmas Story Christmas	PG	a-christmas-story-christmas	98	movie	300	2022-11-17	\N	\N	61.54
+Les Misérables	PG-13	les-miserables	158	movie	301	2012-12-25	\N	\N	61.54
+Scary Movie 3	PG-13	scary-movie-3	84	movie	302	2003-10-24	\N	\N	23.08
+Us	R	us	116	movie	303	2019-03-22	\N	\N	84.62
+After Earth	PG-13	after-earth	100	movie	304	2013-05-31	\N	\N	23.08
+The Mummy: Tomb of the Dragon Emperor	PG-13	the-mummy-tomb-of-the-dragon-emperor	112	movie	305	2008-08-01	\N	\N	23.08
+How to Train Your Dragon: The Hidden World	PG	how-to-train-your-dragon-the-hidden-world	104	movie	307	2019-02-22	\N	\N	84.62
+Magic Mike's Last Dance	R	magic-mikes-last-dance	112	movie	308	2023-02-10	\N	\N	46.15
+Catwoman	PG-13	catwoman	104	movie	310	2004-07-23	\N	\N	23.08
+Elektra	PG-13	elektra	97	movie	311	2005-01-14	\N	\N	30.77
+Mission: Impossible - Dead Reckoning Part One	PG-13	mission-impossible-dead-reckoning-part-1	163	movie	312	2023-07-12	\N	\N	84.62
+Godzilla x Kong: The New Empire	PG-13	godzilla-x-kong-the-new-empire	115	movie	313	2024-03-29	\N	\N	53.85
+Unbreakable	PG-13	unbreakable	106	movie	315	2000-11-22	\N	\N	76.92
+Bad Boys for Life	R	bad-boys-for-life	124	movie	316	2020-01-17	\N	\N	53.85
+Team America: World Police	R	team-america	98	movie	317	2004-10-15	\N	\N	84.62
+Twisters	PG-13	twisters	122	movie	318	2024-07-19	\N	\N	76.92
+Warcraft	PG-13	warcraft	123	movie	319	2016-06-10	\N	\N	30.77
+Final Destination 5	R	final-destination-5	92	movie	320	2011-08-12	\N	\N	61.54
+Firestarter	R	firestarter-(2022)	94	movie	321	2022-05-13	\N	\N	46.15
+Transformers One	PG	transformers-one	104	movie	322	2024-09-20	\N	\N	76.92
+Brother Bear	G	brother-bear	85	movie	323	2003-11-01	\N	\N	61.54
+Oz the Great and Powerful	PG	oz-the-great-and-powerful	130	movie	324	2013-03-08	\N	\N	53.85
+Kick-Ass	R	kick-ass	118	movie	325	2010-04-16	\N	\N	84.62
+Die Hard	R	die-hard	132	movie	326	1988-07-15	\N	\N	92.31
+District 9	R	district-9	112	movie	327	2009-08-14	\N	\N	76.92
+Django Unchained	R	django-unchained	165	movie	328	2012-12-25	\N	\N	84.62
+Doctor Strange in the Multiverse of Madness	PG-13	doctor-strange-in-the-multiverse-of-madness	126	movie	329	2022-05-06	\N	\N	76.92
+Halloween: The Curse of Michael Myers	R	halloween-the-curse-of-michael-myers	87	movie	330	1995-09-29	\N	\N	23.08
+Jason Goes to Hell: The Final Friday	R	jason-goes-to-hell	87	movie	331	1993-08-13	\N	\N	15.38
+Scooby-Doo	PG	scooby-doo	89	movie	332	2002-06-14	\N	\N	15.38
+Dragonball Evolution	PG	dragonball-evolution	85	movie	333	2009-04-10	\N	\N	0
+Alone in the Dark	R	alone-in-the-dark	99	movie	334	2005-01-28	\N	\N	0
+Mortal Kombat: Annihilation	PG-13	mortal-kombat-annihilation	95	movie	335	1997-11-21	\N	\N	0
+Star Wars Holiday Special	TV-PG	the-star-wars-holiday-special	97	movie	336	1978-11-17	\N	\N	0
+Billy Madison	PG-13	billy-madison	89	movie	337	1995-02-10	\N	\N	30.77
+Halloween 5: The Revenge of Michael Myers	R	halloween-5	96	movie	338	1989-10-13	\N	\N	30.77
+The Room	R	the-room	99	movie	339	2003-06-27	\N	\N	0
+Hellbound: Hellraiser II	R	hellbound	97	movie	340	1988-12-23	\N	\N	46.15
+Friday the 13th Part VII: The New Blood	R	friday-the-13th-part-7	88	movie	341	1988-05-13	\N	\N	30.77
+Leprechaun	R	leprechaun	92	movie	342	1993-01-08	\N	\N	30.77
+Super Mario Bros.	PG	super-mario-bros	104	movie	343	1993-05-28	\N	\N	23.08
+Dungeons & Dragons	PG-13	dungeons-and-dragons	107	movie	344	2000-12-08	\N	\N	15.38
+Halloween 4: The Return of Michael Myers	R	halloween-4	88	movie	345	1988-10-21	\N	\N	38.46
+Hancock	PG-13	hancock	92	movie	346	2008-07-02	\N	\N	46.15
+Music	PG-13	music	107	movie	347	2021-02-12	\N	\N	0
+Signs	PG-13	signs	106	movie	348	2002-08-02	\N	\N	38.46
+Dracula	Not Rated	dracula	75	movie	349	1931-02-14	\N	\N	69.23
+Dune	PG-13	dune-(2021)	155	movie	350	2021-10-22	\N	\N	84.62
+Encanto	PG	encanto	102	movie	351	2021-11-24	\N	\N	92.31
+Evil Dead II	R	evil-dead-2	84	movie	352	1987-03-13	\N	\N	92.31
+Ewoks: The Battle for Endor	TV-PG	ewoks-the-battle-for-endor	94	movie	353	1985-11-24	\N	\N	23.08
+Face/Off	R	face-off	138	movie	354	1997-06-27	\N	\N	84.62
+Fargo	R	fargo	98	movie	355	1996-03-08	\N	\N	53.85
+Fear Street Part One: 1994	R	fear-street-part-1	107	movie	356	2021-07-02	\N	\N	76.92
+Fear Street Part Two: 1978	R	fear-street-part-2	109	movie	357	2021-07-09	\N	\N	76.92
+Finding Dory	PG	finding-dory	97	movie	358	2016-06-17	\N	\N	76.92
+First Blood	R	first-blood	93	movie	359	1982-10-22	\N	\N	84.62
+Friday the 13th: A New Beginning	R	friday-the-13th-a-new-beginning	92	movie	361	1985-03-22	\N	\N	23.08
+Frozen	PG	frozen	102	movie	362	2013-11-27	\N	\N	92.31
+Galaxy Quest	PG	galaxy-quest	102	movie	363	1999-12-25	\N	\N	84.62
+Get Out	R	get-out	104	movie	365	2017-02-24	\N	\N	92.31
+Ghost Rider	PG-13	ghost-rider	110	movie	366	2007-02-16	\N	\N	30.77
+Ghostbusters	PG	ghostbusters-(1984)	105	movie	367	1984-06-08	\N	\N	84.62
+Glory	R	glory	122	movie	368	1989-12-15	\N	\N	76.92
+Godzilla	PG-13	godzilla-(1998)	139	movie	369	1998-05-20	\N	\N	30.77
+Gremlins	PG	gremlins	106	movie	370	1984-06-08	\N	\N	84.62
+Guardians of the Galaxy	PG-13	guardians-of-the-galaxy	121	movie	371	2014-08-01	\N	\N	92.31
+Halloween	R	halloween-(1978)	91	movie	372	1978-10-24	\N	\N	92.31
+Halloween H20: 20 Years Later	R	halloween-h20	86	movie	373	1998-08-05	\N	\N	53.85
+Halloween II	R	halloween-2-(2009)	105	movie	374	2009-08-28	\N	\N	23.08
+Halloween III: Season of the Witch	R	halloween-3	98	movie	375	1982-10-22	\N	\N	46.15
+Halloweentown High	TV-G	halloweentown-high	82	movie	376	2004-10-08	\N	\N	23.08
+Harry Potter and the Deathly Hallows - Part 2	PG-13	harry-potter-and-the-deathly-hallows-part-2	130	movie	377	2011-07-15	\N	\N	92.31
+Harry Potter and the Goblet of Fire	PG-13	harry-potter-and-the-goblet-of-fire	157	movie	378	2005-11-18	\N	\N	92.31
+Harry Potter and the Half-Blood Prince	PG	harry-potter-and-the-half-blood-prince	153	movie	379	2009-07-15	\N	\N	84.62
+Harry Potter and the Order of the Phoenix	PG-13	harry-potter-and-the-order-of-the-phoenix	138	movie	380	2007-07-11	\N	\N	84.62
+The Notebook	PG-13	the-notebook	123	movie	892	2004-06-25	\N	\N	61.54
+Harry Potter and the Prisoner of Azkaban	PG	harry-potter-and-the-prisoner-of-azkaban	142	movie	381	2004-06-04	\N	\N	92.31
+Harry Potter and the Sorcerer's Stone	PG	harry-potter-and-the-sorcerers-stone	152	movie	382	2001-11-16	\N	\N	84.62
+Home Alone	PG	home-alone	103	movie	383	1990-11-16	\N	\N	84.62
+Hotel Transylvania: Transformania	PG	hotel-transylvania-transformania	87	movie	384	2022-01-14	\N	\N	38.46
+How to Train Your Dragon	PG	how-to-train-your-dragon-(2010)	98	movie	385	2010-03-26	\N	\N	92.31
+How to Train Your Dragon 2	PG	how-to-train-your-dragon-2	102	movie	386	2014-06-13	\N	\N	92.31
+Hugo	PG	hugo	126	movie	387	2011-11-23	\N	\N	84.62
+Ice Age: Continental Drift	PG	ice-age-continental-drift	88	movie	388	2012-07-13	\N	\N	46.15
+In the Heights	PG-13	in-the-heights	143	movie	389	2021-06-10	\N	\N	84.62
+Inception	PG-13	inception	148	movie	390	2010-07-16	\N	\N	84.62
+Indiana Jones and the Last Crusade	PG-13	indiana-jones-and-the-last-crusade	127	movie	391	1989-05-24	\N	\N	92.31
+Indiana Jones and the Temple of Doom	PG	indiana-jones-and-the-temple-of-doom	118	movie	392	1984-05-23	\N	\N	84.62
+Inglourious Basterds	R	inglourious-basterds	153	movie	393	2009-08-21	\N	\N	84.62
+Caravan of Courage: An Ewok Adventure	TV-PG	caravan-of-courage	96	movie	394	1984-11-25	\N	\N	23.08
+Jaws 3-D	PG	jaws-3	99	movie	395	1983-07-22	\N	\N	30.77
+Superman III	PG	superman-3	125	movie	396	1983-06-17	\N	\N	23.08
+History of the World, Part I	R	history-of-the-world	92	movie	397	1981-06-12	\N	\N	46.15
+Silent Night, Deadly Night Part 2	R	silent-night-deadly-night-part-2	88	movie	398	1987-04-10	\N	\N	0
+Iron Man	PG-13	iron-man	126	movie	399	2008-05-02	\N	\N	92.31
+It	R	it	135	movie	400	2017-09-08	\N	\N	84.62
+It Follows	R	it-follows	100	movie	401	2015-03-13	\N	\N	84.62
+Jaws	PG	jaws	124	movie	402	1975-06-20	\N	\N	84.62
+John Wick: Chapter 2	R	john-wick-chapter-2	122	movie	403	2017-02-10	\N	\N	84.62
+John Wick: Chapter 3 - Parabellum	R	john-wick-chapter-3	130	movie	404	2019-05-17	\N	\N	84.62
+Jojo Rabbit	PG-13	jojo-rabbit	108	movie	405	2019-10-18	\N	\N	69.23
+Joker	R	joker	122	movie	406	2019-10-04	\N	\N	84.62
+Jumanji: Welcome to the Jungle	PG-13	jumanji-welcome-to-the-jungle	119	movie	407	2017-12-20	\N	\N	76.92
+Jupiter Ascending	PG-13	jupiter-ascending	127	movie	408	2015-02-06	\N	\N	23.08
+Jurassic Park	PG-13	jurassic-park	127	movie	409	1993-06-11	\N	\N	92.31
+A Clockwork Orange	R	a-clockwork-orange	136	movie	410	1972-02-02	\N	\N	84.62
+A Beautiful Day in the Neighborhood	PG	a-beautiful-day-in-the-neighborhood	109	movie	411	2019-11-22	\N	\N	84.62
+A Bug's Life	G	a-bugs-life	95	movie	412	1998-11-20	\N	\N	76.92
+A Christmas Story	PG	a-christmas-story	93	movie	413	1983-11-18	\N	\N	76.92
+Kill Bill: Vol. 1	R	kill-bill-vol-1	111	movie	414	2003-10-17	\N	\N	92.31
+Killer Klowns from Outer Space	PG-13	killer-klowns-from-outer-space	88	movie	415	1988-05-27	\N	\N	46.15
+Knives Out	PG-13	knives-out	130	movie	416	2019-11-27	\N	\N	84.62
+Lady Bird	R	lady-bird	94	movie	417	2017-11-03	\N	\N	76.92
+Lady and the Tramp	G	lady-and-the-tramp-(1955)	76	movie	418	1955-06-22	\N	\N	76.92
+Lara Croft: Tomb Raider - The Cradle of Life	PG-13	lara-croft-tomb-raider-the-cradle-of-life	117	movie	419	2003-07-25	\N	\N	46.15
+Lara Croft: Tomb Raider	PG-13	lara-croft-tomb-raider	100	movie	420	2001-06-15	\N	\N	46.15
+Lethal Weapon	R	lethal-weapon	109	movie	421	1987-03-06	\N	\N	92.31
+Lethal Weapon 4	R	lethal-weapon-4	127	movie	422	1998-07-10	\N	\N	46.15
+Love, Simon	PG-13	love-simon	110	movie	424	2018-03-16	\N	\N	76.92
+Luca	PG	luca	95	movie	425	2021-06-18	\N	\N	92.31
+Mad Max	R	mad-max	91	movie	426	1979-04-12	\N	\N	84.62
+Mad Max: Fury Road	R	mad-max-fury-road	120	movie	427	2015-05-15	\N	\N	84.62
+Mary Poppins	G	mary-poppins	139	movie	428	1964-08-27	\N	\N	92.31
+Men in Black	PG-13	men-in-black	98	movie	429	1997-07-02	\N	\N	84.62
+Sky High	PG	sky-high	100	movie	430	2005-07-29	\N	\N	76.92
+A Nightmare on Elm Street 4: The Dream Master	R	a-nightmare-on-elm-street-4	93	movie	431	1988-08-19	\N	\N	46.15
+A Nightmare on Elm Street 5: The Dream Child	R	a-nightmare-on-elm-street-5	89	movie	432	1989-08-11	\N	\N	46.15
+Army of the Dead	R	army-of-the-dead	148	movie	433	2021-05-14	\N	\N	53.85
+Avengers: Age of Ultron	PG-13	avengers-age-of-ultron	141	movie	434	2015-05-01	\N	\N	84.62
+Back to the Future Part II	PG	back-to-the-future-part-2	108	movie	435	1989-11-22	\N	\N	84.62
+Back to the Future Part III	PG	back-to-the-future-part-3	118	movie	436	1990-05-25	\N	\N	84.62
+Batman	PG-13	batman	126	movie	437	1989-06-23	\N	\N	84.62
+Batman Begins	PG-13	batman-begins	140	movie	438	2005-06-15	\N	\N	84.62
+Bedtime Stories	PG	bedtime-stories	99	movie	439	2008-12-25	\N	\N	38.46
+Clash of the Titans	PG-13	clash-of-the-titans-(2010)	106	movie	440	2010-04-02	\N	\N	46.15
+Diary of a Wimpy Kid: The Long Haul	PG	diary-of-a-wimpy-kid-the-long-haul	91	movie	441	2017-05-19	\N	\N	15.38
+Event Horizon	R	event-horizon	96	movie	442	1997-08-15	\N	\N	46.15
+Ghost Rider: Spirit of Vengeance	PG-13	ghost-rider-spirit-of-vengeance	96	movie	443	2012-02-17	\N	\N	23.08
+How the Grinch Stole Christmas	PG	how-the-grinch-stole-christmas	104	movie	444	2000-11-17	\N	\N	38.46
+It's a Wonderful Life	PG	its-a-wonderful-life	130	movie	445	1946-12-20	\N	\N	92.31
+Jaws 2	PG	jaws-2	116	movie	446	1978-06-16	\N	\N	46.15
+Jem and the Holograms	PG	jem-and-the-holograms	118	movie	447	2015-10-23	\N	\N	38.46
+Jigsaw	R	jigsaw	92	movie	448	2017-10-27	\N	\N	38.46
+Jingle All the Way	PG	jingle-all-the-way	89	movie	449	1996-11-22	\N	\N	30.77
+John Wick	R	john-wick	101	movie	450	2014-10-24	\N	\N	84.62
+Miracle on 34th Street	Not Rated	miracle-on-34th-street-(1947)	96	movie	451	1947-06-11	\N	\N	84.62
+Moana	PG	moana	107	movie	452	2016-11-23	\N	\N	92.31
+Mulan	G	mulan-(1998)	87	movie	454	1998-06-19	\N	\N	84.62
+National Lampoon's Christmas Vacation	PG-13	christmas-vacation	97	movie	455	1989-12-01	\N	\N	84.62
+National Treasure: Book of Secrets	PG	national-treasure-book-of-secrets	124	movie	456	2007-12-21	\N	\N	46.15
+Night of the Living Dead	Not Rated	night-of-the-living-dead	96	movie	457	1968-10-04	\N	\N	76.92
+Nosferatu	Not Rated	nosferatu-(1922)	94	movie	459	1922-03-04	\N	\N	69.23
+Ocean's Thirteen	PG-13	oceans-thirteen	122	movie	460	2007-06-08	\N	\N	46.15
+Ocean's Twelve	PG-13	oceans-twelve	125	movie	461	2004-12-10	\N	\N	46.15
+One Hundred and One Dalmatians	G	one-hundred-and-one-dalmatians	79	movie	462	1961-01-25	\N	\N	76.92
+Onward	PG	onward	102	movie	463	2020-03-06	\N	\N	76.92
+ParaNorman	PG	paranorman	92	movie	464	2012-08-17	\N	\N	84.62
+Paranormal Activity	R	paranormal-activity	86	movie	465	2009-09-25	\N	\N	38.46
+Pearl Harbor	PG-13	pearl-harbor	183	movie	467	2001-05-25	\N	\N	46.15
+Percy Jackson: Sea of Monsters	PG	percy-jackson-sea-of-monsters	106	movie	468	2013-08-07	\N	\N	46.15
+WarGames	PG	wargames	114	movie	469	1983-06-03	\N	\N	61.54
+Peter Pan	G	peter-pan-(1953)	77	movie	470	1953-02-05	\N	\N	84.62
+Phineas and Ferb the Movie: Across the 2nd Dimension	TV-G	phineas-and-ferb-the-movie-across-the-2nd-dimension	78	movie	471	2011-08-05	\N	\N	84.62
+Planes	PG	planes	91	movie	472	2013-08-09	\N	\N	38.46
+Platoon	R	platoon	120	movie	473	1986-12-19	\N	\N	84.62
+Poltergeist	PG	poltergeist	114	movie	474	1982-06-04	\N	\N	84.62
+Psycho	R	psycho	109	movie	475	1960-09-08	\N	\N	84.62
+Pulp Fiction	PG-13	pulp-fiction	154	movie	476	1994-10-14	\N	\N	92.31
+Rain Man	R	rain-man	133	movie	477	1988-12-16	\N	\N	76.92
+Ratatouille	G	ratatouille	111	movie	478	2007-06-29	\N	\N	92.31
+Raya and the Last Dragon	PG	raya-and-the-last-dragon	107	movie	479	2021-03-05	\N	\N	76.92
+Return to Oz	PG	return-to-oz	113	movie	480	1985-06-21	\N	\N	61.54
+RoboCop 3	PG-13	robocop-3	104	movie	481	1993-11-05	\N	\N	46.15
+Rocketman	R	rocketman	121	movie	482	2019-05-31	\N	\N	84.62
+Rocky	PG	rocky	120	movie	483	1976-12-03	\N	\N	92.31
+Rogue One: A Star Wars Story	PG-13	rogue-one	133	movie	484	2016-12-16	\N	\N	84.62
+Saving Mr. Banks	PG-13	saving-mr-banks	125	movie	485	2013-12-13	\N	\N	84.62
+Saw	R	saw	103	movie	486	2004-10-29	\N	\N	61.54
+Saw II	R	saw-2	93	movie	487	2005-10-28	\N	\N	53.85
+Schindler's List	R	schindlers-list	195	movie	489	1993-12-15	\N	\N	84.62
+Scooby-Doo 2: Monsters Unleashed	PG	scooby-doo-2	93	movie	490	2004-03-26	\N	\N	23.08
+Home Alone 3	PG	home-alone-3	102	movie	491	1997-12-12	\N	\N	23.08
+Scott Pilgrim vs. the World	PG-13	scott-pilgrim-vs-the-world	112	movie	492	2010-08-13	\N	\N	92.31
+Scream	R	scream-(1996)	111	movie	493	1996-12-20	\N	\N	92.31
+Scream	R	scream-(2022)	114	movie	494	2022-01-14	\N	\N	76.92
+Scream 2	R	scream-2	120	movie	495	1997-12-12	\N	\N	69.23
+Shang-Chi and the Legend of the Ten Rings	PG-13	shang-chi-and-the-legend-of-the-ten-rings	132	movie	496	2021-09-03	\N	\N	84.62
+Sharknado	TV-14	sharknado	86	movie	497	2013-07-11	\N	\N	23.08
+Sharknado 2: The Second One	TV-14	sharknado-2	95	movie	498	2014-07-30	\N	\N	23.08
+Sharknado 3: Oh Hell No!	TV-14	sharknado-3	93	movie	499	2015-07-22	\N	\N	23.08
+Sharknado: The 4th Awakens	TV-14	sharknado-the-4th-awakens	95	movie	500	2016-07-31	\N	\N	23.08
+Sharknado 5: Global Swarming	TV-14	sharknado-5	93	movie	501	2017-08-06	\N	\N	23.08
+Shazam!	PG-13	shazam	132	movie	502	2019-04-05	\N	\N	92.31
+Shrek the Third	PG	shrek-the-third	93	movie	503	2007-05-18	\N	\N	46.15
+Shutter Island	R	shutter-island	138	movie	504	2010-02-19	\N	\N	84.62
+Sin City	R	sin-city	124	movie	505	2005-04-01	\N	\N	76.92
+Sinister	R	sinister	110	movie	506	2012-10-12	\N	\N	76.92
+Sleeping Beauty	G	sleeping-beauty	75	movie	507	1959-01-29	\N	\N	69.23
+Sleepy Hollow	R	sleepy-hollow	105	movie	508	1999-11-19	\N	\N	84.62
+Snowpiercer	R	snowpiercer	126	movie	509	2014-06-27	\N	\N	92.31
+Spaceballs	PG	spaceballs	96	movie	510	1987-06-24	\N	\N	84.62
+Spider-Man 2	PG-13	spider-man-2	127	movie	511	2004-06-30	\N	\N	84.62
+Spider-Man: Far From Home	PG-13	spider-man-far-from-home	129	movie	512	2019-07-02	\N	\N	84.62
+Spider-Man: Homecoming	PG-13	spider-man-homecoming	133	movie	513	2017-07-07	\N	\N	92.31
+Spider-Man: No Way Home	PG-13	spider-man-no-way-home	148	movie	514	2021-12-17	\N	\N	92.31
+Spirited Away	PG	spirited-away	125	movie	515	2001-07-20	\N	\N	84.62
+Star Trek: First Contact	PG-13	star-trek-first-contact	111	movie	516	1996-11-22	\N	\N	84.62
+Sucker Punch	PG-13	sucker-punch	110	movie	518	2011-03-25	\N	\N	38.46
+Superman	PG	superman-(1978)	143	movie	519	1978-12-15	\N	\N	84.62
+Tangled	PG	tangled	100	movie	520	2010-11-24	\N	\N	92.31
+Teen Beach 2	TV-G	teen-beach-2	104	movie	521	2015-06-26	\N	\N	46.15
+Terminator 2: Judgment Day	R	terminator-2	137	movie	522	1991-07-03	\N	\N	92.31
+Terminator 3: Rise of the Machines	R	terminator-3	109	movie	523	2003-07-02	\N	\N	38.46
+The Addams Family	PG-13	the-addams-family-(1991)	99	movie	524	1991-11-22	\N	\N	84.62
+The Adventures of Sharkboy and Lavagirl	PG	the-adventures-of-sharkboy-and-lavagirl	93	movie	525	2005-06-10	\N	\N	23.08
+The Avengers	PG-13	the-avengers	143	movie	526	2012-05-04	\N	\N	92.31
+The Batman	PG-13	the-batman	176	movie	527	2022-03-04	\N	\N	84.62
+The Boy	PG-13	the-boy	97	movie	528	2016-01-22	\N	\N	38.46
+The Cabin in the Woods	R	the-cabin-in-the-woods	95	movie	530	2012-04-13	\N	\N	76.92
+The Conjuring	R	the-conjuring	112	movie	531	2013-07-19	\N	\N	84.62
+The Croods	PG	the-croods	98	movie	532	2013-03-22	\N	\N	76.92
+The Dark Knight Rises	PG-13	the-dark-knight-rises	164	movie	533	2012-07-20	\N	\N	76.92
+The Disaster Artist	R	the-disaster-artist	104	movie	534	2017-12-01	\N	\N	92.31
+The Evil Dead	NC-17	the-evil-dead	85	movie	535	1983-04-15	\N	\N	92.31
+The Fault in Our Stars	PG-13	the-fault-in-our-stars	126	movie	537	2014-06-06	\N	\N	84.62
+The Fifth Element	PG-13	the-fifth-element	126	movie	538	1997-05-07	\N	\N	76.92
+The Godfather	R	the-godfather	175	movie	539	1972-03-24	\N	\N	84.62
+The Green Mile	R	the-green-mile	189	movie	540	1999-12-10	\N	\N	84.62
+Trick 'r Treat	R	trick-r-treat	82	movie	541	2009-10-06	\N	\N	84.62
+Arrival	PG-13	arrival	116	movie	542	2016-11-11	\N	\N	92.31
+The Happening	R	the-happening	91	movie	543	2008-06-13	\N	\N	23.08
+The Haunted Mansion	PG	the-haunted-mansion	99	movie	544	2003-11-26	\N	\N	46.15
+The Iron Giant	PG	the-iron-giant	86	movie	545	1999-08-06	\N	\N	92.31
+Napoleon Dynamite	PG	napoleon-dynamite	96	movie	1181	2004-06-11	\N	\N	53.85
+The Jungle Book	G	the-jungle-book-(1967)	78	movie	546	1967-10-18	\N	\N	76.92
+The Karate Kid	PG	the-karate-kid-(1984)	126	movie	547	1984-06-22	\N	\N	84.62
+BlacKkKlansman	R	blackkklansman	135	movie	895	2018-08-10	\N	\N	92.31
+Green Book	PG-13	green-book	130	movie	896	2018-11-16	\N	\N	84.62
+Creed	PG-13	creed	133	movie	897	2015-11-25	\N	\N	84.62
+The Last Sharknado: It's About Time	TV-14	the-last-sharknado	86	movie	548	2018-08-19	\N	\N	23.08
+The Lion King	G	the-lion-king-(1994)	88	movie	549	1994-06-24	\N	\N	92.31
+The Matrix	R	the-matrix	136	movie	551	1999-03-31	\N	\N	84.62
+The Muppet Christmas Carol	G	the-muppet-christmas-carol	85	movie	552	1992-12-11	\N	\N	84.62
+The Nightmare Before Christmas	PG	the-nightmare-before-christmas	76	movie	553	1993-10-29	\N	\N	84.62
+The Nun	R	the-nun	96	movie	554	2018-09-07	\N	\N	38.46
+The Polar Express	G	the-polar-express	100	movie	555	2004-11-10	\N	\N	69.23
+The Princess Bride	PG	the-princess-bride	98	movie	556	1987-09-25	\N	\N	92.31
+The Ring	PG-13	the-ring	115	movie	557	2002-10-18	\N	\N	84.62
+The Secret Life of Pets	PG	the-secret-life-of-pets	87	movie	558	2016-07-08	\N	\N	46.15
+2012	PG-13	2012	158	movie	820	2009-11-13	\N	\N	46.15
+The Shawshank Redemption	R	the-shawshank-redemption	142	movie	559	1994-09-23	\N	\N	92.31
+The Silence of the Lambs	R	the-silence-of-the-lambs	118	movie	560	1991-02-14	\N	\N	84.62
+The Sixth Sense	PG-13	the-sixth-sense	107	movie	561	1999-08-06	\N	\N	84.62
+The Social Network	PG-13	the-social-network	120	movie	562	2010-10-01	\N	\N	84.62
+The Suicide Squad	R	the-suicide-squad	132	movie	563	2021-08-06	\N	\N	92.31
+The Terminator	R	the-terminator	107	movie	564	1984-10-26	\N	\N	92.31
+The Wizard of Oz	G	the-wizard-of-oz	102	movie	566	1939-08-25	\N	\N	92.31
+Thor: Ragnarok	PG-13	thor-ragnarok	130	movie	567	2017-11-03	\N	\N	92.31
+Titanic	PG-13	titanic	194	movie	568	1997-12-19	\N	\N	84.62
+Top Gun: Maverick	PG-13	top-gun-maverick	130	movie	569	2022-05-27	\N	\N	84.62
+Total Recall	R	total-recall	113	movie	570	1990-06-01	\N	\N	84.62
+Starship Troopers	R	starship-troopers	129	movie	571	1997-11-07	\N	\N	69.23
+Toy Story	G	toy-story	81	movie	572	1995-11-22	\N	\N	92.31
+Toy Story 2	G	toy-story-2	92	movie	573	1999-11-24	\N	\N	92.31
+Toy Story 3	G	toy-story-3	103	movie	574	2010-06-18	\N	\N	92.31
+Toy Story 4	G	toy-story-4	100	movie	575	2019-06-21	\N	\N	84.62
+Transformers: The Last Knight	PG-13	transformers-the-last-knight	154	movie	576	2017-06-21	\N	\N	23.08
+Transformers: Revenge of the Fallen	PG-13	transformers-revenge-of-the-fallen	149	movie	577	2009-06-24	\N	\N	30.77
+Transformers: Dark of the Moon	PG-13	transformers-dark-of-the-moon	154	movie	578	2011-06-29	\N	\N	46.15
+Turning Red	PG	turning-red	100	movie	579	2022-03-11	\N	\N	84.62
+Uncut Gems	R	uncut-gems	135	movie	580	2019-12-13	\N	\N	84.62
+V for Vendetta	R	v-for-vendetta	132	movie	581	2006-03-17	\N	\N	92.31
+WALL-E	G	wall-e	98	movie	582	2008-06-27	\N	\N	92.31
+West Side Story	Not Rated	west-side-story-(1961)	153	movie	584	1961-10-18	\N	\N	92.31
+West Side Story	PG-13	west-side-story-(2021)	156	movie	585	2021-12-10	\N	\N	84.62
+Who Framed Roger Rabbit	PG	who-framed-roger-rabbit	104	movie	586	1988-06-24	\N	\N	92.31
+Willy Wonka & the Chocolate Factory	G	willy-wonka-and-the-chocolate-factory	100	movie	587	1971-06-30	\N	\N	92.31
+Wonder Woman	PG-13	wonder-woman	141	movie	588	2017-06-02	\N	\N	92.31
+Wreck-It Ralph	PG	wreck-it-ralph	101	movie	589	2012-11-02	\N	\N	76.92
+X-Men	PG-13	x-men	104	movie	590	2000-07-14	\N	\N	76.92
+X-Men: Days of Future Past	PG-13	x-men-days-of-future-past	132	movie	591	2014-05-23	\N	\N	84.62
+X-Men: First Class	PG-13	x-men-first-class	131	movie	592	2011-06-03	\N	\N	92.31
+Zombies 2	TV-G	zombies-2	84	movie	593	2020-02-14	\N	\N	46.15
+Zootopia	PG	zootopia	108	movie	594	2016-03-04	\N	\N	92.31
+Cats	PG	cats	110	movie	595	2019-12-20	\N	\N	15.38
+Alien 3	R	alien-3	114	movie	596	1992-05-22	\N	\N	46.15
+The Conjuring 2	R	the-conjuring-2	134	movie	597	2016-06-10	\N	\N	76.92
+Zombieland: Double Tap	R	zombieland-double-tap	99	movie	598	2019-10-18	\N	\N	69.23
+Kung Fu Panda	PG	kung-fu-panda	92	movie	599	2008-06-06	\N	\N	92.31
+Kung Fu Panda 2	PG	kung-fu-panda-2	90	movie	600	2011-05-26	\N	\N	92.31
+Kung Fu Panda 3	PG	kung-fu-panda-3	95	movie	602	2016-01-29	\N	\N	76.92
+Megamind	PG	megamind	95	movie	603	2010-11-05	\N	\N	69.23
+Bee Movie	PG	bee-movie	91	movie	604	2007-11-02	\N	\N	46.15
+Zombies 3	TV-G	zombies-3	88	movie	605	2022-07-15	\N	\N	46.15
+The Giver	PG-13	the-giver	97	movie	606	2014-08-15	\N	\N	53.85
+Ghostbusters: Afterlife	PG-13	ghostbusters-afterlife	124	movie	607	2021-11-19	\N	\N	69.23
+Maze Runner: The Scorch Trials	PG-13	the-scorch-trials	131	movie	608	2015-09-18	\N	\N	53.85
+Mrs. Doubtfire	PG-13	mrs-doubtfire	125	movie	610	1993-11-24	\N	\N	69.23
+Maze Runner: The Death Cure	PG-13	the-death-cure	143	movie	611	2018-01-26	\N	\N	53.85
+The Darkest Minds	PG-13	the-darkest-minds	104	movie	612	2018-08-03	\N	\N	38.46
+RoboCop	R	robocop-(1987)	102	movie	619	1987-07-17	\N	\N	84.62
+Predator	R	predator	107	movie	620	1987-06-12	\N	\N	84.62
+Phineas and Ferb the Movie: Candace Against the Universe	TV-G	phineas-and-ferb-the-movie-candace-against-the-universe	86	movie	621	2020-08-28	\N	\N	76.92
+Scary Movie 2	R	scary-movie-2	83	movie	622	2001-07-04	\N	\N	0
+Ice Age: Collision Course	PG	ice-age-collision-course	94	movie	623	2016-07-22	\N	\N	46.15
+I Still Know What You Did Last Summer	R	i-still-know-what-you-did-last-summer	100	movie	624	1998-11-13	\N	\N	38.46
+Jaws: The Revenge	PG-13	jaws-the-revenge	89	movie	628	1987-07-17	\N	\N	30.77
+Green Lantern	PG-13	green-lantern	114	movie	629	2011-06-17	\N	\N	30.77
+Jason X	R	jason-x	92	movie	630	2002-04-26	\N	\N	30.77
+A Good Day to Die Hard	R	a-good-day-to-die-hard	98	movie	631	2013-02-14	\N	\N	30.77
+Supergirl	PG	supergirl	124	movie	632	1984-07-19	\N	\N	23.08
+Justice League: The Flashpoint Paradox	PG-13	justice-league-the-flashpoint-paradox	75	movie	633	2013-07-30	\N	\N	76.92
+Justice League: War	PG-13	justice-league-war	79	movie	634	2014-02-04	\N	\N	69.23
+Son of Batman	PG-13	son-of-batman	74	movie	635	2014-04-22	\N	\N	69.23
+Thor: Love and Thunder	PG-13	thor-love-and-thunder	118	movie	636	2022-07-08	\N	\N	69.23
+Casablanca	PG	casablanca	102	movie	245	1942-11-26	\N	\N	92.31
+Justice League: Throne of Atlantis	PG-13	justice-league-throne-of-atlantis	72	movie	637	2015-01-13	\N	\N	69.23
+Batman: Bad Blood	PG-13	batman-bad-blood	72	movie	638	2016-01-20	\N	\N	61.54
+Justice League vs. Teen Titans	PG-13	justice-league-vs-teen-titans	78	movie	639	2016-03-29	\N	\N	69.23
+Batman vs. Robin	PG-13	batman-vs-robin	80	movie	640	2015-04-07	\N	\N	76.92
+Teen Titans: The Judas Contract	PG-13	teen-titans-the-judas-contract	84	movie	641	2017-04-04	\N	\N	76.92
+Suicide Squad: Hell to Pay	R	suicide-squad-hell-to-pay	86	movie	642	2018-03-27	\N	\N	69.23
+Constantine: City of Demons	R	constantine-city-of-demons	90	movie	643	2018-10-09	\N	\N	69.23
+Batman: Hush	PG-13	batman-hush	81	movie	644	2019-07-20	\N	\N	69.23
+Wonder Woman: Bloodlines	PG-13	wonder-woman-bloodlines	83	movie	645	2019-10-05	\N	\N	53.85
+Lightyear	PG	lightyear	105	movie	646	2022-06-17	\N	\N	53.85
+Alien vs. Predator	PG-13	alien-vs-predator	101	movie	647	2004-08-13	\N	\N	46.15
+Blade: Trinity	R	blade-trinity	113	movie	648	2004-12-08	\N	\N	38.46
+Christmas with the Kranks	PG	christmas-with-the-kranks	99	movie	649	2004-11-24	\N	\N	30.77
+Skyscraper	PG-13	skyscraper	102	movie	650	2018-07-13	\N	\N	46.15
+Space Jam	PG	space-jam	88	movie	651	1996-11-15	\N	\N	30.77
+Star Wars: The Clone Wars	PG	star-wars-the-clone-wars	98	movie	652	2008-08-15	\N	\N	46.15
+Surviving Christmas	PG-13	surviving-christmas	91	movie	653	2004-10-22	\N	\N	30.77
+The Fast and the Furious: Tokyo Drift	PG-13	the-fast-and-the-furious-tokyo-drift	104	movie	654	2006-06-16	\N	\N	38.46
+The Grudge	PG-13	the-grudge	91	movie	655	2004-10-22	\N	\N	38.46
+The NeverEnding Story II: The Next Chapter	PG	the-neverending-story-2	90	movie	656	1991-02-08	\N	\N	30.77
+The Next Karate Kid	PG	the-next-karate-kid	107	movie	657	1994-09-09	\N	\N	46.15
+The Nutcracker and the Four Realms	PG	the-nutcracker-and-the-four-realms	99	movie	658	2018-11-02	\N	\N	38.46
+The Twilight Saga: Breaking Dawn - Part 1	PG-13	breaking-dawn-part-1	117	movie	659	2011-11-18	\N	\N	30.77
+The Twilight Saga: Eclipse	PG-13	eclipse	124	movie	660	2010-06-30	\N	\N	30.77
+The Twilight Saga: New Moon	PG-13	new-moon	130	movie	661	2009-11-20	\N	\N	30.77
+The Village	PG-13	the-village	108	movie	662	2004-07-30	\N	\N	46.15
+Alice in Wonderland	PG	alice-in-wonderland-(2010)	108	movie	663	2010-03-05	\N	\N	46.15
+The Divergent Series: Allegiant	PG-13	allegiant	120	movie	664	2016-03-18	\N	\N	38.46
+Beauty and the Beast	PG	beauty-and-the-beast-(2017)	129	movie	665	2017-03-17	\N	\N	53.85
+Clash of the Titans	PG	clash-of-the-titans-(1981)	118	movie	666	1981-06-12	\N	\N	53.85
+Cloud Atlas	R	cloud-atlas	172	movie	667	2012-10-26	\N	\N	69.23
+Avatar: The Way of Water	PG-13	avatar-the-way-of-water	192	movie	669	2022-12-16	\N	\N	76.92
+Warm Bodies	PG-13	warm-bodies	98	movie	670	2013-02-01	\N	\N	76.92
+Little Shop of Horrors	PG-13	little-shop-of-horrors	94	movie	671	1986-12-19	\N	\N	84.62
+Dear Evan Hansen	PG-13	dear-evan-hansen	137	movie	672	2021-09-24	\N	\N	53.85
+Despicable Me 3	PG	despicable-me-3	89	movie	673	2017-06-30	\N	\N	46.15
+Diary of a Wimpy Kid	PG	diary-of-a-wimpy-kid	94	movie	674	2010-03-19	\N	\N	30.77
+Dumbo	G	dumbo-(1941)	64	movie	675	1941-10-23	\N	\N	61.54
+Dumbo	PG	dumbo-(2019)	112	movie	676	2019-03-29	\N	\N	53.85
+Fantastic Beasts: The Secrets of Dumbledore	PG-13	fantastic-beasts-the-secrets-of-dumbledore	142	movie	677	2022-04-15	\N	\N	53.85
+Fast & Furious	PG-13	fast-and-furious	107	movie	678	2009-04-03	\N	\N	53.85
+Finding Nemo	PG	finding-nemo	100	movie	679	2003-05-30	\N	\N	92.31
+Geostorm	PG-13	geostorm	109	movie	680	2017-10-20	\N	\N	38.46
+Halloween Kills	R	halloween-kills	105	movie	681	2021-10-15	\N	\N	53.85
+Halloween: Resurrection	R	halloween-resurrection	90	movie	682	2002-07-12	\N	\N	30.77
+Ice Age: Dawn of the Dinosaurs	PG	ice-age-dawn-of-the-dinosaurs	94	movie	683	2009-07-01	\N	\N	61.54
+Inside Out	PG	inside-out	95	movie	685	2015-06-19	\N	\N	92.31
+Jurassic Park III	PG-13	jurassic-park-3	92	movie	686	2001-07-18	\N	\N	46.15
+Justice League	PG-13	justice-league	120	movie	687	2017-11-17	\N	\N	46.15
+Justice League Dark	R	justice-league-dark	75	movie	688	2017-01-24	\N	\N	69.23
+Lady and the Tramp	PG	lady-and-the-tramp-(2019)	111	movie	689	2019-11-12	\N	\N	53.85
+Man of Steel	PG-13	man-of-steel	143	movie	690	2013-06-14	\N	\N	61.54
+Monsters, Inc.	G	monsters-inc	92	movie	691	2001-11-02	\N	\N	92.31
+Mulan	PG-13	mulan-(2020)	115	movie	692	2020-09-04	\N	\N	53.85
+Percy Jackson & the Olympians: The Lightning Thief	PG	percy-jackson-and-the-olympians-the-lightning-thief	118	movie	693	2010-02-12	\N	\N	53.85
+Rambo	R	rambo	92	movie	694	2008-01-25	\N	\N	38.46
+Real Steel	PG-13	real-steel	127	movie	695	2011-10-07	\N	\N	76.92
+Reign of the Supermen	PG-13	reign-of-the-supermen	87	movie	696	2019-01-29	\N	\N	69.23
+Rocky V	PG-13	rocky-5	104	movie	697	1990-11-16	\N	\N	53.85
+Shrek	PG	shrek	90	movie	698	2001-05-18	\N	\N	76.92
+Sing	PG	sing	108	movie	699	2016-12-21	\N	\N	53.85
+Star Trek: Nemesis	PG-13	star-trek-nemesis	116	movie	700	2002-12-13	\N	\N	69.23
+Star Trek: Generations	PG	star-trek-generations	118	movie	701	1994-11-18	\N	\N	69.23
+Star Trek: The Motion Picture	PG	star-trek-the-motion-picture	143	movie	702	1979-12-07	\N	\N	53.85
+Return of the Jedi	PG	return-of-the-jedi	131	movie	704	1983-05-25	\N	\N	92.31
+Star Wars: The Force Awakens	PG-13	star-wars-the-force-awakens	138	movie	705	2015-12-18	\N	\N	84.62
+Star Wars: The Last Jedi	PG-13	star-wars-the-last-jedi	152	movie	706	2017-12-15	\N	\N	76.92
+Suicide Squad	PG-13	suicide-squad	123	movie	707	2016-08-05	\N	\N	46.15
+Super 8	PG-13	super-8	112	movie	708	2011-06-10	\N	\N	76.92
+Superman II	PG	superman-2	127	movie	709	1981-06-19	\N	\N	69.23
+Superman Returns	PG-13	superman-returns	154	movie	710	2006-06-28	\N	\N	53.85
+Terminator: Dark Fate	R	terminator-dark-fate	128	movie	711	2019-11-01	\N	\N	61.54
+The Adam Project	PG-13	the-adam-project	106	movie	712	2022-03-11	\N	\N	76.92
+The Bye Bye Man	PG-13	the-bye-bye-man	96	movie	713	2017-01-13	\N	\N	30.77
+The Christmas Chronicles	PG	the-christmas-chronicles	104	movie	714	2018-11-22	\N	\N	69.23
+The Da Vinci Code	PG-13	the-da-vinci-code	149	movie	715	2006-05-19	\N	\N	53.85
+The Godfather Part III	R	the-godfather-part-3	162	movie	716	1990-12-25	\N	\N	69.23
+The Good Dinosaur	PG	the-good-dinosaur	93	movie	717	2015-11-25	\N	\N	53.85
+The Great Gatsby	PG-13	the-great-gatsby	143	movie	718	2013-05-10	\N	\N	69.23
+The Greatest Showman	PG	the-greatest-showman	105	movie	719	2017-12-20	\N	\N	69.23
+The Lost World: Jurassic Park	PG-13	the-lost-world	129	movie	721	1997-05-23	\N	\N	53.85
+The Matrix Revolutions	R	the-matrix-revolutions	129	movie	722	2003-11-05	\N	\N	53.85
+The Patriot	R	the-patriot	165	movie	724	2000-06-30	\N	\N	61.54
+The Producers	PG-13	the-producers	134	movie	725	2005-12-16	\N	\N	76.92
+The Rock	R	the-rock	136	movie	726	1996-06-07	\N	\N	69.23
+Troll 2	PG-13	troll-2	95	movie	727	1990-10-12	\N	\N	0
+Twilight	PG-13	twilight	122	movie	728	2008-11-21	\N	\N	30.77
+Underworld	R	underworld	121	movie	729	2003-09-19	\N	\N	53.85
+Underworld: Evolution	R	underworld-evolution	106	movie	730	2006-01-20	\N	\N	38.46
+Underworld: Rise of the Lycans	R	underworld-rise-of-the-lycans	92	movie	731	2009-01-23	\N	\N	46.15
+Wonder Woman 1984	PG-13	wonder-woman-1984	151	movie	732	2020-12-25	\N	\N	53.85
+World War Z	PG-13	world-war-z	116	movie	733	2013-06-21	\N	\N	53.85
+Zack Snyder's Justice League	R	zack-snyders-justice-league	242	movie	734	2021-03-18	\N	\N	69.23
+A League of Their Own	PG	a-league-of-their-own	128	movie	735	1992-07-01	\N	\N	84.62
+Alien Resurrection	R	alien-resurrection	109	movie	738	1997-11-26	\N	\N	38.46
+Daredevil	PG-13	daredevil	103	movie	739	2003-02-14	\N	\N	30.77
+Hulk	PG-13	hulk	138	movie	741	2003-06-20	\N	\N	46.15
+Goodfellas	R	goodfellas	145	movie	742	1990-09-18	\N	\N	92.31
+Antz	PG	antz	83	movie	743	1998-10-02	\N	\N	76.92
+The Expendables	R	the-expendables	103	movie	744	2010-08-13	\N	\N	53.85
+The Expendables 3	PG-13	the-expendables-3	126	movie	745	2014-08-15	\N	\N	53.85
+Samaritan	PG-13	samaritan	102	movie	746	2022-08-26	\N	\N	53.85
+Fast Times at Ridgemont High	R	fast-times-at-ridgemont-high	90	movie	747	1982-08-13	\N	\N	76.92
+The Breakfast Club	R	the-breakfast-club	97	movie	748	1985-02-15	\N	\N	92.31
+Ferris Bueller's Day Off	PG-13	ferris-buellers-day-off	103	movie	749	1986-06-11	\N	\N	76.92
+Clueless	PG-13	clueless	97	movie	750	1995-07-19	\N	\N	69.23
+Mean Girls	PG-13	mean-girls-(2004)	97	movie	751	2004-04-30	\N	\N	84.62
+Elvis	PG-13	elvis	159	movie	752	2022-06-24	\N	\N	76.92
+Mars Needs Moms	PG	mars-needs-moms	88	movie	753	2011-03-11	\N	\N	30.77
+Pinocchio	G	pinocchio-(1940)	88	movie	754	1940-02-23	\N	\N	84.62
+Pinocchio	PG	pinocchio-(2022)	105	movie	755	2022-09-08	\N	\N	38.46
+Cinderella	G	cinderella-(1950)	74	movie	756	1950-03-04	\N	\N	76.92
+Clerks	R	clerks	92	movie	757	1994-10-19	\N	\N	92.31
+The Muppet Movie	G	the-muppet-movie	95	movie	758	1979-06-22	\N	\N	92.31
+The Great Muppet Caper	G	the-great-muppet-caper	97	movie	759	1981-06-26	\N	\N	76.92
+The Muppets Take Manhattan	G	the-muppets-take-manhattan	94	movie	760	1984-07-13	\N	\N	76.92
+Muppet Treasure Island	G	muppet-treasure-island	99	movie	761	1996-02-16	\N	\N	76.92
+Muppets from Space	G	muppets-from-space	87	movie	762	1999-07-14	\N	\N	53.85
+The Muppets	PG	the-muppets	120	movie	763	2011-11-23	\N	\N	92.31
+Muppets Most Wanted	PG	muppets-most-wanted	107	movie	764	2014-03-21	\N	\N	69.23
+Coraline	PG	coraline	100	movie	765	2009-02-06	\N	\N	92.31
+Monster House	PG	monster-house	91	movie	766	2006-07-21	\N	\N	61.54
+The Addams Family 2	PG	the-addams-family-2	93	movie	767	2021-10-01	\N	\N	30.77
+Hellraiser	R	hellraiser-(1987)	94	movie	768	1987-09-10	\N	\N	84.62
+The Blair Witch Project	R	the-blair-witch-project	81	movie	769	1999-07-14	\N	\N	61.54
+Hocus Pocus 2	PG	hocus-pocus-2	103	movie	770	2022-09-30	\N	\N	53.85
+The Mummy	Not Rated	the-mummy-(1932)	73	movie	771	1932-12-22	\N	\N	69.23
+The Invisible Man	Not Rated	the-invisible-man-(1933)	71	movie	772	1933-10-31	\N	\N	76.92
+The Wolf Man	Not Rated	the-wolf-man	70	movie	773	1941-12-09	\N	\N	69.23
+Creature from the Black Lagoon	G	creature-from-the-black-lagoon	79	movie	774	1954-02-12	\N	\N	69.23
+Spiral: From the Book of Saw	R	spiral	93	movie	775	2021-05-14	\N	\N	46.15
+Hellraiser	R	hellraiser-(2022)	121	movie	776	2022-10-07	\N	\N	69.23
+Candyman	R	candyman-(1992)	99	movie	777	1992-10-16	\N	\N	84.62
+Candyman	R	candyman-(2021)	91	movie	778	2021-08-27	\N	\N	76.92
+Birdemic: Shock and Terror	Not Rated	birdemic	105	movie	779	2010-02-27	\N	\N	0
+Jurassic World Dominion	PG-13	jurassic-world-dominion	147	movie	780	2022-06-10	\N	\N	38.46
+The Black Phone	R	the-black-phone	103	movie	782	2022-06-24	\N	\N	76.92
+The Mist	R	the-mist	126	movie	784	2007-11-21	\N	\N	61.54
+Carrie	R	carrie-(1976)	98	movie	785	1976-11-03	\N	\N	92.31
+Misery	R	misery	107	movie	786	1990-11-30	\N	\N	92.31
+Morbius	PG-13	morbius	104	movie	787	2022-04-01	\N	\N	46.15
+Beetlejuice	PG	beetlejuice	92	movie	788	1988-03-30	\N	\N	84.62
+Edward Scissorhands	PG-13	edward-scissorhands	105	movie	790	1990-12-07	\N	\N	92.31
+Sweeney Todd: The Demon Barber of Fleet Street	R	sweeney-todd	116	movie	791	2007-12-21	\N	\N	76.92
+Black Adam	PG-13	black-adam	125	movie	792	2022-10-21	\N	\N	53.85
+Dark Shadows	PG-13	dark-shadows	113	movie	793	2012-05-11	\N	\N	53.85
+Wendell & Wild	PG-13	wendell-and-wild	105	movie	794	2022-10-21	\N	\N	69.23
+Seven	R	seven	127	movie	795	1995-09-22	\N	\N	92.31
+Zodiac	R	zodiac	157	movie	796	2007-03-02	\N	\N	76.92
+Halloween Ends	R	halloween-ends	111	movie	797	2022-10-14	\N	\N	46.15
+Enola Holmes	PG-13	enola-holmes	123	movie	798	2020-09-23	\N	\N	76.92
+Enola Holmes 2	PG-13	enola-holmes-2	129	movie	799	2022-11-04	\N	\N	76.92
+Full Metal Jacket	R	full-metal-jacket	116	movie	801	1987-06-26	\N	\N	76.92
+Saving Private Ryan	R	saving-private-ryan	169	movie	802	1998-07-24	\N	\N	92.31
+The Princess and the Frog	G	the-princess-and-the-frog	97	movie	804	2009-12-11	\N	\N	84.62
+Enchanted	PG	enchanted	107	movie	805	2007-11-21	\N	\N	84.62
+Tron	PG	tron	96	movie	806	1982-07-09	\N	\N	76.92
+Willow	PG	willow	126	movie	808	1988-05-20	\N	\N	61.54
+Klaus	PG	klaus	96	movie	809	2019-11-08	\N	\N	92.31
+A Christmas Prince	TV-PG	a-christmas-prince	92	movie	810	2017-11-17	\N	\N	46.15
+Nope	R	nope	130	movie	811	2022-07-22	\N	\N	76.92
+Strange World	PG	strange-world	102	movie	812	2022-11-23	\N	\N	69.23
+The Unbearable Weight of Massive Talent	R	the-unbearable-weight-of-massive-talent	107	movie	813	2022-04-22	\N	\N	76.92
+Bullet Train	R	bullet-train	127	movie	814	2022-08-05	\N	\N	76.92
+The Expendables 2	R	the-expendables-2	103	movie	815	2012-08-17	\N	\N	53.85
+Lawrence of Arabia	PG	lawrence-of-arabia	227	movie	816	1962-12-10	\N	\N	84.62
+Mortal Kombat Legends: Snow Blind	R	mortal-kombat-legends-snow-blind	82	movie	817	2022-10-09	\N	\N	61.54
+2 Fast 2 Furious	PG-13	2-fast-2-furious	107	movie	818	2003-06-06	\N	\N	46.15
+2001: A Space Odyssey	G	2001	149	movie	819	1968-04-03	\N	\N	69.23
+A Christmas Prince: The Royal Baby	TV-PG	a-christmas-prince-the-royal-baby	84	movie	821	2019-12-05	\N	\N	30.77
+Bill & Ted's Bogus Journey	PG	bill-and-teds-bogus-journey	93	movie	822	1991-07-19	\N	\N	76.92
+Black Panther: Wakanda Forever	PG-13	black-panther-wakanda-forever	161	movie	823	2022-11-11	\N	\N	76.92
+Bride of Frankenstein	Not Rated	bride-of-frankenstein	75	movie	824	1935-04-20	\N	\N	76.92
+Cinderella	PG	cinderella-(2015)	105	movie	825	2015-03-13	\N	\N	61.54
+Citizen Kane	PG	citizen-kane	119	movie	826	1941-09-05	\N	\N	76.92
+Descendants 2	TV-G	descendants-2	111	movie	827	2017-07-21	\N	\N	46.15
+Die Hard with a Vengeance	R	die-hard-with-a-vengeance	128	movie	828	1995-05-19	\N	\N	76.92
+Doctor Sleep	R	doctor-sleep	152	movie	829	2019-11-08	\N	\N	76.92
+Dune	PG-13	dune-(1984)	137	movie	830	1984-12-14	\N	\N	46.15
+E.T. the Extra-Terrestrial	PG	et	115	movie	831	1982-06-11	\N	\N	76.92
+Free Guy	PG-13	free-guy	115	movie	832	2021-08-13	\N	\N	76.92
+Game Night	R	game-night	100	movie	833	2018-02-23	\N	\N	76.92
+Glass Onion: A Knives Out Mystery	PG-13	glass-onion	139	movie	834	2022-11-23	\N	\N	84.62
+Godzilla vs. Kong	PG-13	godzilla-vs-kong	113	movie	835	2021-03-31	\N	\N	53.85
+Guillermo del Toro's Pinocchio	PG	guillermo-del-toros-pinocchio	117	movie	837	2022-11-09	\N	\N	84.62
+Hacksaw Ridge	R	hacksaw-ridge	139	movie	838	2016-11-04	\N	\N	76.92
+Halloweentown II: Kalabar's Revenge	TV-PG	halloweentown-2	81	movie	839	2001-10-12	\N	\N	38.46
+Harry Potter and the Chamber of Secrets	PG	harry-potter-and-the-chamber-of-secrets	161	movie	840	2002-11-15	\N	\N	76.92
+Harry Potter and the Deathly Hallows - Part 1	PG-13	harry-potter-and-the-deathly-hallows-part-1	146	movie	841	2010-11-19	\N	\N	76.92
+I Know What You Did Last Summer	R	i-know-what-you-did-last-summer-(1997)	101	movie	842	1997-10-17	\N	\N	53.85
+Inferno	PG-13	inferno	121	movie	843	2016-10-28	\N	\N	46.15
+Juno	PG-13	juno	96	movie	845	2007-12-05	\N	\N	76.92
+Justice League Dark: Apokolips War	R	justice-league-dark-apokolips-war	90	movie	846	2020-05-05	\N	\N	76.92
+Maleficent	PG	maleficent	97	movie	847	2014-05-30	\N	\N	53.85
+National Treasure	PG	national-treasure	131	movie	848	2004-11-19	\N	\N	61.54
+Night at the Museum: Battle of the Smithsonian	PG	night-at-the-museum-battle-of-the-smithsonian	105	movie	849	2009-05-22	\N	\N	46.15
+Ocean's Eight	PG-13	oceans-eight	110	movie	850	2018-06-08	\N	\N	46.15
+Pokémon: Detective Pikachu	PG	detective-pikachu	104	movie	851	2019-05-10	\N	\N	76.92
+Saw III	R	saw-3	108	movie	853	2006-10-27	\N	\N	46.15
+Spider-Man	PG-13	spider-man	121	movie	854	2002-05-03	\N	\N	76.92
+Spy Kids 3-D: Game Over	PG	spy-kids-3	84	movie	855	2003-07-25	\N	\N	30.77
+Star Wars: Episode I - The Phantom Menace	PG	star-wars-episode-1	136	movie	856	1999-05-19	\N	\N	46.15
+Star Wars: Episode II - Attack of the Clones	PG	star-wars-episode-2	142	movie	857	2002-05-16	\N	\N	46.15
+Star Wars: Episode III - Revenge of the Sith	PG-13	star-wars-episode-3	140	movie	858	2005-05-19	\N	\N	61.54
+The Christmas Chronicles Part Two	PG	the-christmas-chronicles-2	112	movie	859	2020-11-25	\N	\N	61.54
+The Death of Superman	PG-13	the-death-of-superman	81	movie	860	2018-07-24	\N	\N	76.92
+The Godfather Part II	R	the-godfather-part-2	202	movie	861	1974-12-20	\N	\N	76.92
+The Meg	PG-13	the-meg	113	movie	862	2018-08-10	\N	\N	46.15
+Mad Max 2	R	mad-max-2	96	movie	863	1981-12-24	\N	\N	69.23
+Up	PG	up	96	movie	864	2009-05-29	\N	\N	84.62
+White Christmas	Not Rated	white-christmas	120	movie	866	1954-10-14	\N	\N	76.92
+Once Upon a Time in... Hollywood	R	once-upon-a-time-in-hollywood	161	movie	867	2019-07-26	\N	\N	84.62
+The Bourne Identity	PG-13	the-bourne-identity	119	movie	868	2002-06-14	\N	\N	84.62
+The Bourne Supremacy	PG-13	the-bourne-supremacy	108	movie	869	2004-07-23	\N	\N	76.92
+The Bourne Legacy	PG-13	the-bourne-legacy	135	movie	870	2012-08-10	\N	\N	61.54
+Extraction	R	extraction	116	movie	871	2020-04-24	\N	\N	53.85
+A Haunting in Venice	PG-13	a-haunting-in-venice	103	movie	872	2023-09-15	\N	\N	61.54
+Mortal Kombat Legends: Cage Match	R	mortal-kombat-legends-cage-match	76	movie	873	2023-10-17	\N	\N	53.85
+Saw X	R	saw-x	118	movie	874	2023-09-29	\N	\N	61.54
+Kung Fu Panda 4	PG	kung-fu-panda-4	94	movie	875	2024-03-08	\N	\N	69.23
+Migration	PG	migration	83	movie	876	2023-12-22	\N	\N	53.85
+Plan 9 From Outer Space	Not Rated	plan-9-from-outer-space	80	movie	877	1957-03-15	\N	\N	15.38
+Unfriended	R	unfriended	83	movie	878	2015-04-17	\N	\N	61.54
+Jason Bourne	PG-13	jason-bourne	123	movie	879	2016-07-29	\N	\N	53.85
+Taken	PG-13	taken	90	movie	880	2008-02-27	\N	\N	76.92
+Taken 2	PG-13	taken-2	92	movie	881	2012-10-05	\N	\N	46.15
+Taken 3	PG-13	taken-3	108	movie	882	2015-01-09	\N	\N	38.46
+The Prince of Egypt	PG	the-prince-of-egypt	99	movie	883	1998-12-18	\N	\N	92.31
+Star Trek	PG-13	star-trek	127	movie	884	2009-05-08	\N	\N	92.31
+Star Trek Beyond	PG-13	star-trek-beyond	122	movie	885	2016-07-22	\N	\N	76.92
+Bruce Almighty	PG-13	bruce-almighty	101	movie	886	2003-05-23	\N	\N	53.85
+Magic Mike XXL	R	magic-mike-xxl	115	movie	887	2015-07-01	\N	\N	53.85
+Matilda	PG	matilda	98	movie	888	1996-08-02	\N	\N	76.92
+The Mighty Ducks	PG	the-mighty-ducks	104	movie	889	1992-10-02	\N	\N	53.85
+Basic Instinct	R	basic-instinct	127	movie	890	1992-03-20	\N	\N	76.92
+Showgirls	NC-17	showgirls	128	movie	891	1995-09-22	\N	\N	30.77
+Honey, I Shrunk the Kids	PG	honey-i-shrunk-the-kids	93	movie	893	1989-06-23	\N	\N	61.54
+Hidden Figures	PG	hidden-figures	127	movie	894	2017-01-06	\N	\N	76.92
+Creed II	PG-13	creed-2	130	movie	898	2018-11-21	\N	\N	76.92
+M3GAN	PG-13	m3gan	102	movie	899	2023-01-06	\N	\N	76.92
+Ant-Man and the Wasp: Quantumania	PG-13	ant-man-and-the-wasp-quantumania	124	movie	900	2023-02-17	\N	\N	61.54
+Forrest Gump	PG-13	forrest-gump	142	movie	901	1994-07-06	\N	\N	92.31
+Braveheart	R	braveheart	178	movie	902	1995-05-24	\N	\N	92.31
+Gladiator	R	gladiator	155	movie	903	2000-05-05	\N	\N	76.92
+Puss in Boots: The Last Wish	PG	puss-in-boots-the-last-wish	102	movie	904	2022-12-21	\N	\N	92.31
+Chicago	PG-13	chicago	113	movie	906	2002-12-27	\N	\N	76.92
+The Sound of Music	R	the-sound-of-music	172	movie	907	1965-03-02	\N	\N	84.62
+Nobody	R	nobody	92	movie	908	2021-03-26	\N	\N	76.92
+Point Break	R	point-break	122	movie	909	1991-07-12	\N	\N	84.62
+DC League of Super-Pets	PG	league-of-super-pets	105	movie	910	2022-07-29	\N	\N	53.85
+Pixels	PG-13	pixels	105	movie	911	2015-07-24	\N	\N	30.77
+Murder Mystery	PG-13	murder-mystery	97	movie	912	2019-06-14	\N	\N	46.15
+Murder Mystery 2	PG-13	murder-mystery-2	90	movie	913	2023-03-31	\N	\N	38.46
+Knock at the Cabin	R	knock-at-the-cabin	100	movie	914	2023-02-03	\N	\N	53.85
+Vampire's Kiss	R	vampires-kiss	103	movie	915	1989-06-02	\N	\N	38.46
+The Mummy	PG-13	the-mummy-(1999)	124	movie	916	1999-05-07	\N	\N	69.23
+The Mummy Returns	PG-13	the-mummy-returns	130	movie	917	2001-05-04	\N	\N	46.15
+The Scorpion King	PG-13	the-scorpion-king	92	movie	918	2002-04-19	\N	\N	38.46
+Van Helsing	PG-13	van-helsing	131	movie	919	2004-05-07	\N	\N	38.46
+Patriots Day	R	patriots-day	133	movie	920	2016-12-21	\N	\N	76.92
+Cocaine Bear	R	cocaine-bear	95	movie	921	2023-02-24	\N	\N	69.23
+Pete's Dragon	G	petes-dragon-(1977)	128	movie	922	1977-11-03	\N	\N	53.85
+Pete's Dragon	PG	petes-dragon-(2016)	102	movie	923	2016-08-12	\N	\N	76.92
+Peter Pan & Wendy	PG	peter-pan-and-wendy	106	movie	924	2023-04-28	\N	\N	53.85
+Scream VI	R	scream-6	122	movie	925	2023-03-10	\N	\N	76.92
+Fatal Attraction	R	fatal-attraction	119	movie	926	1987-09-18	\N	\N	76.92
+Fifty Shades of Grey	R	fifty-shades-of-grey	125	movie	927	2015-02-13	\N	\N	23.08
+Fifty Shades Darker	R	fifty-shades-darker	118	movie	928	2017-02-10	\N	\N	23.08
+Fifty Shades Freed	R	fifty-shades-freed	105	movie	929	2018-02-09	\N	\N	23.08
+Mamma Mia!	PG-13	mamma-mia	108	movie	930	2008-07-18	\N	\N	53.85
+Mamma Mia! Here We Go Again	PG-13	mamma-mia-here-we-go-again	114	movie	931	2018-07-20	\N	\N	61.54
+Guardians of the Galaxy Vol. 3	PG-13	guardians-of-the-galaxy-vol-3	150	movie	932	2023-05-05	\N	\N	76.92
+xXx	PG-13	xxx	124	movie	933	2002-08-09	\N	\N	46.15
+Shazam! Fury of the Gods	PG-13	shazam-fury-of-the-gods	130	movie	934	2023-03-17	\N	\N	69.23
+Final Destination	R	final-destination	98	movie	935	2000-03-17	\N	\N	53.85
+The Final Destination	R	the-final-destination	82	movie	936	2009-08-28	\N	\N	30.77
+xXx: State of the Union	PG-13	xxx-state-of-the-union	101	movie	937	2005-04-29	\N	\N	38.46
+xXx: Return of Xander Cage	PG-13	xxx-return-of-xander-cage	107	movie	938	2017-01-20	\N	\N	46.15
+White Men Can't Jump	R	white-men-cant-jump	115	movie	939	1992-03-27	\N	\N	76.92
+Dungeons & Dragons: Honor Among Thieves	PG-13	dungeons-and-dragons-honor-among-thieves	134	movie	940	2023-03-31	\N	\N	76.92
+Into the Woods	PG	into-the-woods	125	movie	941	2014-12-25	\N	\N	53.85
+The Hunchback of Notre Dame	G	the-hunchback-of-notre-dame	91	movie	942	1996-06-21	\N	\N	84.62
+Tarzan	G	tarzan	88	movie	943	1999-06-18	\N	\N	84.62
+Cloudy with a Chance of Meatballs	PG	cloudy-with-a-chance-of-meatballs	90	movie	944	2009-09-18	\N	\N	76.92
+101 Dalmatians	G	101-dalmatians	103	movie	945	1996-11-27	\N	\N	38.46
+102 Dalmatians	G	102-dalmatians	100	movie	946	2000-11-22	\N	\N	30.77
+A Christmas Prince: The Royal Wedding	TV-PG	a-christmas-prince-the-royal-wedding	92	movie	947	2018-11-30	\N	\N	38.46
+Lemony Snicket's A Series of Unfortunate Events	PG	a-series-of-unfortunate-events	108	movie	948	2004-12-17	\N	\N	61.54
+Army of Darkness	R	army-of-darkness	81	movie	949	1993-02-19	\N	\N	84.62
+Artemis Fowl	PG	artemis-fowl	95	movie	950	2020-06-12	\N	\N	30.77
+Austin Powers: International Man of Mystery	PG-13	austin-powers-international-man-of-mystery	94	movie	951	1997-05-02	\N	\N	69.23
+Back to the Future	PG	back-to-the-future	116	movie	952	1985-07-03	\N	\N	92.31
+Bad Boys II	R	bad-boys-2	147	movie	953	2003-07-18	\N	\N	30.77
+Blade	R	blade	120	movie	954	1998-08-21	\N	\N	69.23
+Brave	PG	brave	93	movie	955	2012-06-22	\N	\N	61.54
+Carrie	R	carrie-(2013)	100	movie	956	2013-10-18	\N	\N	61.54
+Child's Play	R	childs-play-(2019)	90	movie	957	2019-06-21	\N	\N	61.54
+Coming 2 America	PG-13	coming-2-america	110	movie	958	2021-03-05	\N	\N	30.77
+Coming to America	R	coming-to-america	117	movie	959	1988-06-29	\N	\N	61.54
+Cruella	PG-13	cruella	134	movie	960	2021-05-28	\N	\N	69.23
+X-Men: Dark Phoenix	PG-13	dark-phoenix	113	movie	961	2019-06-07	\N	\N	38.46
+Disenchanted	PG	disenchanted	119	movie	962	2022-11-18	\N	\N	61.54
+Divergent	PG-13	divergent	139	movie	963	2014-03-21	\N	\N	53.85
+Evil Dead	R	evil-dead	91	movie	965	2013-04-05	\N	\N	69.23
+Fast & Furious Presents: Hobbs & Shaw	PG-13	hobbs-and-shaw	137	movie	966	2019-08-02	\N	\N	76.92
+Fred Claus	PG	fred-claus	116	movie	967	2007-11-09	\N	\N	46.15
+Godmothered	PG	godmothered	110	movie	968	2020-12-04	\N	\N	38.46
+Groundhog Day	PG	groundhog-day	101	movie	969	1993-02-12	\N	\N	76.92
+Guardians of the Galaxy Vol. 2	PG-13	guardians-of-the-galaxy-vol-2	136	movie	970	2017-05-05	\N	\N	84.62
+Happy Gilmore	PG-13	happy-gilmore	92	movie	971	1996-02-16	\N	\N	61.54
+Hercules	G	hercules	93	movie	973	1997-06-13	\N	\N	76.92
+High School Musical	TV-G	high-school-musical	98	movie	974	2006-01-20	\N	\N	53.85
+High School Musical 3: Senior Year	G	high-school-musical-3	112	movie	975	2008-10-24	\N	\N	53.85
+Hubie Halloween	PG-13	hubie-halloween	103	movie	976	2020-10-07	\N	\N	30.77
+Independence Day	PG-13	independence-day	145	movie	977	1996-07-03	\N	\N	61.54
+Live Free or Die Hard	PG-13	live-free-or-die-hard	128	movie	978	2007-06-27	\N	\N	69.23
+Magic Mike	R	magic-mike	110	movie	979	2012-06-29	\N	\N	61.54
+Minions	PG	minions	91	movie	980	2015-07-10	\N	\N	46.15
+Minions: The Rise of Gru	PG	minions-the-rise-of-gru	87	movie	981	2022-07-01	\N	\N	46.15
+Monster Hunter	PG-13	monster-hunter	103	movie	982	2020-12-18	\N	\N	38.46
+Mortal Kombat	R	mortal-kombat-(2021)	110	movie	983	2021-04-23	\N	\N	61.54
+Night at the Museum	PG	night-at-the-museum	108	movie	984	2006-12-22	\N	\N	61.54
+Night at the Museum: Secret of the Tomb	PG	night-at-the-museum-secret-of-the-tomb	98	movie	985	2014-12-19	\N	\N	53.85
+Noelle	G	noelle	100	movie	986	2019-11-12	\N	\N	53.85
+Old	PG-13	old	108	movie	987	2021-07-23	\N	\N	53.85
+Peter Pan	PG	peter-pan-(2003)	113	movie	988	2003-12-25	\N	\N	84.62
+Planes: Fire & Rescue	PG	planes-fire-and-rescue	83	movie	989	2014-07-18	\N	\N	46.15
+Pocahontas	G	pocahontas	81	movie	990	1995-06-23	\N	\N	69.23
+Prometheus	R	prometheus	124	movie	991	2012-06-08	\N	\N	61.54
+Return to Halloweentown	TV-PG	return-to-halloweentown	88	movie	992	2006-10-20	\N	\N	30.77
+Rise of the Guardians	PG	rise-of-the-guardians	97	movie	993	2012-11-21	\N	\N	76.92
+Santa Claus: The Movie	PG	santa-claus	107	movie	994	1985-11-27	\N	\N	46.15
+Scary Movie	R	scary-movie	88	movie	995	2000-07-07	\N	\N	23.08
+Scream 4	R	scream-4	111	movie	996	2011-04-15	\N	\N	61.54
+Shrek Forever After	PG	shrek-forever-after	95	movie	997	2010-05-21	\N	\N	61.54
+Sonic the Hedgehog	PG	sonic-the-hedgehog	99	movie	998	2020-02-14	\N	\N	61.54
+Sonic the Hedgehog 2	PG	sonic-the-hedgehog-2	122	movie	999	2022-04-08	\N	\N	69.23
+Star Trek Into Darkness	PG-13	star-trek-into-darkness	132	movie	1000	2013-05-15	\N	\N	84.62
+Stargate	PG-13	stargate	116	movie	1001	1994-10-28	\N	\N	53.85
+TMNT	PG	tmnt	87	movie	1003	2007-03-23	\N	\N	69.23
+Tron: Legacy	PG	tron-legacy	125	movie	1004	2010-12-17	\N	\N	69.23
+Final Destination 3	R	final-destination-3	93	movie	1005	2006-02-10	\N	\N	46.15
+Teenage Mutant Ninja Turtles	PG	teenage-mutant-ninja-turtles-(1990)	93	movie	1006	1990-03-30	\N	\N	61.54
+Teenage Mutant Ninja Turtles	PG-13	teenage-mutant-ninja-turtles-(2014)	101	movie	1007	2014-08-08	\N	\N	38.46
+Teenage Mutant Ninja Turtles: Out of the Shadows	PG-13	teenage-mutant-ninja-turtles-out-of-the-shadows	112	movie	1008	2016-06-03	\N	\N	38.46
+The Addams Family	PG	the-addams-family-(2019)	86	movie	1009	2019-10-11	\N	\N	38.46
+The Bourne Ultimatum	PG-13	the-bourne-ultimatum	115	movie	1010	2007-08-03	\N	\N	76.92
+The Chronicles of Narnia: Prince Caspian	PG	the-chronicles-of-narnia-prince-caspian	150	movie	1011	2008-05-16	\N	\N	61.54
+The Cloverfield Paradox	PG-13	the-cloverfield-paradox	102	movie	1012	2018-02-04	\N	\N	61.54
+The Fast and the Furious	PG-13	the-fast-and-the-furious	106	movie	1013	2001-06-22	\N	\N	61.54
+The Fate of the Furious	PG-13	the-fate-of-the-furious	136	movie	1014	2017-04-14	\N	\N	61.54
+The Hateful Eight	R	the-hateful-eight	168	movie	1015	2015-12-25	\N	\N	76.92
+The Hobbit: The Battle of the Five Armies	PG-13	the-hobbit-the-battle-of-the-five-armies	144	movie	1016	2014-12-17	\N	\N	61.54
+The Incredible Hulk	PG-13	the-incredible-hulk	112	movie	1017	2008-06-13	\N	\N	61.54
+The Karate Kid Part II	PG	the-karate-kid-part-2	113	movie	1018	1986-06-20	\N	\N	53.85
+The Lorax	PG	the-lorax	86	movie	1019	2012-03-02	\N	\N	46.15
+The Matrix Resurrections	R	the-matrix-resurrections	148	movie	1020	2021-12-22	\N	\N	61.54
+The Maze Runner	PG-13	the-maze-runner	113	movie	1021	2014-09-19	\N	\N	61.54
+The Passion of the Christ	R	the-passion-of-the-christ	127	movie	1022	2004-02-25	\N	\N	38.46
+The Predator	R	the-predator	107	movie	1023	2018-09-14	\N	\N	53.85
+The Shining	R	the-shining	146	movie	1024	1980-05-23	\N	\N	84.62
+The Witches	PG	the-witches-(1990)	91	movie	1025	1990-08-24	\N	\N	61.54
+The Witches	PG	the-witches-(2020)	106	movie	1026	2020-10-22	\N	\N	38.46
+Tom & Jerry	PG	tom-and-jerry	101	movie	1027	2021-02-26	\N	\N	46.15
+Twister	PG-13	twister	113	movie	1028	1996-05-10	\N	\N	53.85
+Uncharted	PG-13	uncharted	116	movie	1029	2022-02-18	\N	\N	61.54
+Venom: Let There Be Carnage	PG-13	venom-let-there-be-carnage	97	movie	1030	2021-10-01	\N	\N	46.15
+We Can Be Heroes	PG	we-can-be-heroes	100	movie	1031	2020-12-25	\N	\N	23.08
+X-Men: Apocalypse	PG-13	x-men-apocalypse	144	movie	1032	2016-05-27	\N	\N	53.85
+X-Men: The Last Stand	PG-13	x-men-the-last-stand	104	movie	1033	2006-05-26	\N	\N	61.54
+Zombieland	R	zombieland	88	movie	1034	2009-10-02	\N	\N	92.31
+Cloudy with a Chance of Meatballs 2	PG	cloudy-with-a-chance-of-meatballs-2	95	movie	1035	2013-09-27	\N	\N	53.85
+The Mitchells vs the Machines	PG	the-mitchells-vs-the-machines	114	movie	1036	2021-04-23	\N	\N	92.31
+The LEGO Movie	PG	the-lego-movie	100	movie	1037	2014-02-07	\N	\N	84.62
+The LEGO Batman Movie	PG	the-lego-batman-movie	104	movie	1038	2017-02-10	\N	\N	84.62
+The LEGO Movie 2: The Second Part	PG	the-lego-movie-2	107	movie	1039	2019-02-08	\N	\N	76.92
+The Transformers: The Movie	PG	the-transformers	84	movie	1040	1986-08-08	\N	\N	61.54
+Deep Impact	PG-13	deep-impact	120	movie	1041	1998-05-08	\N	\N	61.54
+Armageddon	PG-13	armageddon	151	movie	1042	1998-07-01	\N	\N	53.85
+Creed III	PG-13	creed-3	116	movie	1043	2023-03-03	\N	\N	84.62
+Red Notice	PG-13	red-notice	118	movie	1044	2021-11-05	\N	\N	53.85
+The Gray Man	PG-13	the-gray-man	122	movie	1045	2022-07-15	\N	\N	53.85
+Extraction 2	R	extraction-2	122	movie	1046	2023-06-16	\N	\N	53.85
+Tommy Boy	PG-13	tommy-boy	97	movie	1047	1995-03-31	\N	\N	61.54
+6 Underground	R	6-underground	128	movie	1048	2019-12-13	\N	\N	46.15
+12 Years a Slave	R	12-years-a-slave	134	movie	1049	2013-11-08	\N	\N	76.92
+Renfield	R	renfield	93	movie	1050	2023-04-14	\N	\N	69.23
+National Lampoon's Vacation	R	vacation	98	movie	1051	1983-07-29	\N	\N	84.62
+National Lampoon's European Vacation	PG-13	european-vacation	95	movie	1052	1985-07-26	\N	\N	69.23
+Transformers: Rise of the Beasts	PG-13	transformers-rise-of-the-beasts	127	movie	1053	2023-06-09	\N	\N	69.23
+Evil Dead Rise	R	evil-dead-rise	96	movie	1054	2023-04-21	\N	\N	69.23
+Insidious	PG-13	insidious	103	movie	1056	2011-04-01	\N	\N	61.54
+Fantastic Mr. Fox	PG	fantastic-mr-fox	87	movie	1057	2009-11-13	\N	\N	76.92
+School of Rock	PG-13	school-of-rock	109	movie	1058	2003-10-03	\N	\N	76.92
+Insidious: Chapter 2	PG-13	insidious-chapter-2	106	movie	1059	2013-09-13	\N	\N	53.85
+Mission: Impossible	PG-13	mission-impossible	110	movie	1060	1996-05-22	\N	\N	69.23
+Mission: Impossible II	PG-13	mission-impossible-2	123	movie	1061	2000-05-24	\N	\N	53.85
+Mission: Impossible III	PG-13	mission-impossible-3	126	movie	1062	2006-05-05	\N	\N	69.23
+Mission: Impossible - Ghost Protocol	PG-13	mission-impossible-ghost-protocol	132	movie	1063	2011-12-16	\N	\N	84.62
+Mission: Impossible - Rogue Nation	PG-13	mission-impossible-rogue-nation	131	movie	1064	2015-07-31	\N	\N	84.62
+Mission: Impossible - Fallout	PG-13	mission-impossible-fallout	147	movie	1065	2018-07-27	\N	\N	84.62
+Interstellar	PG-13	interstellar	169	movie	1066	2014-11-05	\N	\N	84.62
+Dunkirk	PG-13	dunkirk	106	movie	1067	2017-07-21	\N	\N	76.92
+Indiana Jones and the Dial of Destiny	PG-13	indiana-jones-and-the-dial-of-destiny	154	movie	1068	2023-06-30	\N	\N	69.23
+It Ends with Us	PG-13	it-ends-with-us	130	movie	1069	2024-08-09	\N	\N	69.23
+Final Destination 2	R	final-destination-2	90	movie	1070	2003-01-31	\N	\N	53.85
+John Wick: Chapter 4	R	john-wick-chapter-4	169	movie	1071	2023-03-24	\N	\N	84.62
+The Princess Diaries	G	the-princess-diaries	115	movie	1072	2001-08-03	\N	\N	53.85
+The Princess Diaries 2: Royal Engagement	G	the-princess-diaries-2	113	movie	1073	2004-08-11	\N	\N	38.46
+Where the Crawdads Sing	PG-13	where-the-crawdads-sing	125	movie	1074	2022-07-15	\N	\N	69.23
+Tomorrowland	PG	tomorrowland	130	movie	1076	2015-05-22	\N	\N	69.23
+Barbie	PG-13	barbie	114	movie	1077	2023-07-21	\N	\N	84.62
+Hereditary	R	hereditary	127	movie	1078	2018-06-08	\N	\N	92.31
+CODA	PG-13	coda	111	movie	1079	2021-08-13	\N	\N	92.31
+Deep Blue Sea	R	deep-blue-sea	105	movie	1080	1999-07-28	\N	\N	46.15
+The Super Mario Bros. Movie	PG	the-super-mario-bros-movie	92	movie	1081	2023-04-05	\N	\N	53.85
+Elysium	R	elysium	109	movie	1082	2013-08-09	\N	\N	61.54
+American Graffiti	PG	american-graffiti	110	movie	1083	1973-08-11	\N	\N	69.23
+Heathers	R	heathers	103	movie	1084	1989-03-31	\N	\N	84.62
+Enter the Dragon	R	enter-the-dragon	102	movie	1085	1973-08-19	\N	\N	76.92
+Big	PG	big	104	movie	1086	1988-06-03	\N	\N	76.92
+The Goonies	PG	the-goonies	114	movie	1087	1985-06-07	\N	\N	76.92
+Stand by Me	R	stand-by-me	89	movie	1088	1986-08-22	\N	\N	92.31
+Fantastic Four	PG-13	fantastic-four-(2005)	106	movie	1089	2005-07-08	\N	\N	38.46
+The Emoji Movie	PG	the-emoji-movie	86	movie	1090	2017-07-28	\N	\N	23.08
+Top Gun	PG	top-gun	109	movie	1091	1986-05-16	\N	\N	61.54
+Fantastic Four: Rise of the Silver Surfer	PG-13	fantastic-four-rise-of-the-silver-surfer	92	movie	1092	2007-06-15	\N	\N	46.15
+Fantastic Four	PG-13	fantastic-four-(2015)	100	movie	1093	2015-08-07	\N	\N	30.77
+Training Day	R	training-day	122	movie	1095	2001-10-05	\N	\N	84.62
+Animal House	R	animal-house	109	movie	1096	1978-07-28	\N	\N	76.92
+My Big Fat Greek Wedding	PG	my-big-fat-greek-wedding	95	movie	1097	2002-04-19	\N	\N	61.54
+My Big Fat Greek Wedding 2	PG-13	my-big-fat-greek-wedding-2	94	movie	1098	2016-03-25	\N	\N	38.46
+The Little Mermaid	PG	the-little-mermaid-(2023)	135	movie	1099	2023-05-26	\N	\N	53.85
+Battleship	PG-13	battleship	131	movie	1100	2012-05-18	\N	\N	46.15
+Clue	PG	clue	94	movie	1101	1985-12-13	\N	\N	69.23
+Gravity	PG-13	gravity	91	movie	1102	2013-10-04	\N	\N	84.62
+Friday the 13th Part 2	R	friday-the-13th-part-2	87	movie	1103	1981-05-01	\N	\N	46.15
+Friday the 13th Part III	R	friday-the-13th-part-3	95	movie	1104	1982-08-13	\N	\N	46.15
+Friday the 13th: The Final Chapter	R	friday-the-13th-the-final-chapter	91	movie	1105	1984-04-13	\N	\N	38.46
+The Little Mermaid	G	the-little-mermaid-(1989)	83	movie	1106	1989-11-17	\N	\N	84.62
+Addams Family Values	PG-13	addams-family-values	94	movie	1107	1993-11-19	\N	\N	84.62
+Jumanji	PG	jumanji	104	movie	1108	1995-12-15	\N	\N	61.54
+Mortal Kombat Legends: Scorpion's Revenge	R	mortal-kombat-legends-scorpions-revenge	80	movie	1109	2020-04-14	\N	\N	69.23
+Moonfall	PG-13	moonfall	130	movie	1110	2022-02-04	\N	\N	38.46
+Death on the Nile	PG-13	death-on-the-nile	127	movie	1111	2022-02-11	\N	\N	61.54
+Elemental	PG	elemental	101	movie	1112	2023-06-16	\N	\N	76.92
+Spy Kids	PG	spy-kids	88	movie	1113	2001-03-30	\N	\N	61.54
+Indiana Jones and the Kingdom of the Crystal Skull	PG-13	indiana-jones-and-the-kingdom-of-the-crystal-skull	122	movie	1114	2008-05-22	\N	\N	46.15
+Independence Day: Resurgence	PG-13	independence-day-resurgence	120	movie	1115	2016-06-24	\N	\N	38.46
+Doctor Strange	PG-13	doctor-strange	115	movie	1116	2016-11-04	\N	\N	84.62
+Murder on the Orient Express	PG-13	murder-on-the-orient-express	114	movie	1117	2017-11-10	\N	\N	61.54
+Ready Player One	PG-13	ready-player-one	140	movie	1118	2018-03-29	\N	\N	76.92
+Hotel Transylvania 3: Summer Vacation	PG	hotel-transylvania-3	97	movie	1119	2018-07-13	\N	\N	38.46
+Annabelle Comes Home	R	annabelle-comes-home	106	movie	1120	2019-06-26	\N	\N	61.54
+Prey	R	prey	100	movie	1121	2022-08-05	\N	\N	76.92
+G.I. Joe: Retaliation	PG-13	gi-joe-retaliation	110	movie	1122	2013-03-28	\N	\N	46.15
+Snake Eyes: G.I. Joe Origins	PG-13	snake-eyes	121	movie	1123	2021-07-23	\N	\N	53.85
+Bloodsport	R	bloodsport	92	movie	1124	1988-02-26	\N	\N	69.23
+Fast X	PG-13	fast-x	141	movie	1125	2023-05-19	\N	\N	53.85
+Teenage Mutant Ninja Turtles: Mutant Mayhem	PG	teenage-mutant-ninja-turtles-mutant-mayhem	99	movie	1127	2023-08-02	\N	\N	84.62
+Meg 2: The Trench	PG-13	meg-2	116	movie	1128	2023-08-04	\N	\N	38.46
+The Wolf of Wall Street	R	the-wolf-of-wall-street	180	movie	1129	2013-12-25	\N	\N	92.31
+American Psycho	R	american-psycho	102	movie	1130	2000-04-14	\N	\N	76.92
+Haunted Mansion	PG-13	haunted-mansion	123	movie	1133	2023-07-28	\N	\N	69.23
+Goosebumps	PG	goosebumps	103	movie	1134	2015-10-16	\N	\N	61.54
+Goosebumps 2: Haunted Halloween	PG	goosebumps-2	90	movie	1135	2018-10-12	\N	\N	46.15
+The Lost Boys	R	the-lost-boys	97	movie	1136	1987-07-31	\N	\N	84.62
+Interview with the Vampire: The Vampire Chronicles	R	interview-with-the-vampire	123	movie	1137	1994-11-11	\N	\N	76.92
+The Boondock Saints	R	the-boondock-saints	108	movie	1138	2000-01-21	\N	\N	46.15
+They Live	R	they-live	94	movie	1139	1988-11-04	\N	\N	76.92
+Smile	R	smile	115	movie	1140	2022-09-30	\N	\N	76.92
+The Invisible Man	R	the-invisible-man-(2020)	124	movie	1141	2020-02-28	\N	\N	92.31
+The Birds	PG-13	the-birds	119	movie	1142	1963-03-28	\N	\N	76.92
+Jennifer's Body	R	jennifers-body	102	movie	1143	2009-09-18	\N	\N	61.54
+Freaky	R	freaky	102	movie	1144	2020-11-13	\N	\N	76.92
+Willy's Wonderland	Not Rated	willys-wonderland	88	movie	1145	2021-02-12	\N	\N	61.54
+Five Nights at Freddy's	PG-13	five-nights-at-freddys	109	movie	1146	2023-10-27	\N	\N	46.15
+The Nun II	R	the-nun-2	110	movie	1147	2023-09-08	\N	\N	46.15
+Constantine	R	constantine	121	movie	1148	2005-02-18	\N	\N	53.85
+Tropic Thunder	R	tropic-thunder	107	movie	1150	2008-08-13	\N	\N	76.92
+Scarface	R	scarface	170	movie	1151	1983-12-09	\N	\N	76.92
+The Marvels	PG-13	the-marvels	105	movie	1152	2023-11-10	\N	\N	53.85
+Trolls	PG	trolls	92	movie	1153	2016-11-04	\N	\N	53.85
+Trolls World Tour	PG	trolls-world-tour	91	movie	1154	2020-04-10	\N	\N	53.85
+King Kong	Not Rated	king-kong-(1933)	100	movie	1155	1933-04-07	\N	\N	76.92
+Godzilla	Not Rated	godzilla-(1954)	96	movie	1156	1954-11-03	\N	\N	84.62
+Blue Beetle	PG-13	blue-beetle	127	movie	1157	2023-08-18	\N	\N	69.23
+Meet the Robinsons	G	meet-the-robinsons	95	movie	1158	2007-03-30	\N	\N	61.54
+Planes, Trains & Automobiles	R	planes-trains-and-automobiles	93	movie	1159	1987-11-25	\N	\N	92.31
+Dances with Wolves	PG-13	dances-with-wolves	181	movie	1160	1990-11-09	\N	\N	84.62
+Instant Family	PG-13	instant-family	118	movie	1161	2018-11-16	\N	\N	76.92
+Daddy's Home 2	PG-13	daddys-home-2	100	movie	1162	2017-11-10	\N	\N	30.77
+Spirited	PG-13	spirited	127	movie	1163	2022-11-11	\N	\N	69.23
+Santa Claus Conquers the Martians	Not Rated	santa-claus-conquers-the-martians	81	movie	1164	1964-11-14	\N	\N	0
+Silent Night, Deadly Night	R	silent-night-deadly-night	79	movie	1165	1984-11-09	\N	\N	38.46
+Krampus	PG-13	krampus	98	movie	1166	2015-12-04	\N	\N	76.92
+Violent Night	R	violent-night	112	movie	1167	2022-12-02	\N	\N	69.23
+Love Actually	R	love-actually	135	movie	1168	2003-11-14	\N	\N	69.23
+Jack Frost	PG	jack-frost	101	movie	1169	1998-12-11	\N	\N	46.15
+300	R	300	117	movie	1170	2007-03-09	\N	\N	61.54
+300: Rise of an Empire	R	300-rise-of-an-empire	102	movie	1171	2014-03-07	\N	\N	53.85
+The Color Purple	PG-13	the-color-purple-(1985)	154	movie	1172	1985-12-18	\N	\N	84.62
+The Exorcist: Believer	R	the-exorcist-believer	111	movie	1173	2023-10-06	\N	\N	53.85
+The Nutcracker: The Untold Story	PG	the-nutcracker-the-untold-story	110	movie	1174	2010-11-24	\N	\N	23.08
+Rebel Moon - Part One: A Child of Fire	PG-13	rebel-moon-part-1	133	movie	1175	2023-12-15	\N	\N	46.15
+Oppenheimer	R	oppenheimer	180	movie	1176	2023-07-21	\N	\N	84.62
+James and the Giant Peach	PG	james-and-the-giant-peach	79	movie	1177	1996-04-12	\N	\N	61.54
+Atlantis: The Lost Empire	PG	atlantis	95	movie	1178	2001-06-15	\N	\N	76.92
+Gran Turismo	PG-13	gran-turismo	134	movie	1179	2023-08-25	\N	\N	69.23
+Crank	R	crank	88	movie	1180	2006-09-01	\N	\N	53.85
+Aquaman and the Lost Kingdom	PG-13	aquaman-and-the-lost-kingdom	124	movie	1183	2023-12-22	\N	\N	53.85
+Wonka	PG	wonka	116	movie	1184	2023-12-15	\N	\N	76.92
+The Rocky Horror Picture Show	R	the-rocky-horror-picture-show	100	movie	1186	1975-09-26	\N	\N	84.62
+The Equalizer	R	the-equalizer	132	movie	1187	2014-09-26	\N	\N	69.23
+The Equalizer 2	R	the-equalizer-2	121	movie	1188	2018-07-20	\N	\N	69.23
+Ted	R	ted	106	movie	1190	2012-06-29	\N	\N	69.23
+Ted 2	R	ted-2	115	movie	1191	2015-06-26	\N	\N	61.54
+Kingsman: The Secret Service	R	kingsman-the-secret-service	129	movie	1193	2015-02-13	\N	\N	92.31
+Kingsman: The Golden Circle	R	kingsman-the-golden-circle	141	movie	1194	2017-09-22	\N	\N	76.92
+The King's Man	R	the-kings-man	131	movie	1195	2021-12-22	\N	\N	61.54
+The LEGO Ninjago Movie	PG	the-lego-ninjago-movie	101	movie	1196	2017-09-22	\N	\N	69.23
+Final Fantasy: The Spirits Within	PG-13	final-fantasy	106	movie	1197	2001-07-11	\N	\N	46.15
+Mr. & Mrs. Smith	PG-13	mr-and-mrs-smith	120	movie	1199	2005-06-10	\N	\N	53.85
+My Fair Lady	G	my-fair-lady	170	movie	1200	1964-10-21	\N	\N	76.92
+Batman: Assault on Arkham	PG-13	batman-assault-on-arkham	76	movie	1201	2014-07-29	\N	\N	76.92
+American Pie 2	R	american-pie-2	108	movie	1203	2001-08-10	\N	\N	61.54
+IF	PG	if	104	movie	1204	2024-05-17	\N	\N	69.23
+Polar	TV-MA	polar	118	movie	1205	2019-01-25	\N	\N	30.77
+Jack Reacher	PG-13	jack-reacher	130	movie	1206	2012-12-21	\N	\N	61.54
+Jack Reacher: Never Go Back	PG-13	jack-reacher-never-go-back	118	movie	1207	2016-10-21	\N	\N	46.15
+Rudy	PG	rudy	114	movie	1208	1993-10-15	\N	\N	76.92
+Remember the Titans	PG	remember-the-titans	113	movie	1209	2000-09-29	\N	\N	92.31
+Hamilton	PG-13	hamilton	160	movie	1210	2020-07-03	\N	\N	76.92
+RoboCop	PG-13	robocop-(2014)	117	movie	1211	2014-02-12	\N	\N	53.85
+Chronicle	PG-13	chronicle	89	movie	1212	2012-02-03	\N	\N	84.62
+Air Force One	R	air-force-one	124	movie	1213	1997-07-25	\N	\N	76.92
+Madame Web	PG-13	madame-web	116	movie	1214	2024-02-14	\N	\N	30.77
+Lincoln	PG-13	lincoln	150	movie	1215	2012-11-16	\N	\N	76.92
+Selma	PG-13	selma	128	movie	1216	2014-12-25	\N	\N	84.62
+The Color Purple	PG-13	the-color-purple-(2023)	141	movie	1217	2023-12-25	\N	\N	76.92
+Madagascar	PG	madagascar	86	movie	1218	2005-05-27	\N	\N	69.23
+Madagascar: Escape 2 Africa	PG	madagascar-escape-2-africa	89	movie	1219	2008-11-07	\N	\N	76.92
+Madagascar 3: Europe's Most Wanted	PG	madagascar-3	95	movie	1220	2012-06-08	\N	\N	69.23
+Penguins of Madagascar	PG	penguins-of-madagascar	92	movie	1221	2014-11-26	\N	\N	69.23
+Monsters vs. Aliens	PG	monsters-vs-aliens	94	movie	1222	2009-03-27	\N	\N	53.85
+American Beauty	R	american-beauty	122	movie	1223	1999-10-01	\N	\N	76.92
+Slumdog Millionaire	R	slumdog-millionaire	120	movie	1224	2008-11-12	\N	\N	84.62
+Birdman or (The Unexpected Virtue of Ignorance)	R	birdman	119	movie	1225	2014-10-17	\N	\N	92.31
+La La Land	PG-13	la-la-land	128	movie	1226	2016-12-09	\N	\N	76.92
+Moonlight	R	moonlight	111	movie	1227	2016-10-21	\N	\N	69.23
+Mean Girls	PG-13	mean-girls-(2024)	112	movie	1229	2024-01-12	\N	\N	53.85
+Mars Attacks!	PG-13	mars-attacks	106	movie	1312	1996-12-13	\N	\N	53.85
+Damsel	PG-13	damsel	108	movie	1228	2024-03-08	\N	\N	53.85
+Megalopolis	R	megalopolis	138	movie	1643	2024-09-27	\N	2025-12-28 21:21:46.064-05	38.46
+City Lights	G	city-lights	87	movie	1647	1931-03-07	\N	2026-01-03 22:10:07.221-05	76.92
+The SpongeBob SquarePants Movie	PG	the-spongebob-squarepants-movie	87	movie	1230	2004-11-19	\N	\N	53.85
+The SpongeBob Movie: Sponge Out of Water	PG	the-spongebob-movie-sponge-out-of-water	92	movie	1231	2015-02-06	\N	\N	53.85
+The SpongeBob Movie: Sponge on the Run	PG	the-spongebob-movie-sponge-on-the-run	91	movie	1232	2021-03-04	\N	\N	53.85
+Dirty Dancing	PG-13	dirty-dancing	100	movie	1233	1987-08-21	\N	\N	76.92
+Road House	R	road-house-(1989)	114	movie	1234	1989-05-19	\N	\N	69.23
+Ghost	PG-13	ghost	127	movie	1235	1990-07-13	\N	\N	84.62
+Trolls Band Together	PG	trolls-band-together	91	movie	1236	2023-11-17	\N	\N	53.85
+Road House	R	road-house-(2024)	121	movie	1237	2024-03-21	\N	\N	53.85
+Death Note	TV-MA	death-note	101	movie	1238	2017-08-25	\N	\N	53.85
+King Kong	PG-13	king-kong-(2005)	187	movie	1239	2005-12-14	\N	\N	84.62
+Fight Club	R	fight-club	139	movie	1240	1999-10-15	\N	\N	92.31
+Footloose	PG	footloose	107	movie	1241	1984-02-17	\N	\N	69.23
+The Croods: A New Age	PG	the-croods-a-new-age	95	movie	1242	2020-11-25	\N	\N	53.85
+The Omen	R	the-omen	111	movie	1243	1976-06-25	\N	\N	92.31
+Wish	PG	wish	95	movie	1244	2023-11-22	\N	\N	61.54
+The Green Knight	R	the-green-knight	130	movie	1245	2021-07-30	\N	\N	76.92
+A.I. Artificial Intelligence	PG-13	ai	146	movie	1246	2001-06-29	\N	\N	69.23
+The Creator	PG-13	the-creator	133	movie	1247	2023-09-29	\N	\N	69.23
+Ex Machina	R	ex-machina	108	movie	1248	2015-04-10	\N	\N	92.31
+Argylle	PG-13	argylle	139	movie	1251	2024-02-02	\N	\N	46.15
+Lisa Frankenstein	PG-13	lisa-frankenstein	101	movie	1252	2024-02-09	\N	\N	61.54
+Seven Samurai	Not Rated	seven-samurai	207	movie	1253	1954-04-26	\N	\N	76.92
+Rebel Moon - Part Two: The Scargiver	PG-13	rebel-moon-part-2	122	movie	1254	2024-04-12	\N	\N	30.77
+The Mask	PG-13	the-mask	101	movie	1255	1994-07-29	\N	\N	76.92
+Dumb and Dumber	PG-13	dumb-and-dumber	107	movie	1256	1994-12-16	\N	\N	69.23
+Liar Liar	PG-13	liar-liar	86	movie	1257	1997-03-21	\N	\N	76.92
+The Truman Show	PG	the-truman-show	103	movie	1258	1998-06-05	\N	\N	92.31
+King Richard	PG-13	king-richard	144	movie	1259	2021-11-19	\N	\N	69.23
+Civil War	R	civil-war	109	movie	1260	2024-04-12	\N	\N	76.92
+Planet of the Apes	G	planet-of-the-apes-(1968)	112	movie	1261	1968-04-03	\N	\N	92.31
+Beneath the Planet of the Apes	G	beneath-the-planet-of-the-apes	95	movie	1262	1970-05-26	\N	\N	69.23
+Escape from the Planet of the Apes	G	escape-from-the-planet-of-the-apes	98	movie	1263	1971-05-26	\N	\N	69.23
+Conquest of the Planet of the Apes	PG	conquest-of-the-planet-of-the-apes	88	movie	1264	1972-06-14	\N	\N	53.85
+Planet of the Apes	PG-13	planet-of-the-apes-(2001)	120	movie	1265	2001-07-27	\N	\N	46.15
+Rise of the Planet of the Apes	PG-13	rise-of-the-planet-of-the-apes	105	movie	1266	2011-08-05	\N	\N	84.62
+Dawn of the Planet of the Apes	PG-13	dawn-of-the-planet-of-the-apes	130	movie	1267	2014-07-11	\N	\N	92.31
+Daddy's Home	PG-13	daddys-home	96	movie	1268	2015-12-25	\N	\N	46.15
+War for the Planet of the Apes	PG-13	war-for-the-planet-of-the-apes	140	movie	1269	2017-07-14	\N	\N	92.31
+A Bad Moms Christmas	R	a-bad-moms-christmas	104	movie	1270	2017-11-01	\N	\N	30.77
+The Strangers	R	the-strangers	86	movie	1271	2008-05-30	\N	\N	53.85
+The Strangers: Prey at Night	R	the-strangers-prey-at-night	85	movie	1272	2018-03-09	\N	\N	46.15
+The Dark Crystal	PG	the-dark-crystal	93	movie	1273	1982-12-17	\N	\N	76.92
+Garfield: The Movie	PG	garfield-the-movie	80	movie	1274	2004-06-11	\N	\N	30.77
+Garfield: A Tail of Two Kitties	PG	garfield-a-tail-of-two-kitties	82	movie	1275	2006-06-16	\N	\N	30.77
+The Emperor's New Groove	G	the-emperors-new-groove	78	movie	1276	2000-12-15	\N	\N	92.31
+Furiosa: A Mad Max Saga	R	furiosa	148	movie	1277	2024-05-24	\N	\N	76.92
+American Sniper	R	american-sniper	133	movie	1278	2014-12-25	\N	\N	76.92
+The Hunger Games: The Ballad of Songbirds & Snakes	PG-13	the-hunger-games-the-ballad-of-songbirds-and-snakes	157	movie	1279	2023-11-17	\N	\N	61.54
+Glass	PG-13	glass	129	movie	1280	2019-01-18	\N	\N	69.23
+I, Robot	PG-13	i-robot	115	movie	1281	2004-07-16	\N	\N	61.54
+Hellboy	PG-13	hellboy-(2004)	122	movie	1282	2004-04-02	\N	\N	84.62
+Hellboy	R	hellboy-(2019)	120	movie	1283	2019-04-12	\N	\N	53.85
+X	R	x	105	movie	1284	2022-03-18	\N	\N	76.92
+Beverly Hills Cop	R	beverly-hills-cop	105	movie	1285	1984-12-05	\N	\N	92.31
+Beverly Hills Cop II	R	beverly-hills-cop-2	100	movie	1286	1987-05-20	\N	\N	69.23
+American Pie	R	american-pie	95	movie	1287	1999-07-09	\N	\N	76.92
+Beverly Hills Cop: Axel F	R	beverly-hills-cop-axel-f	118	movie	1288	2024-07-03	\N	\N	69.23
+Poor Things	R	poor-things	141	movie	1289	2023-12-08	\N	\N	92.31
+Princess Protection Program	TV-G	princess-protection-program	90	movie	1291	2009-06-26	\N	\N	46.15
+Sausage Party	R	sausage-party	89	movie	1292	2016-08-12	\N	\N	69.23
+Dante's Peak	PG-13	dantes-peak	108	movie	1293	1997-02-07	\N	\N	69.23
+Volcano	PG-13	volcano	104	movie	1294	1997-04-25	\N	\N	46.15
+San Andreas	PG-13	san-andreas	114	movie	1296	2015-05-29	\N	\N	53.85
+Ghostbusters: Frozen Empire	PG-13	ghostbusters-frozen-empire	115	movie	1297	2024-03-22	\N	\N	69.23
+Girl, Interrupted	R	girl-interrupted	127	movie	1298	1999-12-21	\N	\N	84.62
+Love Lies Bleeding	R	love-lies-bleeding	104	movie	1299	2024-03-08	\N	\N	76.92
+Anchorman 2: The Legend Continues	PG-13	anchorman-2	119	movie	1300	2013-12-18	\N	\N	61.54
+The Visit	PG-13	the-visit	94	movie	1301	2015-09-11	\N	\N	84.62
+Kingdom of the Planet of the Apes	PG-13	kingdom-of-the-planet-of-the-apes	145	movie	1302	2024-05-10	\N	\N	76.92
+Conan the Barbarian	R	conan-the-barbarian	129	movie	1303	1982-05-14	\N	\N	53.85
+Conan the Destroyer	PG	conan-the-destroyer	101	movie	1304	1984-06-29	\N	\N	38.46
+True Lies	R	true-lies	141	movie	1305	1994-07-15	\N	\N	76.92
+The Crow	R	the-crow	102	movie	1306	1994-05-13	\N	\N	84.62
+Rear Window	PG	rear-window	111	movie	1307	1954-09-01	\N	\N	69.23
+Steel Magnolias	PG	steel-magnolias	118	movie	1308	1989-11-15	\N	\N	53.85
+A Quiet Place: Day One	PG-13	a-quiet-place-day-one	99	movie	1309	2024-06-28	\N	\N	69.23
+Bambi	G	bambi	70	movie	1310	1942-08-13	\N	\N	69.23
+Apocalypse Now	R	apocalypse-now	147	movie	1311	1979-08-15	\N	\N	92.31
+Miss Peregrine's Home for Peculiar Children	PG-13	miss-peregrines-home-for-peculiar-children	127	movie	1313	2016-09-30	\N	\N	61.54
+Midsommar	R	midsommar	147	movie	1314	2019-07-03	\N	\N	76.92
+Charlie's Angels	PG-13	charlies-angels-(2000)	98	movie	1315	2000-11-03	\N	\N	46.15
+Charlie's Angels	PG-13	charlies-angels-(2019)	118	movie	1316	2019-11-15	\N	\N	53.85
+Eragon	PG	eragon	103	movie	1317	2006-12-15	\N	\N	38.46
+Blazing Saddles	R	blazing-saddles	93	movie	1318	1974-02-07	\N	\N	92.31
+The Usual Suspects	R	the-usual-suspects	106	movie	1319	1995-08-16	\N	\N	92.31
+The Craft	R	the-craft	101	movie	1320	1996-05-03	\N	\N	76.92
+The Craft: Legacy	PG-13	the-craft-legacy	97	movie	1321	2020-10-28	\N	\N	46.15
+The Sorcerer's Apprentice	PG	the-sorcerers-apprentice	109	movie	1322	2010-07-14	\N	\N	53.85
+Whiplash	R	whiplash	106	movie	1323	2014-10-10	\N	\N	92.31
+Rosemary's Baby	R	rosemarys-baby	137	movie	1324	1968-06-12	\N	\N	84.62
+The Outsiders	PG	the-outsiders	91	movie	1325	1983-03-25	\N	\N	69.23
+Inside Out 2	PG	inside-out-2	96	movie	1326	2024-06-14	\N	\N	100
+Challengers	R	challengers	131	movie	1327	2024-04-26	\N	\N	76.92
+The Fall Guy	PG-13	the-fall-guy	126	movie	1328	2024-05-03	\N	\N	76.92
+Abigail	R	abigail	109	movie	1329	2024-04-19	\N	\N	76.92
+Insidious: Chapter 3	PG-13	insidious-chapter-3	98	movie	1330	2015-06-05	\N	\N	53.85
+Insidious: The Last Key	PG-13	insidious-the-last-key	103	movie	1331	2018-01-05	\N	\N	46.15
+Insidious: The Red Door	PG-13	insidious-the-red-door	107	movie	1332	2023-07-07	\N	\N	53.85
+The Amityville Horror	R	the-amityville-horror-(2005)	89	movie	1333	2005-04-15	\N	\N	38.46
+Joker: Folie à Deux	R	joker-folie-a-deux	138	movie	1334	2024-10-04	\N	\N	53.85
+Winnie-the-Pooh: Blood and Honey 2	Not Rated	winnie-the-pooh-blood-and-honey-2	94	movie	1335	2024-03-26	\N	\N	23.08
+The Thing	R	the-thing	109	movie	1336	1982-06-25	\N	\N	92.31
+MaXXXine	R	maxxxine	104	movie	1337	2024-07-05	\N	\N	69.23
+Hellraiser: Bloodline	R	hellraiser-bloodline	85	movie	1338	1996-03-08	\N	\N	38.46
+Brightburn	R	brightburn	90	movie	1339	2019-05-24	\N	\N	53.85
+Trap	PG-13	trap	105	movie	1340	2024-08-02	\N	\N	61.54
+Firestarter	R	firestarter-(1984)	114	movie	1341	1984-05-11	\N	\N	46.15
+Orphan	R	orphan	123	movie	1342	2009-07-24	\N	\N	76.92
+The Wicker Man	PG-13	the-wicker-man	102	movie	1344	2006-09-01	\N	\N	30.77
+Venom: The Last Dance	PG-13	venom-the-last-dance	109	movie	1345	2024-10-25	\N	\N	53.85
+Troy	R	troy	163	movie	1346	2004-05-14	\N	\N	76.92
+Napoleon	R	napoleon	157	movie	1347	2023-11-22	\N	\N	69.23
+Edge of Tomorrow	PG-13	edge-of-tomorrow	113	movie	1348	2014-06-06	\N	\N	84.62
+Nimona	PG	nimona	99	movie	1349	2023-06-23	\N	\N	92.31
+Black Hawk Down	R	black-hawk-down	144	movie	1351	2001-12-28	\N	\N	69.23
+Ghosted	PG-13	ghosted	116	movie	1352	2023-04-21	\N	\N	53.85
+Dr. Strangelove	PG	dr-strangelove	94	movie	1353	1964-01-29	\N	\N	84.62
+Alien: Romulus	R	alien-romulus	119	movie	1354	2024-08-16	\N	\N	76.92
+Treasure Planet	PG	treasure-planet	95	movie	1355	2002-11-27	\N	\N	76.92
+Thanksgiving	R	thanksgiving	106	movie	1356	2023-11-17	\N	\N	61.54
+Despicable Me 4	PG	despicable-me-4	95	movie	1357	2024-07-03	\N	\N	46.15
+Beetlejuice Beetlejuice	PG-13	beetlejuice-beetlejuice	104	movie	1358	2024-09-06	\N	\N	76.92
+Moana 2	PG	moana-2	100	movie	1359	2024-11-27	\N	\N	69.23
+The Lighthouse	R	the-lighthouse	109	movie	1360	2019-10-18	\N	\N	69.23
+The Holdovers	R	the-holdovers	133	movie	1361	2023-10-27	\N	\N	92.31
+Bad Santa	R	bad-santa	92	movie	1362	2003-11-26	\N	\N	76.92
+Trading Places	R	trading-places	116	movie	1363	1983-06-08	\N	\N	76.92
+Meet Me in St. Louis	Not Rated	meet-me-in-st-louis	113	movie	1364	1944-11-22	\N	\N	76.92
+Eyes Wide Shut	R	eyes-wide-shut	159	movie	1366	1999-07-16	\N	\N	61.54
+Wicked	PG	wicked	160	movie	1367	2024-11-22	\N	\N	92.31
+Alvin and the Chipmunks	PG	alvin-and-the-chipmunks	92	movie	1368	2007-12-14	\N	\N	30.77
+Alvin and the Chipmunks: The Squeakquel	PG	alvin-and-the-chipmunks-the-squeakquel	88	movie	1369	2009-12-23	\N	\N	23.08
+Alvin and the Chipmunks: Chipwrecked	G	alvin-and-the-chipmunks-chipwrecked	87	movie	1370	2011-12-16	\N	\N	15.38
+Alvin and the Chipmunks: The Road Chip	PG	alvin-and-the-chipmunks-the-road-chip	92	movie	1371	2015-12-18	\N	\N	23.08
+Den of Thieves	R	den-of-thieves	140	movie	1372	2018-01-19	\N	\N	46.15
+12 Angry Men	Not Rated	12-angry-men	96	movie	1374	1957-04-10	\N	\N	92.31
+The Mouse Trap	Not Rated	the-mouse-trap	80	movie	1375	2024-08-06	\N	\N	0
+An American Werewolf in London	R	an-american-werewolf-in-london	97	movie	1376	1981-08-21	\N	\N	76.92
+Amadeus	PG	amadeus	161	movie	1378	1984-09-19	\N	\N	76.92
+Turbo	PG	turbo	96	movie	1379	2013-07-17	\N	\N	53.85
+Gladiator II	R	gladiator-2	148	movie	1380	2024-11-22	\N	\N	76.92
+Mr. Peabody & Sherman	PG	mr-peabody-and-sherman	92	movie	1381	2014-03-07	\N	\N	69.23
+Home	PG	home	94	movie	1382	2015-03-27	\N	\N	53.85
+Abominable	PG	abominable	97	movie	1383	2019-09-27	\N	\N	69.23
+The Bad Guys	PG	the-bad-guys	100	movie	1384	2022-04-22	\N	\N	92.31
+Ruby Gillman, Teenage Kraken	PG	ruby-gillman	91	movie	1385	2023-06-30	\N	\N	61.54
+Barbarian	R	barbarian	102	movie	1386	2022-09-09	\N	\N	76.92
+Bridget Jones: The Edge of Reason	R	bridget-jones-the-edge-of-reason	108	movie	1387	2004-11-12	\N	\N	46.15
+Bridget Jones's Baby	R	bridget-joness-baby	123	movie	1388	2016-09-16	\N	\N	76.92
+Paddington 2	PG	paddington-2	104	movie	1389	2017-11-10	\N	\N	92.31
+Kiki's Delivery Service	G	kikis-delivery-service	102	movie	1390	1989-07-29	\N	\N	92.31
+Captain America: Brave New World	PG-13	captain-america-brave-new-world	118	movie	1391	2025-02-14	\N	\N	69.23
+Sonic the Hedgehog 3	PG	sonic-the-hedgehog-3	110	movie	1392	2024-12-20	\N	\N	76.92
+Castle in the Sky	PG	castle-in-the-sky	124	movie	1393	1986-08-02	\N	\N	76.92
+Captain Underpants: The First Epic Movie	PG	captain-underpants	90	movie	1394	2017-06-02	\N	\N	76.92
+High School Musical 2	TV-G	high-school-musical-2	104	movie	1396	2007-08-17	\N	\N	53.85
+Hotel Transylvania	PG	hotel-transylvania	91	movie	1397	2012-09-28	\N	\N	69.23
+Jungle Cruise	PG-13	jungle-cruise	127	movie	1398	2021-07-30	\N	\N	61.54
+Romeo + Juliet	PG-13	romeo-+-juliet	120	movie	1399	1996-11-01	\N	\N	38.46
+Teenage Mutant Ninja Turtles II: The Secret of the Ooze	PG	teenage-mutant-ninja-turtles-2	88	movie	1400	1991-03-22	\N	\N	46.15
+Teenage Mutant Ninja Turtles III	PG	teenage-mutant-ninja-turtles-3	96	movie	1401	1993-03-19	\N	\N	46.15
+The Karate Kid Part III	PG	the-karate-kid-part-3	112	movie	1402	1989-06-30	\N	\N	46.15
+Ace Ventura: Pet Detective	PG-13	ace-ventura-pet-detective	86	movie	1403	1994-02-04	\N	\N	38.46
+Pet Sematary	R	pet-sematary-(1989)	103	movie	1404	1989-04-21	\N	\N	46.15
+Winnie-the-Pooh: Blood and Honey	Not Rated	winnie-the-pooh-blood-and-honey	84	movie	1405	2023-02-15	\N	\N	0
+Casper	PG	casper	100	movie	1406	1995-05-26	\N	\N	46.15
+The Blind Side	PG-13	the-blind-side	129	movie	1407	2009-11-20	\N	\N	69.23
+Ace Ventura: When Nature Calls	PG-13	ace-ventura-when-nature-calls	90	movie	1408	1995-11-10	\N	\N	46.15
+Descendants: The Rise of Red	TV-G	descendants-the-rise-of-red	91	movie	1409	2024-07-12	\N	\N	30.77
+The Amityville Horror	R	the-amityville-horror-(1979)	118	movie	1410	1979-07-27	\N	\N	61.54
+Terrifier 3	Not Rated	terrifier-3	125	movie	1411	2024-10-11	\N	\N	69.23
+The Boss Baby: Family Business	PG	the-boss-baby-family-business	107	movie	1412	2021-07-02	\N	\N	46.15
+The Punisher	R	the-punisher-(2004)	123	movie	1413	2004-04-16	\N	\N	53.85
+The Departed	R	the-departed	151	movie	1414	2006-10-06	\N	\N	92.31
+Bad Boys: Ride or Die	R	bad-boys-ride-or-die	115	movie	1415	2024-06-07	\N	\N	61.54
+Life is Beautiful	PG-13	life-is-beautiful	116	movie	1417	1997-12-20	\N	\N	92.31
+The Boss Baby	PG	the-boss-baby	97	movie	1418	2017-03-31	\N	\N	46.15
+American History X	R	american-history-x	119	movie	1419	1998-10-30	\N	\N	76.92
+The Punisher	R	the-punisher-(1989)	89	movie	1420	1991-04-25	\N	\N	53.85
+One Flew Over the Cuckoo's Nest	R	one-flew-over-the-cuckoos-nest	135	movie	1421	1975-11-19	\N	\N	84.62
+Metropolis	Not Rated	metropolis	153	movie	1422	1927-01-10	\N	\N	69.23
+Nosferatu	R	nosferatu-(2024)	132	movie	1423	2024-12-25	\N	\N	76.92
+The Apartment	Not Rated	the-apartment	125	movie	1424	1960-06-15	\N	\N	84.62
+Paddington	PG	paddington	95	movie	1425	2014-11-28	\N	\N	92.31
+My Neighbor Totoro	G	my-neighbor-totoro	86	movie	1426	1988-04-16	\N	\N	92.31
+Howard the Duck	PG	howard-the-duck	111	movie	1427	1986-08-01	\N	\N	23.08
+Howl's Moving Castle	PG	howls-moving-castle	119	movie	1428	2004-11-20	\N	\N	76.92
+Bridget Jones's Diary	R	bridget-joness-diary	96	movie	1429	2001-04-13	\N	\N	69.23
+Captain America	PG-13	captain-america	97	movie	1430	1992-07-22	\N	\N	30.77
+Bridget Jones: Mad About the Boy	R	bridget-jones-mad-about-the-boy	125	movie	1431	2025-02-13	\N	\N	69.23
+Punisher: War Zone	R	punisher-war-zone	103	movie	1433	2008-12-05	\N	\N	30.77
+Longlegs	R	longlegs	101	movie	1435	2024-07-12	\N	\N	76.92
+Borderlands	PG-13	borderlands	101	movie	1436	2024-08-09	\N	\N	30.77
+Dead Poets Society	PG	dead-poets-society	128	movie	1437	1989-06-02	\N	\N	76.92
+Kraven the Hunter	R	kraven-the-hunter	127	movie	1438	2024-12-13	\N	\N	46.15
+Emilia Pérez	R	emilia-perez	132	movie	1440	2024-08-21	\N	\N	61.54
+Anora	R	anora	139	movie	1441	2024-10-18	\N	\N	76.92
+Mirror Mirror	PG	mirror-mirror	106	movie	1442	2012-03-30	\N	\N	53.85
+Snow White and the Huntsman	PG-13	snow-white-and-the-huntsman	127	movie	1443	2012-06-01	\N	\N	46.15
+The Huntsman: Winter's War	PG-13	the-huntsman-winters-war	114	movie	1444	2016-04-22	\N	\N	46.15
+Looney Tunes: Back in Action	PG	looney-tunes-back-in-action	91	movie	1445	2003-11-14	\N	\N	69.23
+Alexander and the Terrible, Horrible, No Good, Very Bad Day	PG	alexander-and-the-terrible-horrible-no-good-very-bad-day	81	movie	1446	2014-10-10	\N	\N	61.54
+Mufasa: The Lion King	PG	mufasa	118	movie	1447	2024-12-20	\N	\N	61.54
+The Beekeeper	R	the-beekeeper	105	movie	1448	2024-01-12	\N	\N	69.23
+Underworld: Awakening	R	underworld-awakening	86	movie	1449	2012-01-20	\N	\N	30.77
+Underworld: Blood Wars	R	underworld-blood-wars	91	movie	1450	2017-01-06	\N	\N	30.77
+Resident Evil	R	resident-evil	100	movie	1451	2002-03-15	\N	\N	46.15
+Resident Evil: Apocalypse	R	resident-evil-apocalypse	93	movie	1452	2004-09-10	\N	\N	23.08
+Resident Evil: Afterlife	R	resident-evil-afterlife	97	movie	1454	2010-09-10	\N	\N	30.77
+Resident Evil: Retribution	R	resident-evil-retribution	96	movie	1455	2012-09-14	\N	\N	23.08
+Resident Evil: The Final Chapter	R	resident-evil-the-final-chapter	107	movie	1456	2017-01-27	\N	\N	38.46
+Resident Evil: Welcome to Raccoon City	R	resident-evil-welcome-to-raccoon-city	107	movie	1457	2021-11-24	\N	\N	53.85
+Happy Death Day	PG-13	happy-death-day	96	movie	1458	2017-10-13	\N	\N	76.92
+Happy Death Day 2U	PG-13	happy-death-day-2u	100	movie	1459	2019-02-13	\N	\N	69.23
+The Monkey	R	the-monkey	98	movie	1460	2025-02-21	\N	\N	76.92
+Tombstone	R	tombstone	130	movie	1461	1993-12-25	\N	\N	92.31
+Pride & Prejudice	PG	pride-and-prejudice	127	movie	1463	2005-11-23	\N	\N	76.92
+Monty Python and the Holy Grail	PG	monty-python-and-the-holy-grail	92	movie	1464	1975-04-03	\N	\N	84.62
+Wolf Man	R	wolf-man	103	movie	1465	2025-01-17	\N	\N	53.85
+Princess Mononoke	PG-13	princess-mononoke	133	movie	1466	1997-07-12	\N	\N	92.31
+From Dusk till Dawn	R	from-dusk-till-dawn	108	movie	1467	1996-01-19	\N	\N	69.23
+Memento	R	memento	113	movie	1469	2001-03-16	\N	\N	92.31
+The Prestige	PG-13	the-prestige	130	movie	1470	2006-10-20	\N	\N	92.31
+Paper Towns	PG-13	paper-towns	109	movie	1471	2015-07-24	\N	\N	69.23
+Reservoir Dogs	R	reservoir-dogs	99	movie	1472	1992-10-09	\N	\N	92.31
+A Fish Called Wanda	R	a-fish-called-wanda	108	movie	1473	1988-07-15	\N	\N	84.62
+Eternal Sunshine of the Spotless Mind	R	eternal-sunshine-of-the-spotless-mind	108	movie	1474	2004-03-19	\N	\N	76.92
+Mystery Men	PG-13	mystery-men	120	movie	1475	1999-08-06	\N	\N	46.15
+Thunderbolts*	PG-13	thunderbolts	126	movie	1476	2025-05-02	\N	\N	84.62
+The Accountant	R	the-accountant	128	movie	1468	2016-10-14	\N	\N	53.85
+Resident Evil: Extinction	R	resident-evil-extinction	94	movie	1453	2007-09-21	\N	\N	38.46
+Days of Thunder	PG-13	days-of-thunder	108	movie	1477	1990-06-27	\N	\N	53.85
+Jerry Maguire	R	jerry-maguire	139	movie	1478	1996-12-13	\N	\N	84.62
+Minority Report	PG-13	minority-report	145	movie	1479	2002-06-21	\N	\N	84.62
+War of the Worlds	PG-13	war-of-the-worlds-(2005)	117	movie	1480	2005-06-29	\N	\N	76.92
+Fear Street: Prom Queen	R	fear-street-prom-queen	90	movie	1481	2025-05-23	\N	\N	53.85
+Lilo & Stitch	PG	lilo-and-stitch-(2025)	108	movie	1482	2025-05-23	\N	\N	61.54
+Mickey 17	R	mickey-17	137	movie	1483	2025-03-07	\N	\N	76.92
+Battlefield Earth	PG-13	battlefield-earth	117	movie	1501	2000-05-12	\N	\N	23.08
+Atomic Blonde	R	atomic-blonde	115	movie	1503	2017-07-28	\N	\N	76.92
+Predator: Killer of Killers	R	predator-killer-of-killers	85	movie	1504	2025-06-06	\N	\N	84.62
+The Grand Budapest Hotel	R	the-grand-budapest-hotel	100	movie	1505	2014-03-07	\N	\N	84.62
+The Road to El Dorado	PG	the-road-to-el-dorado	89	movie	1506	2000-03-31	\N	\N	76.92
+Shark Tale	PG	shark-tale	90	movie	1507	2004-10-01	\N	\N	38.46
+Over the Hedge	PG	over-the-hedge	83	movie	1508	2006-05-19	\N	\N	53.85
+Snow White	PG	snow-white	109	movie	1509	2025-03-21	\N	\N	38.46
+28 Days Later	R	28-days-later	113	movie	1510	2002-11-01	\N	\N	76.92
+28 Weeks Later	R	28-weeks-later	99	movie	1511	2007-05-11	\N	\N	53.85
+A Minecraft Movie	PG	a-minecraft-movie	101	movie	1513	2025-04-04	\N	\N	46.15
+Speed Racer	PG	speed-racer	135	movie	1514	2008-05-09	\N	\N	30.77
+65	PG-13	65	93	movie	1515	2023-03-10	\N	\N	53.85
+Olympus Has Fallen	R	olympus-has-fallen	119	movie	1516	2013-03-22	\N	\N	46.15
+White House Down	PG-13	white-house-down	131	movie	1517	2013-06-28	\N	\N	53.85
+The Old Guard 2	R	the-old-guard-2	104	movie	1519	2025-07-02	\N	\N	53.85
+F1	PG-13	f1	156	movie	1520	2025-06-27	\N	\N	84.62
+Sinners	R	sinners	137	movie	1521	2025-04-18	\N	\N	100
+London Has Fallen	R	london-has-fallen	99	movie	1522	2016-03-04	\N	\N	46.15
+Angel Has Fallen	R	angel-has-fallen	121	movie	1523	2019-08-23	\N	\N	46.15
+Requiem for a Dream	Not Rated	requiem-for-a-dream	102	movie	1524	2000-10-06	\N	\N	76.92
+The Pianist	R	the-pianist	150	movie	1525	2002-09-06	\N	\N	76.92
+Dora and the Lost City of Gold	PG	dora-and-the-lost-city-of-gold	102	movie	1526	2019-08-09	\N	\N	69.23
+Zombies 4: Dawn of the Vampires	TV-G	zombies-4	88	movie	1527	2025-07-10	\N	\N	38.46
+The Smurfs	PG	the-smurfs	103	movie	1528	2011-07-29	\N	\N	30.77
+The Smurfs 2	PG	the-smurfs-2	105	movie	1529	2013-07-31	\N	\N	23.08
+Smurfs: The Lost Village	PG	smurfs-the-lost-village	90	movie	1530	2017-04-07	\N	\N	53.85
+Superman	PG-13	superman-(2025)	129	movie	1531	2025-07-11	\N	\N	84.62
+Beau Is Afraid	R	beau-is-afraid	179	movie	1532	2023-04-14	\N	\N	69.23
+The Waterboy	PG-13	the-waterboy	90	movie	1533	1998-11-06	\N	\N	30.77
+Little Nicky	PG-13	little-nicky	90	movie	1534	2000-11-10	\N	\N	15.38
+Click	PG-13	click	107	movie	1535	2006-06-23	\N	\N	38.46
+You Don't Mess with the Zohan	PG-13	you-dont-mess-with-the-zohan	113	movie	1536	2008-06-06	\N	\N	46.15
+Grown Ups	PG-13	grown-ups	102	movie	1537	2010-06-25	\N	\N	30.77
+Grown Ups 2	PG-13	grown-ups-2	101	movie	1538	2013-07-12	\N	\N	23.08
+Caddyshack	R	caddyshack	98	movie	1539	1980-07-25	\N	\N	69.23
+Happy Gilmore 2	PG-13	happy-gilmore-2	118	movie	1540	2025-07-25	\N	\N	53.85
+The Naked Gun: From the Files of Police Squad!	PG-13	the-naked-gun-from-the-files-of-police-squad	85	movie	1541	1988-12-02	\N	\N	92.31
+The Naked Gun 2½: The Smell of Fear	PG-13	the-naked-gun-2-1-2	85	movie	1542	1991-06-28	\N	\N	84.62
+Naked Gun 33⅓: The Final Insult	PG-13	naked-gun-33-1-3	83	movie	1543	1994-03-18	\N	\N	69.23
+Final Destination Bloodlines	R	final-destination-bloodlines	110	movie	1545	2025-05-16	\N	\N	76.92
+The Fantastic Four: First Steps	PG-13	the-fantastic-four-first-steps	114	movie	1546	2025-07-25	\N	\N	84.62
+Freaky Friday	PG	freaky-friday	97	movie	1547	2003-08-06	\N	\N	84.62
+Jurassic World Rebirth	PG-13	jurassic-world-rebirth	133	movie	1548	2025-07-02	\N	\N	53.85
+KPop Demon Hunters	PG	kpop-demon-hunters	97	movie	1549	2025-06-20	\N	\N	92.31
+Red Sonja	PG-13	red-sonja	89	movie	1550	1985-07-03	\N	\N	30.77
+Apollo 13	PG-13	apollo-13	140	movie	1551	1995-06-30	\N	\N	84.62
+Cast Away	PG-13	cast-away	143	movie	1552	2000-12-22	\N	\N	84.62
+The Martian	PG-13	the-martian	142	movie	1553	2015-10-02	\N	\N	92.31
+War of the Worlds	PG-13	war-of-the-worlds-(2025)	91	movie	1554	2025-07-30	\N	\N	0
+Black Swan	R	black-swan	108	movie	1555	2010-12-17	\N	\N	84.62
+Death of a Unicorn	R	death-of-a-unicorn	107	movie	1556	2025-03-28	\N	\N	53.85
+Léon: The Professional	R	leon	110	movie	1557	1994-09-14	\N	\N	92.31
+Good Will Hunting	R	good-will-hunting	126	movie	1558	1997-12-05	\N	\N	92.31
+The War of the Roses	R	the-war-of-the-roses	116	movie	1559	1989-12-08	\N	\N	76.92
+The Toxic Avenger	R	the-toxic-avenger	82	movie	1560	1984-04-04	\N	\N	30.77
+Flash Gordon	PG	flash-gordon	111	movie	1561	1980-12-05	\N	\N	53.85
+Lights Out	PG-13	lights-out	81	movie	1562	2016-07-22	\N	\N	76.92
+Maximum Overdrive	R	maximum-overdrive	98	movie	1563	1986-07-25	\N	\N	38.46
+Ender's Game	PG-13	ender's-game	114	movie	1564	2013-11-01	\N	\N	53.85
+Downton Abbey	PG	downton-abbey	122	movie	1565	2019-09-20	\N	\N	69.23
+Downton Abbey: A New Era	PG	downton-abbey-a-new-era	124	movie	1566	2022-05-20	\N	\N	76.92
+This Is Spinal Tap	R	this-is-spinal-tap	82	movie	1567	1984-03-02	\N	\N	84.62
+The Devil Wears Prada	PG-13	the-devil-wears-prada	109	movie	1568	2006-06-30	\N	\N	84.62
+Moneyball	PG-13	moneyball	133	movie	1569	2011-09-23	\N	\N	84.62
+A Few Good Men	R	a-few-good-men	138	movie	1570	1992-12-11	\N	\N	92.31
+The Long Walk	R	the-long-walk	108	movie	1571	2025-09-12	\N	\N	92.31
+Elio	PG	elio	98	movie	1572	2025-06-20	\N	\N	76.92
+Smurfs	PG	smurfs	90	movie	1573	2025-07-18	\N	\N	30.77
+Punch-Drunk Love	R	punch-drunk-love	95	movie	1574	2002-11-01	\N	\N	69.23
+Boogie Nights	R	boogie-nights	155	movie	1575	1997-10-10	\N	\N	92.31
+There Will Be Blood	R	there-will-be-blood	158	movie	1576	2007-12-26	\N	\N	92.31
+M3GAN 2.0	PG-13	m3gan-2	120	movie	1579	2025-06-27	\N	\N	53.85
+Karate Kid: Legends	PG-13	karate-kid-legends	94	movie	1580	2025-05-30	\N	\N	61.54
+Until Dawn	R	until-dawn	103	movie	1581	2025-04-25	\N	\N	53.85
+28 Years Later	R	28-years-later	115	movie	1582	2025-06-20	\N	\N	69.23
+Central Intelligence	PG-13	central-intelligence	107	movie	1583	2016-06-17	\N	\N	53.85
+The Naked Gun	PG-13	the-naked-gun	85	movie	1584	2025-08-01	\N	\N	84.62
+The Night of the Hunter	Not Rated	the-night-of-the-hunter	92	movie	1585	1955-07-26	\N	\N	61.54
+The Human Centipede (First Sequence)	R	the-human-centipede	92	movie	1586	2010-04-30	\N	\N	15.38
+Cannibal Holocaust	Not Rated	cannibal-holocaust	96	movie	1587	1980-02-07	\N	\N	23.08
+How to Train Your Dragon	PG	how-to-train-your-dragon-(2025)	125	movie	1588	2025-06-13	\N	\N	84.62
+Suspiria	R	suspiria-(1977)	99	movie	1589	1977-02-01	\N	\N	69.23
+Suspiria	R	suspiria-(2018)	152	movie	1590	2018-10-26	\N	\N	69.23
+Fright Night	R	fright-night	106	movie	1592	1985-08-02	\N	\N	92.31
+I Know What You Did Last Summer	R	i-know-what-you-did-last-summer-(2025)	111	movie	1593	2025-07-18	\N	\N	46.15
+Tremors	PG-13	tremors	96	movie	1594	1990-01-19	\N	\N	76.92
+Ginger Snaps	R	ginger-snaps	108	movie	1595	2001-05-11	\N	\N	76.92
+Doom	R	doom	105	movie	1596	2005-10-21	\N	\N	30.77
+Grindhouse	R	grindhouse	191	movie	1597	2007-04-06	\N	\N	84.62
+Cabin Fever	R	cabin-fever	95	movie	1598	2003-09-12	\N	\N	69.23
+House of 1000 Corpses	R	house-of-1000-corpses	89	movie	1599	2003-04-11	\N	\N	53.85
+The Devil's Rejects	R	the-devils-rejects	109	movie	1600	2005-07-22	\N	\N	61.54
+Weapons	R	weapons	128	movie	1601	2025-08-08	\N	\N	92.31
+The Fly	R	the-fly	96	movie	1602	1986-08-15	\N	\N	92.31
+The Fly II	R	the-fly-2	105	movie	1603	1989-02-10	\N	\N	46.15
+The Others	PG-13	the-others	104	movie	1604	2001-08-10	\N	\N	100
+Commando	R	commando	90	movie	1605	1985-10-04	\N	\N	61.54
+Young Frankenstein	PG	young-frankenstein	106	movie	1606	1974-12-15	\N	\N	92.31
+Mary Shelley's Frankenstein	R	mary-shelleys-frankenstein	123	movie	1607	1994-11-04	\N	\N	53.85
+Frankenweenie	PG	frankenweenie	87	movie	1608	2012-10-05	\N	\N	69.23
+The Shape of Water	R	the-shape-of-water	123	movie	1609	2017-12-01	\N	\N	84.62
+Frankenstein	R	frankenstein-(2025)	150	movie	1610	2025-10-17	\N	\N	92.31
+The Running Man	R	the-running-man-(1987)	101	movie	1611	1987-11-13	\N	\N	53.85
+Now You See Me	PG-13	now-you-see-me	115	movie	1612	2013-05-31	\N	\N	53.85
+Now You See Me 2	PG-13	now-you-see-me-2	129	movie	1613	2016-06-10	\N	\N	53.85
+Freakier Friday	PG	freakier-friday	111	movie	1614	2025-08-08	\N	\N	69.23
+Baby Driver	R	baby-driver	113	movie	1615	2017-06-28	\N	\N	92.31
+The Running Man	R	the-running-man-(2025)	133	movie	1616	2025-11-14	\N	\N	69.23
+Eddington	R	eddington	149	movie	1617	2025-07-18	\N	\N	61.54
+Nobody 2	R	nobody-2	89	movie	1618	2025-08-15	\N	\N	69.23
+The Wiz	G	the-wiz	133	movie	1619	1978-10-24	\N	\N	53.85
+The Whale	R	the-whale	117	movie	1620	2022-12-09	\N	\N	92.31
+Sisu	R	sisu	91	movie	1621	2023-04-28	\N	\N	76.92
+The Bad Guys 2	PG	the-bad-guys-2	104	movie	1622	2025-08-01	\N	\N	84.62
+The Night Before	R	the-night-before	101	movie	1634	2015-11-20	\N	2025-12-11 09:21:55.173-05	61.54
+The Family Stone	PG-13	the-family-stone	104	movie	1635	2005-12-16	\N	2025-12-12 09:24:09.966-05	46.15
+The Nativity Story	PG	the-nativity-story	101	movie	1638	2006-12-01	\N	2025-12-15 16:26:32.275-05	61.54
+Home Alone: The Holiday Heist	TV-PG	home-alone-the-holiday-heist	90	movie	1640	2012-11-25	\N	2025-12-19 16:59:20.067-05	23.08
+Home Sweet Home Alone	PG	home-sweet-home-alone	93	movie	1641	2021-11-12	\N	2025-12-20 17:04:05.587-05	23.08
+Sleepaway Camp	R	sleepaway-camp	84	movie	1591	1983-11-18	\N	\N	53.85
+Reefer Madness	Not Rated	reefer-madness	66	movie	737	1936-01-01	\N	\N	30.77
+Alice in Wonderland	G	alice-in-wonderland-(1951)	75	movie	214	1951-07-28	\N	\N	84.62
+Frankenstein	Not Rated	frankenstein-(1931)	70	movie	360	1931-11-21	\N	\N	69.23
+Paddington in Peru	PG	paddington-in-peru	106	movie	1500	2024-11-08	\N	\N	84.62
+Star Wars	PG	star-wars	121	movie	703	1977-05-25	\N	\N	92.31
+A Christmas Carol	PG	a-christmas-carol-(1984)	100	movie	1642	1984-12-17	\N	2025-12-23 21:16:31.287-05	92.31
+The Conjuring: Last Rites	R	the-conjuring-last-rites	135	movie	1623	2025-09-05	\N	\N	53.85
+Free Birds	PG	free-birds	91	movie	1624	2013-11-01	\N	\N	38.46
+Wicked: For Good	PG	wicked-for-good	137	movie	1625	2025-11-21	\N	\N	76.92
+Mission: Impossible - The Final Reckoning	PG-13	mission-impossible-the-final-reckoning	170	movie	1644	2025-05-23	\N	2025-12-29 22:21:27.23-05	76.92
+One Battle After Another	R	one-battle-after-another	162	movie	1645	2025-09-26	\N	2025-12-30 22:59:22.708-05	84.62
 Stranger Things	TV-14	stranger-things	\N	show	1002	\N	t	\N	\N
-Anaconda	PG-13	anaconda	89	movie	1626	1997-04-11	\N	\N	C
-Regretting You	PG-13	regretting-you	116	movie	1646	2025-10-24	\N	2026-01-01 18:26:27.99-05	C+
-Lake Placid	R	lake-placid	82	movie	1627	1999-07-16	\N	\N	D+
-Wake Up Dead Man: A Knives Out Mystery	PG-13	wake-up-dead-man	144	movie	1636	2025-11-26	\N	2025-12-14 09:27:26.605-05	A-
-Marriage Story	R	marriage-story	137	movie	1628	2019-11-06	\N	\N	A-
-Shakespeare in Love	R	shakespeare-in-love	123	movie	1629	1998-12-11	\N	\N	B+
-Modern Times	G	modern-times	87	movie	1648	1936-02-25	\N	2026-01-04 17:59:29.177-05	B
-Looper	R	looper	118	movie	1630	2012-09-28	\N	\N	A
-The Great Dictator	G	the-great-dictator	125	movie	1649	1940-10-15	\N	2026-01-05 22:01:25.146-05	A-
-Hot Frosty	TV-PG	hot-frosty	92	movie	1631	2024-11-13	\N	\N	C
-Greenland	PG-13	greenland	119	movie	1650	2020-12-18	\N	2026-01-06 22:13:49.566-05	B-
-Jingle Jangle: A Christmas Journey	PG	jingle-jangle	122	movie	1632	2020-11-13	\N	\N	B+
-Tron: Ares	PG-13	tron-ares	119	movie	1651	2025-10-10	\N	2026-01-08 22:25:50.78-05	C+
-The Mean One	Not Rated	the-mean-one	93	movie	1633	2022-12-09	\N	\N	D-
-When Harry Met Sally...	R	when-harry-met-sally	96	movie	1652	1989-07-21	\N	2026-01-09 20:27:15.997-05	A
-The Lord of the Rings: The War of the Rohirrim	PG-13	the-lord-of-the-rings-the-war-of-the-rohirrim	134	movie	1434	2024-12-13	\N	\N	B
+Anaconda	PG-13	anaconda	89	movie	1626	1997-04-11	\N	\N	46.15
+Regretting You	PG-13	regretting-you	116	movie	1646	2025-10-24	\N	2026-01-01 18:26:27.99-05	53.85
+Lake Placid	R	lake-placid	82	movie	1627	1999-07-16	\N	\N	30.77
+Wake Up Dead Man: A Knives Out Mystery	PG-13	wake-up-dead-man	144	movie	1636	2025-11-26	\N	2025-12-14 09:27:26.605-05	84.62
+Marriage Story	R	marriage-story	137	movie	1628	2019-11-06	\N	\N	84.62
+Shakespeare in Love	R	shakespeare-in-love	123	movie	1629	1998-12-11	\N	\N	76.92
+Modern Times	G	modern-times	87	movie	1648	1936-02-25	\N	2026-01-04 17:59:29.177-05	69.23
+Looper	R	looper	118	movie	1630	2012-09-28	\N	\N	92.31
+The Great Dictator	G	the-great-dictator	125	movie	1649	1940-10-15	\N	2026-01-05 22:01:25.146-05	84.62
+Hot Frosty	TV-PG	hot-frosty	92	movie	1631	2024-11-13	\N	\N	46.15
+Greenland	PG-13	greenland	119	movie	1650	2020-12-18	\N	2026-01-06 22:13:49.566-05	61.54
+Jingle Jangle: A Christmas Journey	PG	jingle-jangle	122	movie	1632	2020-11-13	\N	\N	76.92
+Tron: Ares	PG-13	tron-ares	119	movie	1651	2025-10-10	\N	2026-01-08 22:25:50.78-05	53.85
+The Mean One	Not Rated	the-mean-one	93	movie	1633	2022-12-09	\N	\N	15.38
+When Harry Met Sally...	R	when-harry-met-sally	96	movie	1652	1989-07-21	\N	2026-01-09 20:27:15.997-05	92.31
+The Lord of the Rings: The War of the Rohirrim	PG-13	the-lord-of-the-rings-the-war-of-the-rohirrim	134	movie	1434	2024-12-13	\N	\N	69.23
+Avatar: Fire and Ash	PG-13	avatar-fire-and-ash	198	movie	1653	2025-12-19	\N	2026-01-10 19:53:41.462-05	69.23
 \.
 
 
@@ -12922,6 +12911,19 @@ COPY public.media_cast (media_id, actor_id, ordering) FROM stdin;
 1652	7914	2
 1652	266	3
 1652	7580	4
+1653	3390	1
+1653	2956	2
+1653	166	3
+1653	1055	4
+1653	4227	5
+1653	1721	6
+1653	7915	7
+1653	853	8
+1653	7916	9
+1653	444	10
+1653	3677	11
+1653	405	12
+1653	468	13
 \.
 
 
@@ -14678,1534 +14680,7 @@ COPY public.media_directors (media_id, director_id, ordering) FROM stdin;
 1650	7403	1
 1651	3759	1
 1652	868	1
-\.
-
-
---
--- Data for Name: media_temp; Type: TABLE DATA; Schema: public; Owner: -
---
-
-COPY public.media_temp (rating, title, type, year) FROM stdin;
-9	F1: The Movie	Movie	2025
-6	The Old Guard 2	Movie	2025
-6	White House Down	Movie	2013
-6	Olympus Has Fallen	Movie	2013
-6	65	Movie	2023
-4	Speed Racer	Movie	2008
-5	A Minecraft Movie	Movie	2025
-7	28 Weeks Later	Movie	2007
-8	28 Days Later	Movie	2002
-5	Snow White	Movie	2025
-7	Over the Hedge	Movie	2006
-4	Shark Tale	Movie	2004
-8	The Road to El Dorado	Movie	2000
-9	The Grand Budapest Hotel	Movie	2014
-9	Predator: Killer of Killers	Movie	2025
-8	Atomic Blonde	Movie	2017
-3	Battlefield Earth	Movie	2000
-9	Paddington in Peru	Movie	2024
-8	Mickey 17	Movie	2025
-7	Lilo & Stitch	Movie	2025
-6	Fear Street: Prom Queen	Movie	2025
-8	War of the Worlds	Movie	2005
-9	Minority Report	Movie	2002
-8	Jerry Maguire	Movie	1996
-7	Days of Thunder	Movie	1990
-9	Thunderbolts*	Movie	2025
-6	Mystery Men	Movie	1999
-8	Eternal Sunshine of the Spotless Mind	Movie	2004
-9	A Fish Called Wanda	Movie	1988
-9	Reservoir Dogs	Movie	1992
-7	Paper Towns	Movie	2015
-9	The Prestige	Movie	2006
-9	Memento	Movie	2000
-7	The Accountant	Movie	2016
-7	From Dusk Till Dawn	Movie	1996
-9	Princess Mononoke	Movie	1997
-6	Wolf Man	Movie	2025
-9	Monty Python and the Holy Grail	Movie	1975
-8	Pride & Prejudice	Movie	2005
-8	The Monkey	Movie	2025
-9	Tombstone	Movie	1993
-8	Happy Death Day 2U	Movie	2019
-8	Happy Death Day	Movie	2017
-6	Resident Evil: Welcome to Raccoon City	Movie	2021
-5	Resident Evil: The Final Chapter	Movie	2016
-3	Resident Evil: Retribution	Movie	2012
-4	Resident Evil: Afterlife	Movie	2010
-4	Resident Evil: Extinction	Movie	2007
-3	Resident Evil: Apocalypse	Movie	2004
-5	Resident Evil	Movie	2002
-4	Underworld: Blood Wars	Movie	2016
-4	Underworld: Awakening	Movie	2012
-7	The Beekeeper	Movie	2024
-7	Mufasa: The Lion King	Movie	2024
-7	Alexander and the Terrible, Horrible, No Good, Very Bad Day	Movie	2014
-7	Looney Tunes: Back in Action	Movie	2003
-6	The Huntsman: Winter's War	Movie	2016
-6	Snow White and the Huntsman	Movie	2012
-6	Mirror Mirror	Movie	2012
-8	Anora	Movie	2024
-7	Emilia Pérez	Movie	2024
-7	The Electric State	Movie	2025
-5	Kraven the Hunter	Movie	2024
-9	Dead Poets Society	Movie	1989
-4	Borderlands	Movie	2024
-8	Longlegs	Movie	2024
-10	Parasite	Movie	2019
-9	The Departed	Movie	2006
-9	One Flew Over the Cuckoo's Nest	Movie	1975
-9	The Apartment	Movie	1960
-8	Howl's Moving Castle	Movie	2004
-8	The Lord of the Rings: The War of the Rohirrim	Movie	2024
-4	Punisher: War Zone	Movie	2008
-6	The Punisher	Movie	2004
-6	The Punisher	Movie	1989
-8	Nosferatu	Movie	2024
-8	Castle in the Sky	Movie	1986
-3	Howard the Duck	Movie	1986
-8	Sonic the Hedgehog 3	Movie	2024
-8	Captain America: Brave New World	Movie	2025
-9	My Neighbor Totoro	Movie	1988
-8	Bridget Jones: Mad About the Boy	Movie	2025
-8	American History X	Movie	1998
-9	Kiki's Delivery Service	Movie	1989
-9	Paddington 2	Movie	2017
-9	Paddington	Movie	2014
-4	Captain America	Movie	1990
-7	Metropolis	Movie	1927
-8	Bridget Jones's Baby	Movie	2016
-5	Bridget Jones: The Edge of Reason	Movie	2004
-7	Bridget Jones's Diary	Movie	2001
-8	Barbarian	Movie	2022
-6	Ruby Gillman: Teenage Kraken	Movie	2023
-9	The Bad Guys	Movie	2022
-7	Abominable	Movie	2019
-8	Captain Underpants: The First Epic Movie	Movie	2017
-5	The Boss Baby: Family Business	Movie	2021
-6	The Boss Baby	Movie	2017
-6	Home	Movie	2015
-7	Mr. Peabody & Sherman	Movie	2014
-8	Gladiator II	Movie	2024
-6	Turbo	Movie	2013
-9	Life Is Beautiful	Movie	1997
-8	Amadeus	Movie	1984
-8	An American Werewolf in London	Movie	1981
-1	The Mouse Trap	Movie	2024
-9	12 Angry Men	Movie	1957
-5	Den of Thieves	Movie	2018
-3	Alvin and the Chipmunks: The Road Chip	Movie	2015
-2	Alvin and the Chipmunks: Chipwrecked	Movie	2011
-3	Alvin and the Chipmunks: The Squeakquel	Movie	2009
-4	Alvin and the Chipmunks	Movie	2007
-7	Terrifier 3	Movie	2024
-10	The Wild Robot	Movie	2024
-9	Wicked	Movie	2024
-7	Eyes Wide Shut	Movie	1999
-8	Meet Me in St. Louis	Movie	1944
-8	Trading Places	Movie	1983
-8	Bad Santa	Movie	2003
-9	The Holdovers	Movie	2023
-9	The Northman	Movie	2022
-8	The Lighthouse	Movie	2019
-9	The Witch	Movie	2015
-9	Speed	Movie	1994
-9	Kick-Ass	Movie	2010
-8	Moana 2	Movie	2024
-5	The Lord of the Rings	Movie	1978
-8	Beetlejuice Beetlejuice	Movie	2024
-6	Oz the Great and Powerful	Movie	2013
-9	Smile 2	Movie	2024
-5	Despicable Me 4	Movie	2024
-7	Thanksgiving	Movie	2023
-5	Red One	Movie	2024
-6	Brother Bear	Movie	2003
-8	Treasure Planet	Movie	2002
-8	Alien: Romulus	Movie	2024
-9	Dr. Strangelove or: How I Learned to Stop Worrying and Love the Bomb	Movie	1964
-7	The Phantom of the Opera	Movie	2004
-9	Ben-Hur	Movie	1959
-8	Transformers One	Movie	2024
-5	Ghosted	Movie	2023
-3	Tooth Fairy	Movie	2010
-8	Black Hawk Down	Movie	2001
-9	Nimona	Movie	2023
-9	Edge of Tomorrow	Movie	2014
-7	Napoleon	Movie	2023
-8	Troy	Movie	2004
-7	Bad Boys: Ride or Die	Movie	2024
-6	Venom: The Last Dance	Movie	2024
-5	The Wicker Man	Movie	2006
-8	Orphan	Movie	2009
-5	Escape Room: Tournament of Champions	Movie	2021
-6	Escape Room	Movie	2019
-5	Firestarter	Movie	2022
-6	Firestarter	Movie	1984
-7	Trap	Movie	2024
-6	Brightburn	Movie	2019
-4	Hellraiser: Bloodline	Movie	1996
-6	Hellraiser III: Hell on Earth	Movie	1992
-9	Upgrade	Movie	2018
-7	Final Destination 5	Movie	2011
-3	Spawn	Movie	1997
-7	MaXXXine	Movie	2024
-9	The Thing	Movie	1982
-8	Little Shop of Horrors	Movie	1986
-2	Plan 9 from Outer Space	Movie	1957
-4	The Final Destination	Movie	2009
-5	Final Destination 3	Movie	2006
-6	Final Destination 2	Movie	2003
-6	Final Destination	Movie	2000
-3	Winnie-the-Pooh: Blood and Honey 2	Movie	2024
-6	Joker: Folie à Deux	Movie	2024
-5	The Amityville Horror	Movie	2005
-6	The Amityville Horror	Movie	1979
-6	Insidious: The Red Door	Movie	2023
-5	Insidious: The Last Key	Movie	2018
-6	Insidious: Chapter 3	Movie	2015
-8	Abigail	Movie	2024
-8	The Fall Guy	Movie	2024
-8	Challengers	Movie	2024
-10	Inside Out 2	Movie	2024
-7	The Outsiders	Movie	1983
-8	Rosemary's Baby	Movie	1968
-9	Whiplash	Movie	2014
-6	The Sorcerer's Apprentice	Movie	2010
-5	The Craft: Legacy	Movie	2020
-8	The Craft	Movie	1996
-9	The Usual Suspects	Movie	1995
-9	Blazing Saddles	Movie	1974
-4	Eragon	Movie	2006
-6	Charlie's Angels	Movie	2019
-5	Charlie's Angels	Movie	2000
-8	Midsommar	Movie	2019
-7	Miss Peregrine's Home for Peculiar Children	Movie	2016
-6	Mars Attacks!	Movie	1996
-9	Apocalypse Now	Movie	1979
-7	Bambi	Movie	1942
-7	A Quiet Place: Day One	Movie	2024
-7	It Ends with Us	Movie	2024
-6	Steel Magnolias	Movie	1989
-8	Rear Window	Movie	1954
-9	The Crow	Movie	1994
-8	True Lies	Movie	1994
-4	Conan the Destroyer	Movie	1984
-6	Conan the Barbarian	Movie	1982
-7	Don't Breathe 2	Movie	2021
-9	Don't Breathe	Movie	2016
-9	Lilo & Stitch	Movie	2002
-7	Terrifier 2	Movie	2022
-5	Terrifier	Movie	2016
-8	Lawrence of Arabia	Movie	1962
-4	Warcraft	Movie	2016
-8	Kingdom of the Planet of the Apes	Movie	2024
-8	The Visit	Movie	2015
-7	Anchorman 2: The Legend Continues	Movie	2013
-9	Anchorman: The Legend of Ron Burgundy	Movie	2004
-8	Love Lies Bleeding	Movie	2024
-9	Deadpool & Wolverine	Movie	2024
-9	Girl, Interrupted	Movie	1999
-8	Twisters	Movie	2024
-7	Ghostbusters: Frozen Empire	Movie	2024
-7	IF	Movie	2024
-6	San Andreas	Movie	2015
-6	Volcano	Movie	1997
-7	Dante's Peak	Movie	1997
-4	Descendants: The Rise of Red	Movie	2024
-7	Sausage Party	Movie	2016
-5	The School for Good and Evil	Movie	2022
-6	Princess Protection Program	Movie	2009
-7	Cinderella	Movie	1997
-9	Poor Things	Movie	2023
-7	Beverly Hills Cop: Axel F	Movie	2024
-7	American Pie 2	Movie	2001
-8	American Pie	Movie	1999
-7	Migration	Movie	2023
-7	Kung Fu Panda 4	Movie	2024
-5	Beverly Hills Cop III	Movie	1994
-7	Beverly Hills Cop II	Movie	1987
-9	Beverly Hills Cop	Movie	1984
-9	Pearl	Movie	2022
-8	X	Movie	2022
-8	Team America: World Police	Movie	2004
-9	South Park: Bigger, Longer & Uncut	Movie	1999
-4	I Now Pronounce You Chuck & Larry	Movie	2007
-6	Hellboy	Movie	2019
-9	Hellboy II: The Golden Army	Movie	2008
-8	Hellboy	Movie	2004
-7	I, Robot	Movie	2004
-9	Godzilla Minus One	Movie	2023
-6	Bad Boys for Life	Movie	2020
-7	Glass	Movie	2019
-9	Split	Movie	2016
-8	Unbreakable	Movie	2000
-8	Labyrinth	Movie	1986
-7	The Hunger Games: The Ballad of Songbirds & Snakes	Movie	2023
-8	American Sniper	Movie	2014
-8	Furiosa: A Mad Max Saga	Movie	2024
-5	Chicken Little	Movie	2005
-9	The Emperor's New Groove	Movie	2000
-9	Dune: Part Two	Movie	2024
-4	Garfield: A Tail of Two Kitties	Movie	2006
-4	Garfield: The Movie	Movie	2004
-9	North by Northwest	Movie	1959
-8	The Dark Crystal	Movie	1982
-6	The Strangers: Prey at Night	Movie	2018
-6	The Strangers	Movie	2008
-4	A Bad Moms Christmas	Movie	2017
-5	Bad Moms	Movie	2016
-9	War for the Planet of the Apes	Movie	2017
-9	Dawn of the Planet of the Apes	Movie	2014
-8	Rise of the Planet of the Apes	Movie	2011
-6	Planet of the Apes	Movie	2001
-6	Godzilla x Kong: The New Empire	Movie	2024
-5	Battle for the Planet of the Apes	Movie	1973
-6	Conquest of the Planet of the Apes	Movie	1972
-7	Escape from the Planet of the Apes	Movie	1971
-7	Beneath the Planet of the Apes	Movie	1970
-9	Planet of the Apes	Movie	1968
-8	Civil War	Movie	2024
-8	King Richard	Movie	2021
-9	The Truman Show	Movie	1998
-8	Liar Liar	Movie	1997
-7	Dumb and Dumber	Movie	1994
-8	The Mask	Movie	1994
-4	Rebel Moon - Part Two: The Scargiver	Movie	2024
-8	Seven Samurai	Movie	1954
-7	Lisa Frankenstein	Movie	2024
-5	Argylle	Movie	2024
-10	Her	Movie	2013
-9	Ex Machina	Movie	2014
-7	The Creator	Movie	2023
-7	A.I. Artificial Intelligence	Movie	2001
-8	The Green Knight	Movie	2021
-7	Wish	Movie	2023
-9	The Omen	Movie	1976
-7	The Croods: A New Age	Movie	2020
-5	Ace Ventura: When Nature Calls	Movie	1995
-8	Footloose	Movie	1984
-9	Fight Club	Movie	1999
-9	King Kong	Movie	2005
-6	Death Note	Movie	2017
-6	Road House	Movie	2024
-6	Trolls Band Together	Movie	2023
-9	Ghost	Movie	1990
-7	Road House	Movie	1989
-8	Dirty Dancing	Movie	1987
-5	The Boondock Saints	Movie	1999
-6	The SpongeBob Movie: Sponge on the Run	Movie	2020
-6	The SpongeBob Movie: Sponge Out of Water	Movie	2015
-6	The SpongeBob SquarePants Movie	Movie	2004
-6	Mean Girls	Movie	2024
-7	Damsel	Movie	2024
-7	Moonlight	Movie	2016
-8	La La Land	Movie	2016
-9	Birdman or (The Unexpected Virtue of Ignorance)	Movie	2014
-9	Slumdog Millionaire	Movie	2008
-8	American Beauty	Movie	1999
-9	Arrival	Movie	2016
-6	Monsters vs. Aliens	Movie	2009
-7	Penguins of Madagascar	Movie	2014
-8	Madagascar 3: Europe's Most Wanted	Movie	2012
-8	Madagascar: Escape 2 Africa	Movie	2008
-7	Madagascar	Movie	2005
-8	The Color Purple	Movie	2023
-9	Selma	Movie	2014
-8	Lincoln	Movie	2012
-4	Madame Web	Movie	2024
-8	Air Force One	Movie	1997
-5	Valentine's Day	Movie	2010
-8	Warm Bodies	Movie	2013
-9	Chronicle	Movie	2012
-6	RoboCop	Movie	2014
-7	The Blind Side	Movie	2009
-8	Hamilton	Movie	2020
-9	Remember the Titans	Movie	2000
-8	Rudy	Movie	1993
-5	Jack Reacher: Never Go Back	Movie	2016
-7	Jack Reacher	Movie	2012
-9	Batman: Assault on Arkham	Movie	2014
-8	My Fair Lady	Movie	1964
-6	Mr. & Mrs. Smith	Movie	2005
-5	Final Fantasy: The Spirits Within	Movie	2001
-7	The Lego Ninjago Movie	Movie	2017
-7	The King's Man	Movie	2021
-8	Kingsman: The Golden Circle	Movie	2017
-9	Kingsman: The Secret Service	Movie	2014
-6	Ted 2	Movie	2015
-7	Ted	Movie	2012
-7	The Equalizer 3	Movie	2023
-7	The Equalizer 2	Movie	2018
-8	The Equalizer	Movie	2014
-9	The Rocky Horror Picture Show	Movie	1975
-8	Wonka	Movie	2023
-6	Aquaman and the Lost Kingdom	Movie	2023
-7	Napoleon Dynamite	Movie	2004
-6	Crank	Movie	2006
-7	Gran Turismo	Movie	2023
-8	Atlantis: The Lost Empire	Movie	2001
-7	James and the Giant Peach	Movie	1996
-9	Mission: Impossible - Dead Reckoning Part One	Movie	2023
-9	Oppenheimer	Movie	2023
-7	Saw X	Movie	2023
-6	Mortal Kombat Legends: Cage Match	Movie	2023
-5	Rebel Moon - Part One: A Child of Fire	Movie	2023
-3	The Nutcracker: The Untold Story	Movie	2010
-6	The Exorcist: Believer	Movie	2023
-8	The Color Purple	Movie	1985
-6	300: Rise of an Empire	Movie	2014
-7	300	Movie	2006
-5	Jack Frost	Movie	1998
-7	Love Actually	Movie	2003
-7	Violent Night	Movie	2022
-8	Krampus	Movie	2015
-1	Silent Night, Deadly Night Part 2	Movie	1987
-4	Silent Night, Deadly Night	Movie	1984
-2	Santa Claus Conquers the Martians	Movie	1964
-7	Spirited	Movie	2022
-4	Daddy's Home 2	Movie	2017
-5	Daddy's Home	Movie	2015
-8	Instant Family	Movie	2018
-9	Dances with Wolves	Movie	1990
-9	Planes, Trains & Automobiles	Movie	1987
-7	Meet the Robinsons	Movie	2007
-7	Blue Beetle	Movie	2023
-8	Godzilla	Movie	1954
-8	King Kong	Movie	1933
-6	Trolls World Tour	Movie	2020
-6	Trolls	Movie	2016
-7	Battle Royale	Movie	2000
-6	The Marvels	Movie	2023
-3	Elektra	Movie	2005
-8	Scarface	Movie	1983
-3	Catwoman	Movie	2004
-8	Tropic Thunder	Movie	2008
-6	Constantine	Movie	2005
-5	The Nun II	Movie	2023
-7	A Haunting in Venice	Movie	2023
-9	Trick 'r Treat	Movie	2007
-5	Five Nights at Freddy's	Movie	2023
-5	Casper	Movie	1995
-8	Willy's Wonderland	Movie	2021
-8	Freaky	Movie	2020
-7	Jennifer's Body	Movie	2009
-8	The Birds	Movie	1963
-9	The Invisible Man	Movie	2020
-4	The Mummy	Movie	2017
-8	Smile	Movie	2022
-8	They Live	Movie	1988
-7	Interview with the Vampire	Movie	1994
-8	The Lost Boys	Movie	1987
-3	Winnie-the-Pooh: Blood and Honey	Movie	2023
-5	Goosebumps 2: Haunted Halloween	Movie	2018
-6	Goosebumps	Movie	2015
-5	Pet Sematary	Movie	2019
-5	Pet Sematary	Movie	1989
-7	Haunted Mansion	Movie	2023
-7	Ouija: Origin of Evil	Movie	2016
-5	Ouija	Movie	2014
-8	American Psycho	Movie	2000
-9	The Wolf of Wall Street	Movie	2013
-4	Meg 2: The Trench	Movie	2023
-9	Teenage Mutant Ninja Turtles: Mutant Mayhem	Movie	2023
-10	Spider-Man: Across the Spider-Verse	Movie	2023
-6	Fast X	Movie	2023
-7	Bloodsport	Movie	1988
-6	Snake Eyes	Movie	2021
-5	G.I. Joe: Retaliation	Movie	2013
-4	G.I. Joe: The Rise of Cobra	Movie	2009
-8	Prey	Movie	2022
-7	Annabelle Comes Home	Movie	2019
-5	Hotel Transylvania 3: Summer Vacation	Movie	2018
-8	Ready Player One	Movie	2018
-7	Murder on the Orient Express	Movie	2017
-8	Doctor Strange	Movie	2016
-5	Independence Day: Resurgence	Movie	2016
-5	Indiana Jones and the Kingdom of the Crystal Skull	Movie	2008
-7	Spy Kids	Movie	2001
-8	Elemental	Movie	2023
-7	Death on the Nile	Movie	2022
-5	Moonfall	Movie	2022
-7	Mortal Kombat Legends: Scorpion's Revenge	Movie	2020
-7	Jumanji	Movie	1995
-5	Ace Ventura: Pet Detective	Movie	1994
-8	Addams Family Values	Movie	1993
-8	The Little Mermaid	Movie	1989
-5	Friday the 13th: The Final Chapter	Movie	1984
-6	Friday the 13th: Part 3	Movie	1982
-6	Friday the 13th Part 2	Movie	1981
-9	Gravity	Movie	2013
-7	Clue	Movie	1985
-5	Battleship	Movie	2012
-6	The Little Mermaid	Movie	2023
-4	My Big Fat Greek Wedding 2	Movie	2016
-7	My Big Fat Greek Wedding	Movie	2002
-8	National Lampoon's Animal House	Movie	1978
-9	Training Day	Movie	2001
-4	Fantastic Four	Movie	2015
-5	Fantastic Four: Rise of the Silver Surfer	Movie	2007
-7	Top Gun	Movie	1986
-3	The Emoji Movie	Movie	2017
-5	Fantastic Four	Movie	2005
-9	Stand by Me	Movie	1986
-8	The Goonies	Movie	1985
-7	Mrs. Doubtfire	Movie	1993
-8	Big	Movie	1988
-8	Enter the Dragon	Movie	1973
-9	Heathers	Movie	1989
-8	American Graffiti	Movie	1973
-7	Elysium	Movie	2013
-6	The Super Mario Bros. Movie	Movie	2023
-5	Deep Blue Sea	Movie	1999
-9	CODA	Movie	2021
-9	Hereditary	Movie	2018
-8	Barbie	Movie	2023
-7	Tomorrowland	Movie	2015
-7	Where the Crawdads Sing	Movie	2022
-5	The Princess Diaries 2: Royal Engagement	Movie	2004
-6	The Princess Diaries	Movie	2001
-8	John Wick: Chapter 4	Movie	2023
-7	Indiana Jones and the Dial of Destiny	Movie	2023
-8	Dunkirk	Movie	2017
-8	Interstellar	Movie	2014
-9	Mission: Impossible - Fallout	Movie	2018
-8	Mission: Impossible - Rogue Nation	Movie	2015
-9	Mission: Impossible - Ghost Protocol	Movie	2011
-7	Mission: Impossible III	Movie	2006
-6	Mission: Impossible II	Movie	2000
-7	Mission: Impossible	Movie	1996
-6	Insidious: Chapter 2	Movie	2013
-8	School of Rock	Movie	2003
-8	Fantastic Mr. Fox	Movie	2009
-7	Insidious	Movie	2010
-7	The Flash	Movie	2023
-7	Evil Dead Rise	Movie	2023
-7	Transformers: Rise of the Beasts	Movie	2023
-7	National Lampoon's European Vacation	Movie	1985
-8	National Lampoon's Vacation	Movie	1983
-7	Renfield	Movie	2023
-8	12 Years a Slave	Movie	2013
-5	6 Underground	Movie	2019
-7	Tommy Boy	Movie	1995
-6	Extraction II	Movie	2023
-6	The Gray Man	Movie	2022
-6	Red Notice	Movie	2021
-6	Extraction	Movie	2020
-5	Magic Mike's Last Dance	Movie	2023
-9	Creed III	Movie	2023
-6	Armageddon	Movie	1998
-7	Deep Impact	Movie	1998
-7	The Transformers: The Movie	Movie	1986
-8	The Lego Movie 2: The Second Part	Movie	2019
-8	The Lego Batman Movie	Movie	2017
-9	The Lego Movie	Movie	2014
-9	The Mitchells vs. the Machines	Movie	2021
-6	Cloudy with a Chance of Meatballs 2	Movie	2013
-9	Zombieland	Movie	2009
-7	X-Men: The Last Stand	Movie	2006
-6	X-Men: Apocalypse	Movie	2016
-4	We Can Be Heroes	Movie	2020
-7	WarGames	Movie	1983
-5	Venom: Let There Be Carnage	Movie	2021
-7	Uncharted	Movie	2022
-6	Twister	Movie	1996
-5	Tom & Jerry	Movie	2021
-5	The Witches	Movie	2020
-7	The Witches	Movie	1990
-9	The Shining	Movie	1980
-6	The Predator	Movie	2018
-5	The Passion of the Christ	Movie	2004
-7	The Maze Runner	Movie	2014
-7	The Matrix Resurrections	Movie	2021
-5	The Lorax	Movie	2012
-5	The Karate Kid Part III	Movie	1989
-6	The Karate Kid Part II	Movie	1986
-7	The Incredible Hulk	Movie	2008
-7	The Hobbit: The Battle of the Five Armies	Movie	2014
-7	The Hateful Eight	Movie	2015
-7	The Fate of the Furious	Movie	2017
-7	The Fast and the Furious	Movie	2001
-7	The Cloverfield Paradox	Movie	2018
-7	The Chronicles of Narnia: Prince Caspian	Movie	2008
-8	The Bourne Ultimatum	Movie	2007
-5	The Addams Family	Movie	2019
-5	Teenage Mutant Ninja Turtles: Out of the Shadows	Movie	2016
-5	Teenage Mutant Ninja Turtles	Movie	2014
-7	Teenage Mutant Ninja Turtles	Movie	1990
-5	Teenage Mutant Ninja Turtles III	Movie	1993
-5	Teenage Mutant Ninja Turtles II: The Secret of the Ooze	Movie	1991
-7	Tron: Legacy	Movie	2010
-7	TMNT	Movie	2007
-6	Stargate	Movie	1994
-8	Star Trek Into Darkness	Movie	2013
-7	Sonic the Hedgehog 2	Movie	2022
-7	Sonic the Hedgehog	Movie	2020
-5	Signs	Movie	2002
-7	Shrek Forever After	Movie	2010
-7	Shazam! Fury of the Gods	Movie	2023
-7	Scream 4	Movie	2011
-3	Scary Movie	Movie	2000
-6	Santa Claus	Movie	1985
-5	Romeo + Juliet	Movie	1996
-7	Rise of the Guardians	Movie	2012
-4	Return to Halloweentown	Movie	2006
-7	Prometheus	Movie	2012
-4	Polar	Movie	2019
-7	Pocahontas	Movie	1995
-5	Planes: Fire & Rescue	Movie	2014
-8	Peter Pan	Movie	2003
-6	Old	Movie	2021
-6	Noelle	Movie	2019
-6	Night at the Museum: Secret of the Tomb	Movie	2014
-7	Night at the Museum	Movie	2006
-2	Music	Movie	2021
-7	Mortal Kombat	Movie	2021
-5	Monster Hunter	Movie	2020
-5	Minions: The Rise of Gru	Movie	2022
-5	Minions	Movie	2015
-7	Magic Mike	Movie	2012
-7	Live Free or Die Hard	Movie	2007
-7	Jungle Cruise	Movie	2021
-7	Independence Day	Movie	1996
-4	Hubie Halloween	Movie	2020
-8	How to Train Your Dragon: The Hidden World	Movie	2019
-7	Hotel Transylvania	Movie	2012
-6	High School Musical 3: Senior Year	Movie	2008
-6	High School Musical 2	Movie	2007
-6	High School Musical	Movie	2006
-8	Hercules	Movie	1997
-7	Happy Gilmore	Movie	1996
-5	Hancock	Movie	2008
-5	Halloween 4: The Return of Michael Myers	Movie	1988
-8	Guardians of the Galaxy Vol. 2	Movie	2017
-8	Groundhog Day	Movie	1993
-5	Godmothered	Movie	2020
-5	Friday the 13th	Movie	2009
-5	Fred Claus	Movie	2007
-8	Fast & Furious Presents: Hobbs & Shaw	Movie	2019
-7	Evil Dead	Movie	2013
-7	Elf	Movie	2003
-6	Divergent	Movie	2014
-7	Disenchanted	Movie	2022
-5	X-Men: Dark Phoenix	Movie	2019
-7	Cruella	Movie	2021
-7	Coming to America	Movie	1988
-4	Coming 2 America	Movie	2021
-7	Child's Play	Movie	2019
-7	Carrie	Movie	2013
-7	Brave	Movie	2012
-7	Blade	Movie	1998
-4	Bad Boys II	Movie	2003
-9	Back to the Future	Movie	1985
-7	Austin Powers: International Man of Mystery	Movie	1997
-4	Artemis Fowl	Movie	2020
-8	Army of Darkness	Movie	1992
-7	A Series of Unfortunate Events	Movie	2004
-5	A Christmas Prince: The Royal Wedding	Movie	2018
-4	102 Dalmatians	Movie	2000
-5	101 Dalmatians	Movie	1996
-8	Cloudy with a Chance of Meatballs	Movie	2009
-9	Tarzan	Movie	1999
-9	The Hunchback of Notre Dame	Movie	1996
-6	Into the Woods	Movie	2014
-8	Dungeons & Dragons: Honor Among Thieves	Movie	2023
-2	Dungeons & Dragons	Movie	2000
-8	White Men Can't Jump	Movie	1992
-5	xXx: Return of Xander Cage	Movie	2017
-4	xXx: State of the Union	Movie	2005
-5	xXx	Movie	2002
-8	Guardians of the Galaxy Vol. 3	Movie	2023
-7	Mamma Mia! Here We Go Again	Movie	2018
-6	Mamma Mia!	Movie	2008
-3	Fifty Shades Freed	Movie	2018
-3	Fifty Shades Darker	Movie	2017
-3	Fifty Shades of Grey	Movie	2015
-8	Fatal Attraction	Movie	1987
-8	Scream VI	Movie	2023
-6	Peter Pan & Wendy	Movie	2023
-8	Pete's Dragon	Movie	2016
-6	Pete's Dragon	Movie	1977
-7	Cocaine Bear	Movie	2023
-8	Patriots Day	Movie	2016
-4	Van Helsing	Movie	2004
-3	The Mummy: Tomb of the Dragon Emperor	Movie	2008
-4	The Scorpion King	Movie	2002
-5	The Mummy Returns	Movie	2001
-7	The Mummy	Movie	1999
-4	Vampire's Kiss	Movie	1988
-6	Knock at the Cabin	Movie	2023
-3	Super Mario Bros.	Movie	1993
-4	Murder Mystery 2	Movie	2023
-5	Murder Mystery	Movie	2019
-4	Pixels	Movie	2015
-6	DC League of Super-Pets	Movie	2022
-8	Point Break	Movie	1991
-8	Nobody	Movie	2021
-9	The Sound of Music	Movie	1965
-8	Chicago	Movie	2002
-9	Puss in Boots: The Last Wish	Movie	2022
-8	Gladiator	Movie	2000
-9	Braveheart	Movie	1995
-9	Forrest Gump	Movie	1994
-7	Ant-Man and the Wasp: Quantumania	Movie	2023
-5	History of the World: Part I	Movie	1981
-3	Leprechaun	Movie	1993
-8	M3GAN	Movie	2022
-8	Creed II	Movie	2018
-9	Creed	Movie	2015
-9	Green Book	Movie	2018
-9	BlacKkKlansman	Movie	2018
-8	Hidden Figures	Movie	2016
-7	Honey, I Shrunk the Kids	Movie	1989
-7	The Notebook	Movie	2004
-4	Showgirls	Movie	1995
-8	Basic Instinct	Movie	1992
-6	The Mighty Ducks	Movie	1992
-8	Matilda	Movie	1996
-6	Magic Mike XXL	Movie	2015
-6	Bruce Almighty	Movie	2003
-8	Star Trek Beyond	Movie	2016
-9	Star Trek	Movie	2009
-3	After Earth	Movie	2013
-8	Antz	Movie	1998
-9	The Prince of Egypt	Movie	1998
-4	Taken 3	Movie	2014
-5	Taken 2	Movie	2012
-8	Taken	Movie	2008
-6	Jason Bourne	Movie	2016
-6	The Bourne Legacy	Movie	2012
-8	The Bourne Supremacy	Movie	2004
-9	The Bourne Identity	Movie	2002
-9	Once Upon a Time... in Hollywood	Movie	2019
-8	Avatar: The Way of Water	Movie	2022
-8	White Christmas	Movie	1954
-8	Us	Movie	2019
-8	Up	Movie	2009
-6	Unfriended	Movie	2014
-8	The Road Warrior	Movie	1981
-5	The Meg	Movie	2018
-8	The Godfather Part II	Movie	1974
-6	The Expendables 2	Movie	2012
-8	The Death of Superman	Movie	2018
-6	The Christmas Chronicles: Part Two	Movie	2020
-6	Star Wars: Episode III - Revenge of the Sith	Movie	2005
-5	Star Wars: Episode II - Attack of the Clones	Movie	2002
-5	Star Wars: Episode I - The Phantom Menace	Movie	1999
-4	Spy Kids 3: Game Over	Movie	2003
-8	Spider-Man	Movie	2002
-3	Scary Movie 3	Movie	2003
-5	Saw III	Movie	2006
-4	RoboCop 2	Movie	1990
-8	Pokémon: Detective Pikachu	Movie	2019
-5	Ocean's Eight	Movie	2018
-5	Night at the Museum: Battle of the Smithsonian	Movie	2009
-6	National Treasure	Movie	2004
-6	Maleficent	Movie	2014
-6	Les Misérables	Movie	2012
-8	Justice League Dark: Apokolips War	Movie	2020
-8	Juno	Movie	2007
-6	Inferno	Movie	2016
-6	I Know What You Did Last Summer	Movie	1997
-8	Harry Potter and the Deathly Hallows: Part 1	Movie	2010
-8	Harry Potter and the Chamber of Secrets	Movie	2002
-4	Halloweentown II: Kalabar's Revenge	Movie	2001
-8	Hacksaw Ridge	Movie	2016
-8	Guillermo del Toro's Pinocchio	Movie	2022
-6	Godzilla: King of the Monsters	Movie	2019
-6	Godzilla vs. Kong	Movie	2021
-8	Glass Onion	Movie	2022
-8	Game Night	Movie	2018
-4	Friday the 13th: The New Blood	Movie	1988
-8	Free Guy	Movie	2021
-8	E.T. the Extra-Terrestrial	Movie	1982
-5	Dune	Movie	1984
-8	Doctor Sleep	Movie	2019
-8	Die Hard with a Vengeance	Movie	1995
-5	Descendants 2	Movie	2017
-8	Citizen Kane	Movie	1941
-6	Cinderella	Movie	2015
-8	Bride of Frankenstein	Movie	1935
-8	Black Panther: Wakanda Forever	Movie	2022
-8	Bill & Ted's Bogus Journey	Movie	1991
-6	A Christmas Story Christmas	Movie	2022
-4	A Christmas Prince: The Royal Baby	Movie	2019
-5	2012	Movie	2009
-8	2001: A Space Odyssey	Movie	1968
-5	2 Fast 2 Furious	Movie	2003
-6	Mortal Kombat Legends: Snow Blind	Movie	2022
-8	Bullet Train	Movie	2022
-8	The Unbearable Weight of Massive Talent	Movie	2022
-7	Strange World	Movie	2022
-8	Nope	Movie	2022
-5	A Christmas Prince	Movie	2017
-9	Klaus	Movie	2019
-7	Willow	Movie	1988
-8	Tron	Movie	1982
-9	Enchanted	Movie	2007
-8	The Princess and the Frog	Movie	2009
-8	Snow White and the Seven Dwarfs	Movie	1937
-9	Saving Private Ryan	Movie	1998
-8	Full Metal Jacket	Movie	1987
-10	Everything Everywhere All at Once	Movie	2022
-8	Enola Holmes 2	Movie	2022
-8	Enola Holmes	Movie	2020
-5	Halloween Ends	Movie	2022
-8	Zodiac	Movie	2007
-9	Se7en	Movie	1995
-7	Wendell & Wild	Movie	2022
-6	Dark Shadows	Movie	2012
-6	Black Adam	Movie	2022
-8	Sweeney Todd: The Demon Barber of Fleet Street	Movie	2007
-9	Edward Scissorhands	Movie	1990
-8	Beetlejuice	Movie	1988
-5	Morbius	Movie	2022
-9	Misery	Movie	1990
-9	Carrie	Movie	1976
-7	The Mist	Movie	2007
-8	The Black Phone	Movie	2021
-4	Jurassic World: Dominion	Movie	2022
-1	Birdemic: Shock and Terror	Movie	2010
-8	Candyman	Movie	2021
-8	Candyman	Movie	1992
-7	Hellraiser	Movie	2022
-5	Spiral	Movie	2021
-7	Creature from the Black Lagoon	Movie	1954
-7	The Wolf Man	Movie	1941
-8	The Invisible Man	Movie	1933
-7	The Mummy	Movie	1932
-6	Hocus Pocus 2	Movie	2022
-7	The Blair Witch Project	Movie	1999
-5	Hellbound: Hellraiser II	Movie	1988
-8	Hellraiser	Movie	1987
-4	The Addams Family 2	Movie	2021
-6	Monster House	Movie	2006
-10	Coraline	Movie	2009
-7	Muppets Most Wanted	Movie	2014
-9	The Muppets	Movie	2011
-6	Muppets from Space	Movie	1999
-8	Muppet Treasure Island	Movie	1996
-8	The Muppets Take Manhattan	Movie	1984
-8	The Great Muppet Caper	Movie	1981
-9	The Muppet Movie	Movie	1979
-9	Clerks	Movie	1994
-8	Cinderella	Movie	1950
-5	Pinocchio	Movie	2022
-8	Pinocchio	Movie	1940
-4	Mars Needs Moms	Movie	2011
-8	Elvis	Movie	2022
-9	Mean Girls	Movie	2004
-7	Clueless	Movie	1995
-8	Ferris Bueller's Day Off	Movie	1986
-9	The Breakfast Club	Movie	1985
-8	Fast Times at Ridgemont High	Movie	1982
-5	Middle School: The Worst Years of My Life	Movie	2016
-6	Samaritan	Movie	2022
-6	The Expendables 3	Movie	2014
-6	The Expendables	Movie	2010
-9	Goodfellas	Movie	1990
-5	Hulk	Movie	2003
-4	Daredevil	Movie	2003
-4	Alien: Resurrection	Movie	1997
-4	Reefer Madness	Movie	1938
-9	A League of Their Own	Movie	1992
-7	Zack Snyder's Justice League	Movie	2021
-6	World War Z	Movie	2013
-6	Wonder Woman 1984	Movie	2020
-5	Underworld: Rise of the Lycans	Movie	2009
-5	Underworld: Evolution	Movie	2006
-6	Underworld	Movie	2003
-4	Twilight	Movie	2008
-1	Troll 2	Movie	1990
-1	The Room	Movie	2003
-7	The Rock	Movie	1996
-8	The Producers	Movie	2005
-7	The Patriot	Movie	2000
-6	The Old Guard	Movie	2020
-6	The Matrix Revolutions	Movie	2003
-6	The Lost World: Jurassic Park	Movie	1997
-10	The Incredibles	Movie	2004
-7	The Greatest Showman	Movie	2017
-7	The Great Gatsby	Movie	2013
-6	The Good Dinosaur	Movie	2015
-7	The Godfather Part III	Movie	1990
-6	The Da Vinci Code	Movie	2006
-7	The Christmas Chronicles	Movie	2018
-4	The Bye Bye Man	Movie	2017
-8	The Adam Project	Movie	2022
-7	Terminator: Dark Fate	Movie	2019
-6	Superman Returns	Movie	2006
-7	Superman II	Movie	1980
-8	Super 8	Movie	2011
-5	Suicide Squad	Movie	2016
-8	Star Wars: Episode VIII - The Last Jedi	Movie	2017
-9	Star Wars: Episode VII - The Force Awakens	Movie	2015
-9	Star Wars: Episode VI - Return of the Jedi	Movie	1983
-10	Star Wars: Episode IV - A New Hope	Movie	1977
-6	Star Trek: The Motion Picture	Movie	1979
-7	Star Trek: Generations	Movie	1994
-7	Star Trek: Nemesis	Movie	2002
-6	Sing	Movie	2016
-8	Shrek	Movie	2001
-6	Rocky V	Movie	1990
-8	Reign of the Supermen	Movie	2019
-8	Real Steel	Movie	2011
-4	Rambo	Movie	2008
-6	Percy Jackson & the Olympians: The Lightning Thief	Movie	2010
-6	Mulan	Movie	2020
-10	Monsters, Inc.	Movie	2001
-7	Man of Steel	Movie	2013
-6	Lady and the Tramp	Movie	2019
-7	Justice League Dark	Movie	2017
-5	Justice League	Movie	2017
-5	Jurassic Park III	Movie	2001
-9	Inside Out	Movie	2015
-10	Raiders of the Lost Ark	Movie	1981
-6	Ice Age: Dawn of the Dinosaurs	Movie	2009
-4	Halloween: Resurrection	Movie	2002
-6	Halloween Kills	Movie	2021
-4	Geostorm	Movie	2017
-10	Finding Nemo	Movie	2003
-6	Fast & Furious	Movie	2009
-6	Fantastic Beasts: The Secrets of Dumbledore	Movie	2022
-6	Dumbo	Movie	2019
-7	Dumbo	Movie	1941
-4	Diary of a Wimpy Kid	Movie	2010
-5	Despicable Me 3	Movie	2017
-6	Dear Evan Hansen	Movie	2021
-10	Coco	Movie	2017
-7	Cloud Atlas	Movie	2012
-6	Clash of the Titans	Movie	1981
-6	Beauty and the Beast	Movie	2017
-4	Allegiant	Movie	2016
-5	Alice in Wonderland	Movie	2010
-5	The Village	Movie	2004
-4	The Twilight Saga: New Moon	Movie	2009
-4	The Twilight Saga: Eclipse	Movie	2010
-4	The Twilight Saga: Breaking Dawn - Part 1	Movie	2011
-5	The Nutcracker and the Four Realms	Movie	2018
-5	The Next Karate Kid	Movie	1994
-4	The NeverEnding Story II: The Next Chapter	Movie	1990
-5	The Grudge	Movie	2004
-5	The Fast and the Furious: Tokyo Drift	Movie	2006
-4	Surviving Christmas	Movie	2004
-3	Superman III	Movie	1983
-5	Star Wars: The Clone Wars	Movie	2008
-4	Space Jam	Movie	1996
-5	Skyscraper	Movie	2018
-4	Christmas with the Kranks	Movie	2004
-4	Blade: Trinity	Movie	2004
-3	Aliens vs. Predator: Requiem	Movie	2007
-5	Alien vs. Predator	Movie	2004
-6	Lightyear	Movie	2022
-6	Wonder Woman: Bloodlines	Movie	2019
-8	Batman: Hush	Movie	2019
-8	Constantine: City of Demons - The Movie	Movie	2018
-8	Suicide Squad: Hell to Pay	Movie	2018
-8	Teen Titans: The Judas Contract	Movie	2017
-8	Batman vs. Robin	Movie	2015
-8	Justice League vs. Teen Titans	Movie	2016
-6	Batman: Bad Blood	Movie	2016
-7	Justice League: Throne of Atlantis	Movie	2015
-7	Thor: Love and Thunder	Movie	2022
-8	Son of Batman	Movie	2014
-7	Justice League: War	Movie	2014
-8	Justice League: The Flashpoint Paradox	Movie	2013
-4	Supergirl	Movie	1984
-4	A Good Day to Die Hard	Movie	2013
-4	Jason X	Movie	2001
-4	Green Lantern	Movie	2011
-4	Jaws: The Revenge	Movie	1987
-4	Jaws 3-D	Movie	1983
-10	The Lord of the Rings: The Return of the King	Movie	2003
-10	The Lord of the Rings: The Two Towers	Movie	2002
-10	The Lord of the Rings: The Fellowship of the Ring	Movie	2001
-4	Halloween 5: The Revenge of Michael Myers	Movie	1989
-4	I Still Know What You Did Last Summer	Movie	1998
-4	Ice Age: Collision Course	Movie	2016
-3	Billy Madison	Movie	1995
-1	The Star Wars Holiday Special	Movie	1978
-1	Scary Movie 2	Movie	2001
-1	Mortal Kombat: Annihilation	Movie	1997
-1	Alone in the Dark	Movie	2005
-8	Phineas and Ferb the Movie: Candace Against the Universe	Movie	2020
-8	Predator	Movie	1987
-8	RoboCop	Movie	1987
-10	Logan	Movie	2017
-10	The Dark Knight	Movie	2008
-10	Pan's Labyrinth	Movie	2006
-10	Soul	Movie	2020
-10	Star Wars: Episode V - The Empire Strikes Back	Movie	1980
-10	Spider-Man: Into the Spider-Verse	Movie	2018
-4	The Mortal Instruments: City of Bones	Movie	2013
-4	The Darkest Minds	Movie	2018
-6	Maze Runner: The Death Cure	Movie	2018
-6	Maze Runner: The Scorch Trials	Movie	2015
-7	Ghostbusters: Afterlife	Movie	2021
-6	The Giver	Movie	2014
-5	Zombies 3	Movie	2022
-5	Bee Movie	Movie	2007
-7	Megamind	Movie	2010
-8	Kung Fu Panda 3	Movie	2016
-9	Kung Fu Panda 2	Movie	2011
-9	Kung Fu Panda	Movie	2008
-7	Zombieland: Double Tap	Movie	2019
-8	The Conjuring 2	Movie	2016
-5	Alien³	Movie	1992
-2	Dragonball Evolution	Movie	2009
-2	Cats	Movie	2019
-9	Zootopia	Movie	2016
-5	Zombies 2	Movie	2020
-9	X-Men: First Class	Movie	2011
-9	X-Men: Days of Future Past	Movie	2014
-8	X-Men	Movie	2000
-8	Wreck-It Ralph	Movie	2012
-9	Wonder Woman	Movie	2017
-9	Willy Wonka & the Chocolate Factory	Movie	1971
-9	Who Framed Roger Rabbit	Movie	1988
-8	West Side Story	Movie	2021
-9	West Side Story	Movie	1961
-9	WALL·E	Movie	2008
-9	V for Vendetta	Movie	2005
-8	Uncut Gems	Movie	2019
-9	Turning Red	Movie	2022
-5	Transformers: Dark of the Moon	Movie	2011
-4	Transformers: Revenge of the Fallen	Movie	2009
-3	Transformers: The Last Knight	Movie	2017
-8	Toy Story 4	Movie	2019
-9	Toy Story 3	Movie	2010
-9	Toy Story 2	Movie	1999
-9	Toy Story	Movie	1995
-7	Starship Troopers	Movie	1997
-8	Total Recall	Movie	1990
-8	Top Gun: Maverick	Movie	2022
-8	Titanic	Movie	1997
-9	Thor: Ragnarok	Movie	2017
-9	The Wizard of Oz	Movie	1939
-6	The Tomorrow War	Movie	2021
-9	The Terminator	Movie	1984
-9	The Suicide Squad	Movie	2021
-8	The Social Network	Movie	2010
-8	The Sixth Sense	Movie	1999
-8	The Silence of the Lambs	Movie	1991
-9	The Shawshank Redemption	Movie	1994
-5	The Secret Life of Pets	Movie	2016
-9	The Ring	Movie	2002
-9	The Princess Bride	Movie	1987
-7	The Polar Express	Movie	2004
-4	The Nun	Movie	2018
-8	The Nightmare Before Christmas	Movie	1993
-9	The Muppet Christmas Carol	Movie	1992
-8	The Matrix	Movie	1999
-9	The Lion King	Movie	1994
-3	The Last Sharknado: It's About Time	Movie	2018
-3	The Last Airbender	Movie	2010
-8	The Karate Kid	Movie	1984
-8	The Jungle Book	Movie	1967
-9	The Iron Giant	Movie	1999
-5	The Haunted Mansion	Movie	2003
-3	The Happening	Movie	2008
-8	The Green Mile	Movie	1999
-8	The Godfather	Movie	1972
-8	The Fifth Element	Movie	1997
-9	The Fault in Our Stars	Movie	2014
-3	The Ewok Adventure	Movie	1984
-9	The Evil Dead	Movie	1981
-9	The Disaster Artist	Movie	2017
-8	The Dark Knight Rises	Movie	2012
-8	The Croods	Movie	2013
-9	The Conjuring	Movie	2013
-8	The Cabin in the Woods	Movie	2011
-5	The Boy	Movie	2016
-8	The Batman	Movie	2022
-9	The Avengers	Movie	2012
-3	The Adventures of Sharkboy and Lavagirl 3-D	Movie	2005
-8	The Addams Family	Movie	1991
-5	Terminator 3: Rise of the Machines	Movie	2003
-9	Terminator 2: Judgment Day	Movie	1991
-5	Teen Beach 2	Movie	2015
-9	Tangled	Movie	2010
-8	Superman	Movie	1978
-4	Sucker Punch	Movie	2011
-8	Star Trek: First Contact	Movie	1996
-8	Spirited Away	Movie	2001
-9	Spider-Man: No Way Home	Movie	2021
-9	Spider-Man: Homecoming	Movie	2017
-8	Spider-Man: Far from Home	Movie	2019
-8	Spider-Man 2	Movie	2004
-8	Spaceballs	Movie	1987
-9	Snowpiercer	Movie	2013
-8	Sleepy Hollow	Movie	1999
-7	Sleeping Beauty	Movie	1959
-8	Sinister	Movie	2012
-8	Sin City	Movie	2005
-9	Shutter Island	Movie	2010
-5	Shrek the Third	Movie	2007
-9	Shazam!	Movie	2019
-3	Sharknado 5: Global Swarming	Movie	2017
-3	Sharknado 4: The 4th Awakens	Movie	2016
-3	Sharknado 3: Oh Hell No!	Movie	2015
-3	Sharknado 2: The Second One	Movie	2014
-3	Sharknado	Movie	2013
-8	Shang-Chi and the Legend of the Ten Rings	Movie	2021
-7	Scream 2	Movie	1997
-8	Scream	Movie	2022
-9	Scream	Movie	1996
-9	Scott Pilgrim vs. the World	Movie	2010
-3	Home Alone 3	Movie	1997
-3	Scooby-Doo 2: Monsters Unleashed	Movie	2004
-3	Scooby-Doo	Movie	2002
-8	Schindler's List	Movie	1993
-4	Saw V	Movie	2008
-5	Saw II	Movie	2005
-6	Saw	Movie	2004
-9	Saving Mr. Banks	Movie	2013
-8	Rogue One: A Star Wars Story	Movie	2016
-9	Rocky	Movie	1976
-9	Rocketman	Movie	2019
-5	RoboCop 3	Movie	1993
-6	Return to Oz	Movie	1985
-8	Raya and the Last Dragon	Movie	2021
-9	Ratatouille	Movie	2007
-8	Rain Man	Movie	1988
-9	Pulp Fiction	Movie	1994
-8	Psycho	Movie	1960
-8	Poltergeist	Movie	1982
-8	Platoon	Movie	1986
-4	Planes	Movie	2013
-9	Phineas and Ferb the Movie: Across the 2nd Dimension	Movie	2011
-8	Peter Pan	Movie	1953
-5	Percy Jackson: Sea of Monsters	Movie	2013
-5	Pearl Harbor	Movie	2001
-5	Paranormal Activity	Movie	2007
-8	ParaNorman	Movie	2012
-8	Onward	Movie	2020
-8	One Hundred and One Dalmatians	Movie	1961
-5	Ocean's Twelve	Movie	2004
-5	Ocean's Thirteen	Movie	2007
-7	Nosferatu: A Symphony of Horror	Movie	1922
-5	No Country for Old Men	Movie	2007
-8	Night of the Living Dead	Movie	1968
-5	National Treasure: Book of Secrets	Movie	2007
-8	National Lampoon's Christmas Vacation	Movie	1989
-8	Mulan	Movie	1998
-9	Moana	Movie	2016
-8	Miracle on 34th Street	Movie	1947
-8	John Wick	Movie	2014
-3	Jingle All the Way	Movie	1996
-4	Jigsaw	Movie	2017
-4	Jem and the Holograms	Movie	2015
-5	Jaws 2	Movie	1978
-9	It's a Wonderful Life	Movie	1946
-4	How the Grinch Stole Christmas	Movie	2000
-3	Ghost Rider: Spirit of Vengeance	Movie	2011
-5	Event Horizon	Movie	1997
-2	Diary of a Wimpy Kid: The Long Haul	Movie	2017
-5	Clash of the Titans	Movie	2010
-4	Bedtime Stories	Movie	2008
-8	Batman Begins	Movie	2005
-8	Batman	Movie	1989
-8	Back to the Future Part III	Movie	1990
-8	Back to the Future Part II	Movie	1989
-8	Avengers: Age of Ultron	Movie	2015
-6	Army of the Dead	Movie	2021
-5	A Nightmare on Elm Street: The Dream Child	Movie	1989
-5	A Nightmare on Elm Street 4: The Dream Master	Movie	1988
-8	Sky High	Movie	2005
-8	Men in Black	Movie	1997
-9	Mary Poppins	Movie	1964
-8	Mad Max: Fury Road	Movie	2015
-8	Mad Max	Movie	1979
-9	Luca	Movie	2021
-8	Love, Simon	Movie	2018
-5	Lethal Weapon 4	Movie	1998
-9	Lethal Weapon	Movie	1987
-5	Lara Croft: Tomb Raider	Movie	2001
-5	Lara Croft: Tomb Raider - The Cradle of Life	Movie	2003
-8	Lady and the Tramp	Movie	1955
-8	Lady Bird	Movie	2017
-8	Knives Out	Movie	2019
-5	Killer Klowns from Outer Space	Movie	1988
-9	Kill Bill: Vol. 1	Movie	2003
-8	A Christmas Story	Movie	1983
-8	A Bug's Life	Movie	1998
-8	A Beautiful Day in the Neighborhood	Movie	2019
-8	A Clockwork Orange	Movie	1971
-9	Jurassic Park	Movie	1993
-3	Jupiter Ascending	Movie	2015
-8	Jumanji: Welcome to the Jungle	Movie	2017
-8	Joker	Movie	2019
-7	Jojo Rabbit	Movie	2019
-8	John Wick: Chapter 3 - Parabellum	Movie	2019
-8	John Wick: Chapter 2	Movie	2017
-8	Jaws	Movie	1975
-3	Jason Goes to Hell: The Final Friday	Movie	1993
-8	It Follows	Movie	2014
-8	It	Movie	2017
-9	Iron Man	Movie	2008
-8	Inglourious Basterds	Movie	2009
-8	Indiana Jones and the Temple of Doom	Movie	1984
-9	Indiana Jones and the Last Crusade	Movie	1989
-8	Inception	Movie	2010
-8	In the Heights	Movie	2021
-5	Ice Age: Continental Drift	Movie	2012
-8	Hugo	Movie	2011
-9	How to Train Your Dragon 2	Movie	2014
-9	How to Train Your Dragon	Movie	2010
-5	Hotel Transylvania 4: Transformania	Movie	2022
-8	Home Alone	Movie	1990
-8	Harry Potter and the Sorcerer's Stone	Movie	2001
-9	Harry Potter and the Prisoner of Azkaban	Movie	2004
-8	Harry Potter and the Order of the Phoenix	Movie	2007
-8	Harry Potter and the Half-Blood Prince	Movie	2009
-9	Harry Potter and the Goblet of Fire	Movie	2005
-9	Harry Potter and the Deathly Hallows: Part 2	Movie	2011
-3	Halloweentown High	Movie	2004
-3	Halloween: The Curse of Michael Myers	Movie	1995
-5	Halloween III: Season of the Witch	Movie	1982
-3	Halloween II	Movie	2009
-6	Halloween H20: 20 Years Later	Movie	1998
-9	Halloween	Movie	1978
-9	Guardians of the Galaxy	Movie	2014
-8	Gremlins	Movie	1984
-3	Godzilla	Movie	1998
-8	Glory	Movie	1989
-8	Ghostbusters	Movie	1984
-4	Ghost Rider	Movie	2007
-9	Get Out	Movie	2017
-8	Galaxy Quest	Movie	1999
-9	Frozen	Movie	2013
-3	Friday the 13th: A New Beginning	Movie	1985
-7	Frankenstein	Movie	1931
-8	First Blood	Movie	1982
-8	Finding Dory	Movie	2016
-8	Fear Street: Part Two - 1978	Movie	2021
-8	Fear Street: Part One - 1994	Movie	2021
-6	Fargo	Movie	1996
-8	Face/Off	Movie	1997
-3	Ewoks: The Battle for Endor	Movie	1985
-9	Evil Dead II	Movie	1987
-9	Encanto	Movie	2021
-8	Dune: Part One	Movie	2021
-7	Dracula	Movie	1931
-8	Doctor Strange in the Multiverse of Madness	Movie	2022
-8	Django Unchained	Movie	2012
-8	District 9	Movie	2009
-9	Die Hard	Movie	1988
-5	Descendants 3	Movie	2019
-4	Deck the Halls	Movie	2006
-8	Deadpool 2	Movie	2018
-9	Deadpool	Movie	2016
-8	Crimson Peak	Movie	2015
-8	Corpse Bride	Movie	2005
-7	Con Air	Movie	1997
-7	Chip 'n Dale: Rescue Rangers	Movie	2022
-5	Children of the Corn	Movie	1984
-9	Casablanca	Movie	1942
-5	Cars 2	Movie	2011
-9	Captain America: The Winter Soldier	Movie	2014
-9	Captain America: The First Avenger	Movie	2011
-9	Captain America: Civil War	Movie	2016
-8	Bumblebee	Movie	2018
-7	Brokeback Mountain	Movie	2005
-6	Dracula	Movie	1992
-8	Blade Runner	Movie	1982
-8	Black Panther	Movie	2018
-7	Black Christmas	Movie	1974
-8	Birds of Prey and the Fantabulous Emancipation of One Harley Quinn	Movie	2020
-6	Bird Box	Movie	2018
-8	Bill & Ted's Excellent Adventure	Movie	1989
-9	Big Hero 6	Movie	2014
-6	Beowulf	Movie	2007
-9	Beauty and the Beast	Movie	1991
-8	Batman: Mask of the Phantasm	Movie	1993
-8	Batman Returns	Movie	1992
-5	Batman Forever	Movie	1995
-5	Bad Boys	Movie	1995
-9	Avengers: Infinity War	Movie	2018
-9	Avengers: Endgame	Movie	2019
-8	Avatar	Movie	2009
-9	Arthur Christmas	Movie	2011
-8	Ant-Man and the Wasp	Movie	2018
-8	Ant-Man	Movie	2015
-5	Annabelle	Movie	2014
-9	Alita: Battle Angel	Movie	2019
-9	Aliens	Movie	1986
-8	Alien	Movie	1979
-8	Alice in Wonderland	Movie	1951
-9	Aladdin	Movie	1992
-5	Adventures in Babysitting	Movie	2016
-5	Adventures in Babysitting	Movie	1987
-8	A Star Is Born	Movie	2018
-8	A Quiet Place	Movie	2018
-5	A Nightmare on Elm Street 2: Freddy's Revenge	Movie	1985
-9	A Nightmare on Elm Street	Movie	1984
-9	A Monster Calls	Movie	2016
-9	10 Cloverfield Lane	Movie	2016
-6	Men in Black³	Movie	2012
-5	Men in Black II	Movie	2002
-4	Bright	Movie	2017
-6	Sing 2	Movie	2021
-7	Despicable Me 2	Movie	2013
-8	Despicable Me	Movie	2010
-5	The Secret Life of Pets 2	Movie	2019
-5	Teen Beach Movie	Movie	2013
-4	Halloween	Movie	2007
-6	Halloween II	Movie	1981
-6	Alien: Covenant	Movie	2017
-6	The Conjuring: The Devil Made Me Do It	Movie	2021
-4	The Curse of La Llorona	Movie	2019
-6	Annabelle: Creation	Movie	2017
-8	X2: X-Men United	Movie	2003
-5	Wrath of the Titans	Movie	2012
-6	Thor: The Dark World	Movie	2013
-8	Thor	Movie	2011
-5	The Space Between Us	Movie	2017
-5	The Santa Clause 2	Movie	2002
-5	The Purge	Movie	2013
-8	The NeverEnding Story	Movie	1984
-4	The Lion King	Movie	2019
-8	The Hunger Games: Catching Fire	Movie	2013
-5	The Grinch	Movie	2018
-5	The Forever Purge	Movie	2021
-5	The First Purge	Movie	2018
-8	The Exorcist	Movie	1973
-5	Insurgent	Movie	2015
-5	The Day After Tomorrow	Movie	2004
-5	The Chronicles of Narnia: The Voyage of the Dawn Treader	Movie	2010
-8	The Chronicles of Narnia: The Lion, the Witch and the Wardrobe	Movie	2005
-8	The Big Lebowski	Movie	1998
-5	Terminator Genisys	Movie	2015
-5	Teen Wolf	Movie	1985
-2	Superman IV: The Quest for Peace	Movie	1987
-5	Star Trek V: The Final Frontier	Movie	1989
-8	Star Trek II: The Wrath of Khan	Movie	1982
-5	Spy Kids 2: Island of Lost Dreams	Movie	2002
-8	Shrek 2	Movie	2004
-8	Sherlock Holmes	Movie	2009
-5	Scoob!	Movie	2020
-8	Rocky II	Movie	1979
-8	Rocky Balboa	Movie	2006
-8	Pirates of the Caribbean: The Curse of the Black Pearl	Movie	2003
-5	Pirates of the Caribbean: On Stranger Tides	Movie	2011
-5	Pirates of the Caribbean: Dead Men Tell No Tales	Movie	2017
-5	Pan	Movie	2015
-5	Mortal Kombat	Movie	1995
-7	Mary Poppins Returns	Movie	2018
-5	Maleficent: Mistress of Evil	Movie	2019
-8	Kong: Skull Island	Movie	2017
-2	Kirk Cameron's Saving Christmas	Movie	2014
-7	Kill Bill: Vol. 2	Movie	2004
-2	Jack and Jill	Movie	2011
-8	Iron Man 3	Movie	2013
-8	Incredibles 2	Movie	2018
-4	Hop	Movie	2011
-5	Hocus Pocus	Movie	1993
-4	Halloweentown	Movie	1998
-8	Halloween	Movie	2018
-5	Grease 2	Movie	1982
-8	Gone with the Wind	Movie	1939
-4	Freddy's Dead: The Final Nightmare	Movie	1991
-5	Freddy vs. Jason	Movie	2003
-8	Cloverfield	Movie	2008
-7	Child's Play	Movie	1988
-8	Black Widow	Movie	2021
-4	Alice Through the Looking Glass	Movie	2016
-4	Texas Chainsaw Massacre	Movie	2022
-3	The Texas Chainsaw Massacre: The Beginning	Movie	2006
-4	The Texas Chainsaw Massacre	Movie	2003
-7	The Cabinet of Dr. Caligari	Movie	1920
-6	Ice Age: The Meltdown	Movie	2006
-7	Ice Age	Movie	2002
-7	Ralph Breaks the Internet	Movie	2018
-6	Hotel Transylvania 2	Movie	2015
-3	Saw 3D	Movie	2010
-6	The Purge: Election Year	Movie	2016
-4	Saw VI	Movie	2009
-6	The Purge: Anarchy	Movie	2014
-4	Saw IV	Movie	2007
-7	A Quiet Place Part II	Movie	2020
-6	Injustice	Movie	2021
-6	Mortal Kombat Legends: Battle of the Realms	Movie	2021
-7	Bohemian Rhapsody	Movie	2018
-6	Scream 3	Movie	2000
-7	Miracle on 34th Street	Movie	1994
-6	The Amazing Spider-Man 2	Movie	2014
-7	The Amazing Spider-Man	Movie	2012
-4	Black Christmas	Movie	2019
-4	Diary of a Wimpy Kid: Dog Days	Movie	2012
-4	Diary of a Wimpy Kid: Rodrick Rules	Movie	2011
-6	Lethal Weapon 3	Movie	1992
-7	Lethal Weapon 2	Movie	1989
-6	Zombies	Movie	2018
-4	X-Men Origins: Wolverine	Movie	2009
-6	Watchmen	Movie	2009
-6	Venom	Movie	2018
-7	Tucker and Dale vs Evil	Movie	2010
-3	Transformers: Age of Extinction	Movie	2014
-6	Transformers	Movie	2007
-7	The Wolverine	Movie	2013
-4	The Twilight Saga: Breaking Dawn - Part 2	Movie	2012
-7	The Texas Chain Saw Massacre	Movie	1974
-4	The Santa Clause 3: The Escape Clause	Movie	2006
-6	The Santa Clause	Movie	1994
-7	The Sandlot	Movie	1993
-6	The New Mutants	Movie	2020
-6	The Matrix Reloaded	Movie	2003
-7	The Karate Kid	Movie	2010
-7	The Jungle Book	Movie	2016
-6	The Hunger Games: Mockingjay - Part 2	Movie	2015
-6	The Hunger Games: Mockingjay - Part 1	Movie	2014
-7	The Hunger Games	Movie	2012
-7	The Hobbit: The Desolation of Smaug	Movie	2013
-7	The Hobbit: An Unexpected Journey	Movie	2012
-6	The Golden Compass	Movie	2007
-7	The BFG	Movie	2016
-6	Terminator Salvation	Movie	2009
-6	Star Wars: Episode IX - The Rise of Skywalker	Movie	2019
-6	Star Trek: Insurrection	Movie	1998
-6	Star Trek VI: The Undiscovered Country	Movie	1991
-7	Star Trek IV: The Voyage Home	Movie	1986
-7	Star Trek III: The Search for Spock	Movie	1984
-6	Spider-Man 3	Movie	2007
-4	Space Jam: A New Legacy	Movie	2021
-6	Solo: A Star Wars Story	Movie	2018
-7	Sherlock Holmes: A Game of Shadows	Movie	2011
-4	Secret Society of Second Born Royals	Movie	2020
-7	Scrooged	Movie	1988
-6	Rocky IV	Movie	1985
-7	Rocky III	Movie	1982
-6	Rampage	Movie	2018
-4	Rambo: Last Blood	Movie	2019
-6	Rambo: First Blood Part II	Movie	1985
-6	Rambo III	Movie	1988
-7	Puss in Boots	Movie	2011
-7	Predators	Movie	2010
-6	Predator 2	Movie	1990
-6	Power Rangers	Movie	2017
-6	Pirates of the Caribbean: Dead Man's Chest	Movie	2006
-6	Pirates of the Caribbean: At World's End	Movie	2007
-6	Return to Never Land	Movie	2002
-6	Pacific Rim: Uprising	Movie	2018
-7	Pacific Rim	Movie	2013
-6	Ocean's Eleven	Movie	2001
-7	New Nightmare	Movie	1994
-7	Monsters University	Movie	2013
-7	Mad Max Beyond Thunderdome	Movie	1985
-4	Jurassic World: Fallen Kingdom	Movie	2018
-7	Jurassic World	Movie	2015
-7	Jumanji: The Next Level	Movie	2019
-6	It: Chapter Two	Movie	2019
-7	Iron Man 2	Movie	2010
-7	Hook	Movie	1991
-6	Home Alone 2: Lost in New York	Movie	1992
-6	Hitch	Movie	2005
-7	Gremlins 2: The New Batch	Movie	1990
-7	Grease	Movie	1978
-7	Godzilla	Movie	2014
-6	Ghostbusters II	Movie	1989
-4	Ghostbusters	Movie	2016
-7	Furious 7	Movie	2015
-7	Frozen II	Movie	2019
-3	Friday the 13th Part VIII: Jason Takes Manhattan	Movie	1989
-4	Friday the 13th Part VI: Jason Lives	Movie	1986
-7	Friday the 13th	Movie	1980
-7	Five Feet Apart	Movie	2019
-7	Fear Street: Part Three - 1666	Movie	2021
-7	Fast Five	Movie	2011
-7	Fast & Furious 6	Movie	2013
-6	Fantastic Beasts: The Crimes of Grindelwald	Movie	2018
-7	Fantastic Beasts and Where to Find Them	Movie	2016
-6	F9: The Fast Saga	Movie	2021
-6	Eternals	Movie	2021
-7	Donnie Darko	Movie	2001
-7	Die Hard 2	Movie	1990
-6	Descendants	Movie	2015
-7	Christopher Robin	Movie	2018
-6	Charlie and the Chocolate Factory	Movie	2005
-6	Cars 3	Movie	2017
-7	Cars	Movie	2006
-7	Captain Marvel	Movie	2019
-7	Blade Runner 2049	Movie	2017
-6	Blade II	Movie	2002
-7	Bill & Ted Face the Music	Movie	2020
-6	Batman v Superman: Dawn of Justice	Movie	2016
-3	Batman & Robin	Movie	1997
-6	Austin Powers: The Spy Who Shagged Me	Movie	1999
-6	Austin Powers in Goldmember	Movie	2002
-7	Aquaman	Movie	2018
-6	Angels & Demons	Movie	2009
-6	Aladdin	Movie	2019
-6	Ad Astra	Movie	2019
-6	A Wrinkle in Time	Movie	2018
-6	A Nightmare on Elm Street 3: Dream Warriors	Movie	1987
-4	A Nightmare on Elm Street	Movie	2010
-6	A Christmas Carol	Movie	2009
-5	Ironheart	Show	2025
-9	The Bear	Show	2022
-8	The Continental	Show	2023
-7	Stargirl	Show	2020
-5	Batwoman	Show	2019
-8	The Punisher	Show	2017
-7	Runaways	Show	2017
-7	The Defenders	Show	2017
-6	Black Lightning	Show	2018
-5	Inhumans	Show	2017
-7	Iron Fist	Show	2017
-7	Luke Cage	Show	2016
-7	DC's Legends of Tomorrow	Show	2016
-8	Jessica Jones	Show	2015
-7	Supergirl	Show	2015
-9	Daredevil	Show	2015
-8	The Flash	Show	2014
-8	Agents of S.H.I.E.L.D.	Show	2013
-8	Arrow	Show	2012
-9	Daredevil: Born Again	Show	2025
-8	Your Friendly Neighborhood Spider-Man	Show	2025
-8	Skeleton Crew	Show	2024
-8	Creature Commandos	Show	2024
-7	Dune: Prophecy	Show	2024
-9	The Penguin	Show	2024
-8	Agatha All Along	Show	2024
-5	The Acolyte	Show	2024
-6	Knuckles	Show	2024
-9	Fallout	Show	2024
-8	Percy Jackson and the Olympians	Show	2023
-7	Halo	Show	2022
-7	Monarch: Legacy of Monsters	Show	2023
-7	Echo	Show	2023
-8	Gen V	Show	2023
-8	Ahsoka	Show	2023
-3	Velma	Show	2023
-9	Arcane	Show	2021
-7	Secret Invasion	Show	2023
-9	Stranger Things	Show	2016
-7	Star Wars: The Bad Batch	Show	2021
-8	Hawkeye	Show	2021
-9	The Last of Us	Show	2023
-8	Wednesday	Show	2022
-8	Invincible	Show	2021
-8	Andor	Show	2022
-9	House of the Dragon	Show	2022
-7	The Lord of the Rings: The Rings of Power	Show	2022
-5	She-Hulk: Attorney at Law	Show	2022
-9	Squid Game	Show	2021
-8	The Sandman	Show	2022
-8	Ms. Marvel	Show	2022
-9	WandaVision	Show	2021
-9	The Mandalorian	Show	2019
-8	The Falcon and the Winter Soldier	Show	2021
-9	The Boys	Show	2019
-9	Star Wars: The Clone Wars	Show	2008
-9	Peacemaker	Show	2022
-8	Moon Knight	Show	2022
-9	Loki	Show	2021
-9	Game of Thrones	Show	2011
-8	Cobra Kai	Show	2018
-7	Obi-Wan Kenobi	Show	2022
-8	Star Wars: Rebels	Show	2014
-7	The Book of Boba Fett	Show	2021
-7	What If...?	Show	2021
-6	It	Show	1990
+1653	52	1
 \.
 
 
@@ -19053,6 +17528,9 @@ COPY public.media_writers (ordering, media_id, writer_id) FROM stdin;
 1	1650	7906
 1	1651	6877
 1	1652	7913
+1	1653	52
+2	1653	5679
+3	1653	5680
 \.
 
 
@@ -26985,159 +25463,159 @@ COPY public.people (id, name, birth_date, death_date) FROM stdin;
 --
 
 COPY public.seasons (season, show_id, episodes, start_date, end_date, date_added, runtime, grade) FROM stdin;
-1	1094	10	2023-01-12	2023-02-09	\N	252	D
-2	1497	16	2018-10-09	2019-03-18	\N	675	C+
-3	1497	16	2019-10-07	2020-03-09	\N	667	C+
-5	1488	19	2019-10-06	2020-05-17	\N	798	C+
-6	1486	19	2019-10-08	2020-05-12	\N	797	C+
-1	1182	5	2024-01-09	2024-01-09	\N	208	C+
-1	1202	6	2024-04-26	2024-04-26	\N	168	C+
-3	104	8	2024-12-22	2024-12-29	\N	235	C+
-3	1496	10	2019-12-13	2019-12-13	\N	475	B-
-1	1492	13	2017-03-17	2017-03-17	\N	718	B-
-2	423	6	2023-10-05	2023-11-09	\N	299	B+
-2	865	8	2025-08-06	2025-09-03	\N	463	B+
-1	1149	8	2023-09-29	2023-11-03	\N	375	B+
-1	1502	3	2023-09-22	2023-10-06	\N	268	B+
-1	972	6	2021-11-24	2021-12-22	\N	282	B+
-1	844	8	2021-03-25	2021-04-29	\N	362	B+
-1	865	8	2022-11-23	2022-11-23	\N	390	B+
-1	736	11	2022-08-05	2022-08-19	\N	544	B+
-1	807	12	2022-09-21	2022-11-23	\N	555	B+
-1	740	9	2021-09-17	2021-09-17	\N	485	A-
-1	1250	8	2024-04-10	2024-04-10	\N	473	A-
-3	529	8	2022-06-03	2022-07-08	\N	492	A-
-3	844	8	2025-02-06	2025-03-13	\N	397	A-
-3	1002	8	2019-07-04	2019-07-04	\N	444	A-
-4	1002	9	2022-05-27	2022-07-01	\N	769	A-
-1	1512	8	2022-06-23	2022-06-23	\N	244	A-
-2	1512	10	2023-06-22	2023-06-22	\N	358	A-
-4	1512	10	2025-06-25	2025-06-25	\N	377	A-
+1	1094	10	2023-01-12	2023-02-09	\N	252	23.08
+2	1497	16	2018-10-09	2019-03-18	\N	675	53.85
+3	1497	16	2019-10-07	2020-03-09	\N	667	53.85
+5	1488	19	2019-10-06	2020-05-17	\N	798	53.85
+6	1486	19	2019-10-08	2020-05-12	\N	797	53.85
+1	1182	5	2024-01-09	2024-01-09	\N	208	53.85
+1	1202	6	2024-04-26	2024-04-26	\N	168	53.85
+3	104	8	2024-12-22	2024-12-29	\N	235	53.85
+3	1496	10	2019-12-13	2019-12-13	\N	475	61.54
+1	1492	13	2017-03-17	2017-03-17	\N	718	61.54
+2	423	6	2023-10-05	2023-11-09	\N	299	76.92
+2	865	8	2025-08-06	2025-09-03	\N	463	76.92
+1	1149	8	2023-09-29	2023-11-03	\N	375	76.92
+1	1502	3	2023-09-22	2023-10-06	\N	268	76.92
+1	972	6	2021-11-24	2021-12-22	\N	282	76.92
+1	844	8	2021-03-25	2021-04-29	\N	362	76.92
+1	865	8	2022-11-23	2022-11-23	\N	390	76.92
+1	736	11	2022-08-05	2022-08-19	\N	544	76.92
+1	807	12	2022-09-21	2022-11-23	\N	555	76.92
+1	740	9	2021-09-17	2021-09-17	\N	485	84.62
+1	1250	8	2024-04-10	2024-04-10	\N	473	84.62
+3	529	8	2022-06-03	2022-07-08	\N	492	84.62
+3	844	8	2025-02-06	2025-03-13	\N	397	84.62
+3	1002	8	2019-07-04	2019-07-04	\N	444	84.62
+4	1002	9	2022-05-27	2022-07-01	\N	769	84.62
+1	1512	8	2022-06-23	2022-06-23	\N	244	84.62
+2	1512	10	2023-06-22	2023-06-22	\N	358	84.62
+4	1512	10	2025-06-25	2025-06-25	\N	377	84.62
 1	1484	23	2012-10-10	2013-05-15	\N	1012	A-
 2	1484	23	2013-10-09	2014-05-14	\N	1002	A-
-3	517	22	2010-09-17	2011-04-01	\N	503	A-
-7	517	12	2020-02-21	2020-05-04	\N	283	A-
-3	1487	13	2018-10-19	2018-10-19	\N	669	A-
-2	550	8	2020-10-30	2020-12-18	\N	323	A-
-1	1462	9	2025-03-04	2025-04-15	\N	435	A-
-1	583	9	2021-01-15	2021-03-05	\N	321	A-
-2	466	8	2025-08-21	2025-10-09	\N	332	A-
-1	364	10	2011-04-17	2011-06-19	\N	567	A
-2	364	10	2012-04-01	2012-06-03	\N	549	A
-3	364	10	2013-03-31	2013-06-09	\N	558	A
-4	364	10	2014-04-06	2014-06-15	\N	545	A
-5	364	10	2015-04-12	2015-06-14	\N	563	A
-6	364	10	2016-04-24	2016-06-26	\N	562	A
-1	423	6	2021-06-09	2021-07-14	\N	287	A
-1	905	9	2023-01-15	2023-03-12	\N	526	A
-1	529	8	2019-07-26	2019-07-26	\N	471	A
-2	529	8	2020-09-04	2020-10-09	\N	494	A
-1	1350	8	2024-09-19	2024-11-10	\N	462	A
-1	1002	8	2016-07-15	2016-07-15	\N	395	A
-2	1002	9	2017-10-27	2017-10-27	\N	464	A
-1	789	10	2022-08-21	2022-10-23	\N	615	A
-4	517	22	2011-09-16	2012-03-16	\N	502	A
-5	517	20	2012-09-29	2013-03-02	\N	459	A
-1	1487	13	2015-04-10	2015-04-10	\N	707	A
-2	1487	13	2016-03-18	2016-03-18	\N	704	A
-1	466	8	2022-01-13	2022-02-17	\N	343	A
-1	550	8	2019-11-12	2019-12-27	\N	315	A
-1	309	9	2021-11-06	2021-11-20	\N	369	A
-2	309	9	2024-11-09	2024-11-23	\N	370	A
-7	1484	22	2018-10-15	2019-05-13	\N	919	B-
-1	1497	13	2018-01-16	2018-04-17	\N	545	B-
-1	1499	13	2020-05-18	2020-08-10	\N	566	B-
-2	1491	13	2018-06-22	2018-06-22	\N	761	B-
-4	1488	22	2018-10-14	2019-05-19	\N	922	B-
-5	1486	22	2018-10-09	2019-05-14	\N	922	B-
-1	197	6	2022-05-27	2022-06-22	\N	261	B-
-1	1075	6	2023-06-21	2023-07-26	\N	261	B-
-2	104	9	2023-12-22	2023-12-30	\N	281	B-
-1	1192	9	2022-03-24	2022-05-19	\N	458	B-
-2	1496	13	2018-12-21	2018-12-21	\N	610	B-
-2	1492	10	2018-09-07	2018-09-07	\N	526	B
-6	1484	23	2017-10-12	2018-05-17	\N	959	B
-2	736	12	2025-07-03	2025-07-31	\N	642	B
-6	1485	13	2019-05-10	2019-08-02	\N	547	B
-1	1491	13	2016-09-30	2016-09-30	\N	706	B
-1	609	16	2021-05-04	2021-08-13	\N	457	B
-2	609	16	2023-01-04	2023-03-29	\N	423	B
-3	609	15	2024-02-21	2024-05-01	\N	394	B
-4	1490	16	2018-10-22	2019-05-20	\N	670	B
-5	1490	15	2020-01-21	2020-06-02	\N	624	B
-3	1488	23	2017-10-09	2018-06-18	\N	965	B
-4	1486	23	2017-10-10	2018-05-22	\N	959	B
-1	1544	4	2025-08-01	2025-08-01	\N	119	B
-8	364	6	2019-04-14	2019-05-19	\N	430	B
-1	1365	6	2024-11-17	2024-12-22	\N	391	B
-1	130	7	2021-12-29	2022-02-09	\N	330	B
-1	783	8	2022-09-01	2022-10-14	\N	557	B
-2	783	8	2024-08-29	2024-10-03	\N	538	B
-1	104	9	2021-08-11	2021-10-06	\N	289	B
-1	1198	8	2023-12-19	2024-01-30	\N	313	B
-2	789	8	2024-06-16	2024-08-04	\N	511	B
-1	1493	8	2017-08-18	2017-08-18	\N	398	B
-1	1185	10	2023-11-17	2024-01-12	\N	455	B
-1	1496	10	2017-11-21	2018-01-09	\N	495	B
-1	1578	4	2025-09-24	2025-09-24	\N	124	B
-1	1577	8	2025-08-12	2025-09-23	\N	443	B
-2	1488	22	2016-10-10	2017-05-22	\N	921	B
-3	1486	23	2016-10-04	2017-05-23	\N	965	B
-3	550	8	2023-03-01	2023-04-19	\N	340	B
-2	1149	8	2025-09-17	2025-10-22	\N	380	B
-7	364	7	2017-07-16	2017-08-27	\N	440	B+
-1	453	6	2022-03-30	2022-05-04	\N	287	B+
-2	740	7	2024-12-26	2024-12-26	\N	427	B+
-3	740	6	2025-06-27	2025-06-27	\N	366	B+
-1	601	6	2022-06-08	2022-07-13	\N	271	B+
-1	536	6	2021-03-19	2021-04-23	\N	302	B+
-1	1373	7	2024-12-05	2025-01-09	\N	165	B+
-2	905	7	2025-04-13	2025-05-25	\N	381	B+
-1	1377	8	2024-12-02	2025-01-14	\N	295	B+
-4	529	8	2024-06-13	2024-07-18	\N	506	B+
-2	844	8	2023-11-03	2024-04-04	\N	403	B+
-1	1131	8	2023-08-22	2023-10-03	\N	362	B+
-3	1512	10	2024-06-26	2024-06-26	\N	354	B+
-1	1343	9	2024-09-18	2024-10-30	\N	353	B+
-1	248	10	2018-05-02	2018-05-02	\N	290	B+
-1	1432	10	2025-01-29	2025-02-19	\N	308	B+
-3	1484	23	2014-10-08	2015-05-13	\N	968	B+
-4	1484	23	2015-10-07	2016-05-25	\N	968	B+
-5	1484	23	2016-10-05	2017-05-24	\N	964	B+
-8	1484	10	2019-10-15	2020-01-28	\N	421	B+
-2	807	12	2025-04-22	2025-05-13	\N	595	B+
-1	517	22	2008-10-03	2009-03-20	\N	481	B+
-2	517	22	2009-10-02	2010-04-30	\N	479	B+
-6	517	13	2014-03-07	2014-03-07	\N	294	B+
-2	1495	13	2019-01-18	2019-01-18	\N	694	B+
-2	1489	13	2018-03-08	2018-03-08	\N	675	B+
-3	1489	13	2019-06-14	2019-06-14	\N	656	B+
-1	1485	22	2013-09-24	2014-05-13	\N	950	B+
-2	1485	22	2014-09-23	2015-05-12	\N	942	B+
-3	1485	22	2015-09-29	2016-05-17	\N	939	B+
-4	1485	22	2016-09-20	2017-05-16	\N	934	B+
-1	1494	8	2017-09-29	2017-11-10	\N	338	C
-1	781	9	2022-08-18	2022-10-13	\N	289	C
-1	1295	8	2024-06-04	2024-07-16	\N	304	C
-1	1498	20	2019-10-06	2020-05-17	\N	834	C
-5	1485	22	2017-12-01	2018-05-18	\N	926	B+
-7	1485	13	2020-05-27	2020-08-12	\N	553	B+
-1	167	15	2014-10-03	2015-03-02	\N	327	B+
-2	167	22	2015-06-20	2016-03-30	\N	483	B+
-3	167	22	2016-09-24	2017-03-25	\N	482	B+
-4	167	15	2017-10-16	2018-03-05	\N	354	B+
-1	1490	16	2016-01-21	2016-05-19	\N	674	B+
-2	1490	17	2016-10-13	2017-04-04	\N	708	B+
-3	1490	18	2017-10-10	2018-04-09	\N	755	B+
-1	1488	20	2015-10-26	2016-04-18	\N	862	B+
-1	1486	23	2014-10-07	2015-05-19	\N	972	B+
-2	1486	23	2015-10-06	2016-05-24	\N	966	B+
-1	1495	13	2017-11-17	2017-11-17	\N	688	A-
-1	1489	13	2015-11-20	2015-11-20	\N	673	A-
-1	1637	8	2025-10-26	2025-12-14	2025-12-14 16:23:26.252-05	482	B+
-1	46	2	1990-11-18	1990-11-20	\N	187	C+
-1	1518	6	2025-06-24	2025-07-01	\N	289	C
-5	1002	8	2025-11-26	2025-12-31	2025-12-31 23:09:49.555-05	620	B+
+3	517	22	2010-09-17	2011-04-01	\N	503	84.62
+7	517	12	2020-02-21	2020-05-04	\N	283	84.62
+3	1487	13	2018-10-19	2018-10-19	\N	669	84.62
+2	550	8	2020-10-30	2020-12-18	\N	323	84.62
+1	1462	9	2025-03-04	2025-04-15	\N	435	84.62
+1	583	9	2021-01-15	2021-03-05	\N	321	84.62
+2	466	8	2025-08-21	2025-10-09	\N	332	84.62
+1	364	10	2011-04-17	2011-06-19	\N	567	92.31
+2	364	10	2012-04-01	2012-06-03	\N	549	92.31
+3	364	10	2013-03-31	2013-06-09	\N	558	92.31
+4	364	10	2014-04-06	2014-06-15	\N	545	92.31
+5	364	10	2015-04-12	2015-06-14	\N	563	92.31
+6	364	10	2016-04-24	2016-06-26	\N	562	92.31
+1	423	6	2021-06-09	2021-07-14	\N	287	92.31
+1	905	9	2023-01-15	2023-03-12	\N	526	92.31
+1	529	8	2019-07-26	2019-07-26	\N	471	92.31
+2	529	8	2020-09-04	2020-10-09	\N	494	92.31
+1	1350	8	2024-09-19	2024-11-10	\N	462	92.31
+1	1002	8	2016-07-15	2016-07-15	\N	395	92.31
+2	1002	9	2017-10-27	2017-10-27	\N	464	92.31
+1	789	10	2022-08-21	2022-10-23	\N	615	92.31
+4	517	22	2011-09-16	2012-03-16	\N	502	92.31
+5	517	20	2012-09-29	2013-03-02	\N	459	92.31
+1	1487	13	2015-04-10	2015-04-10	\N	707	92.31
+2	1487	13	2016-03-18	2016-03-18	\N	704	92.31
+1	466	8	2022-01-13	2022-02-17	\N	343	92.31
+1	550	8	2019-11-12	2019-12-27	\N	315	92.31
+1	309	9	2021-11-06	2021-11-20	\N	369	92.31
+2	309	9	2024-11-09	2024-11-23	\N	370	92.31
+7	1484	22	2018-10-15	2019-05-13	\N	919	61.54
+1	1497	13	2018-01-16	2018-04-17	\N	545	61.54
+1	1499	13	2020-05-18	2020-08-10	\N	566	61.54
+2	1491	13	2018-06-22	2018-06-22	\N	761	61.54
+4	1488	22	2018-10-14	2019-05-19	\N	922	61.54
+5	1486	22	2018-10-09	2019-05-14	\N	922	61.54
+1	197	6	2022-05-27	2022-06-22	\N	261	61.54
+1	1075	6	2023-06-21	2023-07-26	\N	261	61.54
+2	104	9	2023-12-22	2023-12-30	\N	281	61.54
+1	1192	9	2022-03-24	2022-05-19	\N	458	61.54
+2	1496	13	2018-12-21	2018-12-21	\N	610	61.54
+2	1492	10	2018-09-07	2018-09-07	\N	526	69.23
+6	1484	23	2017-10-12	2018-05-17	\N	959	69.23
+2	736	12	2025-07-03	2025-07-31	\N	642	69.23
+6	1485	13	2019-05-10	2019-08-02	\N	547	69.23
+1	1491	13	2016-09-30	2016-09-30	\N	706	69.23
+1	609	16	2021-05-04	2021-08-13	\N	457	69.23
+2	609	16	2023-01-04	2023-03-29	\N	423	69.23
+3	609	15	2024-02-21	2024-05-01	\N	394	69.23
+4	1490	16	2018-10-22	2019-05-20	\N	670	69.23
+5	1490	15	2020-01-21	2020-06-02	\N	624	69.23
+3	1488	23	2017-10-09	2018-06-18	\N	965	69.23
+4	1486	23	2017-10-10	2018-05-22	\N	959	69.23
+1	1544	4	2025-08-01	2025-08-01	\N	119	69.23
+8	364	6	2019-04-14	2019-05-19	\N	430	69.23
+1	1365	6	2024-11-17	2024-12-22	\N	391	69.23
+1	130	7	2021-12-29	2022-02-09	\N	330	69.23
+1	783	8	2022-09-01	2022-10-14	\N	557	69.23
+2	783	8	2024-08-29	2024-10-03	\N	538	69.23
+1	104	9	2021-08-11	2021-10-06	\N	289	69.23
+1	1198	8	2023-12-19	2024-01-30	\N	313	69.23
+2	789	8	2024-06-16	2024-08-04	\N	511	69.23
+1	1493	8	2017-08-18	2017-08-18	\N	398	69.23
+1	1185	10	2023-11-17	2024-01-12	\N	455	69.23
+1	1496	10	2017-11-21	2018-01-09	\N	495	69.23
+1	1578	4	2025-09-24	2025-09-24	\N	124	69.23
+1	1577	8	2025-08-12	2025-09-23	\N	443	69.23
+2	1488	22	2016-10-10	2017-05-22	\N	921	69.23
+3	1486	23	2016-10-04	2017-05-23	\N	965	69.23
+3	550	8	2023-03-01	2023-04-19	\N	340	69.23
+2	1149	8	2025-09-17	2025-10-22	\N	380	69.23
+7	364	7	2017-07-16	2017-08-27	\N	440	76.92
+1	453	6	2022-03-30	2022-05-04	\N	287	76.92
+2	740	7	2024-12-26	2024-12-26	\N	427	76.92
+3	740	6	2025-06-27	2025-06-27	\N	366	76.92
+1	601	6	2022-06-08	2022-07-13	\N	271	76.92
+1	536	6	2021-03-19	2021-04-23	\N	302	76.92
+1	1373	7	2024-12-05	2025-01-09	\N	165	76.92
+2	905	7	2025-04-13	2025-05-25	\N	381	76.92
+1	1377	8	2024-12-02	2025-01-14	\N	295	76.92
+4	529	8	2024-06-13	2024-07-18	\N	506	76.92
+2	844	8	2023-11-03	2024-04-04	\N	403	76.92
+1	1131	8	2023-08-22	2023-10-03	\N	362	76.92
+3	1512	10	2024-06-26	2024-06-26	\N	354	76.92
+1	1343	9	2024-09-18	2024-10-30	\N	353	76.92
+1	248	10	2018-05-02	2018-05-02	\N	290	76.92
+1	1432	10	2025-01-29	2025-02-19	\N	308	76.92
+3	1484	23	2014-10-08	2015-05-13	\N	968	76.92
+4	1484	23	2015-10-07	2016-05-25	\N	968	76.92
+5	1484	23	2016-10-05	2017-05-24	\N	964	76.92
+8	1484	10	2019-10-15	2020-01-28	\N	421	76.92
+2	807	12	2025-04-22	2025-05-13	\N	595	76.92
+1	517	22	2008-10-03	2009-03-20	\N	481	76.92
+2	517	22	2009-10-02	2010-04-30	\N	479	76.92
+6	517	13	2014-03-07	2014-03-07	\N	294	76.92
+2	1495	13	2019-01-18	2019-01-18	\N	694	76.92
+2	1489	13	2018-03-08	2018-03-08	\N	675	76.92
+3	1489	13	2019-06-14	2019-06-14	\N	656	76.92
+1	1485	22	2013-09-24	2014-05-13	\N	950	76.92
+2	1485	22	2014-09-23	2015-05-12	\N	942	76.92
+3	1485	22	2015-09-29	2016-05-17	\N	939	76.92
+4	1485	22	2016-09-20	2017-05-16	\N	934	76.92
+1	1494	8	2017-09-29	2017-11-10	\N	338	46.15
+1	781	9	2022-08-18	2022-10-13	\N	289	46.15
+1	1295	8	2024-06-04	2024-07-16	\N	304	46.15
+1	1498	20	2019-10-06	2020-05-17	\N	834	46.15
+5	1485	22	2017-12-01	2018-05-18	\N	926	76.92
+7	1485	13	2020-05-27	2020-08-12	\N	553	76.92
+1	167	15	2014-10-03	2015-03-02	\N	327	76.92
+2	167	22	2015-06-20	2016-03-30	\N	483	76.92
+3	167	22	2016-09-24	2017-03-25	\N	482	76.92
+4	167	15	2017-10-16	2018-03-05	\N	354	76.92
+1	1490	16	2016-01-21	2016-05-19	\N	674	76.92
+2	1490	17	2016-10-13	2017-04-04	\N	708	76.92
+3	1490	18	2017-10-10	2018-04-09	\N	755	76.92
+1	1488	20	2015-10-26	2016-04-18	\N	862	76.92
+1	1486	23	2014-10-07	2015-05-19	\N	972	76.92
+2	1486	23	2015-10-06	2016-05-24	\N	966	76.92
+1	1495	13	2017-11-17	2017-11-17	\N	688	84.62
+1	1489	13	2015-11-20	2015-11-20	\N	673	84.62
+1	1637	8	2025-10-26	2025-12-14	2025-12-14 16:23:26.252-05	482	76.92
+1	46	2	1990-11-18	1990-11-20	\N	187	53.85
+1	1518	6	2025-06-24	2025-07-01	\N	289	46.15
+5	1002	8	2025-11-26	2025-12-31	2025-12-31 23:09:49.555-05	620	76.92
 \.
 
 
@@ -31322,5 +29800,5 @@ ALTER TABLE ONLY public.seasons_writers
 -- PostgreSQL database dump complete
 --
 
-\unrestrict OMuoKSvckLXUfINQoRjjK81eapc2awZ3e6hdIypTkfFwp04MOaXMN5ghfDGOmIq
+\unrestrict LKgSlMul0L8kCS6SOeYGGfPn6b4mcfhUsBmUrJyWlx7QslbX4P4baVxZTf9DD9P
 
