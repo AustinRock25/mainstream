@@ -2,7 +2,7 @@
 -- PostgreSQL database dump
 --
 
-\restrict QGwAd7PLAcj4QnoTkVXdXkZ0zhZJubo9wgC7ZkZ63FqM59nzc9E7lxcML75zLuE
+\restrict gLd0jyqaB6fqZZ4Jvefn58JLpWZGCfAGvil9r7F0xUrOWKEOP4PF6sjCbspp82t
 
 -- Dumped from database version 18.1
 -- Dumped by pg_dump version 18.1
@@ -25457,6 +25457,7 @@ COPY public.people (id, name, birth_date, death_date) FROM stdin;
 7917	Charles McKeown	1946-03-01	\N
 7918	Katherine Helmond	1929-07-05	2019-02-23
 7919	Ian Richardson	1934-04-07	2007-02-09
+7920	Peter Vaughan	1923-04-04	2016-12-06
 \.
 
 
@@ -29802,5 +29803,5 @@ ALTER TABLE ONLY public.seasons_writers
 -- PostgreSQL database dump complete
 --
 
-\unrestrict QGwAd7PLAcj4QnoTkVXdXkZ0zhZJubo9wgC7ZkZ63FqM59nzc9E7lxcML75zLuE
+\unrestrict gLd0jyqaB6fqZZ4Jvefn58JLpWZGCfAGvil9r7F0xUrOWKEOP4PF6sjCbspp82t
 
