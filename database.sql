@@ -2,7 +2,7 @@
 -- PostgreSQL database dump
 --
 
-\restrict QnUFAeN0GWIkFygZqy4nLfxk3YE8eGDzJhOuaE0bqA5LIi1WyzaKUZhHLQTTIr8
+\restrict 2vpuyaKggXyj7ujmoU70OsvuXwEZr7DVAcEgktwnoKfiul7ZUw9ojZGWfAGyzBW
 
 -- Dumped from database version 18.1
 -- Dumped by pg_dump version 18.1
@@ -25455,6 +25455,7 @@ COPY public.people (id, name, birth_date, death_date) FROM stdin;
 7915	Joel David Moore	1977-09-25	\N
 7916	Edie Falco	1963-07-05	\N
 7917	Charles McKeown	1946-03-01	\N
+7918	Katherine Helmond	1929-07-05	2019-02-23
 \.
 
 
@@ -29800,5 +29801,5 @@ ALTER TABLE ONLY public.seasons_writers
 -- PostgreSQL database dump complete
 --
 
-\unrestrict QnUFAeN0GWIkFygZqy4nLfxk3YE8eGDzJhOuaE0bqA5LIi1WyzaKUZhHLQTTIr8
+\unrestrict 2vpuyaKggXyj7ujmoU70OsvuXwEZr7DVAcEgktwnoKfiul7ZUw9ojZGWfAGyzBW
 
