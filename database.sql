@@ -2,7 +2,7 @@
 -- PostgreSQL database dump
 --
 
-\restrict 2vpuyaKggXyj7ujmoU70OsvuXwEZr7DVAcEgktwnoKfiul7ZUw9ojZGWfAGyzBW
+\restrict QGwAd7PLAcj4QnoTkVXdXkZ0zhZJubo9wgC7ZkZ63FqM59nzc9E7lxcML75zLuE
 
 -- Dumped from database version 18.1
 -- Dumped by pg_dump version 18.1
@@ -25456,6 +25456,7 @@ COPY public.people (id, name, birth_date, death_date) FROM stdin;
 7916	Edie Falco	1963-07-05	\N
 7917	Charles McKeown	1946-03-01	\N
 7918	Katherine Helmond	1929-07-05	2019-02-23
+7919	Ian Richardson	1934-04-07	2007-02-09
 \.
 
 
@@ -29801,5 +29802,5 @@ ALTER TABLE ONLY public.seasons_writers
 -- PostgreSQL database dump complete
 --
 
-\unrestrict 2vpuyaKggXyj7ujmoU70OsvuXwEZr7DVAcEgktwnoKfiul7ZUw9ojZGWfAGyzBW
+\unrestrict QGwAd7PLAcj4QnoTkVXdXkZ0zhZJubo9wgC7ZkZ63FqM59nzc9E7lxcML75zLuE
 
