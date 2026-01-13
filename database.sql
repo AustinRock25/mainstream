@@ -2,7 +2,7 @@
 -- PostgreSQL database dump
 --
 
-\restrict vld3ydQW2XDql4oabzhYHRLrRoPvCfjuHOeFlLi2tNtDCJ40xiEXqpCbwsIAaWY
+\restrict QnUFAeN0GWIkFygZqy4nLfxk3YE8eGDzJhOuaE0bqA5LIi1WyzaKUZhHLQTTIr8
 
 -- Dumped from database version 18.1
 -- Dumped by pg_dump version 18.1
@@ -1864,8 +1864,6 @@ The Wiz	G	the-wiz	133	movie	1619	1978-10-24	\N	\N	53.85
 The Whale	R	the-whale	117	movie	1620	2022-12-09	\N	\N	92.31
 Sisu	R	sisu	91	movie	1621	2023-04-28	\N	\N	76.92
 The Bad Guys 2	PG	the-bad-guys-2	104	movie	1622	2025-08-01	\N	\N	84.62
-The Night Before	R	the-night-before	101	movie	1634	2015-11-20	\N	2025-12-11 09:21:55.173-05	61.54
-The Family Stone	PG-13	the-family-stone	104	movie	1635	2005-12-16	\N	2025-12-12 09:24:09.966-05	46.15
 The Nativity Story	PG	the-nativity-story	101	movie	1638	2006-12-01	\N	2025-12-15 16:26:32.275-05	61.54
 Home Alone: The Holiday Heist	TV-PG	home-alone-the-holiday-heist	90	movie	1640	2012-11-25	\N	2025-12-19 16:59:20.067-05	23.08
 Home Sweet Home Alone	PG	home-sweet-home-alone	93	movie	1641	2021-11-12	\N	2025-12-20 17:04:05.587-05	23.08
@@ -1899,6 +1897,8 @@ The Mean One	Not Rated	the-mean-one	93	movie	1633	2022-12-09	\N	\N	15.38
 When Harry Met Sally...	R	when-harry-met-sally	96	movie	1652	1989-07-21	\N	2026-01-09 20:27:15.997-05	92.31
 The Lord of the Rings: The War of the Rohirrim	PG-13	the-lord-of-the-rings-the-war-of-the-rohirrim	134	movie	1434	2024-12-13	\N	\N	69.23
 Avatar: Fire and Ash	PG-13	avatar-fire-and-ash	198	movie	1653	2025-12-19	\N	2026-01-10 19:53:41.462-05	69.23
+The Night Before	R	the-night-before	101	movie	1634	2015-11-20	\N	\N	61.54
+The Family Stone	PG-13	the-family-stone	104	movie	1635	2005-12-16	\N	\N	46.15
 \.
 
 
@@ -25454,6 +25454,7 @@ COPY public.people (id, name, birth_date, death_date) FROM stdin;
 7914	Meg Ryan	1961-11-19	\N
 7915	Joel David Moore	1977-09-25	\N
 7916	Edie Falco	1963-07-05	\N
+7917	Charles McKeown	1946-03-01	\N
 \.
 
 
@@ -29799,5 +29800,5 @@ ALTER TABLE ONLY public.seasons_writers
 -- PostgreSQL database dump complete
 --
 
-\unrestrict vld3ydQW2XDql4oabzhYHRLrRoPvCfjuHOeFlLi2tNtDCJ40xiEXqpCbwsIAaWY
+\unrestrict QnUFAeN0GWIkFygZqy4nLfxk3YE8eGDzJhOuaE0bqA5LIi1WyzaKUZhHLQTTIr8
 
