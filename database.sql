@@ -2,7 +2,7 @@
 -- PostgreSQL database dump
 --
 
-\restrict LKgSlMul0L8kCS6SOeYGGfPn6b4mcfhUsBmUrJyWlx7QslbX4P4baVxZTf9DD9P
+\restrict vld3ydQW2XDql4oabzhYHRLrRoPvCfjuHOeFlLi2tNtDCJ40xiEXqpCbwsIAaWY
 
 -- Dumped from database version 18.1
 -- Dumped by pg_dump version 18.1
@@ -60,7 +60,6 @@ DROP TABLE IF EXISTS public.seasons;
 DROP SEQUENCE IF EXISTS public.people_id_seq;
 DROP TABLE IF EXISTS public.people;
 DROP TABLE IF EXISTS public.media_writers;
-DROP TABLE IF EXISTS public.media_temp;
 DROP TABLE IF EXISTS public.media_directors;
 DROP TABLE IF EXISTS public.media_cast;
 DROP TABLE IF EXISTS public.media;
@@ -337,23 +336,23 @@ The Equalizer 3	R	the-equalizer-3	109	movie	1189	2023-09-01	\N	\N	53.85
 Star Trek II: The Wrath of Khan	PG	star-trek-2	113	movie	165	1982-06-04	\N	\N	84.62
 Aladdin	G	aladdin-(1992)	90	movie	213	1992-11-11	\N	\N	92.31
 It - Welcome to Derry	TV-MA	it-welcome-to-derry	\N	show	1637	\N	f	\N	\N
-Spider-Man: Into the Spider-Verse	PG	spider-man-into-the-spider-verse	117	movie	613	2018-12-14	\N	\N	100
-The Empire Strikes Back	PG	the-empire-strikes-back	124	movie	614	1980-05-21	\N	\N	100
-Soul	PG	soul	100	movie	615	2020-12-25	\N	\N	100
-Pan's Labyrinth	R	pans-labyrinth	118	movie	616	2006-10-20	\N	\N	100
-The Dark Knight	PG-13	the-dark-knight	152	movie	617	2008-07-18	\N	\N	100
-Logan	R	logan	137	movie	618	2017-03-03	\N	\N	100
-The Lord of the Rings: The Fellowship of the Ring	PG-13	the-lord-of-the-rings-the-fellowship-of-the-ring	178	movie	625	2001-12-19	\N	\N	100
-The Lord of the Rings: The Two Towers	PG-13	the-lord-of-the-rings-the-two-towers	179	movie	626	2002-12-18	\N	\N	100
-The Lord of the Rings: The Return of the King	PG-13	the-lord-of-the-rings-the-return-of-the-king	201	movie	627	2003-12-17	\N	\N	100
-Coco	PG	coco	105	movie	668	2017-11-22	\N	\N	100
-Raiders of the Lost Ark	PG	raiders-of-the-lost-ark	115	movie	684	1981-06-12	\N	\N	100
-The Incredibles	PG	the-incredibles	115	movie	720	2004-11-05	\N	\N	100
-Everything Everywhere All at Once	R	everything-everywhere-all-at-once	139	movie	800	2022-03-25	\N	\N	100
-Spider-Man: Across the Spider-Verse	PG	spider-man-across-the-spider-verse	140	movie	1126	2023-06-02	\N	\N	100
-Her	R	her	126	movie	1249	2013-12-18	\N	\N	100
-Parasite	R	parasite	132	movie	1395	2019-05-30	\N	\N	100
-The Wild Robot	PG	the-wild-robot	102	movie	1416	2024-09-27	\N	\N	100
+Spider-Man: Into the Spider-Verse	PG	spider-man-into-the-spider-verse	117	movie	613	2018-12-14	\N	\N	100.00
+The Empire Strikes Back	PG	the-empire-strikes-back	124	movie	614	1980-05-21	\N	\N	100.00
+Soul	PG	soul	100	movie	615	2020-12-25	\N	\N	100.00
+Pan's Labyrinth	R	pans-labyrinth	118	movie	616	2006-10-20	\N	\N	100.00
+The Dark Knight	PG-13	the-dark-knight	152	movie	617	2008-07-18	\N	\N	100.00
+Logan	R	logan	137	movie	618	2017-03-03	\N	\N	100.00
+The Lord of the Rings: The Fellowship of the Ring	PG-13	the-lord-of-the-rings-the-fellowship-of-the-ring	178	movie	625	2001-12-19	\N	\N	100.00
+The Lord of the Rings: The Two Towers	PG-13	the-lord-of-the-rings-the-two-towers	179	movie	626	2002-12-18	\N	\N	100.00
+The Lord of the Rings: The Return of the King	PG-13	the-lord-of-the-rings-the-return-of-the-king	201	movie	627	2003-12-17	\N	\N	100.00
+Coco	PG	coco	105	movie	668	2017-11-22	\N	\N	100.00
+Raiders of the Lost Ark	PG	raiders-of-the-lost-ark	115	movie	684	1981-06-12	\N	\N	100.00
+The Incredibles	PG	the-incredibles	115	movie	720	2004-11-05	\N	\N	100.00
+Everything Everywhere All at Once	R	everything-everywhere-all-at-once	139	movie	800	2022-03-25	\N	\N	100.00
+Spider-Man: Across the Spider-Verse	PG	spider-man-across-the-spider-verse	140	movie	1126	2023-06-02	\N	\N	100.00
+Her	R	her	126	movie	1249	2013-12-18	\N	\N	100.00
+Parasite	R	parasite	132	movie	1395	2019-05-30	\N	\N	100.00
+The Wild Robot	PG	the-wild-robot	102	movie	1416	2024-09-27	\N	\N	100.00
 A Christmas Carol	PG	a-christmas-carol-(2009)	96	movie	1	2009-11-06	\N	\N	53.85
 It	TV-14	it	\N	show	46	\N	t	\N	\N
 A Nightmare on Elm Street	R	a-nightmare-on-elm-street-(2010)	95	movie	2	2010-04-30	\N	\N	30.77
@@ -410,6 +409,7 @@ Ocean's Eleven	PG-13	oceans-eleven	116	movie	54	2001-12-07	\N	\N	61.54
 Pacific Rim	PG-13	pacific-rim	131	movie	55	2013-07-12	\N	\N	69.23
 Pacific Rim: Uprising	PG-13	pacific-rim-uprising	111	movie	56	2018-03-23	\N	\N	53.85
 Return to Never Land	G	return-to-never-land	72	movie	57	2002-02-15	\N	\N	53.85
+Star Wars: Episode I - The Phantom Menace	PG	star-wars-episode-1	136	movie	856	1999-05-19	\N	\N	46.15
 Pirates of the Caribbean: At World's End	PG-13	pirates-of-the-caribbean-at-worlds-end	169	movie	58	2007-05-25	\N	\N	53.85
 Pirates of the Caribbean: Dead Man's Chest	PG-13	pirates-of-the-caribbean-dead-mans-chest	151	movie	59	2006-07-07	\N	\N	61.54
 Power Rangers	PG-13	power-rangers	124	movie	60	2017-03-24	\N	\N	53.85
@@ -496,7 +496,7 @@ Incredibles 2	PG	incredibles-2	118	movie	146	2018-06-15	\N	\N	76.92
 Iron Man 3	PG-13	iron-man-3	130	movie	147	2013-05-03	\N	\N	76.92
 Jack and Jill	PG	jack-and-jill	91	movie	148	2011-11-11	\N	\N	15.38
 Kill Bill: Vol. 2	R	kill-bill-vol-2	137	movie	149	2004-04-16	\N	\N	69.23
-Kirk Cameron's Saving Christmas	PG	saving-christmas	79	movie	150	2014-11-14	\N	\N	0
+Kirk Cameron's Saving Christmas	PG	saving-christmas	79	movie	150	2014-11-14	\N	\N	0.00
 Kong: Skull Island	PG-13	kong-skull-island	118	movie	151	2017-03-10	\N	\N	76.92
 Maleficent: Mistress of Evil	PG	maleficent-mistress-of-evil	119	movie	152	2019-10-18	\N	\N	46.15
 Mary Poppins Returns	PG	mary-poppins-returns	130	movie	153	2018-12-19	\N	\N	69.23
@@ -513,7 +513,7 @@ Sherlock Holmes	PG-13	sherlock-holmes	128	movie	162	2009-12-25	\N	\N	76.92
 Shrek 2	PG	shrek-2	93	movie	163	2004-05-19	\N	\N	84.62
 Spy Kids 2: Island of Lost Dreams	PG	spy-kids-2	100	movie	164	2002-08-07	\N	\N	46.15
 Star Trek V: The Final Frontier	PG	star-trek-5	107	movie	166	1989-06-09	\N	\N	46.15
-Superman IV: The Quest for Peace	PG	superman-4	90	movie	168	1987-07-24	\N	\N	0
+Superman IV: The Quest for Peace	PG	superman-4	90	movie	168	1987-07-24	\N	\N	0.00
 Teen Wolf	PG	teen-wolf	91	movie	169	1985-08-23	\N	\N	46.15
 Terminator Genisys	PG-13	terminator-genisys	126	movie	170	2015-07-01	\N	\N	46.15
 The Big Lebowski	R	the-big-lebowski	117	movie	171	1998-03-06	\N	\N	84.62
@@ -670,13 +670,13 @@ Doctor Strange in the Multiverse of Madness	PG-13	doctor-strange-in-the-multiver
 Halloween: The Curse of Michael Myers	R	halloween-the-curse-of-michael-myers	87	movie	330	1995-09-29	\N	\N	23.08
 Jason Goes to Hell: The Final Friday	R	jason-goes-to-hell	87	movie	331	1993-08-13	\N	\N	15.38
 Scooby-Doo	PG	scooby-doo	89	movie	332	2002-06-14	\N	\N	15.38
-Dragonball Evolution	PG	dragonball-evolution	85	movie	333	2009-04-10	\N	\N	0
-Alone in the Dark	R	alone-in-the-dark	99	movie	334	2005-01-28	\N	\N	0
-Mortal Kombat: Annihilation	PG-13	mortal-kombat-annihilation	95	movie	335	1997-11-21	\N	\N	0
-Star Wars Holiday Special	TV-PG	the-star-wars-holiday-special	97	movie	336	1978-11-17	\N	\N	0
+Dragonball Evolution	PG	dragonball-evolution	85	movie	333	2009-04-10	\N	\N	0.00
+Alone in the Dark	R	alone-in-the-dark	99	movie	334	2005-01-28	\N	\N	0.00
+Mortal Kombat: Annihilation	PG-13	mortal-kombat-annihilation	95	movie	335	1997-11-21	\N	\N	0.00
+Star Wars Holiday Special	TV-PG	the-star-wars-holiday-special	97	movie	336	1978-11-17	\N	\N	0.00
 Billy Madison	PG-13	billy-madison	89	movie	337	1995-02-10	\N	\N	30.77
 Halloween 5: The Revenge of Michael Myers	R	halloween-5	96	movie	338	1989-10-13	\N	\N	30.77
-The Room	R	the-room	99	movie	339	2003-06-27	\N	\N	0
+The Room	R	the-room	99	movie	339	2003-06-27	\N	\N	0.00
 Hellbound: Hellraiser II	R	hellbound	97	movie	340	1988-12-23	\N	\N	46.15
 Friday the 13th Part VII: The New Blood	R	friday-the-13th-part-7	88	movie	341	1988-05-13	\N	\N	30.77
 Leprechaun	R	leprechaun	92	movie	342	1993-01-08	\N	\N	30.77
@@ -684,7 +684,7 @@ Super Mario Bros.	PG	super-mario-bros	104	movie	343	1993-05-28	\N	\N	23.08
 Dungeons & Dragons	PG-13	dungeons-and-dragons	107	movie	344	2000-12-08	\N	\N	15.38
 Halloween 4: The Return of Michael Myers	R	halloween-4	88	movie	345	1988-10-21	\N	\N	38.46
 Hancock	PG-13	hancock	92	movie	346	2008-07-02	\N	\N	46.15
-Music	PG-13	music	107	movie	347	2021-02-12	\N	\N	0
+Music	PG-13	music	107	movie	347	2021-02-12	\N	\N	0.00
 Signs	PG-13	signs	106	movie	348	2002-08-02	\N	\N	38.46
 Dracula	Not Rated	dracula	75	movie	349	1931-02-14	\N	\N	69.23
 Dune	PG-13	dune-(2021)	155	movie	350	2021-10-22	\N	\N	84.62
@@ -734,7 +734,7 @@ Caravan of Courage: An Ewok Adventure	TV-PG	caravan-of-courage	96	movie	394	1984
 Jaws 3-D	PG	jaws-3	99	movie	395	1983-07-22	\N	\N	30.77
 Superman III	PG	superman-3	125	movie	396	1983-06-17	\N	\N	23.08
 History of the World, Part I	R	history-of-the-world	92	movie	397	1981-06-12	\N	\N	46.15
-Silent Night, Deadly Night Part 2	R	silent-night-deadly-night-part-2	88	movie	398	1987-04-10	\N	\N	0
+Silent Night, Deadly Night Part 2	R	silent-night-deadly-night-part-2	88	movie	398	1987-04-10	\N	\N	0.00
 Iron Man	PG-13	iron-man	126	movie	399	2008-05-02	\N	\N	92.31
 It	R	it	135	movie	400	2017-09-08	\N	\N	84.62
 It Follows	R	it-follows	100	movie	401	2015-03-13	\N	\N	84.62
@@ -944,7 +944,7 @@ The Darkest Minds	PG-13	the-darkest-minds	104	movie	612	2018-08-03	\N	\N	38.46
 RoboCop	R	robocop-(1987)	102	movie	619	1987-07-17	\N	\N	84.62
 Predator	R	predator	107	movie	620	1987-06-12	\N	\N	84.62
 Phineas and Ferb the Movie: Candace Against the Universe	TV-G	phineas-and-ferb-the-movie-candace-against-the-universe	86	movie	621	2020-08-28	\N	\N	76.92
-Scary Movie 2	R	scary-movie-2	83	movie	622	2001-07-04	\N	\N	0
+Scary Movie 2	R	scary-movie-2	83	movie	622	2001-07-04	\N	\N	0.00
 Ice Age: Collision Course	PG	ice-age-collision-course	94	movie	623	2016-07-22	\N	\N	46.15
 I Still Know What You Did Last Summer	R	i-still-know-what-you-did-last-summer	100	movie	624	1998-11-13	\N	\N	38.46
 Jaws: The Revenge	PG-13	jaws-the-revenge	89	movie	628	1987-07-17	\N	\N	30.77
@@ -1042,7 +1042,7 @@ The Matrix Revolutions	R	the-matrix-revolutions	129	movie	722	2003-11-05	\N	\N	5
 The Patriot	R	the-patriot	165	movie	724	2000-06-30	\N	\N	61.54
 The Producers	PG-13	the-producers	134	movie	725	2005-12-16	\N	\N	76.92
 The Rock	R	the-rock	136	movie	726	1996-06-07	\N	\N	69.23
-Troll 2	PG-13	troll-2	95	movie	727	1990-10-12	\N	\N	0
+Troll 2	PG-13	troll-2	95	movie	727	1990-10-12	\N	\N	0.00
 Twilight	PG-13	twilight	122	movie	728	2008-11-21	\N	\N	30.77
 Underworld	R	underworld	121	movie	729	2003-09-19	\N	\N	53.85
 Underworld: Evolution	R	underworld-evolution	106	movie	730	2006-01-20	\N	\N	38.46
@@ -1091,7 +1091,7 @@ Spiral: From the Book of Saw	R	spiral	93	movie	775	2021-05-14	\N	\N	46.15
 Hellraiser	R	hellraiser-(2022)	121	movie	776	2022-10-07	\N	\N	69.23
 Candyman	R	candyman-(1992)	99	movie	777	1992-10-16	\N	\N	84.62
 Candyman	R	candyman-(2021)	91	movie	778	2021-08-27	\N	\N	76.92
-Birdemic: Shock and Terror	Not Rated	birdemic	105	movie	779	2010-02-27	\N	\N	0
+Birdemic: Shock and Terror	Not Rated	birdemic	105	movie	779	2010-02-27	\N	\N	0.00
 Jurassic World Dominion	PG-13	jurassic-world-dominion	147	movie	780	2022-06-10	\N	\N	38.46
 The Black Phone	R	the-black-phone	103	movie	782	2022-06-24	\N	\N	76.92
 The Mist	R	the-mist	126	movie	784	2007-11-21	\N	\N	61.54
@@ -1158,7 +1158,6 @@ Pokémon: Detective Pikachu	PG	detective-pikachu	104	movie	851	2019-05-10	\N	\N	
 Saw III	R	saw-3	108	movie	853	2006-10-27	\N	\N	46.15
 Spider-Man	PG-13	spider-man	121	movie	854	2002-05-03	\N	\N	76.92
 Spy Kids 3-D: Game Over	PG	spy-kids-3	84	movie	855	2003-07-25	\N	\N	30.77
-Star Wars: Episode I - The Phantom Menace	PG	star-wars-episode-1	136	movie	856	1999-05-19	\N	\N	46.15
 Star Wars: Episode II - Attack of the Clones	PG	star-wars-episode-2	142	movie	857	2002-05-16	\N	\N	46.15
 Star Wars: Episode III - Revenge of the Sith	PG-13	star-wars-episode-3	140	movie	858	2005-05-19	\N	\N	61.54
 The Christmas Chronicles Part Two	PG	the-christmas-chronicles-2	112	movie	859	2020-11-25	\N	\N	61.54
@@ -1450,7 +1449,7 @@ Dances with Wolves	PG-13	dances-with-wolves	181	movie	1160	1990-11-09	\N	\N	84.6
 Instant Family	PG-13	instant-family	118	movie	1161	2018-11-16	\N	\N	76.92
 Daddy's Home 2	PG-13	daddys-home-2	100	movie	1162	2017-11-10	\N	\N	30.77
 Spirited	PG-13	spirited	127	movie	1163	2022-11-11	\N	\N	69.23
-Santa Claus Conquers the Martians	Not Rated	santa-claus-conquers-the-martians	81	movie	1164	1964-11-14	\N	\N	0
+Santa Claus Conquers the Martians	Not Rated	santa-claus-conquers-the-martians	81	movie	1164	1964-11-14	\N	\N	0.00
 Silent Night, Deadly Night	R	silent-night-deadly-night	79	movie	1165	1984-11-09	\N	\N	38.46
 Krampus	PG-13	krampus	98	movie	1166	2015-12-04	\N	\N	76.92
 Violent Night	R	violent-night	112	movie	1167	2022-12-02	\N	\N	69.23
@@ -1603,7 +1602,7 @@ The Sorcerer's Apprentice	PG	the-sorcerers-apprentice	109	movie	1322	2010-07-14	
 Whiplash	R	whiplash	106	movie	1323	2014-10-10	\N	\N	92.31
 Rosemary's Baby	R	rosemarys-baby	137	movie	1324	1968-06-12	\N	\N	84.62
 The Outsiders	PG	the-outsiders	91	movie	1325	1983-03-25	\N	\N	69.23
-Inside Out 2	PG	inside-out-2	96	movie	1326	2024-06-14	\N	\N	100
+Inside Out 2	PG	inside-out-2	96	movie	1326	2024-06-14	\N	\N	100.00
 Challengers	R	challengers	131	movie	1327	2024-04-26	\N	\N	76.92
 The Fall Guy	PG-13	the-fall-guy	126	movie	1328	2024-05-03	\N	\N	76.92
 Abigail	R	abigail	109	movie	1329	2024-04-19	\N	\N	76.92
@@ -1648,7 +1647,7 @@ Alvin and the Chipmunks: Chipwrecked	G	alvin-and-the-chipmunks-chipwrecked	87	mo
 Alvin and the Chipmunks: The Road Chip	PG	alvin-and-the-chipmunks-the-road-chip	92	movie	1371	2015-12-18	\N	\N	23.08
 Den of Thieves	R	den-of-thieves	140	movie	1372	2018-01-19	\N	\N	46.15
 12 Angry Men	Not Rated	12-angry-men	96	movie	1374	1957-04-10	\N	\N	92.31
-The Mouse Trap	Not Rated	the-mouse-trap	80	movie	1375	2024-08-06	\N	\N	0
+The Mouse Trap	Not Rated	the-mouse-trap	80	movie	1375	2024-08-06	\N	\N	0.00
 An American Werewolf in London	R	an-american-werewolf-in-london	97	movie	1376	1981-08-21	\N	\N	76.92
 Amadeus	PG	amadeus	161	movie	1378	1984-09-19	\N	\N	76.92
 Turbo	PG	turbo	96	movie	1379	2013-07-17	\N	\N	53.85
@@ -1676,7 +1675,7 @@ Teenage Mutant Ninja Turtles III	PG	teenage-mutant-ninja-turtles-3	96	movie	1401
 The Karate Kid Part III	PG	the-karate-kid-part-3	112	movie	1402	1989-06-30	\N	\N	46.15
 Ace Ventura: Pet Detective	PG-13	ace-ventura-pet-detective	86	movie	1403	1994-02-04	\N	\N	38.46
 Pet Sematary	R	pet-sematary-(1989)	103	movie	1404	1989-04-21	\N	\N	46.15
-Winnie-the-Pooh: Blood and Honey	Not Rated	winnie-the-pooh-blood-and-honey	84	movie	1405	2023-02-15	\N	\N	0
+Winnie-the-Pooh: Blood and Honey	Not Rated	winnie-the-pooh-blood-and-honey	84	movie	1405	2023-02-15	\N	\N	0.00
 Casper	PG	casper	100	movie	1406	1995-05-26	\N	\N	46.15
 The Blind Side	PG-13	the-blind-side	129	movie	1407	2009-11-20	\N	\N	69.23
 Ace Ventura: When Nature Calls	PG-13	ace-ventura-when-nature-calls	90	movie	1408	1995-11-10	\N	\N	46.15
@@ -1767,7 +1766,7 @@ Olympus Has Fallen	R	olympus-has-fallen	119	movie	1516	2013-03-22	\N	\N	46.15
 White House Down	PG-13	white-house-down	131	movie	1517	2013-06-28	\N	\N	53.85
 The Old Guard 2	R	the-old-guard-2	104	movie	1519	2025-07-02	\N	\N	53.85
 F1	PG-13	f1	156	movie	1520	2025-06-27	\N	\N	84.62
-Sinners	R	sinners	137	movie	1521	2025-04-18	\N	\N	100
+Sinners	R	sinners	137	movie	1521	2025-04-18	\N	\N	100.00
 London Has Fallen	R	london-has-fallen	99	movie	1522	2016-03-04	\N	\N	46.15
 Angel Has Fallen	R	angel-has-fallen	121	movie	1523	2019-08-23	\N	\N	46.15
 Requiem for a Dream	Not Rated	requiem-for-a-dream	102	movie	1524	2000-10-06	\N	\N	76.92
@@ -1799,7 +1798,7 @@ Red Sonja	PG-13	red-sonja	89	movie	1550	1985-07-03	\N	\N	30.77
 Apollo 13	PG-13	apollo-13	140	movie	1551	1995-06-30	\N	\N	84.62
 Cast Away	PG-13	cast-away	143	movie	1552	2000-12-22	\N	\N	84.62
 The Martian	PG-13	the-martian	142	movie	1553	2015-10-02	\N	\N	92.31
-War of the Worlds	PG-13	war-of-the-worlds-(2025)	91	movie	1554	2025-07-30	\N	\N	0
+War of the Worlds	PG-13	war-of-the-worlds-(2025)	91	movie	1554	2025-07-30	\N	\N	0.00
 Black Swan	R	black-swan	108	movie	1555	2010-12-17	\N	\N	84.62
 Death of a Unicorn	R	death-of-a-unicorn	107	movie	1556	2025-03-28	\N	\N	53.85
 Léon: The Professional	R	leon	110	movie	1557	1994-09-14	\N	\N	92.31
@@ -1846,7 +1845,7 @@ The Devil's Rejects	R	the-devils-rejects	109	movie	1600	2005-07-22	\N	\N	61.54
 Weapons	R	weapons	128	movie	1601	2025-08-08	\N	\N	92.31
 The Fly	R	the-fly	96	movie	1602	1986-08-15	\N	\N	92.31
 The Fly II	R	the-fly-2	105	movie	1603	1989-02-10	\N	\N	46.15
-The Others	PG-13	the-others	104	movie	1604	2001-08-10	\N	\N	100
+The Others	PG-13	the-others	104	movie	1604	2001-08-10	\N	\N	100.00
 Commando	R	commando	90	movie	1605	1985-10-04	\N	\N	61.54
 Young Frankenstein	PG	young-frankenstein	106	movie	1606	1974-12-15	\N	\N	92.31
 Mary Shelley's Frankenstein	R	mary-shelleys-frankenstein	123	movie	1607	1994-11-04	\N	\N	53.85
@@ -29536,7 +29535,7 @@ COPY public.seasons_writers (ordering, show_id, season, writer_id) FROM stdin;
 --
 
 COPY public.users (id, is_admin, email, password, rating_scale) FROM stdin;
-1	t	austinrock03@gmail.com	$2a$12$AOV0G6DRHhHgUdKAJvNgE.L3vyBjM.6xfjO0rZQKCetMoJPfnEz5S	3
+1	t	austinrock03@gmail.com	$2a$12$AOV0G6DRHhHgUdKAJvNgE.L3vyBjM.6xfjO0rZQKCetMoJPfnEz5S	2
 \.
 
 
@@ -29800,5 +29799,5 @@ ALTER TABLE ONLY public.seasons_writers
 -- PostgreSQL database dump complete
 --
 
-\unrestrict LKgSlMul0L8kCS6SOeYGGfPn6b4mcfhUsBmUrJyWlx7QslbX4P4baVxZTf9DD9P
+\unrestrict vld3ydQW2XDql4oabzhYHRLrRoPvCfjuHOeFlLi2tNtDCJ40xiEXqpCbwsIAaWY
 
