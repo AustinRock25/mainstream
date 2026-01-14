@@ -2,7 +2,7 @@
 -- PostgreSQL database dump
 --
 
-\restrict KiZ3dJYu93MHACVX6pOkRc1f8d0XdAvsK8i12HdAQJIVOaAyLOlPe9sZghEcrFb
+\restrict RcMDzjFai1uyhT6iVVcPLfiWGtsyzaS9tTegSYlE7ykPnlBAPPU8OQXfPIdbcgN
 
 -- Dumped from database version 18.1
 -- Dumped by pg_dump version 18.1
@@ -1900,6 +1900,7 @@ The Lord of the Rings: The War of the Rohirrim	PG-13	the-lord-of-the-rings-the-w
 Avatar: Fire and Ash	PG-13	avatar-fire-and-ash	198	movie	1653	2025-12-19	\N	2026-01-10 19:53:41.462-05	69.23
 The Night Before	R	the-night-before	101	movie	1634	2015-11-20	\N	\N	61.54
 The Family Stone	PG-13	the-family-stone	104	movie	1635	2005-12-16	\N	\N	46.15
+Dark City	R	dark-city	101	movie	1655	1998-02-27	\N	2026-01-13 21:49:41.139-05	776.92
 \.
 
 
@@ -12933,6 +12934,12 @@ COPY public.media_cast (media_id, actor_id, ordering) FROM stdin;
 1654	7919	7
 1654	7920	8
 1654	7921	9
+1655	903	1
+1655	440	2
+1655	59	3
+1655	2702	4
+1655	7919	5
+1655	306	6
 \.
 
 
@@ -14691,6 +14698,7 @@ COPY public.media_directors (media_id, director_id, ordering) FROM stdin;
 1652	868	1
 1653	52	1
 1654	5210	1
+1655	856	1
 \.
 
 
@@ -17544,6 +17552,9 @@ COPY public.media_writers (ordering, media_id, writer_id) FROM stdin;
 1	1654	5210
 2	1654	7808
 3	1654	7917
+1	1655	856
+2	1655	7922
+3	1655	1882
 \.
 
 
@@ -29819,5 +29830,5 @@ ALTER TABLE ONLY public.seasons_writers
 -- PostgreSQL database dump complete
 --
 
-\unrestrict KiZ3dJYu93MHACVX6pOkRc1f8d0XdAvsK8i12HdAQJIVOaAyLOlPe9sZghEcrFb
+\unrestrict RcMDzjFai1uyhT6iVVcPLfiWGtsyzaS9tTegSYlE7ykPnlBAPPU8OQXfPIdbcgN
 
