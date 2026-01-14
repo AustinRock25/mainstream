@@ -2,7 +2,7 @@
 -- PostgreSQL database dump
 --
 
-\restrict KA8mb5G7Qucjj2YYNg8RcK6lmocngX2tP33EvO1jdQ8Dws4HVpt8GilSn7f474K
+\restrict 4IRBuQldIoeaYYQymm9NfxsM0G1NwtAb9CZFSy4ByBCqhZdDuFdKXc6K3GzWt9B
 
 -- Dumped from database version 18.1
 -- Dumped by pg_dump version 18.1
@@ -1442,7 +1442,6 @@ The Marvels	PG-13	the-marvels	105	movie	1152	2023-11-10	\N	\N	53.85
 Trolls	PG	trolls	92	movie	1153	2016-11-04	\N	\N	53.85
 Trolls World Tour	PG	trolls-world-tour	91	movie	1154	2020-04-10	\N	\N	53.85
 King Kong	Not Rated	king-kong-(1933)	100	movie	1155	1933-04-07	\N	\N	76.92
-Godzilla	Not Rated	godzilla-(1954)	96	movie	1156	1954-11-03	\N	\N	84.62
 Blue Beetle	PG-13	blue-beetle	127	movie	1157	2023-08-18	\N	\N	69.23
 Meet the Robinsons	G	meet-the-robinsons	95	movie	1158	2007-03-30	\N	\N	61.54
 Planes, Trains & Automobiles	R	planes-trains-and-automobiles	93	movie	1159	1987-11-25	\N	\N	92.31
@@ -1901,6 +1900,7 @@ Avatar: Fire and Ash	PG-13	avatar-fire-and-ash	198	movie	1653	2025-12-19	\N	2026
 The Night Before	R	the-night-before	101	movie	1634	2015-11-20	\N	\N	61.54
 The Family Stone	PG-13	the-family-stone	104	movie	1635	2005-12-16	\N	\N	46.15
 Dark City	R	dark-city	101	movie	1655	1998-02-27	\N	2026-01-13 21:49:41.139-05	776.92
+Godzilla	Not Rated	godzilla-(1954)	96	movie	1156	1954-11-03	\N	\N	853.85
 \.
 
 
@@ -29830,5 +29830,5 @@ ALTER TABLE ONLY public.seasons_writers
 -- PostgreSQL database dump complete
 --
 
-\unrestrict KA8mb5G7Qucjj2YYNg8RcK6lmocngX2tP33EvO1jdQ8Dws4HVpt8GilSn7f474K
+\unrestrict 4IRBuQldIoeaYYQymm9NfxsM0G1NwtAb9CZFSy4ByBCqhZdDuFdKXc6K3GzWt9B
 
