@@ -2,7 +2,7 @@
 -- PostgreSQL database dump
 --
 
-\restrict cOcr29iUYBjZMlaKEH799mi1ZagmYW9fqCbQIdblPFRYTGAnbPpHoDrS4BPdXNV
+\restrict ubSk9ZuySbIOnZdp6eGsXLb4vqTVQu4cjrkhfr2V3uPIwImGDMzIwK1I3Ce4UWa
 
 -- Dumped from database version 18.1
 -- Dumped by pg_dump version 18.1
@@ -1158,6 +1158,7 @@ Pokémon: Detective Pikachu	PG	detective-pikachu	104	movie	851	2019-05-10	\N	\N	
 Saw III	R	saw-3	108	movie	853	2006-10-27	\N	\N	46.15
 Spider-Man	PG-13	spider-man	121	movie	854	2002-05-03	\N	\N	76.92
 Spy Kids 3-D: Game Over	PG	spy-kids-3	84	movie	855	2003-07-25	\N	\N	30.77
+Brazil	R	brazil	143	movie	1654	1985-12-18	\N	2026-01-12 22:05:34.57-05	853.85
 Star Wars: Episode II - Attack of the Clones	PG	star-wars-episode-2	142	movie	857	2002-05-16	\N	\N	46.15
 Star Wars: Episode III - Revenge of the Sith	PG-13	star-wars-episode-3	140	movie	858	2005-05-19	\N	\N	61.54
 The Christmas Chronicles Part Two	PG	the-christmas-chronicles-2	112	movie	859	2020-11-25	\N	\N	61.54
@@ -12923,6 +12924,15 @@ COPY public.media_cast (media_id, actor_id, ordering) FROM stdin;
 1653	3677	11
 1653	405	12
 1653	468	13
+1654	393	1
+1654	69	2
+1654	7918	3
+1654	301	4
+1654	724	5
+1654	5213	6
+1654	7919	7
+1654	7920	8
+1654	7921	9
 \.
 
 
@@ -14680,6 +14690,7 @@ COPY public.media_directors (media_id, director_id, ordering) FROM stdin;
 1651	3759	1
 1652	868	1
 1653	52	1
+1654	5210	1
 \.
 
 
@@ -17530,6 +17541,9 @@ COPY public.media_writers (ordering, media_id, writer_id) FROM stdin;
 1	1653	52
 2	1653	5679
 3	1653	5680
+1	1654	5210
+2	1654	7808
+3	1654	7917
 \.
 
 
@@ -29804,5 +29818,5 @@ ALTER TABLE ONLY public.seasons_writers
 -- PostgreSQL database dump complete
 --
 
-\unrestrict cOcr29iUYBjZMlaKEH799mi1ZagmYW9fqCbQIdblPFRYTGAnbPpHoDrS4BPdXNV
+\unrestrict ubSk9ZuySbIOnZdp6eGsXLb4vqTVQu4cjrkhfr2V3uPIwImGDMzIwK1I3Ce4UWa
 
