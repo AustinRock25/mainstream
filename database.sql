@@ -2,7 +2,7 @@
 -- PostgreSQL database dump
 --
 
-\restrict 4IRBuQldIoeaYYQymm9NfxsM0G1NwtAb9CZFSy4ByBCqhZdDuFdKXc6K3GzWt9B
+\restrict ur3Nmt6g9dMHHIula4wZ3xu9yZdmLxKgf1nvmGdkIduiG5SCPWmJbZVhedFdNg8
 
 -- Dumped from database version 18.1
 -- Dumped by pg_dump version 18.1
@@ -1627,7 +1627,6 @@ Edge of Tomorrow	PG-13	edge-of-tomorrow	113	movie	1348	2014-06-06	\N	\N	84.62
 Nimona	PG	nimona	99	movie	1349	2023-06-23	\N	\N	92.31
 Black Hawk Down	R	black-hawk-down	144	movie	1351	2001-12-28	\N	\N	69.23
 Ghosted	PG-13	ghosted	116	movie	1352	2023-04-21	\N	\N	53.85
-Dr. Strangelove	PG	dr-strangelove	94	movie	1353	1964-01-29	\N	\N	84.62
 Alien: Romulus	R	alien-romulus	119	movie	1354	2024-08-16	\N	\N	76.92
 Treasure Planet	PG	treasure-planet	95	movie	1355	2002-11-27	\N	\N	76.92
 Thanksgiving	R	thanksgiving	106	movie	1356	2023-11-17	\N	\N	61.54
@@ -1901,6 +1900,7 @@ The Night Before	R	the-night-before	101	movie	1634	2015-11-20	\N	\N	61.54
 The Family Stone	PG-13	the-family-stone	104	movie	1635	2005-12-16	\N	\N	46.15
 Dark City	R	dark-city	101	movie	1655	1998-02-27	\N	2026-01-13 21:49:41.139-05	776.92
 Godzilla	Not Rated	godzilla-(1954)	96	movie	1156	1954-11-03	\N	\N	853.85
+Dr. Strangelove	PG	dr-strangelove	94	movie	1353	1964-01-29	\N	\N	853.85
 \.
 
 
@@ -29830,5 +29830,5 @@ ALTER TABLE ONLY public.seasons_writers
 -- PostgreSQL database dump complete
 --
 
-\unrestrict 4IRBuQldIoeaYYQymm9NfxsM0G1NwtAb9CZFSy4ByBCqhZdDuFdKXc6K3GzWt9B
+\unrestrict ur3Nmt6g9dMHHIula4wZ3xu9yZdmLxKgf1nvmGdkIduiG5SCPWmJbZVhedFdNg8
 
