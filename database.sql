@@ -2,7 +2,7 @@
 -- PostgreSQL database dump
 --
 
-\restrict ubSk9ZuySbIOnZdp6eGsXLb4vqTVQu4cjrkhfr2V3uPIwImGDMzIwK1I3Ce4UWa
+\restrict KiZ3dJYu93MHACVX6pOkRc1f8d0XdAvsK8i12HdAQJIVOaAyLOlPe9sZghEcrFb
 
 -- Dumped from database version 18.1
 -- Dumped by pg_dump version 18.1
@@ -25473,6 +25473,7 @@ COPY public.people (id, name, birth_date, death_date) FROM stdin;
 7919	Ian Richardson	1934-04-07	2007-02-09
 7920	Peter Vaughan	1923-04-04	2016-12-06
 7921	Kim Greist	1958-05-12	\N
+7922	Lem Dobbs	1958-12-24	\N
 \.
 
 
@@ -29818,5 +29819,5 @@ ALTER TABLE ONLY public.seasons_writers
 -- PostgreSQL database dump complete
 --
 
-\unrestrict ubSk9ZuySbIOnZdp6eGsXLb4vqTVQu4cjrkhfr2V3uPIwImGDMzIwK1I3Ce4UWa
+\unrestrict KiZ3dJYu93MHACVX6pOkRc1f8d0XdAvsK8i12HdAQJIVOaAyLOlPe9sZghEcrFb
 
