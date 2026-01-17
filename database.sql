@@ -2,7 +2,7 @@
 -- PostgreSQL database dump
 --
 
-\restrict fqRRypRKlSk023xnD04QKtPYslTfouXgkq9ol5KXoceKoaf7ZZqmifISaRP3tSI
+\restrict BHKwEsxJGSvd6jHYCh70YucBYg4CMt2iTQ8OxX0IeiEecUU5zPZjqMNMmawwJgD
 
 -- Dumped from database version 18.1
 -- Dumped by pg_dump version 18.1
@@ -1901,7 +1901,7 @@ The Sound of Music	R	the-sound-of-music	172	movie	907	1965-03-02	\N	\N	853.85
 Monty Python and the Holy Grail	PG	monty-python-and-the-holy-grail	92	movie	1464	1975-04-03	\N	\N	853.85
 The Nativity Story	PG	the-nativity-story	101	movie	1638	2006-12-01	\N	\N	61.54
 Wake Up Dead Man: A Knives Out Mystery	PG-13	wake-up-dead-man	144	movie	1636	2025-11-26	\N	\N	84.62
-Black Phone 2	R	black-phone-2	114	movie	1656	2025-10-17	\N	2026-01-17 12:48:30.816-05	623.08
+Black Phone 2	R	black-phone-2	114	movie	1656	2025-10-17	\N	2026-01-17 12:48:30.816-05	69.23
 \.
 
 
@@ -29841,5 +29841,5 @@ ALTER TABLE ONLY public.seasons_writers
 -- PostgreSQL database dump complete
 --
 
-\unrestrict fqRRypRKlSk023xnD04QKtPYslTfouXgkq9ol5KXoceKoaf7ZZqmifISaRP3tSI
+\unrestrict BHKwEsxJGSvd6jHYCh70YucBYg4CMt2iTQ8OxX0IeiEecUU5zPZjqMNMmawwJgD
 
