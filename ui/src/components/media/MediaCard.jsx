@@ -213,7 +213,7 @@ function MediaCard ({media}) {
       else if (media.grade <= 1300/14)
         return "A";
       else
-        return "A";
+        return "A+";
     }
   }
 
