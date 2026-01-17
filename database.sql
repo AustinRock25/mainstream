@@ -2,7 +2,7 @@
 -- PostgreSQL database dump
 --
 
-\restrict aVP1ZjG6tAkRcSWNTqEaX90583CBIe2MxhhDQptlFGvZNoAnPK2jZhIw9tjouUf
+\restrict oKGFihaeWypyyUztjIAaXivg30eDws9GwaK9kilFCPIx5lpL0OwhMLPJuMq1bbz
 
 -- Dumped from database version 18.1
 -- Dumped by pg_dump version 18.1
@@ -161,7 +161,7 @@ CREATE TABLE public.seasons (
     end_date date NOT NULL,
     date_added timestamp with time zone,
     runtime integer,
-    grade text
+    grade numeric(10,2)
 );
 
 
@@ -25532,8 +25532,8 @@ COPY public.seasons (season, show_id, episodes, start_date, end_date, date_added
 1	1512	8	2022-06-23	2022-06-23	\N	244	84.62
 2	1512	10	2023-06-22	2023-06-22	\N	358	84.62
 4	1512	10	2025-06-25	2025-06-25	\N	377	84.62
-1	1484	23	2012-10-10	2013-05-15	\N	1012	A-
-2	1484	23	2013-10-09	2014-05-14	\N	1002	A-
+1	1484	23	2012-10-10	2013-05-15	\N	1012	84.62
+2	1484	23	2013-10-09	2014-05-14	\N	1002	84.62
 3	517	22	2010-09-17	2011-04-01	\N	503	84.62
 7	517	12	2020-02-21	2020-05-04	\N	283	84.62
 3	1487	13	2018-10-19	2018-10-19	\N	669	84.62
@@ -29577,7 +29577,7 @@ COPY public.seasons_writers (ordering, show_id, season, writer_id) FROM stdin;
 --
 
 COPY public.users (id, is_admin, email, password, rating_scale) FROM stdin;
-1	t	austinrock03@gmail.com	$2a$12$AOV0G6DRHhHgUdKAJvNgE.L3vyBjM.6xfjO0rZQKCetMoJPfnEz5S	3
+1	t	austinrock03@gmail.com	$2a$12$AOV0G6DRHhHgUdKAJvNgE.L3vyBjM.6xfjO0rZQKCetMoJPfnEz5S	2
 \.
 
 
@@ -29841,5 +29841,5 @@ ALTER TABLE ONLY public.seasons_writers
 -- PostgreSQL database dump complete
 --
 
-\unrestrict aVP1ZjG6tAkRcSWNTqEaX90583CBIe2MxhhDQptlFGvZNoAnPK2jZhIw9tjouUf
+\unrestrict oKGFihaeWypyyUztjIAaXivg30eDws9GwaK9kilFCPIx5lpL0OwhMLPJuMq1bbz
 
