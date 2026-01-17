@@ -454,17 +454,15 @@ function MediaForm({ show, setShow, media }) {
     setIsSubmitting(true);
 
     if (user.rating_scale == 1)
-      formData.grade = parseFloat(formData.grade * 100) / 4;
+      formData.grade = (parseFloat(formData.grade) * 100) / 4;
     else if (user.rating_scale == 2)
-      formData.grade = parseFloat(formData.grade * 100) / 5;
+      formData.grade = (parseFloat(formData.grade) * 100) / 5;
     if (user.rating_scale == 3) {
       if (formData.grade == 0)
         formData.grade = 0;
       else
-        formData.grade = parseFloat((formData.grade + 1) * 100) / 13;
+        formData.grade = ((parseFloat(formData.grade) + 1) * 100) / 13;
     }
-
-    console.log(parseFloat((formData.grade + 1) * 100));
 
     const payload = { ...formData, castAndCrew: selected };
     const apiCall = media?.id ? axios.put(`/api/media/${media.id}`, [payload, media]) : axios.post("/api/media", payload);
