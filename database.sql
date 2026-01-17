@@ -2,7 +2,7 @@
 -- PostgreSQL database dump
 --
 
-\restrict Vc6k78hdManAjQzy97VeQ5sYIC1vUg8PyD9WzgsPxGqhvIs0w8ltXbI7UMfTOyi
+\restrict mcWMRNsreYgYOsMsliospIaQaPQDQdIS0dqbvg7bUHSfzIxnk0BQDacgtvDNRyj
 
 -- Dumped from database version 18.1
 -- Dumped by pg_dump version 18.1
@@ -1901,6 +1901,7 @@ The Sound of Music	R	the-sound-of-music	172	movie	907	1965-03-02	\N	\N	853.85
 Monty Python and the Holy Grail	PG	monty-python-and-the-holy-grail	92	movie	1464	1975-04-03	\N	\N	853.85
 The Nativity Story	PG	the-nativity-story	101	movie	1638	2006-12-01	\N	\N	61.54
 Wake Up Dead Man: A Knives Out Mystery	PG-13	wake-up-dead-man	144	movie	1636	2025-11-26	\N	\N	84.62
+Black Phone 2	R	black-phone-2	114	movie	1656	2025-10-17	\N	2026-01-17 12:48:30.816-05	623.08
 \.
 
 
@@ -12940,6 +12941,12 @@ COPY public.media_cast (media_id, actor_id, ordering) FROM stdin;
 1655	2702	4
 1655	7919	5
 1655	306	6
+1656	5006	1
+1656	4801	2
+1656	620	3
+1656	7923	4
+1656	1425	5
+1656	92	6
 \.
 
 
@@ -14699,6 +14706,7 @@ COPY public.media_directors (media_id, director_id, ordering) FROM stdin;
 1653	52	1
 1654	5210	1
 1655	856	1
+1656	1779	1
 \.
 
 
@@ -17555,6 +17563,8 @@ COPY public.media_writers (ordering, media_id, writer_id) FROM stdin;
 1	1655	856
 2	1655	7922
 3	1655	1882
+1	1656	1779
+2	1656	5902
 \.
 
 
@@ -29831,5 +29841,5 @@ ALTER TABLE ONLY public.seasons_writers
 -- PostgreSQL database dump complete
 --
 
-\unrestrict Vc6k78hdManAjQzy97VeQ5sYIC1vUg8PyD9WzgsPxGqhvIs0w8ltXbI7UMfTOyi
+\unrestrict mcWMRNsreYgYOsMsliospIaQaPQDQdIS0dqbvg7bUHSfzIxnk0BQDacgtvDNRyj
 
