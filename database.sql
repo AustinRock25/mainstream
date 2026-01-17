@@ -2,7 +2,7 @@
 -- PostgreSQL database dump
 --
 
-\restrict CZVHrjfLZm0XIyeah5cbLM1Phd6YTesPX0PoGN8T2zhzMVNJhxHcbVZNToanV9A
+\restrict Vc6k78hdManAjQzy97VeQ5sYIC1vUg8PyD9WzgsPxGqhvIs0w8ltXbI7UMfTOyi
 
 -- Dumped from database version 18.1
 -- Dumped by pg_dump version 18.1
@@ -1861,7 +1861,6 @@ The Wiz	G	the-wiz	133	movie	1619	1978-10-24	\N	\N	53.85
 The Whale	R	the-whale	117	movie	1620	2022-12-09	\N	\N	92.31
 Sisu	R	sisu	91	movie	1621	2023-04-28	\N	\N	76.92
 The Bad Guys 2	PG	the-bad-guys-2	104	movie	1622	2025-08-01	\N	\N	84.62
-The Nativity Story	PG	the-nativity-story	101	movie	1638	2006-12-01	\N	2025-12-15 16:26:32.275-05	61.54
 Home Alone: The Holiday Heist	TV-PG	home-alone-the-holiday-heist	90	movie	1640	2012-11-25	\N	2025-12-19 16:59:20.067-05	23.08
 Home Sweet Home Alone	PG	home-sweet-home-alone	93	movie	1641	2021-11-12	\N	2025-12-20 17:04:05.587-05	23.08
 Sleepaway Camp	R	sleepaway-camp	84	movie	1591	1983-11-18	\N	\N	53.85
@@ -1880,7 +1879,6 @@ Stranger Things	TV-14	stranger-things	\N	show	1002	\N	t	\N	\N
 Anaconda	PG-13	anaconda	89	movie	1626	1997-04-11	\N	\N	46.15
 Regretting You	PG-13	regretting-you	116	movie	1646	2025-10-24	\N	2026-01-01 18:26:27.99-05	53.85
 Lake Placid	R	lake-placid	82	movie	1627	1999-07-16	\N	\N	30.77
-Wake Up Dead Man: A Knives Out Mystery	PG-13	wake-up-dead-man	144	movie	1636	2025-11-26	\N	2025-12-14 09:27:26.605-05	84.62
 Marriage Story	R	marriage-story	137	movie	1628	2019-11-06	\N	\N	84.62
 Shakespeare in Love	R	shakespeare-in-love	123	movie	1629	1998-12-11	\N	\N	76.92
 Modern Times	G	modern-times	87	movie	1648	1936-02-25	\N	2026-01-04 17:59:29.177-05	69.23
@@ -1901,6 +1899,8 @@ Godzilla	Not Rated	godzilla-(1954)	96	movie	1156	1954-11-03	\N	\N	853.85
 Dr. Strangelove	PG	dr-strangelove	94	movie	1353	1964-01-29	\N	\N	853.85
 The Sound of Music	R	the-sound-of-music	172	movie	907	1965-03-02	\N	\N	853.85
 Monty Python and the Holy Grail	PG	monty-python-and-the-holy-grail	92	movie	1464	1975-04-03	\N	\N	853.85
+The Nativity Story	PG	the-nativity-story	101	movie	1638	2006-12-01	\N	\N	61.54
+Wake Up Dead Man: A Knives Out Mystery	PG-13	wake-up-dead-man	144	movie	1636	2025-11-26	\N	\N	84.62
 \.
 
 
@@ -25485,6 +25485,7 @@ COPY public.people (id, name, birth_date, death_date) FROM stdin;
 7920	Peter Vaughan	1923-04-04	2016-12-06
 7921	Kim Greist	1958-05-12	\N
 7922	Lem Dobbs	1958-12-24	\N
+7923	Miguel Mora	2007-03-01	\N
 \.
 
 
@@ -25642,10 +25643,10 @@ COPY public.seasons (season, show_id, episodes, start_date, end_date, date_added
 2	1486	23	2015-10-06	2016-05-24	\N	966	76.92
 1	1495	13	2017-11-17	2017-11-17	\N	688	84.62
 1	1489	13	2015-11-20	2015-11-20	\N	673	84.62
-1	1637	8	2025-10-26	2025-12-14	2025-12-14 16:23:26.252-05	482	76.92
 1	46	2	1990-11-18	1990-11-20	\N	187	53.85
 1	1518	6	2025-06-24	2025-07-01	\N	289	46.15
 5	1002	8	2025-11-26	2025-12-31	2025-12-31 23:09:49.555-05	620	76.92
+1	1637	8	2025-10-26	2025-12-14	\N	482	76.92
 \.
 
 
@@ -29830,5 +29831,5 @@ ALTER TABLE ONLY public.seasons_writers
 -- PostgreSQL database dump complete
 --
 
-\unrestrict CZVHrjfLZm0XIyeah5cbLM1Phd6YTesPX0PoGN8T2zhzMVNJhxHcbVZNToanV9A
+\unrestrict Vc6k78hdManAjQzy97VeQ5sYIC1vUg8PyD9WzgsPxGqhvIs0w8ltXbI7UMfTOyi
 
