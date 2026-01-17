@@ -464,6 +464,8 @@ function MediaForm({ show, setShow, media }) {
         formData.grade = parseFloat((formData.grade + 1) * 100) / 13;
     }
 
+    console.log(parseFloat((formData.grade + 1) * 100));
+
     const payload = { ...formData, castAndCrew: selected };
     const apiCall = media?.id ? axios.put(`/api/media/${media.id}`, [payload, media]) : axios.post("/api/media", payload);
     
