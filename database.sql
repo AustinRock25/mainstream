@@ -2,7 +2,7 @@
 -- PostgreSQL database dump
 --
 
-\restrict nc3qabgliGC8psBg3GzO6WEatfQ9F1XeG39LmSLWmywH0FiRODmZL4MefXdwmf8
+\restrict CZVHrjfLZm0XIyeah5cbLM1Phd6YTesPX0PoGN8T2zhzMVNJhxHcbVZNToanV9A
 
 -- Dumped from database version 18.1
 -- Dumped by pg_dump version 18.1
@@ -1726,7 +1726,6 @@ Happy Death Day 2U	PG-13	happy-death-day-2u	100	movie	1459	2019-02-13	\N	\N	69.2
 The Monkey	R	the-monkey	98	movie	1460	2025-02-21	\N	\N	76.92
 Tombstone	R	tombstone	130	movie	1461	1993-12-25	\N	\N	92.31
 Pride & Prejudice	PG	pride-and-prejudice	127	movie	1463	2005-11-23	\N	\N	76.92
-Monty Python and the Holy Grail	PG	monty-python-and-the-holy-grail	92	movie	1464	1975-04-03	\N	\N	84.62
 Wolf Man	R	wolf-man	103	movie	1465	2025-01-17	\N	\N	53.85
 Princess Mononoke	PG-13	princess-mononoke	133	movie	1466	1997-07-12	\N	\N	92.31
 From Dusk till Dawn	R	from-dusk-till-dawn	108	movie	1467	1996-01-19	\N	\N	69.23
@@ -1901,6 +1900,7 @@ Dark City	R	dark-city	101	movie	1655	1998-02-27	\N	2026-01-13 21:49:41.139-05	77
 Godzilla	Not Rated	godzilla-(1954)	96	movie	1156	1954-11-03	\N	\N	853.85
 Dr. Strangelove	PG	dr-strangelove	94	movie	1353	1964-01-29	\N	\N	853.85
 The Sound of Music	R	the-sound-of-music	172	movie	907	1965-03-02	\N	\N	853.85
+Monty Python and the Holy Grail	PG	monty-python-and-the-holy-grail	92	movie	1464	1975-04-03	\N	\N	853.85
 \.
 
 
@@ -29830,5 +29830,5 @@ ALTER TABLE ONLY public.seasons_writers
 -- PostgreSQL database dump complete
 --
 
-\unrestrict nc3qabgliGC8psBg3GzO6WEatfQ9F1XeG39LmSLWmywH0FiRODmZL4MefXdwmf8
+\unrestrict CZVHrjfLZm0XIyeah5cbLM1Phd6YTesPX0PoGN8T2zhzMVNJhxHcbVZNToanV9A
 
