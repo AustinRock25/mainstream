@@ -2,7 +2,7 @@
 -- PostgreSQL database dump
 --
 
-\restrict foSggzYP9yG0ybHe75vyjdlncWEqr3YmQphOZSf6thY09UopIxXzyhiozLNSGGz
+\restrict xYc1OlFbfzjawbeBoEXeq7JkqjkjZvdB6A3awznANZDt52MA7lP7rfB4xVJp4qe
 
 -- Dumped from database version 18.1
 -- Dumped by pg_dump version 18.1
@@ -1894,7 +1894,6 @@ The Lord of the Rings: The War of the Rohirrim	PG-13	the-lord-of-the-rings-the-w
 Avatar: Fire and Ash	PG-13	avatar-fire-and-ash	198	movie	1653	2025-12-19	\N	2026-01-10 19:53:41.462-05	69.23
 The Night Before	R	the-night-before	101	movie	1634	2015-11-20	\N	\N	61.54
 The Family Stone	PG-13	the-family-stone	104	movie	1635	2005-12-16	\N	\N	46.15
-Monty Python and the Holy Grail	PG	monty-python-and-the-holy-grail	92	movie	1464	1975-04-03	\N	\N	853.85
 The Nativity Story	PG	the-nativity-story	101	movie	1638	2006-12-01	\N	\N	61.54
 Wake Up Dead Man: A Knives Out Mystery	PG-13	wake-up-dead-man	144	movie	1636	2025-11-26	\N	\N	84.62
 Black Phone 2	R	black-phone-2	114	movie	1656	2025-10-17	\N	2026-01-17 12:48:30.816-05	69.23
@@ -1902,6 +1901,7 @@ Dark City	R	dark-city	101	movie	1655	1998-02-27	\N	2026-01-13 21:49:41.139-05	84
 Godzilla	Not Rated	godzilla-(1954)	96	movie	1156	1954-11-03	\N	\N	92.31
 Dr. Strangelove	PG	dr-strangelove	94	movie	1353	1964-01-29	\N	\N	92.31
 The Sound of Music	R	the-sound-of-music	172	movie	907	1965-03-02	\N	\N	92.31
+Monty Python and the Holy Grail	PG	monty-python-and-the-holy-grail	92	movie	1464	1975-04-03	\N	\N	92.31
 \.
 
 
@@ -29841,5 +29841,5 @@ ALTER TABLE ONLY public.seasons_writers
 -- PostgreSQL database dump complete
 --
 
-\unrestrict foSggzYP9yG0ybHe75vyjdlncWEqr3YmQphOZSf6thY09UopIxXzyhiozLNSGGz
+\unrestrict xYc1OlFbfzjawbeBoEXeq7JkqjkjZvdB6A3awznANZDt52MA7lP7rfB4xVJp4qe
 
