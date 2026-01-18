@@ -2,7 +2,7 @@
 -- PostgreSQL database dump
 --
 
-\restrict rCrFigOdDlNkRTR8zYuVgXc7rsm4LtxFbZW836zy5UWqD0DUMaDYryUJU7AWSsW
+\restrict xoWRFsSL1E74xfHdFrSWglUVVRF9H9mfrPWmgNgeaapKubaFjQxmfNEKIWy1KSG
 
 -- Dumped from database version 18.1
 -- Dumped by pg_dump version 18.1
@@ -25497,6 +25497,7 @@ COPY public.people (id, name, birth_date, death_date) FROM stdin;
 7922	Lem Dobbs	1958-12-24	\N
 7923	Miguel Mora	2007-03-01	\N
 7924	Christophe Gans	1960-03-11	\N
+7925	Deborah Kara Unger	1966-05-12	\N
 \.
 
 
@@ -29842,5 +29843,5 @@ ALTER TABLE ONLY public.seasons_writers
 -- PostgreSQL database dump complete
 --
 
-\unrestrict rCrFigOdDlNkRTR8zYuVgXc7rsm4LtxFbZW836zy5UWqD0DUMaDYryUJU7AWSsW
+\unrestrict xoWRFsSL1E74xfHdFrSWglUVVRF9H9mfrPWmgNgeaapKubaFjQxmfNEKIWy1KSG
 
