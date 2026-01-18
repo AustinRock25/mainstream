@@ -2,7 +2,7 @@
 -- PostgreSQL database dump
 --
 
-\restrict xYc1OlFbfzjawbeBoEXeq7JkqjkjZvdB6A3awznANZDt52MA7lP7rfB4xVJp4qe
+\restrict rCrFigOdDlNkRTR8zYuVgXc7rsm4LtxFbZW836zy5UWqD0DUMaDYryUJU7AWSsW
 
 -- Dumped from database version 18.1
 -- Dumped by pg_dump version 18.1
@@ -25496,6 +25496,7 @@ COPY public.people (id, name, birth_date, death_date) FROM stdin;
 7921	Kim Greist	1958-05-12	\N
 7922	Lem Dobbs	1958-12-24	\N
 7923	Miguel Mora	2007-03-01	\N
+7924	Christophe Gans	1960-03-11	\N
 \.
 
 
@@ -29841,5 +29842,5 @@ ALTER TABLE ONLY public.seasons_writers
 -- PostgreSQL database dump complete
 --
 
-\unrestrict xYc1OlFbfzjawbeBoEXeq7JkqjkjZvdB6A3awznANZDt52MA7lP7rfB4xVJp4qe
+\unrestrict rCrFigOdDlNkRTR8zYuVgXc7rsm4LtxFbZW836zy5UWqD0DUMaDYryUJU7AWSsW
 
