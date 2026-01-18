@@ -2,7 +2,7 @@
 -- PostgreSQL database dump
 --
 
-\restrict xoWRFsSL1E74xfHdFrSWglUVVRF9H9mfrPWmgNgeaapKubaFjQxmfNEKIWy1KSG
+\restrict TJ343QGiJJLhh8EoYxPCpxz9GHcqN837dm4BiqbFv1PNBJXnnRsfdIGUm6tkRZW
 
 -- Dumped from database version 18.1
 -- Dumped by pg_dump version 18.1
@@ -25498,6 +25498,7 @@ COPY public.people (id, name, birth_date, death_date) FROM stdin;
 7923	Miguel Mora	2007-03-01	\N
 7924	Christophe Gans	1960-03-11	\N
 7925	Deborah Kara Unger	1966-05-12	\N
+7926	Tanya Allen	1975-01-01	\N
 \.
 
 
@@ -29843,5 +29844,5 @@ ALTER TABLE ONLY public.seasons_writers
 -- PostgreSQL database dump complete
 --
 
-\unrestrict xoWRFsSL1E74xfHdFrSWglUVVRF9H9mfrPWmgNgeaapKubaFjQxmfNEKIWy1KSG
+\unrestrict TJ343QGiJJLhh8EoYxPCpxz9GHcqN837dm4BiqbFv1PNBJXnnRsfdIGUm6tkRZW
 
