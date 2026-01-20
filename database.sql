@@ -2,7 +2,7 @@
 -- PostgreSQL database dump
 --
 
-\restrict wxP7zZZC3rxwlcgdBknWW0fCpUOq4gmCvYZDBCSRkzm9ogdReNMuXksaadmopDB
+\restrict 9T2srkdIasHGF0APV7xkb2nZM0G5BXnm3KfIZezoNRI06lnHN2rAH5adIm1kXII
 
 -- Dumped from database version 18.1
 -- Dumped by pg_dump version 18.1
@@ -427,7 +427,6 @@ Sherlock Holmes: A Game of Shadows	PG-13	sherlock-holmes-a-game-of-shadows	129	m
 Solo: A Star Wars Story	PG-13	solo	135	movie	73	2018-05-25	\N	\N	61.54
 Space Jam: A New Legacy	PG	space-jam-a-new-legacy	115	movie	74	2021-07-16	\N	\N	30.77
 Spider-Man 3	PG-13	spider-man-3	139	movie	75	2007-05-04	\N	\N	53.85
-Home Alone 4	TV-PG	home-alone-4	84	movie	1639	2002-11-03	\N	2025-12-18 16:55:05.149-05	15.38
 Star Trek III: The Search for Spock	PG	star-trek-3	105	movie	76	1984-06-01	\N	\N	69.23
 Star Trek IV: The Voyage Home	PG	star-trek-4	119	movie	77	1986-11-26	\N	\N	76.92
 Star Trek VI: The Undiscovered Country	PG	star-trek-6	110	movie	78	1991-12-06	\N	\N	61.54
@@ -1689,6 +1688,7 @@ Life is Beautiful	PG-13	life-is-beautiful	116	movie	1417	1997-12-20	\N	\N	92.31
 The Boss Baby	PG	the-boss-baby	97	movie	1418	2017-03-31	\N	\N	46.15
 American History X	R	american-history-x	119	movie	1419	1998-10-30	\N	\N	76.92
 The Punisher	R	the-punisher-(1989)	89	movie	1420	1991-04-25	\N	\N	53.85
+Home Alone 4	TV-PG	home-alone-4	84	movie	1639	2002-11-03	\N	\N	15.38
 One Flew Over the Cuckoo's Nest	R	one-flew-over-the-cuckoos-nest	135	movie	1421	1975-11-19	\N	\N	84.62
 Metropolis	Not Rated	metropolis	153	movie	1422	1927-01-10	\N	\N	69.23
 Nosferatu	R	nosferatu-(2024)	132	movie	1423	2024-12-25	\N	\N	76.92
@@ -1862,7 +1862,6 @@ The Wiz	G	the-wiz	133	movie	1619	1978-10-24	\N	\N	53.85
 The Whale	R	the-whale	117	movie	1620	2022-12-09	\N	\N	92.31
 Sisu	R	sisu	91	movie	1621	2023-04-28	\N	\N	76.92
 The Bad Guys 2	PG	the-bad-guys-2	104	movie	1622	2025-08-01	\N	\N	84.62
-Home Alone: The Holiday Heist	TV-PG	home-alone-the-holiday-heist	90	movie	1640	2012-11-25	\N	2025-12-19 16:59:20.067-05	23.08
 Home Sweet Home Alone	PG	home-sweet-home-alone	93	movie	1641	2021-11-12	\N	2025-12-20 17:04:05.587-05	23.08
 Sleepaway Camp	R	sleepaway-camp	84	movie	1591	1983-11-18	\N	\N	53.85
 Reefer Madness	Not Rated	reefer-madness	66	movie	737	1936-01-01	\N	\N	30.77
@@ -1903,6 +1902,7 @@ Godzilla	Not Rated	godzilla-(1954)	96	movie	1156	1954-11-03	\N	\N	92.31
 Dr. Strangelove	PG	dr-strangelove	94	movie	1353	1964-01-29	\N	\N	92.31
 The Sound of Music	R	the-sound-of-music	172	movie	907	1965-03-02	\N	\N	92.31
 Monty Python and the Holy Grail	PG	monty-python-and-the-holy-grail	92	movie	1464	1975-04-03	\N	\N	92.31
+Home Alone: The Holiday Heist	TV-PG	home-alone-the-holiday-heist	90	movie	1640	2012-11-25	\N	\N	23.08
 \.
 
 
@@ -25510,6 +25510,7 @@ COPY public.people (id, name, birth_date, death_date) FROM stdin;
 7924	Christophe Gans	1960-03-11	\N
 7925	Deborah Kara Unger	1966-05-12	\N
 7926	Tanya Allen	1975-01-01	\N
+7927	Adelaide Clemens	1989-11-30	\N
 \.
 
 
@@ -29855,5 +29856,5 @@ ALTER TABLE ONLY public.seasons_writers
 -- PostgreSQL database dump complete
 --
 
-\unrestrict wxP7zZZC3rxwlcgdBknWW0fCpUOq4gmCvYZDBCSRkzm9ogdReNMuXksaadmopDB
+\unrestrict 9T2srkdIasHGF0APV7xkb2nZM0G5BXnm3KfIZezoNRI06lnHN2rAH5adIm1kXII
 
