@@ -2,7 +2,7 @@
 -- PostgreSQL database dump
 --
 
-\restrict 9T2srkdIasHGF0APV7xkb2nZM0G5BXnm3KfIZezoNRI06lnHN2rAH5adIm1kXII
+\restrict EWlMSe7n9UXW0YOvH4A2E5C67bzuNQYshaOgCz4dVKbtArQfzBJlWbggdRjyYEW
 
 -- Dumped from database version 18.1
 -- Dumped by pg_dump version 18.1
@@ -25511,6 +25511,7 @@ COPY public.people (id, name, birth_date, death_date) FROM stdin;
 7925	Deborah Kara Unger	1966-05-12	\N
 7926	Tanya Allen	1975-01-01	\N
 7927	Adelaide Clemens	1989-11-30	\N
+7928	Martin Donovan	1957-08-19	\N
 \.
 
 
@@ -29856,5 +29857,5 @@ ALTER TABLE ONLY public.seasons_writers
 -- PostgreSQL database dump complete
 --
 
-\unrestrict 9T2srkdIasHGF0APV7xkb2nZM0G5BXnm3KfIZezoNRI06lnHN2rAH5adIm1kXII
+\unrestrict EWlMSe7n9UXW0YOvH4A2E5C67bzuNQYshaOgCz4dVKbtArQfzBJlWbggdRjyYEW
 
