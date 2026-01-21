@@ -2,7 +2,7 @@
 -- PostgreSQL database dump
 --
 
-\restrict tXiB1Tnk5MfAbKMQCXTs5AIwkHMYYiq6SzGWQlDwAYlATJa3MhBmguHuQ6QTy9M
+\restrict J748jdlPurX4lpSfeDNybtHrUKaKVBuLCrI7YrEOa0GxqH0XJU3cn6lqQUAjoZN
 
 -- Dumped from database version 18.1
 -- Dumped by pg_dump version 18.1
@@ -25532,6 +25532,7 @@ COPY public.people (id, name, birth_date, death_date) FROM stdin;
 7927	Adelaide Clemens	1989-11-30	\N
 7928	Martin Donovan	1957-08-19	\N
 7929	Timur Bekmambetov	1961-06-25	\N
+7930	Sarah Watson	\N	\N
 \.
 
 
@@ -29877,5 +29878,5 @@ ALTER TABLE ONLY public.seasons_writers
 -- PostgreSQL database dump complete
 --
 
-\unrestrict tXiB1Tnk5MfAbKMQCXTs5AIwkHMYYiq6SzGWQlDwAYlATJa3MhBmguHuQ6QTy9M
+\unrestrict J748jdlPurX4lpSfeDNybtHrUKaKVBuLCrI7YrEOa0GxqH0XJU3cn6lqQUAjoZN
 
