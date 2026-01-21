@@ -2,7 +2,7 @@
 -- PostgreSQL database dump
 --
 
-\restrict LNbqVBuS3ABm6B77b3hGZZ4t2doTbNXQdeux4vH97R6livfUip2xz4he8o1R0OA
+\restrict 1Ocxb4kcBJsHwd1HhJjc22ulXbn7sOnhhy0eWALIwaNwemJzJB02OJcgtwaanO9
 
 -- Dumped from database version 18.1
 -- Dumped by pg_dump version 18.1
@@ -25535,6 +25535,7 @@ COPY public.people (id, name, birth_date, death_date) FROM stdin;
 7930	Sarah Watson	\N	\N
 7931	Jason Ensler	1970-07-21	\N
 7932	Shae Worthy	\N	\N
+7933	Albert Kim	\N	\N
 \.
 
 
@@ -29880,5 +29881,5 @@ ALTER TABLE ONLY public.seasons_writers
 -- PostgreSQL database dump complete
 --
 
-\unrestrict LNbqVBuS3ABm6B77b3hGZZ4t2doTbNXQdeux4vH97R6livfUip2xz4he8o1R0OA
+\unrestrict 1Ocxb4kcBJsHwd1HhJjc22ulXbn7sOnhhy0eWALIwaNwemJzJB02OJcgtwaanO9
 
