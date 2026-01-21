@@ -2,7 +2,7 @@
 -- PostgreSQL database dump
 --
 
-\restrict J748jdlPurX4lpSfeDNybtHrUKaKVBuLCrI7YrEOa0GxqH0XJU3cn6lqQUAjoZN
+\restrict hNOlqwWa1wgjcftock2yBzHpumYeoakvVpRuxVfUSWd5zwaV99d4akGNjZoYXed
 
 -- Dumped from database version 18.1
 -- Dumped by pg_dump version 18.1
@@ -25533,6 +25533,7 @@ COPY public.people (id, name, birth_date, death_date) FROM stdin;
 7928	Martin Donovan	1957-08-19	\N
 7929	Timur Bekmambetov	1961-06-25	\N
 7930	Sarah Watson	\N	\N
+7931	Jason Ensler	1970-07-21	\N
 \.
 
 
@@ -29878,5 +29879,5 @@ ALTER TABLE ONLY public.seasons_writers
 -- PostgreSQL database dump complete
 --
 
-\unrestrict J748jdlPurX4lpSfeDNybtHrUKaKVBuLCrI7YrEOa0GxqH0XJU3cn6lqQUAjoZN
+\unrestrict hNOlqwWa1wgjcftock2yBzHpumYeoakvVpRuxVfUSWd5zwaV99d4akGNjZoYXed
 
