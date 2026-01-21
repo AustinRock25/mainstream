@@ -2,7 +2,7 @@
 -- PostgreSQL database dump
 --
 
-\restrict 1Ocxb4kcBJsHwd1HhJjc22ulXbn7sOnhhy0eWALIwaNwemJzJB02OJcgtwaanO9
+\restrict B9jRaJdVUqi0aMoyVuQgmj0c7Sg2JfNYaNtPEiiPI14u9LgWWgtr2DCs9mWz3gf
 
 -- Dumped from database version 18.1
 -- Dumped by pg_dump version 18.1
@@ -25536,6 +25536,7 @@ COPY public.people (id, name, birth_date, death_date) FROM stdin;
 7931	Jason Ensler	1970-07-21	\N
 7932	Shae Worthy	\N	\N
 7933	Albert Kim	\N	\N
+7934	Charlie Bushnell	2004-06-16	\N
 \.
 
 
@@ -29881,5 +29882,5 @@ ALTER TABLE ONLY public.seasons_writers
 -- PostgreSQL database dump complete
 --
 
-\unrestrict 1Ocxb4kcBJsHwd1HhJjc22ulXbn7sOnhhy0eWALIwaNwemJzJB02OJcgtwaanO9
+\unrestrict B9jRaJdVUqi0aMoyVuQgmj0c7Sg2JfNYaNtPEiiPI14u9LgWWgtr2DCs9mWz3gf
 
