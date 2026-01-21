@@ -2,7 +2,7 @@
 -- PostgreSQL database dump
 --
 
-\restrict EWlMSe7n9UXW0YOvH4A2E5C67bzuNQYshaOgCz4dVKbtArQfzBJlWbggdRjyYEW
+\restrict 7BHJeaL2aGzJRSb4am1mNsG9NWIL1G6qPIgfr9vL3CzLWzEW3vfRhcsI5blR1gh
 
 -- Dumped from database version 18.1
 -- Dumped by pg_dump version 18.1
@@ -427,6 +427,7 @@ Sherlock Holmes: A Game of Shadows	PG-13	sherlock-holmes-a-game-of-shadows	129	m
 Solo: A Star Wars Story	PG-13	solo	135	movie	73	2018-05-25	\N	\N	61.54
 Space Jam: A New Legacy	PG	space-jam-a-new-legacy	115	movie	74	2021-07-16	\N	\N	30.77
 Spider-Man 3	PG-13	spider-man-3	139	movie	75	2007-05-04	\N	\N	53.85
+Silent Hill: Revelation	R	silent-hill-revelation	94	movie	1658	2012-10-26	\N	2026-01-19 20:40:03.652-05	23.08
 Star Trek III: The Search for Spock	PG	star-trek-3	105	movie	76	1984-06-01	\N	\N	69.23
 Star Trek IV: The Voyage Home	PG	star-trek-4	119	movie	77	1986-11-26	\N	\N	76.92
 Star Trek VI: The Undiscovered Country	PG	star-trek-6	110	movie	78	1991-12-06	\N	\N	61.54
@@ -12956,6 +12957,13 @@ COPY public.media_cast (media_id, actor_id, ordering) FROM stdin;
 1657	7926	6
 1657	321	7
 1657	1878	8
+1658	7927	1
+1658	4350	2
+1658	7925	3
+1658	7928	4
+1658	353	5
+1658	1211	6
+1658	196	7
 \.
 
 
@@ -14717,6 +14725,7 @@ COPY public.media_directors (media_id, director_id, ordering) FROM stdin;
 1655	856	1
 1656	1779	1
 1657	7924	1
+1658	7036	1
 \.
 
 
@@ -17576,6 +17585,7 @@ COPY public.media_writers (ordering, media_id, writer_id) FROM stdin;
 1	1656	1779
 2	1656	5902
 1	1657	6400
+1	1658	7036
 \.
 
 
@@ -29857,5 +29867,5 @@ ALTER TABLE ONLY public.seasons_writers
 -- PostgreSQL database dump complete
 --
 
-\unrestrict EWlMSe7n9UXW0YOvH4A2E5C67bzuNQYshaOgCz4dVKbtArQfzBJlWbggdRjyYEW
+\unrestrict 7BHJeaL2aGzJRSb4am1mNsG9NWIL1G6qPIgfr9vL3CzLWzEW3vfRhcsI5blR1gh
 
