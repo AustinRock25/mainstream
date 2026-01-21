@@ -2,7 +2,7 @@
 -- PostgreSQL database dump
 --
 
-\restrict uFot6viAfk3Qj8JPSXv2fXqZBVuNxnNtnBaZMOjCGca6ixqRVqzCgiXZDukolf8
+\restrict kJwvGJfbAUGlQFZk6Qkn8x82HJRtWsZZVlXdpW5DnIo8vxlzcfhGSiwUguWDDnL
 
 -- Dumped from database version 18.1
 -- Dumped by pg_dump version 18.1
@@ -283,7 +283,6 @@ Agatha All Along	TV-14	agatha-all-along	\N	show	1343	\N	t	\N	\N
 Star Wars Rebels	TV-Y7 FV	star-wars-rebels	\N	show	167	\N	t	\N	\N
 Moon Knight	TV-14	moon-knight	\N	show	453	\N	t	\N	\N
 What If...?	TV-14	what-if	\N	show	104	\N	t	\N	\N
-Percy Jackson and the Olympians	TV-PG	percy-jackson-and-the-olympians	\N	show	1198	\N	f	\N	\N
 Loki	TV-14	loki	\N	show	423	\N	t	\N	\N
 The Continental: From the World of John Wick	TV-MA	the-continental	\N	show	1502	\N	t	\N	\N
 Ahsoka	TV-14	ahsoka	\N	show	1131	\N	f	\N	\N
@@ -1905,6 +1904,7 @@ Monty Python and the Holy Grail	PG	monty-python-and-the-holy-grail	92	movie	1464
 Home Alone: The Holiday Heist	TV-PG	home-alone-the-holiday-heist	90	movie	1640	2012-11-25	\N	\N	23.08
 Home Sweet Home Alone	PG	home-sweet-home-alone	93	movie	1641	2021-11-12	\N	\N	23.08
 Abraham Lincoln: Vampire Hunter	R	abraham-lincoln-vampire-hunter	105	movie	1659	2012-06-22	\N	2026-01-20 21:32:39.445-05	53.85
+Percy Jackson and the Olympians	TV-PG	percy-jackson-and-the-olympians	\N	show	1198	\N	f	\N	\N
 \.
 
 
@@ -25700,6 +25700,7 @@ COPY public.seasons (season, show_id, episodes, start_date, end_date, date_added
 1	1518	6	2025-06-24	2025-07-01	\N	289	46.15
 5	1002	8	2025-11-26	2025-12-31	2025-12-31 23:09:49.555-05	620	76.92
 1	1637	8	2025-10-26	2025-12-14	\N	482	76.92
+2	1198	8	2025-12-10	2026-01-21	2026-01-21 11:55:43.041-05	324	76.92
 \.
 
 
@@ -27298,6 +27299,12 @@ COPY public.seasons_cast (ordering, season, show_id, actor_id) FROM stdin;
 16	5	1002	1523
 17	5	1002	4179
 18	5	1002	5081
+1	2	1198	5095
+2	2	1198	4864
+3	2	1198	4733
+4	2	1198	7934
+5	2	1198	7935
+6	2	1198	7936
 \.
 
 
@@ -28417,6 +28424,9 @@ COPY public.seasons_directors (ordering, show_id, season, director_id) FROM stdi
 2	1002	5	5310
 3	1002	5	616
 4	1002	5	2401
+1	1198	2	1471
+2	1198	2	7931
+3	1198	2	6595
 \.
 
 
@@ -29612,6 +29622,12 @@ COPY public.seasons_writers (ordering, show_id, season, writer_id) FROM stdin;
 4	1002	5	6916
 5	1002	5	6903
 6	1002	5	6256
+1	1198	2	5273
+2	1198	2	6949
+3	1198	2	7930
+4	1198	2	6794
+5	1198	2	7932
+6	1198	2	7933
 \.
 
 
@@ -29884,5 +29900,5 @@ ALTER TABLE ONLY public.seasons_writers
 -- PostgreSQL database dump complete
 --
 
-\unrestrict uFot6viAfk3Qj8JPSXv2fXqZBVuNxnNtnBaZMOjCGca6ixqRVqzCgiXZDukolf8
+\unrestrict kJwvGJfbAUGlQFZk6Qkn8x82HJRtWsZZVlXdpW5DnIo8vxlzcfhGSiwUguWDDnL
 
