@@ -2,7 +2,7 @@
 -- PostgreSQL database dump
 --
 
-\restrict 7BHJeaL2aGzJRSb4am1mNsG9NWIL1G6qPIgfr9vL3CzLWzEW3vfRhcsI5blR1gh
+\restrict 1MtjfXwSGDqKJUNsXR1Tf3iRejRbY4OTcdRU8w8Ra176FWAv0sJXzf9c1vEMISF
 
 -- Dumped from database version 18.1
 -- Dumped by pg_dump version 18.1
@@ -1863,7 +1863,6 @@ The Wiz	G	the-wiz	133	movie	1619	1978-10-24	\N	\N	53.85
 The Whale	R	the-whale	117	movie	1620	2022-12-09	\N	\N	92.31
 Sisu	R	sisu	91	movie	1621	2023-04-28	\N	\N	76.92
 The Bad Guys 2	PG	the-bad-guys-2	104	movie	1622	2025-08-01	\N	\N	84.62
-Home Sweet Home Alone	PG	home-sweet-home-alone	93	movie	1641	2021-11-12	\N	2025-12-20 17:04:05.587-05	23.08
 Sleepaway Camp	R	sleepaway-camp	84	movie	1591	1983-11-18	\N	\N	53.85
 Reefer Madness	Not Rated	reefer-madness	66	movie	737	1936-01-01	\N	\N	30.77
 Alice in Wonderland	G	alice-in-wonderland-(1951)	75	movie	214	1951-07-28	\N	\N	84.62
@@ -1904,6 +1903,7 @@ Dr. Strangelove	PG	dr-strangelove	94	movie	1353	1964-01-29	\N	\N	92.31
 The Sound of Music	R	the-sound-of-music	172	movie	907	1965-03-02	\N	\N	92.31
 Monty Python and the Holy Grail	PG	monty-python-and-the-holy-grail	92	movie	1464	1975-04-03	\N	\N	92.31
 Home Alone: The Holiday Heist	TV-PG	home-alone-the-holiday-heist	90	movie	1640	2012-11-25	\N	\N	23.08
+Home Sweet Home Alone	PG	home-sweet-home-alone	93	movie	1641	2021-11-12	\N	\N	23.08
 \.
 
 
@@ -25522,6 +25522,7 @@ COPY public.people (id, name, birth_date, death_date) FROM stdin;
 7926	Tanya Allen	1975-01-01	\N
 7927	Adelaide Clemens	1989-11-30	\N
 7928	Martin Donovan	1957-08-19	\N
+7929	Timur Bekmambetov	1961-06-25	\N
 \.
 
 
@@ -29867,5 +29868,5 @@ ALTER TABLE ONLY public.seasons_writers
 -- PostgreSQL database dump complete
 --
 
-\unrestrict 7BHJeaL2aGzJRSb4am1mNsG9NWIL1G6qPIgfr9vL3CzLWzEW3vfRhcsI5blR1gh
+\unrestrict 1MtjfXwSGDqKJUNsXR1Tf3iRejRbY4OTcdRU8w8Ra176FWAv0sJXzf9c1vEMISF
 
