@@ -2,7 +2,7 @@
 -- PostgreSQL database dump
 --
 
-\restrict 1MtjfXwSGDqKJUNsXR1Tf3iRejRbY4OTcdRU8w8Ra176FWAv0sJXzf9c1vEMISF
+\restrict tXiB1Tnk5MfAbKMQCXTs5AIwkHMYYiq6SzGWQlDwAYlATJa3MhBmguHuQ6QTy9M
 
 -- Dumped from database version 18.1
 -- Dumped by pg_dump version 18.1
@@ -1904,6 +1904,7 @@ The Sound of Music	R	the-sound-of-music	172	movie	907	1965-03-02	\N	\N	92.31
 Monty Python and the Holy Grail	PG	monty-python-and-the-holy-grail	92	movie	1464	1975-04-03	\N	\N	92.31
 Home Alone: The Holiday Heist	TV-PG	home-alone-the-holiday-heist	90	movie	1640	2012-11-25	\N	\N	23.08
 Home Sweet Home Alone	PG	home-sweet-home-alone	93	movie	1641	2021-11-12	\N	\N	23.08
+Abraham Lincoln: Vampire Hunter	R	abraham-lincoln-vampire-hunter	105	movie	1659	2012-06-22	\N	2026-01-20 21:32:39.445-05	53.85
 \.
 
 
@@ -12964,6 +12965,12 @@ COPY public.media_cast (media_id, actor_id, ordering) FROM stdin;
 1658	353	5
 1658	1211	6
 1658	196	7
+1659	3270	1
+1659	3471	2
+1659	3547	3
+1659	3371	4
+1659	903	5
+1659	1709	6
 \.
 
 
@@ -14726,6 +14733,7 @@ COPY public.media_directors (media_id, director_id, ordering) FROM stdin;
 1656	1779	1
 1657	7924	1
 1658	7036	1
+1659	7929	1
 \.
 
 
@@ -17586,6 +17594,7 @@ COPY public.media_writers (ordering, media_id, writer_id) FROM stdin;
 2	1656	5902
 1	1657	6400
 1	1658	7036
+1	1659	6112
 \.
 
 
@@ -29868,5 +29877,5 @@ ALTER TABLE ONLY public.seasons_writers
 -- PostgreSQL database dump complete
 --
 
-\unrestrict 1MtjfXwSGDqKJUNsXR1Tf3iRejRbY4OTcdRU8w8Ra176FWAv0sJXzf9c1vEMISF
+\unrestrict tXiB1Tnk5MfAbKMQCXTs5AIwkHMYYiq6SzGWQlDwAYlATJa3MhBmguHuQ6QTy9M
 
