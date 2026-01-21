@@ -2,7 +2,7 @@
 -- PostgreSQL database dump
 --
 
-\restrict 8mc0XTTvS8eaP37bY4Eo5LwNkNAz0yV74jUmbhZUXrlRfsxfphm6dNyyO6dsnWs
+\restrict uFot6viAfk3Qj8JPSXv2fXqZBVuNxnNtnBaZMOjCGca6ixqRVqzCgiXZDukolf8
 
 -- Dumped from database version 18.1
 -- Dumped by pg_dump version 18.1
@@ -25538,6 +25538,7 @@ COPY public.people (id, name, birth_date, death_date) FROM stdin;
 7933	Albert Kim	\N	\N
 7934	Charlie Bushnell	2004-06-16	\N
 7935	Dior Goodjohn	2006-08-13	\N
+7936	Daniel Diemer	1996-06-21	\N
 \.
 
 
@@ -29883,5 +29884,5 @@ ALTER TABLE ONLY public.seasons_writers
 -- PostgreSQL database dump complete
 --
 
-\unrestrict 8mc0XTTvS8eaP37bY4Eo5LwNkNAz0yV74jUmbhZUXrlRfsxfphm6dNyyO6dsnWs
+\unrestrict uFot6viAfk3Qj8JPSXv2fXqZBVuNxnNtnBaZMOjCGca6ixqRVqzCgiXZDukolf8
 
