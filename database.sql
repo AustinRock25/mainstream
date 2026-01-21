@@ -2,7 +2,7 @@
 -- PostgreSQL database dump
 --
 
-\restrict B9jRaJdVUqi0aMoyVuQgmj0c7Sg2JfNYaNtPEiiPI14u9LgWWgtr2DCs9mWz3gf
+\restrict 8mc0XTTvS8eaP37bY4Eo5LwNkNAz0yV74jUmbhZUXrlRfsxfphm6dNyyO6dsnWs
 
 -- Dumped from database version 18.1
 -- Dumped by pg_dump version 18.1
@@ -25537,6 +25537,7 @@ COPY public.people (id, name, birth_date, death_date) FROM stdin;
 7932	Shae Worthy	\N	\N
 7933	Albert Kim	\N	\N
 7934	Charlie Bushnell	2004-06-16	\N
+7935	Dior Goodjohn	2006-08-13	\N
 \.
 
 
@@ -29882,5 +29883,5 @@ ALTER TABLE ONLY public.seasons_writers
 -- PostgreSQL database dump complete
 --
 
-\unrestrict B9jRaJdVUqi0aMoyVuQgmj0c7Sg2JfNYaNtPEiiPI14u9LgWWgtr2DCs9mWz3gf
+\unrestrict 8mc0XTTvS8eaP37bY4Eo5LwNkNAz0yV74jUmbhZUXrlRfsxfphm6dNyyO6dsnWs
 
