@@ -2,7 +2,7 @@
 -- PostgreSQL database dump
 --
 
-\restrict kJwvGJfbAUGlQFZk6Qkn8x82HJRtWsZZVlXdpW5DnIo8vxlzcfhGSiwUguWDDnL
+\restrict h3UI0MclrGt5SkKfIZeDL9fwFT9Hr0MXL6P02vNPkhBQd7SJmwxfRO6ouPqxW4u
 
 -- Dumped from database version 18.1
 -- Dumped by pg_dump version 18.1
@@ -19933,7 +19933,6 @@ COPY public.people (id, name, birth_date, death_date) FROM stdin;
 3855	Susan Kelechi Watson	1981-11-11	\N
 3856	Maya Hawke	1998-07-08	\N
 3857	Alex Pettyfer	1990-04-10	\N
-2246	Mark Jones	1953-01-17	\N
 744	Tchéky Karyo	1953-10-04	\N
 3858	Riki Lindhome	1979-03-05	\N
 745	Danny Kaye	1911-01-18	1987-03-03
@@ -25539,6 +25538,7 @@ COPY public.people (id, name, birth_date, death_date) FROM stdin;
 7934	Charlie Bushnell	2004-06-16	\N
 7935	Dior Goodjohn	2006-08-13	\N
 7936	Daniel Diemer	1996-06-21	\N
+2246	Mark Jones	1953-01-17	2026-01-16
 \.
 
 
@@ -29900,5 +29900,5 @@ ALTER TABLE ONLY public.seasons_writers
 -- PostgreSQL database dump complete
 --
 
-\unrestrict kJwvGJfbAUGlQFZk6Qkn8x82HJRtWsZZVlXdpW5DnIo8vxlzcfhGSiwUguWDDnL
+\unrestrict h3UI0MclrGt5SkKfIZeDL9fwFT9Hr0MXL6P02vNPkhBQd7SJmwxfRO6ouPqxW4u
 
