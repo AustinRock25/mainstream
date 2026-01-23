@@ -2,7 +2,7 @@
 -- PostgreSQL database dump
 --
 
-\restrict 8skEIdpEBORiYnRlYJLucPGf7f5cidz9Gnx8KCgE1rP8DdBO0ZVd8kQuQOEMlbd
+\restrict jmc0TGSQ5eGZg6hvjCTK7GyNDML2okaaCsfpiFs0BXOHuVbWZVeDYMh51xXeM9S
 
 -- Dumped from database version 18.1
 -- Dumped by pg_dump version 18.1
@@ -25539,6 +25539,7 @@ COPY public.people (id, name, birth_date, death_date) FROM stdin;
 7936	Daniel Diemer	1996-06-21	\N
 2246	Mark Jones	1953-01-17	2026-01-16
 1339	Roger Allers	1949-06-29	2026-01-17
+7937	Paul A. Kaplan	\N	\N
 \.
 
 
@@ -29900,5 +29901,5 @@ ALTER TABLE ONLY public.seasons_writers
 -- PostgreSQL database dump complete
 --
 
-\unrestrict 8skEIdpEBORiYnRlYJLucPGf7f5cidz9Gnx8KCgE1rP8DdBO0ZVd8kQuQOEMlbd
+\unrestrict jmc0TGSQ5eGZg6hvjCTK7GyNDML2okaaCsfpiFs0BXOHuVbWZVeDYMh51xXeM9S
 
