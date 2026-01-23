@@ -2,7 +2,7 @@
 -- PostgreSQL database dump
 --
 
-\restrict jmc0TGSQ5eGZg6hvjCTK7GyNDML2okaaCsfpiFs0BXOHuVbWZVeDYMh51xXeM9S
+\restrict XhpasMgP1xVzBPblOotjpDrplbXaBikhEpO9H2RS1xJf6bibxkqHfGxHDuHxrnX
 
 -- Dumped from database version 18.1
 -- Dumped by pg_dump version 18.1
@@ -25540,6 +25540,7 @@ COPY public.people (id, name, birth_date, death_date) FROM stdin;
 2246	Mark Jones	1953-01-17	2026-01-16
 1339	Roger Allers	1949-06-29	2026-01-17
 7937	Paul A. Kaplan	\N	\N
+7938	Mark Torgove	\N	\N
 \.
 
 
@@ -29901,5 +29902,5 @@ ALTER TABLE ONLY public.seasons_writers
 -- PostgreSQL database dump complete
 --
 
-\unrestrict jmc0TGSQ5eGZg6hvjCTK7GyNDML2okaaCsfpiFs0BXOHuVbWZVeDYMh51xXeM9S
+\unrestrict XhpasMgP1xVzBPblOotjpDrplbXaBikhEpO9H2RS1xJf6bibxkqHfGxHDuHxrnX
 
