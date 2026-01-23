@@ -2,7 +2,7 @@
 -- PostgreSQL database dump
 --
 
-\restrict XhpasMgP1xVzBPblOotjpDrplbXaBikhEpO9H2RS1xJf6bibxkqHfGxHDuHxrnX
+\restrict AdrGTkQ5FVCNbng1WJ3JhrTsgIg4b8y99OV8WacgX8OzSG0EkngBhpfIl7ceGcH
 
 -- Dumped from database version 18.1
 -- Dumped by pg_dump version 18.1
@@ -25541,6 +25541,7 @@ COPY public.people (id, name, birth_date, death_date) FROM stdin;
 1339	Roger Allers	1949-06-29	2026-01-17
 7937	Paul A. Kaplan	\N	\N
 7938	Mark Torgove	\N	\N
+7939	Cecily Strong	1984-02-08	\N
 \.
 
 
@@ -29902,5 +29903,5 @@ ALTER TABLE ONLY public.seasons_writers
 -- PostgreSQL database dump complete
 --
 
-\unrestrict XhpasMgP1xVzBPblOotjpDrplbXaBikhEpO9H2RS1xJf6bibxkqHfGxHDuHxrnX
+\unrestrict AdrGTkQ5FVCNbng1WJ3JhrTsgIg4b8y99OV8WacgX8OzSG0EkngBhpfIl7ceGcH
 
