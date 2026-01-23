@@ -2,7 +2,7 @@
 -- PostgreSQL database dump
 --
 
-\restrict h3UI0MclrGt5SkKfIZeDL9fwFT9Hr0MXL6P02vNPkhBQd7SJmwxfRO6ouPqxW4u
+\restrict 8skEIdpEBORiYnRlYJLucPGf7f5cidz9Gnx8KCgE1rP8DdBO0ZVd8kQuQOEMlbd
 
 -- Dumped from database version 18.1
 -- Dumped by pg_dump version 18.1
@@ -20540,7 +20540,6 @@ COPY public.people (id, name, birth_date, death_date) FROM stdin;
 1208	Beverley Mitchell	1981-01-22	\N
 1337	William Alland	1916-03-04	1997-11-11
 1338	Barbara Jo Allen	1906-09-02	1974-09-14
-1339	Roger Allers	1949-06-29	\N
 1340	Diane Almeida	\N	\N
 1341	Joaquim de Almeida	1957-03-15	\N
 1342	Laz Alonso	1974-03-25	\N
@@ -25539,6 +25538,7 @@ COPY public.people (id, name, birth_date, death_date) FROM stdin;
 7935	Dior Goodjohn	2006-08-13	\N
 7936	Daniel Diemer	1996-06-21	\N
 2246	Mark Jones	1953-01-17	2026-01-16
+1339	Roger Allers	1949-06-29	2026-01-17
 \.
 
 
@@ -29900,5 +29900,5 @@ ALTER TABLE ONLY public.seasons_writers
 -- PostgreSQL database dump complete
 --
 
-\unrestrict h3UI0MclrGt5SkKfIZeDL9fwFT9Hr0MXL6P02vNPkhBQd7SJmwxfRO6ouPqxW4u
+\unrestrict 8skEIdpEBORiYnRlYJLucPGf7f5cidz9Gnx8KCgE1rP8DdBO0ZVd8kQuQOEMlbd
 
