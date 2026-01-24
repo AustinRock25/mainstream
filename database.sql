@@ -2,7 +2,7 @@
 -- PostgreSQL database dump
 --
 
-\restrict 1vn3v3PTihofG8gHyKem7gwhpSPBBaz83anaxWy4XwddOCDYaIq9ftUZSdZeJ6a
+\restrict aD8CIqpbS4IAqW51cQV2Lgt9Y8r8KCMsrgRON7d1ev4jmzZ3o5ake9MgwI5xBP6
 
 -- Dumped from database version 18.1
 -- Dumped by pg_dump version 18.1
@@ -1868,7 +1868,6 @@ Alice in Wonderland	G	alice-in-wonderland-(1951)	75	movie	214	1951-07-28	\N	\N	8
 Frankenstein	Not Rated	frankenstein-(1931)	70	movie	360	1931-11-21	\N	\N	69.23
 Paddington in Peru	PG	paddington-in-peru	106	movie	1500	2024-11-08	\N	\N	84.62
 Star Wars	PG	star-wars	121	movie	703	1977-05-25	\N	\N	92.31
-A Christmas Carol	PG	a-christmas-carol-(1984)	100	movie	1642	1984-12-17	\N	2025-12-23 21:16:31.287-05	92.31
 The Conjuring: Last Rites	R	the-conjuring-last-rites	135	movie	1623	2025-09-05	\N	\N	53.85
 Free Birds	PG	free-birds	91	movie	1624	2013-11-01	\N	\N	38.46
 Wicked: For Good	PG	wicked-for-good	137	movie	1625	2025-11-21	\N	\N	76.92
@@ -1906,6 +1905,7 @@ Home Sweet Home Alone	PG	home-sweet-home-alone	93	movie	1641	2021-11-12	\N	\N	23
 Abraham Lincoln: Vampire Hunter	R	abraham-lincoln-vampire-hunter	105	movie	1659	2012-06-22	\N	2026-01-20 21:32:39.445-05	53.85
 Percy Jackson and the Olympians	TV-PG	percy-jackson-and-the-olympians	\N	show	1198	\N	f	\N	\N
 The Garfield Movie	PG	the-garfield-movie	101	movie	1660	2024-05-24	\N	2026-01-22 20:16:46.519-05	38.46
+A Christmas Carol	PG	a-christmas-carol-(1984)	100	movie	1642	1984-12-17	\N	\N	92.31
 \.
 
 
@@ -25558,6 +25558,7 @@ COPY public.people (id, name, birth_date, death_date) FROM stdin;
 7938	Mark Torgove	\N	\N
 7939	Cecily Strong	1984-02-08	\N
 7940	Brett Goldstein	1980-07-17	\N
+7941	John Briley	1925-06-25	2019-12-14
 \.
 
 
@@ -29919,5 +29920,5 @@ ALTER TABLE ONLY public.seasons_writers
 -- PostgreSQL database dump complete
 --
 
-\unrestrict 1vn3v3PTihofG8gHyKem7gwhpSPBBaz83anaxWy4XwddOCDYaIq9ftUZSdZeJ6a
+\unrestrict aD8CIqpbS4IAqW51cQV2Lgt9Y8r8KCMsrgRON7d1ev4jmzZ3o5ake9MgwI5xBP6
 
