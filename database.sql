@@ -2,7 +2,7 @@
 -- PostgreSQL database dump
 --
 
-\restrict nVFHUCiJSD6SQ64qcGD2BXDT0KwyjGpjzaSqlGl03IrTzGvuwHOToe6MUYxGocj
+\restrict iaCxgUfT1sAXkPe3PJcz5ruW4H0BtuUC1MuSufFiheeHAOpBGYoLeAzxbpcbYkh
 
 -- Dumped from database version 18.1
 -- Dumped by pg_dump version 18.1
@@ -25562,6 +25562,7 @@ COPY public.people (id, name, birth_date, death_date) FROM stdin;
 7942	Candice Bergen	1946-05-09	\N
 7943	Edward Fox	1937-04-13	\N
 7944	John Gielgud	1904-04-14	2000-05-21
+7945	John Mills	1908-02-22	2005-04-23
 \.
 
 
@@ -29923,5 +29924,5 @@ ALTER TABLE ONLY public.seasons_writers
 -- PostgreSQL database dump complete
 --
 
-\unrestrict nVFHUCiJSD6SQ64qcGD2BXDT0KwyjGpjzaSqlGl03IrTzGvuwHOToe6MUYxGocj
+\unrestrict iaCxgUfT1sAXkPe3PJcz5ruW4H0BtuUC1MuSufFiheeHAOpBGYoLeAzxbpcbYkh
 
