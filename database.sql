@@ -2,7 +2,7 @@
 -- PostgreSQL database dump
 --
 
-\restrict 4T26aMdwmLpNWNl7XR0AKpWNAaMsmIi2odoAkd2fdosKbBXE5ruJybr3NWXatZU
+\restrict nVFHUCiJSD6SQ64qcGD2BXDT0KwyjGpjzaSqlGl03IrTzGvuwHOToe6MUYxGocj
 
 -- Dumped from database version 18.1
 -- Dumped by pg_dump version 18.1
@@ -25561,6 +25561,7 @@ COPY public.people (id, name, birth_date, death_date) FROM stdin;
 7941	John Briley	1925-06-25	2019-12-14
 7942	Candice Bergen	1946-05-09	\N
 7943	Edward Fox	1937-04-13	\N
+7944	John Gielgud	1904-04-14	2000-05-21
 \.
 
 
@@ -29922,5 +29923,5 @@ ALTER TABLE ONLY public.seasons_writers
 -- PostgreSQL database dump complete
 --
 
-\unrestrict 4T26aMdwmLpNWNl7XR0AKpWNAaMsmIi2odoAkd2fdosKbBXE5ruJybr3NWXatZU
+\unrestrict nVFHUCiJSD6SQ64qcGD2BXDT0KwyjGpjzaSqlGl03IrTzGvuwHOToe6MUYxGocj
 
