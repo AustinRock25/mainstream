@@ -2,7 +2,7 @@
 -- PostgreSQL database dump
 --
 
-\restrict SWHh4IpInAPYKEb796gAt1ZIgZgfHiVK3vtIk3lj1PpKt2YFmwkKeLoeVA3uuOE
+\restrict 1vn3v3PTihofG8gHyKem7gwhpSPBBaz83anaxWy4XwddOCDYaIq9ftUZSdZeJ6a
 
 -- Dumped from database version 18.1
 -- Dumped by pg_dump version 18.1
@@ -1905,6 +1905,7 @@ Home Alone: The Holiday Heist	TV-PG	home-alone-the-holiday-heist	90	movie	1640	2
 Home Sweet Home Alone	PG	home-sweet-home-alone	93	movie	1641	2021-11-12	\N	\N	23.08
 Abraham Lincoln: Vampire Hunter	R	abraham-lincoln-vampire-hunter	105	movie	1659	2012-06-22	\N	2026-01-20 21:32:39.445-05	53.85
 Percy Jackson and the Olympians	TV-PG	percy-jackson-and-the-olympians	\N	show	1198	\N	f	\N	\N
+The Garfield Movie	PG	the-garfield-movie	101	movie	1660	2024-05-24	\N	2026-01-22 20:16:46.519-05	38.46
 \.
 
 
@@ -12971,6 +12972,16 @@ COPY public.media_cast (media_id, actor_id, ordering) FROM stdin;
 1659	3371	4
 1659	903	5
 1659	1709	6
+1660	2817	1
+1660	100	2
+1660	3936	3
+1660	404	4
+1660	2170	5
+1660	7939	6
+1660	4282	7
+1660	7940	8
+1660	4792	9
+1660	1125	10
 \.
 
 
@@ -14734,6 +14745,7 @@ COPY public.media_directors (media_id, director_id, ordering) FROM stdin;
 1657	7924	1
 1658	7036	1
 1659	7929	1
+1660	1792	1
 \.
 
 
@@ -17595,6 +17607,9 @@ COPY public.media_writers (ordering, media_id, writer_id) FROM stdin;
 1	1657	6400
 1	1658	7036
 1	1659	6112
+1	1660	7937
+2	1660	7938
+3	1660	5582
 \.
 
 
@@ -29904,5 +29919,5 @@ ALTER TABLE ONLY public.seasons_writers
 -- PostgreSQL database dump complete
 --
 
-\unrestrict SWHh4IpInAPYKEb796gAt1ZIgZgfHiVK3vtIk3lj1PpKt2YFmwkKeLoeVA3uuOE
+\unrestrict 1vn3v3PTihofG8gHyKem7gwhpSPBBaz83anaxWy4XwddOCDYaIq9ftUZSdZeJ6a
 
