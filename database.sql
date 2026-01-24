@@ -2,7 +2,7 @@
 -- PostgreSQL database dump
 --
 
-\restrict IjvhjErtvSZ1J0IpsYMTweje9HQMvnRA90afCduKMSCXL4N6sdBl2ddFGEQHc1N
+\restrict 4T26aMdwmLpNWNl7XR0AKpWNAaMsmIi2odoAkd2fdosKbBXE5ruJybr3NWXatZU
 
 -- Dumped from database version 18.1
 -- Dumped by pg_dump version 18.1
@@ -25560,6 +25560,7 @@ COPY public.people (id, name, birth_date, death_date) FROM stdin;
 7940	Brett Goldstein	1980-07-17	\N
 7941	John Briley	1925-06-25	2019-12-14
 7942	Candice Bergen	1946-05-09	\N
+7943	Edward Fox	1937-04-13	\N
 \.
 
 
@@ -29921,5 +29922,5 @@ ALTER TABLE ONLY public.seasons_writers
 -- PostgreSQL database dump complete
 --
 
-\unrestrict IjvhjErtvSZ1J0IpsYMTweje9HQMvnRA90afCduKMSCXL4N6sdBl2ddFGEQHc1N
+\unrestrict 4T26aMdwmLpNWNl7XR0AKpWNAaMsmIi2odoAkd2fdosKbBXE5ruJybr3NWXatZU
 
