@@ -2,7 +2,7 @@
 -- PostgreSQL database dump
 --
 
-\restrict Tsadqwd7Qc9F23bQJjTimkeOBK2mi6NkmWUWEOwknexRBaa0jyZdO9DQGO4I0KY
+\restrict uAUVKzOVXYOSkknUR1ASeZ7sMijbfKpbOxWBJn2MCLwTQMzwt3lMEc80pAoIPAP
 
 -- Dumped from database version 18.1
 -- Dumped by pg_dump version 18.1
@@ -25575,6 +25575,7 @@ COPY public.people (id, name, birth_date, death_date) FROM stdin;
 7945	John Mills	1908-02-22	2005-04-23
 7946	Giuseppe Tornatore	1956-05-27	\N
 7947	Philippe Noiret	1930-10-01	2006-11-23
+7948	Jacques Perrin	1941-07-13	2022-04-21
 \.
 
 
@@ -29936,5 +29937,5 @@ ALTER TABLE ONLY public.seasons_writers
 -- PostgreSQL database dump complete
 --
 
-\unrestrict Tsadqwd7Qc9F23bQJjTimkeOBK2mi6NkmWUWEOwknexRBaa0jyZdO9DQGO4I0KY
+\unrestrict uAUVKzOVXYOSkknUR1ASeZ7sMijbfKpbOxWBJn2MCLwTQMzwt3lMEc80pAoIPAP
 
