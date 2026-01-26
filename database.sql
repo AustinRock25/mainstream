@@ -2,7 +2,7 @@
 -- PostgreSQL database dump
 --
 
-\restrict JKs3gYZkD6d6qpLymtG88pRkxDaq92vspq4G40a1UtVUQIrD3ev7CQ3p2BC3z9d
+\restrict l9AiYNxbZpBeSS8SlTuuNKW06YoXbDdchNwkjmorlrTp1svt7L4zbqi7DiB7R3T
 
 -- Dumped from database version 18.1
 -- Dumped by pg_dump version 18.1
@@ -25577,6 +25577,7 @@ COPY public.people (id, name, birth_date, death_date) FROM stdin;
 7947	Philippe Noiret	1930-10-01	2006-11-23
 7948	Jacques Perrin	1941-07-13	2022-04-21
 7949	Antonella Attili	1963-04-03	\N
+7950	Pupella Maggio	1910-04-24	1999-12-08
 \.
 
 
@@ -29938,5 +29939,5 @@ ALTER TABLE ONLY public.seasons_writers
 -- PostgreSQL database dump complete
 --
 
-\unrestrict JKs3gYZkD6d6qpLymtG88pRkxDaq92vspq4G40a1UtVUQIrD3ev7CQ3p2BC3z9d
+\unrestrict l9AiYNxbZpBeSS8SlTuuNKW06YoXbDdchNwkjmorlrTp1svt7L4zbqi7DiB7R3T
 
