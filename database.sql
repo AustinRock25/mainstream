@@ -2,7 +2,7 @@
 -- PostgreSQL database dump
 --
 
-\restrict ywfJVCACxkBh4RJOSiSohMVcpxpIUSkGa6fnb6POrT8TYYaCTe11VlxmcMJKUXM
+\restrict Tsadqwd7Qc9F23bQJjTimkeOBK2mi6NkmWUWEOwknexRBaa0jyZdO9DQGO4I0KY
 
 -- Dumped from database version 18.1
 -- Dumped by pg_dump version 18.1
@@ -25574,6 +25574,7 @@ COPY public.people (id, name, birth_date, death_date) FROM stdin;
 7944	John Gielgud	1904-04-14	2000-05-21
 7945	John Mills	1908-02-22	2005-04-23
 7946	Giuseppe Tornatore	1956-05-27	\N
+7947	Philippe Noiret	1930-10-01	2006-11-23
 \.
 
 
@@ -29935,5 +29936,5 @@ ALTER TABLE ONLY public.seasons_writers
 -- PostgreSQL database dump complete
 --
 
-\unrestrict ywfJVCACxkBh4RJOSiSohMVcpxpIUSkGa6fnb6POrT8TYYaCTe11VlxmcMJKUXM
+\unrestrict Tsadqwd7Qc9F23bQJjTimkeOBK2mi6NkmWUWEOwknexRBaa0jyZdO9DQGO4I0KY
 
