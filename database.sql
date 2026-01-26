@@ -2,7 +2,7 @@
 -- PostgreSQL database dump
 --
 
-\restrict rJF5JKlwWggfwJOpkmB7nc4OGc2x4zmjZFvmUHE9oWg8mH7xbVpHHla1hSKH4mC
+\restrict ywfJVCACxkBh4RJOSiSohMVcpxpIUSkGa6fnb6POrT8TYYaCTe11VlxmcMJKUXM
 
 -- Dumped from database version 18.1
 -- Dumped by pg_dump version 18.1
@@ -25573,6 +25573,7 @@ COPY public.people (id, name, birth_date, death_date) FROM stdin;
 7943	Edward Fox	1937-04-13	\N
 7944	John Gielgud	1904-04-14	2000-05-21
 7945	John Mills	1908-02-22	2005-04-23
+7946	Giuseppe Tornatore	1956-05-27	\N
 \.
 
 
@@ -29934,5 +29935,5 @@ ALTER TABLE ONLY public.seasons_writers
 -- PostgreSQL database dump complete
 --
 
-\unrestrict rJF5JKlwWggfwJOpkmB7nc4OGc2x4zmjZFvmUHE9oWg8mH7xbVpHHla1hSKH4mC
+\unrestrict ywfJVCACxkBh4RJOSiSohMVcpxpIUSkGa6fnb6POrT8TYYaCTe11VlxmcMJKUXM
 
