@@ -2,7 +2,7 @@
 -- PostgreSQL database dump
 --
 
-\restrict l9AiYNxbZpBeSS8SlTuuNKW06YoXbDdchNwkjmorlrTp1svt7L4zbqi7DiB7R3T
+\restrict o2nHJTv60jxDxH6iT67WkkTKGUg3DVBSgW02Ws5jMQN6c3eTCwndCdANjfaKgJH
 
 -- Dumped from database version 18.1
 -- Dumped by pg_dump version 18.1
@@ -25578,6 +25578,7 @@ COPY public.people (id, name, birth_date, death_date) FROM stdin;
 7948	Jacques Perrin	1941-07-13	2022-04-21
 7949	Antonella Attili	1963-04-03	\N
 7950	Pupella Maggio	1910-04-24	1999-12-08
+7951	Salvatore Cascio	1979-11-08	\N
 \.
 
 
@@ -29939,5 +29940,5 @@ ALTER TABLE ONLY public.seasons_writers
 -- PostgreSQL database dump complete
 --
 
-\unrestrict l9AiYNxbZpBeSS8SlTuuNKW06YoXbDdchNwkjmorlrTp1svt7L4zbqi7DiB7R3T
+\unrestrict o2nHJTv60jxDxH6iT67WkkTKGUg3DVBSgW02Ws5jMQN6c3eTCwndCdANjfaKgJH
 
