@@ -2,7 +2,7 @@
 -- PostgreSQL database dump
 --
 
-\restrict iaCxgUfT1sAXkPe3PJcz5ruW4H0BtuUC1MuSufFiheeHAOpBGYoLeAzxbpcbYkh
+\restrict rJF5JKlwWggfwJOpkmB7nc4OGc2x4zmjZFvmUHE9oWg8mH7xbVpHHla1hSKH4mC
 
 -- Dumped from database version 18.1
 -- Dumped by pg_dump version 18.1
@@ -335,6 +335,7 @@ The Equalizer 3	R	the-equalizer-3	109	movie	1189	2023-09-01	\N	\N	53.85
 Star Trek II: The Wrath of Khan	PG	star-trek-2	113	movie	165	1982-06-04	\N	\N	84.62
 Aladdin	G	aladdin-(1992)	90	movie	213	1992-11-11	\N	\N	92.31
 It - Welcome to Derry	TV-MA	it-welcome-to-derry	\N	show	1637	\N	f	\N	\N
+Gandhi	PG	gandhi	191	movie	1661	1982-12-03	\N	2026-01-24 18:55:56.06-05	84.62
 Spider-Man: Into the Spider-Verse	PG	spider-man-into-the-spider-verse	117	movie	613	2018-12-14	\N	\N	100.00
 The Empire Strikes Back	PG	the-empire-strikes-back	124	movie	614	1980-05-21	\N	\N	100.00
 Soul	PG	soul	100	movie	615	2020-12-25	\N	\N	100.00
@@ -12982,6 +12983,13 @@ COPY public.media_cast (media_id, actor_id, ordering) FROM stdin;
 1660	7940	8
 1660	4792	9
 1660	1125	10
+1661	750	1
+1661	7942	2
+1661	7943	3
+1661	7944	4
+1661	1050	5
+1661	7945	6
+1661	423	7
 \.
 
 
@@ -14746,6 +14754,7 @@ COPY public.media_directors (media_id, director_id, ordering) FROM stdin;
 1658	7036	1
 1659	7929	1
 1660	1792	1
+1661	187	1
 \.
 
 
@@ -17610,6 +17619,7 @@ COPY public.media_writers (ordering, media_id, writer_id) FROM stdin;
 1	1660	7937
 2	1660	7938
 3	1660	5582
+1	1661	7941
 \.
 
 
@@ -29924,5 +29934,5 @@ ALTER TABLE ONLY public.seasons_writers
 -- PostgreSQL database dump complete
 --
 
-\unrestrict iaCxgUfT1sAXkPe3PJcz5ruW4H0BtuUC1MuSufFiheeHAOpBGYoLeAzxbpcbYkh
+\unrestrict rJF5JKlwWggfwJOpkmB7nc4OGc2x4zmjZFvmUHE9oWg8mH7xbVpHHla1hSKH4mC
 
