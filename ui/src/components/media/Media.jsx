@@ -1,5 +1,5 @@
 import { Alert, Button, Container, Row, Spinner, Form, Col, Collapse } from "react-bootstrap";
-import axios from "axios";
+import api from "../../api";
 import MediaCard from "./MediaCard";
 import { useCallback, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
@@ -80,8 +80,8 @@ function Media() {
     Object.keys(params).forEach(key => (params[key] === "" || params[key] === null || params[key] === undefined) && delete params[key]);
 
     Promise.all([
-      axios.get("/api/media/length", { params }),
-      axios.get("/api/media", { params })
+      api.get("/media/length", { params }),
+      api.get("/media", { params })
     ])
     .then(([lengthResponse, mediaResponse]) => {
       const count = lengthResponse.data[0].count;

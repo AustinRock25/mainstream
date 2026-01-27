@@ -1,9 +1,9 @@
 import { authenticated, unauthenticated } from "../slices/authSlice.js";
-import axios from "axios";
+import api from "../../api";
 import store from "../store.js";
 
 const verifyToken = () => {
-  axios.get("/api/auth/verifyToken")
+  api.get("/auth/verifyToken")
   .then(response => {
     store.dispatch(authenticated(response.data));
   })

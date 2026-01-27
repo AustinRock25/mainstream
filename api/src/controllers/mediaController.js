@@ -1,61 +1,4 @@
 import { query, connect } from "../config/pgClient.js";
-import { spawn, execSync } from "node:child_process";
-import fs from "node:fs";
-import path from "node:path";
-import { fileURLToPath } from "node:url";
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-
-const backupDatabase = () => {
-  const rootPath = path.resolve(__dirname, "../../../"); 
-  const backupPath = path.join(rootPath, "database.sql");
-  const pgDumpPath = path.join(rootPath, "sql_binaries/bin/pg_dump.exe");
-  const gitPath = path.join(rootPath, "git_binaries/bin/git.exe");
-
-  if (!fs.existsSync(pgDumpPath)) {
-    console.error(`Binary not found at: ${pgDumpPath}`);
-    return;
-  }
-
-  if (!fs.existsSync(gitPath)) {
-    console.error(`Binary not found at: ${gitPath}`);
-    return;
-  }
-
-  const fileStream = fs.createWriteStream(backupPath);
-
-  const child = spawn(pgDumpPath, ["-U", "postgres", "--no-owner", "--no-privileges", "--clean", "--if-exists", "mainstream"], {
-    shell: true,
-    env: { ...process.env, PGPASSWORD: process.env.DB_PASSWORD }
-  });
-
-  child.stdout.pipe(fileStream);
-
-  child.stderr.on("data", (data) => {
-    console.error(`PG_DUMP ERROR: ${data.toString()}`);
-  });
-
-  try {
-    const gitCmdBase = `"${gitPath}" --work-tree="${rootPath}" --git-dir="${path.join(rootPath, ".git")}"`;
-    
-    execSync(`${gitCmdBase} add --all`, { cwd: rootPath });
-    execSync(`${gitCmdBase} commit -m "Update at ${new Date().toLocaleString()}"`, { cwd: rootPath });
-    execSync(`${gitCmdBase} push origin main`, { cwd: rootPath });
-    
-    console.log("--- Git Backup Successful ---");
-  } 
-  catch (error) {
-    console.log("Git Backup Note: No changes detected or push failed.");
-  }
-
-  child.on("close", (code) => {
-    if (code === 0) 
-      console.log("SUCCESS: Database synced to root.");
-    else 
-      console.error(`PROCESS EXITED with code: ${code}`);
-  });
-};
 
 export const index = (req, res) => {
   const { 
@@ -584,7 +527,6 @@ export const create = async (req, res) => {
       return res.status(400).json({ error: "Invalid media type specified." });
     
     res.location(`/media/${result.id}`);
-    backupDatabase();
     res.status(201).json({ id: result.id, message: "Title processed successfully." });
   } 
   catch (error) {
@@ -627,7 +569,6 @@ export const update = async (req, res) => {
     
     await deleteOrphanedPeople(Array.from(originalPersonIds));
     await client.query("COMMIT");
-    backupDatabase();
     res.status(200).json({ message: "Title updated successfully." });
   } 
   catch (error) {

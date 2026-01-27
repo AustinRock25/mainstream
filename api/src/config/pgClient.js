@@ -3,11 +3,10 @@ import pkg from "pg";
 const { Pool } = pkg;
 
 export const pgClient = new Pool({
-  user: process.env.DB_USER,
-  database: process.env.DB_NAME,
-  password: process.env.DB_PASSWORD,
-  port: process.env.DB_PORT,
-  host: process.env.DB_HOST,
+  connectionString: process.env.DATABASE_URL,
+  ssl: process.env.DATABASE_URL?.includes("supabase.com") 
+    ? { rejectUnauthorized: false } 
+    : false
 });
 
 export const query = (text, params) => pgClient.query(text, params);

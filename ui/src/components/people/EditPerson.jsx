@@ -1,4 +1,4 @@
-import axios from "axios";
+import api from "../../api";
 import PersonForm from "../modals/PersonForm";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
@@ -14,7 +14,7 @@ function EditPerson() {
   });
 
   useEffect(() => {
-    axios.get(`/api/people/${params.id}`)
+    api.get(`/people/${params.id}`)
     .then(results => {
       setPerson({
         id: results.data.id,

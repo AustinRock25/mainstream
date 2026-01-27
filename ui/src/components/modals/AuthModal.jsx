@@ -1,6 +1,6 @@
 import { Alert, Button, Form, Modal, Spinner } from "react-bootstrap";
 import { authenticated, unauthenticated } from "../../slices/authSlice.js";
-import axios from "axios";
+import api from "../../api";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -41,7 +41,7 @@ function AuthModal({ show, setShow, action }) {
   }
 
   function login() {
-    axios.post("/api/auth/login", formData)
+    api.post("/auth/login", formData)
     .then(response => {
       dispatch(authenticated(response.data));
       handleHide();
@@ -64,7 +64,7 @@ function AuthModal({ show, setShow, action }) {
   }
 
   function register() {
-    axios.post("/api/auth/register", formData)
+    api.post("/auth/register", formData)
     .then(response => {
       dispatch(authenticated(response.data));
       handleHide();
@@ -83,7 +83,7 @@ function AuthModal({ show, setShow, action }) {
   }
 
   function change() {
-    axios.put(`/api/auth/change/${user.id}`, formData)
+    api.put(`/auth/change/${user.id}`, formData)
       .then(response => {
         navigate(0);
         handleHide();

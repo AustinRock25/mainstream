@@ -1,5 +1,5 @@
 import AuthModal from "../components/modals/AuthModal";
-import axios from "axios";
+import api from "../../api";
 import { Container, Image, Nav, Navbar } from "react-bootstrap";
 import MediaForm from "../components/modals/MediaForm";
 import { NavLink, Outlet, useLocation, useNavigate } from "react-router-dom";
@@ -47,7 +47,7 @@ function ApplicationLayout() {
   }
 
   function handleLogoutClick() {
-    axios.post("/api/auth/logout")
+    api.post("/auth/logout")
     .then(response => {
       dispatch(unauthenticated());
       navigate("/");

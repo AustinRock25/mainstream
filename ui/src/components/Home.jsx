@@ -1,4 +1,4 @@
-import axios from "axios";
+import api from "../../api";
 import { Container, Row } from "react-bootstrap";
 import MediaCard from "./media/MediaCard";
 import { useEffect, useState } from "react";
@@ -7,7 +7,7 @@ function Home() {
   const [newMedia, setNewMedia] = useState([]);
 
   useEffect(() => {
-    axios.get("/api/media/new")
+    api.get("/media/new")
     .then(response => {
       setNewMedia(response.data);
     })

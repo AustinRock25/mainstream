@@ -1,4 +1,4 @@
-import axios from "axios";
+import api from "../../api";
 import { Button, Card, Col, Badge, Stack } from "react-bootstrap";
 import MediaForm from "../modals/MediaForm";
 import { useEffect, useState } from "react";
@@ -71,7 +71,7 @@ function MediaCard ({media}) {
     }
 
     if (media.type === "show") {
-      axios.get("/api/media/seasons", { params: { id: media.id } })
+      api.get("/media/seasons", { params: { id: media.id } })
       .then(response => {
         setSeasonCount(response.data[0].count);
       });

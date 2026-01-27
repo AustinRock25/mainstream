@@ -1,5 +1,5 @@
 import { Alert, Button, Container, Spinner, Table, Form, Row, Col, Collapse } from "react-bootstrap";
-import axios from "axios";
+import api from "../../api";
 import Person from "./Person";
 import { useCallback, useEffect, useState } from "react";
 
@@ -64,8 +64,8 @@ const People = () => {
     Object.keys(params).forEach(key => (params[key] === "" || params[key] === false) && delete params[key]);
     
     Promise.all([
-      axios.get("/api/people/length", { params }),
-      axios.get("/api/people", { params })
+      api.get("/people/length", { params }),
+      api.get("/people", { params })
     ])
     .then(([lengthResponse, mediaResponse]) => {
       const count = lengthResponse.data[0].count;

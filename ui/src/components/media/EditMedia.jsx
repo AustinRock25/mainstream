@@ -1,4 +1,4 @@
-import axios from "axios";
+import api from "../../api";
 import MediaForm from "../modals/MediaForm";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
@@ -33,7 +33,7 @@ function EditMedia() {
   let selectedWriters = [];
 
   useEffect(() => {
-    axios.get(`/api/media/${params.id}`)
+    api.get(`/media/${params.id}`)
       .then(results => {
         if (!!results.data.directors) {
           for (let x = 0; x < results.data.directors.length; x++)

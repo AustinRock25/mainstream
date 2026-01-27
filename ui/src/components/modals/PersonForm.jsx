@@ -1,5 +1,5 @@
 import { Alert, Button, Form, Modal, Spinner } from "react-bootstrap";
-import axios from "axios";
+import api from "../../api";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -51,7 +51,7 @@ function PersonForm({ show, setShow, person }) {
   function handleSubmit(e) {
     e.preventDefault();
     setIsSubmitting(true);
-    const apiCall = person?.id ? axios.put(`/api/people/${person.id}`, formData) : axios.post("/api/people", formData);
+    const apiCall = person?.id ? api.put(`/people/${person.id}`, formData) : api.post("/people", formData);
     
     apiCall
     .then(response => {

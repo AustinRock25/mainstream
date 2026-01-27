@@ -1,60 +1,4 @@
 import { query } from "../config/pgClient.js";
-import { execSync, spawn } from "node:child_process";
-import fs from "node:fs";import path from "node:path";
-import { fileURLToPath } from "node:url";
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-
-const backupDatabase = () => {
-  const rootPath = path.resolve(__dirname, "../../../"); 
-  const backupPath = path.join(rootPath, "database.sql");
-  const pgDumpPath = path.join(rootPath, "sql_binaries/bin/pg_dump.exe");
-  const gitPath = path.join(rootPath, "git_binaries/bin/git.exe");
-
-  if (!fs.existsSync(pgDumpPath)) {
-    console.error(`Binary not found at: ${pgDumpPath}`);
-    return;
-  }
-
-  if (!fs.existsSync(gitPath)) {
-    console.error(`Binary not found at: ${gitPath}`);
-    return;
-  }
-
-  const fileStream = fs.createWriteStream(backupPath);
-
-  const child = spawn(pgDumpPath, ["-U", "postgres", "--no-owner", "--no-privileges", "--clean", "--if-exists", "mainstream"], {
-    shell: true,
-    env: { ...process.env, PGPASSWORD: process.env.DB_PASSWORD }
-  });
-
-  child.stdout.pipe(fileStream);
-
-  child.stderr.on("data", (data) => {
-    console.error(`PG_DUMP ERROR: ${data.toString()}`);
-  });
-
-  try {
-    const gitCmdBase = `"${gitPath}" --work-tree="${rootPath}" --git-dir="${path.join(rootPath, ".git")}"`;
-        
-    execSync(`${gitCmdBase} add --all`, { cwd: rootPath });
-    execSync(`${gitCmdBase} commit -m "Update at ${new Date().toLocaleString()}"`, { cwd: rootPath });
-    execSync(`${gitCmdBase} push origin main`, { cwd: rootPath });
-    
-    console.log("--- Git Backup Successful ---");
-  } 
-  catch (error) {
-    console.log("Git Backup Note: No changes detected or push failed.");
-  }
-
-  child.on("close", (code) => {
-    if (code === 0) 
-      console.log("SUCCESS: Database synced to root.");
-    else 
-      console.error(`PROCESS EXITED with code: ${code}`);
-  });
-};
 
 export const index = (req, res) => {
   const { 
@@ -430,7 +374,6 @@ export const create = async (req, res) => {
   query(sql, params)
   .then(result => {
     res.location(`/people/${result.rows[0].id}`);
-    backupDatabase();
     res.status(201).json({ message: "Person created successfully." });
   })
   .catch((error) => {
@@ -449,7 +392,6 @@ export const update = async (req, res) => {
 
   query("UPDATE people SET name = $1, birth_date = $2, death_date = $3 WHERE id = $4", [person.name, person.birth_date, person.death_date, person.id])
   .then(results => {
-    backupDatabase();
     res.status(201).json({ message: "Person successfully updated." });
   })
   .catch((error) => {

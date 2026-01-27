@@ -1,9 +1,15 @@
 import express, { json } from "express";
+import cors from "cors";
+import cookies from "cookie-parser";
 
 const app = express();
-app.use(json());
 
-import cookies from "cookie-parser";
+app.use(cors({
+  origin: process.env.FRONTEND_URL || "http://localhost:863",
+  credentials: true
+}));
+
+app.use(json());
 app.use(cookies());
 
 import authRoutes from "./routes/authRoutes.js";
@@ -15,6 +21,7 @@ app.use("/media", mediaRoutes);
 import peopleRoutes from "./routes/peopleRoutes.js";
 app.use("/people", peopleRoutes);
 
-const listener = app.listen(process.env.PORT, process.env.HOST, () => {
-  console.log(`Server listening at ${listener.address().address}:${listener.address().port}`);
+const port = process.env.PORT || 10000;
+app.listen(port, () => {
+  console.log(`Server listening on port ${port}`);
 });

@@ -1,5 +1,5 @@
 import { Alert, Button, Form, Modal, Spinner, Col, Row, ListGroup, Badge } from "react-bootstrap";
-import axios from "axios";
+import api from "../../api";
 import { useCallback, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
@@ -305,7 +305,7 @@ function MediaForm({ show, setShow, media }) {
     loadExistingData();
 
     if (show) {
-      axios.get("/api/media/shows")
+      api.get("/media/shows")
       .then(response =>
         setShows(response.data)
       )
@@ -323,7 +323,7 @@ function MediaForm({ show, setShow, media }) {
 
     setIsLoading(true);
 
-    axios.get("/api/people/select", { params: { searchTerm } })
+    api.get("/people/select", { params: { searchTerm } })
     .then(response => {
       const selectedIds = new Set(selected.map(s => s.id));
       const initialResults = response.data.filter(p => !selectedIds.has(p.id));
@@ -465,7 +465,7 @@ function MediaForm({ show, setShow, media }) {
     }
 
     const payload = { ...formData, castAndCrew: selected };
-    const apiCall = media?.id ? axios.put(`/api/media/${media.id}`, [payload, media]) : axios.post("/api/media", payload);
+    const apiCall = media?.id ? api.put(`/media/${media.id}`, [payload, media]) : api.post("/media", payload);
     
     apiCall
     .then(() => {
