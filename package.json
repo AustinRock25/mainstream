@@ -8,7 +8,7 @@
   "scripts": {
     "start": "concurrently \"npm run seed\" \"npm run client\" \"npm run server\"",
     "dev": "vite",
-    "build": "vite build",
+    "build": "vite build ui",
     "preview": "vite preview",
     "test": "echo \"Error: no test specified\" && exit 1",
     "server": "cd api && dotenv -e ../.env -- nodemon ./src/server.js",
