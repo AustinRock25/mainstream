@@ -1,4 +1,4 @@
-import api from "../api";
+import api from "../../api";
 import { Button, Card, Col, Badge, Stack } from "react-bootstrap";
 import MediaForm from "../modals/MediaForm";
 import { useEffect, useState } from "react";

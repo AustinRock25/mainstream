@@ -1,5 +1,5 @@
 import { Alert, Button, Container, Row, Spinner, Form, Col, Collapse } from "react-bootstrap";
-import api from "../api";
+import api from "../../api";
 import MediaCard from "./MediaCard";
 import { useCallback, useEffect, useState } from "react";
 import { useSelector } from "react-redux";

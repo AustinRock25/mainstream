@@ -1,5 +1,5 @@
 import { Alert, Button, Container, Spinner, Table, Form, Row, Col, Collapse } from "react-bootstrap";
-import api from "../api";
+import api from "../../api";
 import Person from "./Person";
 import { useCallback, useEffect, useState } from "react";
 

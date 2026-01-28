@@ -1,6 +1,6 @@
 import { Alert, Button, Form, Modal, Spinner } from "react-bootstrap";
 import { authenticated, unauthenticated } from "../../slices/authSlice.js";
-import api from "../api";
+import api from "../../api";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
