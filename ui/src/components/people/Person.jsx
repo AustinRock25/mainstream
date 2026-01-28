@@ -76,54 +76,39 @@ const Person = ({person}) => {
     });
   }, [person]);
 
-  const createUTCDate = (dateStr) => {
-    if (!dateStr) 
-      return null;
-    
-    const cleanDateStr = typeof dateStr === 'string' && dateStr.includes('T') ? dateStr.split('T')[0] : dateStr;
+  const formatDate = (dateValue) => {
+    if (!dateValue) 
+      return "";
 
-    if (typeof cleanDateStr !== 'string' || !cleanDateStr.includes('-')) 
-      return null;
-
-    const [year, month, day] = cleanDateStr.split('-').map(Number);
+    const dateStr = new Date(dateValue).toISOString().split('T')[0];
+    const [year, month, day] = dateStr.split('-').map(Number);
     const date = new Date(Date.UTC(year, month - 1, day));
-    
-    return isNaN(date.getTime()) ? null : date;
-  };
-
-  const formatDate = (dateString) => {
-    const date = createUTCDate(dateString);
-    
-    if (!date) 
-      return ""; 
-
     const dayOfMonth = date.getUTCDate();
     let suffix = "th";
 
-    if (dayOfMonth % 10 === 1 && dayOfMonth % 100 !== 11) 
-      suffix = "st";
-    else if (dayOfMonth % 10 === 2 && dayOfMonth % 100 !== 12) 
-      suffix = "nd";
-    else if (dayOfMonth % 10 === 3 && dayOfMonth % 100 !== 13) 
-      suffix = "rd";
+    if (dayOfMonth % 10 === 1 && dayOfMonth % 100 !== 11)
+       suffix = "st";
+    else if (dayOfMonth % 10 === 2 && dayOfMonth % 100 !== 12)
+       suffix = "nd";
+    else if (dayOfMonth % 10 === 3 && dayOfMonth % 100 !== 13)
+       suffix = "rd";
 
     return `${date.toLocaleDateString("en-US", { month: "long", timeZone: "UTC" })} ${dayOfMonth}${suffix}, ${date.getUTCFullYear()}`;
   };
 
   const getAge = (birthDate, deathDate) => {
-    const start = createUTCDate(birthDate);
-
-    if (!start) 
+    if (!birthDate) 
       return "";
 
-    const end = deathDate ? createUTCDate(deathDate) : new Date();
+    const start = new Date(birthDate);
+    const end = deathDate ? new Date(deathDate) : new Date();
     let age = end.getUTCFullYear() - start.getUTCFullYear();
     const m = end.getUTCMonth() - start.getUTCMonth();
 
     if (m < 0 || (m === 0 && end.getUTCDate() < start.getUTCDate()))
       age--;
 
-    return isNaN(age) ? "" : age;
+    return Number.isNaN(age) ? "" : age;
   };
 
   return (
