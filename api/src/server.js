@@ -3,6 +3,13 @@ import cors from "cors";
 import cookies from "cookie-parser";
 
 const app = express();
+const URL = `https://mainstream-api.onrender.com/healthcheck`;
+
+setInterval(() => {
+  fetch(URL)
+    .then(() => console.log('Keep-alive ping successful'))
+    .catch((err) => console.error('Keep-alive failed', err));
+}, 840000);
 
 app.use(cors({
   origin: true,
