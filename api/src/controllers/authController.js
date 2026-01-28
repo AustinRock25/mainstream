@@ -95,10 +95,10 @@ export const logout = (req, res) => {
 }
 
 export const verifyToken = (req, res) => {
-  if (res.locals.user !== undefined)
-    res.json(res.locals.user);
-  else
+  if (res.locals.user === undefined)
     res.status(401).json({ error: "No one is logged in." });
+  else
+    res.json(res.locals.user);
 }
 
 function generateToken(attributes) {
