@@ -1,5 +1,5 @@
 import { authenticated, unauthenticated } from "../slices/authSlice.js";
-import api from "../../api";
+import api from "../api";
 import store from "../store.js";
 
 const verifyToken = () => {

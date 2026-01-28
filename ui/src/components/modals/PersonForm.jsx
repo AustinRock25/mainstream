@@ -1,5 +1,5 @@
 import { Alert, Button, Form, Modal, Spinner } from "react-bootstrap";
-import api from "../../api";
+import api from "../api";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 

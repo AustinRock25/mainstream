@@ -1,4 +1,4 @@
-import api from "../../api";
+import api from "../api";
 import MediaForm from "../modals/MediaForm";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";

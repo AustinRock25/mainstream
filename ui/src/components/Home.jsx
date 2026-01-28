@@ -1,4 +1,4 @@
-import api from "../../api";
+import api from "../api";
 import { Container, Row } from "react-bootstrap";
 import MediaCard from "./media/MediaCard";
 import { useEffect, useState } from "react";
