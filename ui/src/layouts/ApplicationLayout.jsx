@@ -50,7 +50,7 @@ function ApplicationLayout() {
     api.post("/auth/logout")
       .then(() => {
         dispatch(unauthenticated());
-        navigate("/"); 
+        window.location.href = "/";
       });
   }
 
