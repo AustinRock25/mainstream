@@ -5,7 +5,7 @@ import cookies from "cookie-parser";
 const app = express();
 
 app.use(cors({
-  origin: process.env.FRONTEND_URL || "http://localhost:863",
+  origin: true,
   credentials: true
 }));
 
