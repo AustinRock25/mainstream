@@ -51,7 +51,10 @@ function ApplicationLayout() {
       .then(() => {
         dispatch(unauthenticated());
         window.location.href = "/";
-      });
+      })
+      .catch(err => 
+        console.error("Logout failed", err)
+      );
   }
 
   return (

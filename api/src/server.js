@@ -5,8 +5,6 @@ import cookies from "cookie-parser";
 const app = express();
 const URL = `https://mainstream-api.onrender.com/healthcheck`;
 
-app.set("trust proxy", 1);
-
 setInterval(() => {
   fetch(URL)
     .then(() => 
@@ -16,6 +14,8 @@ setInterval(() => {
       console.error('Keep-alive failed', err)
   );
 }, 840000);
+
+app.set("trust proxy", 1);
 
 app.use(cors({
   origin: process.env.FRONTEND_URL,

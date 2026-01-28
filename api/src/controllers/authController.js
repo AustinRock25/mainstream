@@ -9,7 +9,8 @@ const cookieOptions = {
   httpOnly: true,
   secure: true,
   sameSite: "none",
-  path: "/"
+  path: "/",
+  partitioned: true
 };
 
 export const register = (req, res) => {
@@ -89,7 +90,8 @@ export const logout = (req, res) => {
     httpOnly: true,
     secure: true,
     sameSite: "none",
-    path: "/"
+    path: "/",
+    partitioned: true
   });
   res.json({ message: "Successfully logged out." });
 }
