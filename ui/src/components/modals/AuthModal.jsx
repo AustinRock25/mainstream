@@ -43,33 +43,31 @@ function AuthModal({ show, setShow, action }) {
   function login() {
     api.post("/auth/login", formData)
       .then(res => {
-        dispatch(authenticated(res.data)); // Updates Redux
-        setShow(false);                    // Closes Modal
-        navigate("/media");                // <--- Ensure this line exists!
+        dispatch(authenticated(res.data));
+        setShow(false);
+        navigate("/");
       })
       .catch(err => {
         setErrors(err.response?.data || { error: "Login failed" });
+      })
+      .finally(() => {
         setIsLoading(false);
       });
   }
 
   function register() {
     api.post("/auth/register", formData)
-    .then(response => {
-      dispatch(authenticated(response.data));
-      handleHide();
-      window.location.reload();
-    })
-    .catch(error => {
-      dispatch(unauthenticated());
-      if (error.response?.status === 422)
-        setErrors(error.response.data.errors);
-      else
-        setErrors({ form: "An unexpected error occurred. Please try again later." });
-    })
-    .finally(() => {
-      setIsLoading(false);
-    });
+      .then(res => {
+        dispatch(authenticated(res.data));
+        setShow(false);
+        navigate("/");
+      })
+      .catch(err => {
+        setErrors(err.response?.data || { error: "Login failed" });
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
   }
 
   function change() {

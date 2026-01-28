@@ -356,7 +356,7 @@ function Media() {
                     <p className="text-white-50 mb-0">{media.length} result{media.length > 1 && `s`} displayed</p>
                     <h6 className="fw-bolder text-white mb-0">Page {currentPage} of {pages}</h6>
                   </div>
-                  <Row className="g-4 justify-content-center" xs={1} sm={2} md={3} lg={4} xl={5}>
+                  <Row className="g-4 justify-content-center" xs={2} sm={2} md={3} lg={4} xl={5}>
                     {media.map(m => <MediaCard key={`${m.id}-${m.type}-${m.season || ''}`} media={m} />)}
                   </Row>
                   <div className="d-flex justify-content-center mt-4">
