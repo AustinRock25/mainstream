@@ -4,9 +4,9 @@ const { Pool } = pkg;
 
 export const pgClient = new Pool({
   connectionString: process.env.DATABASE_URL,
-  ssl: process.env.DATABASE_URL?.includes("supabase.com") 
-    ? { rejectUnauthorized: false } 
-    : false
+  ssl: {
+    rejectUnauthorized: false
+  }
 });
 
 export const query = (text, params) => pgClient.query(text, params);
