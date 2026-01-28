@@ -76,14 +76,24 @@ const Person = ({person}) => {
     });
   }, [person]);
 
+  const createUTCDate = (dateStr) => {
+    if (!dateStr || typeof dateStr !== 'string') 
+      return null;
+
+    const [year, month, day] = dateStr.split('-').map(Number);
+    const date = new Date(Date.UTC(year, month - 1, day));
+
+    return isNaN(date.getTime()) ? null : date;
+  };
+
   const formatDate = (dateString) => {
-    if (!dateString) 
+    const date = createUTCDate(dateString);
+
+    if (!date) 
       return "";
 
-    const [year, month, day] = dateString.split('-').map(Number);
-    const date = new Date(Date.UTC(year, month - 1, day));
-    let suffix = "th";
     const dayOfMonth = date.getUTCDate();
+    let suffix = "th";
 
     if (dayOfMonth % 10 === 1 && dayOfMonth % 100 !== 11) 
       suffix = "st";
@@ -96,18 +106,19 @@ const Person = ({person}) => {
   };
 
   const getAge = (birthDate, deathDate) => {
-    if (!birthDate) 
+    const start = createUTCDate(birthDate);
+
+    if (!start) 
       return "";
 
-    const start = new Date(birthDate);
-    const end = deathDate ? new Date(deathDate) : new Date();
+    const end = deathDate ? createUTCDate(deathDate) : new Date();
     let age = end.getUTCFullYear() - start.getUTCFullYear();
     const m = end.getUTCMonth() - start.getUTCMonth();
 
     if (m < 0 || (m === 0 && end.getUTCDate() < start.getUTCDate()))
       age--;
 
-    return age;
+    return isNaN(age) ? "" : age;
   };
 
   return (
