@@ -83,12 +83,12 @@ function MediaCard ({media}) {
       return [];
 
     people.sort((a, b) => (a.ordering > b.ordering ? 1 : -1));
-    return people.map(p => `${p.name}${p.death_date ? "†" : ""}`);
+    return Array.isArray(people) && people.map(p => `${p.name}${p.death_date ? "†" : ""}`);
   };
 
   const combineDirectorsAndWriters = (media) => {
-    const directorIds = (media.directors || media.directors_tv || []).map(d => d.director_id).sort().join(",");
-    const writerIds = (media.writers || media.writers_tv || []).map(w => w.writer_id).sort().join(",");
+    const directorIds = Array.isArray(media.directors || media.directors_tv || []) && (media.directors || media.directors_tv || []).map(d => d.director_id).sort().join(",");
+    const writerIds = Array.isArray(media.writers || media.writers_tv || []) && (media.writers || media.writers_tv || []).map(w => w.writer_id).sort().join(",");
     return directorIds && writerIds && directorIds === writerIds;
   };
   
@@ -241,25 +241,25 @@ function MediaCard ({media}) {
                 {isCombined && (
                   <div className="mb-1">
                     <b>Written & Directed by</b>
-                    {directors.map((name, index) => <div key={`director-writer-${index}`}>{name}</div>)}
+                    {Array.isArray(directors) && directors.map((name, index) => <div key={`director-writer-${index}`}>{name}</div>)}
                   </div>
                 )}
                 {!isCombined && directors.length > 0 && (
                   <div className="mb-1">
                     <b>Directed by</b>
-                    {directors.map((name, index) => <div key={`director-${index}`}>{name}</div>)}
+                    {Array.isArray(directors) && directors.map((name, index) => <div key={`director-${index}`}>{name}</div>)}
                   </div>
                 )}
                 {!isCombined && writers.length > 0 && (
                   <div className="mb-1">
                     <b>Written by</b>
-                    {writers.map((name, index) => <div key={`writer-${index}`}>{name}</div>)}
+                    {Array.isArray(writers) && writers.map((name, index) => <div key={`writer-${index}`}>{name}</div>)}
                   </div>
                 )}
                 {cast.length > 0 && (
                   <div className="mb-1">
                     <b>Starring</b>
-                    {cast.map((name, index) => <div key={`cast-${index}`}>{name}</div>)}
+                    {Array.isArray(cast) && cast.map((name, index) => <div key={`cast-${index}`}>{name}</div>)}
                   </div>
                 )}
               </div>

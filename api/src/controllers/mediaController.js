@@ -507,7 +507,7 @@ export const show = (req, res) => {
 
 export const create = async (req, res) => {
   const media = req.body;
-  const getIdsByRole = (role) => media.castAndCrew?.filter(person => person[role]).map(person => person.id) || [];
+  const getIdsByRole = (role) => Array.isArray(media.castAndCrew?.filter(person => person[role])) && (media.castAndCrew?.filter(person => person[role]).map(person => person.id) || []);
   const directors = getIdsByRole("director");
   const writers = getIdsByRole("writer");
   const castMembers = getIdsByRole("cast");
@@ -552,7 +552,7 @@ export const update = async (req, res) => {
   addIdsToSet(og.directors_tv, 'director_id');
   addIdsToSet(og.writers_tv, 'writer_id');
   addIdsToSet(og.cast_members_tv, 'actor_id');
-  const getIdsByRole = (role) => media.castAndCrew?.filter(person => person[role]).map(person => person.id) || [];
+  const getIdsByRole = (role) => Array.isArray(media.castAndCrew?.filter(person => person[role])) && (media.castAndCrew?.filter(person => person[role]).map(person => person.id) || []);
   const directors = getIdsByRole("director");
   const writers = getIdsByRole("writer");
   const castMembers = getIdsByRole("cast");
@@ -943,7 +943,7 @@ async function shiftIdsAfterDeletion(deletedPersonId) {
   try {
     await client.query("BEGIN");
     const peopleToUpdate = await client.query("SELECT id FROM people WHERE id > $1 ORDER BY id ASC", [deletedPersonId]);
-    const idsToShift = peopleToUpdate.rows.map(p => p.id);
+    const idsToShift = Array.isArray(peopleToUpdate.rows) && peopleToUpdate.rows.map(p => p.id);
 
     for (const oldId of idsToShift) {
       const newId = oldId - 1;

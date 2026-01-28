@@ -325,7 +325,7 @@ function MediaForm({ show, setShow, media }) {
 
     api.get("/people/select", { params: { searchTerm } })
     .then(response => {
-      const selectedIds = new Set(selected.map(s => s.id));
+      const selectedIds = new Set(Array.isArray(selected) && selected.map(s => s.id));
       const initialResults = response.data.filter(p => !selectedIds.has(p.id));
       const filteredResults = filterPeopleByDate(initialResults);
       setCastAndCrew(filteredResults);
@@ -403,7 +403,7 @@ function MediaForm({ show, setShow, media }) {
   };
 
   const handleRoleChange = (personId, role, isChecked) => {
-    setSelected(selected.map(p => p.id === personId ? { ...p, [role]: isChecked } : p));
+    setSelected(Array.isArray(selected) && selected.map(p => p.id === personId ? { ...p, [role]: isChecked } : p));
   };
 
   function handleHide() {
@@ -517,7 +517,7 @@ function MediaForm({ show, setShow, media }) {
               <Col sm={9}>
                 <Form.Select value={formData.id} isInvalid={!!errors.id} onChange={(e) => handleChange(e, "id")}>
                   <option value="">Select existing show for new season</option>
-                  {shows.map(s => <option key={s.id} value={s.id}>{s.title} ({new Date(s.start_date).getFullYear()})</option>)}
+                  {Array.isArray(shows) && shows.map(s => <option key={s.id} value={s.id}>{s.title} ({new Date(s.start_date).getFullYear()})</option>)}
                   <option value="na">Create a new show</option>
                 </Form.Select>
               </Col>
@@ -576,7 +576,7 @@ function MediaForm({ show, setShow, media }) {
                       <Form.Label column sm={3}>Rating</Form.Label>
                       <Col sm={9}>
                         <Form.Select value={formData.rating} isInvalid={!!errors.rating} onChange={(e) => handleChange(e, "rating")}>
-                          {formData.type !== "movie" ? ["Not Rated", "TV-Y", "TV-Y7", "TV-Y7 FV", "TV-G", "TV-PG", "TV-14", "TV-MA"].map(r => <option key={r} value={r}>{r}</option>) : ["Not Rated", "G", "PG", "PG-13", "R", "NC-17", "TV-Y", "TV-Y7", "TV-Y7 FV", "TV-G", "TV-PG", "TV-14", "TV-MA"].map(r => <option key={r} value={r}>{r}</option>)}
+                          {formData.type !== "movie" ? Array.isArray(["Not Rated", "TV-Y", "TV-Y7", "TV-Y7 FV", "TV-G", "TV-PG", "TV-14", "TV-MA"]) && ["Not Rated", "TV-Y", "TV-Y7", "TV-Y7 FV", "TV-G", "TV-PG", "TV-14", "TV-MA"].map(r => <option key={r} value={r}>{r}</option>) : Array.isArray(["Not Rated", "G", "PG", "PG-13", "R", "NC-17", "TV-Y", "TV-Y7", "TV-Y7 FV", "TV-G", "TV-PG", "TV-14", "TV-MA"]) && ["Not Rated", "G", "PG", "PG-13", "R", "NC-17", "TV-Y", "TV-Y7", "TV-Y7 FV", "TV-G", "TV-PG", "TV-14", "TV-MA"].map(r => <option key={r} value={r}>{r}</option>)}
                         </Form.Select>
                       </Col>
                     </Form.Group>
@@ -592,7 +592,7 @@ function MediaForm({ show, setShow, media }) {
                     <Button variant="primary" onClick={fetchPeople} className="ms-2">Search</Button>
                   </Form.Group>
                   <ListGroup style={{maxHeight: "200px", overflowY: "auto"}}>
-                    {isLoading ? <Spinner /> : castAndCrew.map(p => (
+                    {isLoading ? <Spinner /> : Array.isArray(castAndCrew) && castAndCrew.map(p => (
                       <ListGroup.Item key={p.id} action onClick={() => handleSelectPerson(p)}>{p.name} <span style={{fontSize: "0.6rem"}}>{!!p.birth_date && `${new Date(p.birth_date).getFullYear()}`}{(!!p.birth_date || !!p.death_date) && `-`}{!!p.death_date && `${new Date(p.death_date).getFullYear()}`}</span></ListGroup.Item>
                     ))}
                   </ListGroup>
@@ -600,7 +600,7 @@ function MediaForm({ show, setShow, media }) {
                   <Col md={6}>
                     <h6>Selected</h6>
                       <ListGroup style={{maxHeight: "250px", overflowY: "auto"}}>
-                        {selected.map(p => (
+                        {Array.isArray(selected) && selected.map(p => (
                           <ListGroup.Item key={p.id}>
                             <div className="d-flex justify-content-between align-items-center">
                               {p.name}

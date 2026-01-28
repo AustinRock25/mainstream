@@ -265,7 +265,7 @@ function Media() {
                 <div className="d-flex flex-wrap" style={{ maxHeight: "150px", overflowY: "auto" }}>
                   {filters.filterType === "show" 
                     ? 
-                      RATINGSTV.map(rating => (
+                      Array.isArray(RATINGSTV) && RATINGSTV.map(rating => (
                         <Form.Check 
                           key={rating} 
                           type="checkbox" 
@@ -277,7 +277,7 @@ function Media() {
                         />
                       )) 
                     : 
-                      RATINGS.map(rating => (
+                      Array.isArray(RATINGS) && RATINGS.map(rating => (
                         <Form.Check 
                           key={rating} 
                           type="checkbox" 
@@ -295,7 +295,7 @@ function Media() {
                 <Form.Label>Grades</Form.Label>
                 <div className="d-flex flex-wrap" style={{ maxHeight: "150px", overflowY: "auto" }}>
                 {
-                  (!user || user.rating_scale == 2) ? GRADES2.map(grade => (
+                  (!user || user.rating_scale == 2) ? Array.isArray(GRADES2) && GRADES2.map(grade => (
                     <Form.Check 
                       key={grade} 
                       type="radio" 
@@ -307,7 +307,7 @@ function Media() {
                       className="me-3"
                     />
                   )) :
-                  user.rating_scale == 1 ? GRADES1.map(grade => (
+                  (user.rating_scale == 1) ? Array.isArray(GRADES2) && GRADES1.map(grade => (
                     <Form.Check 
                       key={grade} 
                       type="radio" 
@@ -319,7 +319,7 @@ function Media() {
                       className="me-3"
                     />
                   )) : 
-                  user.rating_scale == 3 && GRADES3.map(grade => (
+                  user.rating_scale == 3 && Array.isArray(GRADES3) && GRADES3.map(grade => (
                     <Form.Check 
                       key={grade} 
                       type="radio" 
@@ -357,7 +357,7 @@ function Media() {
                     <h6 className="fw-bolder text-white mb-0">Page {currentPage} of {pages}</h6>
                   </div>
                   <Row className="g-4 justify-content-center" xs={1} sm={2} md={3} lg={4} xl={5}>
-                    {media.map(m => <MediaCard key={`${m.id}-${m.type}-${m.season || ''}`} media={m} />)}
+                    {Array.isArray(media) && media.map(m => <MediaCard key={`${m.id}-${m.type}-${m.season || ''}`} media={m} />)}
                   </Row>
                   <div className="d-flex justify-content-center mt-4">
                     {currentPage > 1 && <Button variant="primary" className="me-2" onClick={() => changePage(1)}>First Page</Button>}

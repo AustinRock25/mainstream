@@ -242,7 +242,7 @@ const People = () => {
                     </tr>
                   </thead>
                   <tbody>
-                    {people.map((person) => (
+                    {Array.isArray(people) && people.map((person) => (
                       <Person key={person.id} person={person} />
                     ))}
                   </tbody>

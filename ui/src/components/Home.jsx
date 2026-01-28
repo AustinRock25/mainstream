@@ -27,7 +27,7 @@ function Home() {
         Recently Added Titles
       </p>
       <Row className="g-4 justify-content-center" xs={1} sm={2} md={3} lg={4} xl={5}>
-        {newMedia.map(n => <MediaCard key={`${n.id}-${n.type}`} media={n} />)}
+        {Array.isArray(newMedia) && newMedia.map(n => <MediaCard key={`${n.id}-${n.type}`} media={n} />)}
       </Row>
     </Container>
   );

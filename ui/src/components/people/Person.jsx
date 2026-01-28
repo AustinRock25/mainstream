@@ -54,7 +54,7 @@ const Person = ({person}) => {
       return dateA - dateB;
     });
 
-    return sortedCredits.map(credit => {
+    return Array.isArray(sortedCredits) && sortedCredits.map(credit => {
       let year;
       
       if (credit.end_date) {
@@ -116,7 +116,7 @@ const Person = ({person}) => {
         <td>{!!person.death_date && formatDate(person.death_date)}</td>
         <td>{getAge(person.birth_date, person.death_date)}</td>
         <td>
-          {getCredits.map((credit, index) => (
+          {Array.isArray(getCredits) && getCredits.map((credit, index) => (
             <div key={index} style={{fontSize: "0.85rem", whiteSpace: "pre-line"}} className="text-white-50">{credit}</div>
           ))}
         </td>
