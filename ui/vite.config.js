@@ -13,7 +13,6 @@ export default defineConfig(({ mode }) => {
         "/api": {
           target: env.VITE_API_URL || "http://localhost:864",
           changeOrigin: true,
-          secure: false,
           rewrite: (path) => path.replace(/^\/api/, "")
         }
       }
