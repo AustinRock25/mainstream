@@ -7,8 +7,12 @@ const URL = `https://mainstream-api.onrender.com/healthcheck`;
 
 setInterval(() => {
   fetch(URL)
-    .then(() => console.log('Keep-alive ping successful'))
-    .catch((err) => console.error('Keep-alive failed', err));
+    .then(() => 
+      console.log('Keep-alive ping successful')
+    )
+    .catch((err) => 
+      console.error('Keep-alive failed', err)
+  );
 }, 840000);
 
 app.use(cors({

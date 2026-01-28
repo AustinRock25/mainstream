@@ -48,10 +48,10 @@ function ApplicationLayout() {
 
   function handleLogoutClick() {
     api.post("/auth/logout")
-    .then(response => {
-      dispatch(unauthenticated());
-      navigate("/");
-    });
+      .then(() => {
+        dispatch(unauthenticated());
+        navigate("/"); 
+      });
   }
 
   return (
