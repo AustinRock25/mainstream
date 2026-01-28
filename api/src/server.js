@@ -5,6 +5,8 @@ import cookies from "cookie-parser";
 const app = express();
 const URL = `https://mainstream-api.onrender.com/healthcheck`;
 
+app.set("trust proxy", 1);
+
 setInterval(() => {
   fetch(URL)
     .then(() => 
