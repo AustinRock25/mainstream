@@ -42,25 +42,15 @@ function AuthModal({ show, setShow, action }) {
 
   function login() {
     api.post("/auth/login", formData)
-    .then(response => {
-      dispatch(authenticated(response.data));
-      handleHide();
-      window.location.reload();
-    })
-    .catch(error => {
-      dispatch(unauthenticated());
-      if (error.response?.status === 422)
-        setErrors(error.response.data.errors);
-      else if (error.response?.status === 401)
-        setErrors({ email: "Invalid email or password." });
-      else if (error.response?.status === 404)
-        setErrors({ email: "User not found." });
-      else
-        setErrors({ form: "An unexpected error occurred. Please try again later." });
-    })
-    .finally(() => {
-      setIsLoading(false);
-    });
+      .then(res => {
+        dispatch(authenticated(res.data)); // Updates Redux
+        setShow(false);                    // Closes Modal
+        navigate("/media");                // <--- Ensure this line exists!
+      })
+      .catch(err => {
+        setErrors(err.response?.data || { error: "Login failed" });
+        setIsLoading(false);
+      });
   }
 
   function register() {
