@@ -80,17 +80,19 @@ const Person = ({person}) => {
     if (!dateString) 
       return "";
 
+    const [year, month, day] = dateString.split('-').map(Number);
+    const date = new Date(Date.UTC(year, month - 1, day));
     let suffix = "th";
-    const date = new Date(dateString);
+    const dayOfMonth = date.getUTCDate();
 
-    if (date.getDate() % 10 === 1 && date.getDate() % 100 !== 11) 
+    if (dayOfMonth % 10 === 1 && dayOfMonth % 100 !== 11) 
       suffix = "st";
-    else if (date.getDate() % 10 === 2 && date.getDate() % 100 !== 12) 
+    else if (dayOfMonth % 10 === 2 && dayOfMonth % 100 !== 12) 
       suffix = "nd";
-    else if (date.getDate() % 10 === 3 && date.getDate() % 100 !== 13) 
+    else if (dayOfMonth % 10 === 3 && dayOfMonth % 100 !== 13) 
       suffix = "rd";
 
-    return `${date.toLocaleDateString("en-US", { month: "long" })}  ${date.getDate()}${suffix}, ${date.getFullYear()}`;
+    return `${date.toLocaleDateString("en-US", { month: "long", timeZone: "UTC" })} ${dayOfMonth}${suffix}, ${date.getUTCFullYear()}`;
   };
 
   const getAge = (birthDate, deathDate) => {
@@ -99,10 +101,10 @@ const Person = ({person}) => {
 
     const start = new Date(birthDate);
     const end = deathDate ? new Date(deathDate) : new Date();
-    let age = end.getFullYear() - start.getFullYear();
-    const m = end.getMonth() - start.getMonth();
+    let age = end.getUTCFullYear() - start.getUTCFullYear();
+    const m = end.getUTCMonth() - start.getUTCMonth();
 
-    if (m < 0 || (m === 0 && end.getDate() < start.getDate()))
+    if (m < 0 || (m === 0 && end.getUTCDate() < start.getUTCDate()))
       age--;
 
     return age;
