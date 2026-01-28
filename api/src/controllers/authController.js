@@ -4,6 +4,14 @@ import jwt from "jsonwebtoken";
 const { sign } = jwt;
 import { query } from "../config/pgClient.js";
 
+const cookieOptions = {
+  maxAge: 86400000,
+  httpOnly: true,
+  secure: true,
+  sameSite: "none",
+  path: "/"
+};
+
 export const register = (req, res) => {
   const { email, password, rating_scale } = req.body;
   const hash = hashSync(password, 12);
@@ -20,13 +28,7 @@ export const register = (req, res) => {
             token: token
           };
           
-          res.cookie("jwt", token, {
-            maxAge: 86400000,
-            httpOnly: true,
-            secure: true,
-            sameSite: "none"
-          });
-
+          res.cookie("jwt", token, cookieOptions);
           res.json(payload);
         })
         .catch(error => {
@@ -67,13 +69,7 @@ export const login = (req, res) => {
             rating_scale: results.rows[0].rating_scale
           };
 
-          res.cookie("jwt", token, {
-            maxAge: 86400000,
-            httpOnly: true,
-            secure: true,
-            sameSite: "none"
-          });
-
+          res.cookie("jwt", token, cookieOptions);
           res.json(payload);
         }
         else
