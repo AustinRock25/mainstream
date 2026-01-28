@@ -77,20 +77,25 @@ const Person = ({person}) => {
   }, [person]);
 
   const createUTCDate = (dateStr) => {
-    if (!dateStr || typeof dateStr !== 'string') 
+    if (!dateStr) 
+      return null;
+    
+    const cleanDateStr = typeof dateStr === 'string' && dateStr.includes('T') ? dateStr.split('T')[0] : dateStr;
+
+    if (typeof cleanDateStr !== 'string' || !cleanDateStr.includes('-')) 
       return null;
 
-    const [year, month, day] = dateStr.split('-').map(Number);
+    const [year, month, day] = cleanDateStr.split('-').map(Number);
     const date = new Date(Date.UTC(year, month - 1, day));
-
+    
     return isNaN(date.getTime()) ? null : date;
   };
 
   const formatDate = (dateString) => {
     const date = createUTCDate(dateString);
-
+    
     if (!date) 
-      return "";
+      return ""; 
 
     const dayOfMonth = date.getUTCDate();
     let suffix = "th";
