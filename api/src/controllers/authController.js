@@ -22,7 +22,9 @@ export const register = (req, res) => {
           
           res.cookie("jwt", token, {
             maxAge: 86400000,
-            httpOnly: true
+            httpOnly: true,
+            secure: true,
+            sameSite: "none"
           });
 
           res.json(payload);
@@ -67,7 +69,9 @@ export const login = (req, res) => {
 
           res.cookie("jwt", token, {
             maxAge: 86400000,
-            httpOnly: true
+            httpOnly: true,
+            secure: true,
+            sameSite: "none"
           });
 
           res.json(payload);
