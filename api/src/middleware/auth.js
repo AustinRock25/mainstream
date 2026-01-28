@@ -31,23 +31,21 @@ export const authenticate = (req, res, next) => {
 export const authorizeAdmin = (req, res, next) => {
   const token = req.cookies?.jwt || req.headers["x-access-token"];
 
-  if (!token)
+  if (!token) 
     return res.status(401).json({ error: "No token provided." });
 
   verify(token, process.env.JWT_SECRET, (error, decoded) => {
-    if (error)
+    if (error) 
       return res.status(401).json({ error: `Bad token. ${error}` });
-    else {
-      query("SELECT id, email, is_admin, rating_scale FROM users WHERE id = $1", [decoded.id])
-      .then(results => {
-        if (!results.rows[0].is_admin)
-          return res.status(403).json({ error: "Unauthorized." });
-      })
-      .catch(error => {
-        res.status(401).json({ error: `Unauthorized. ${error}` });
-      })
-    }
     
-    next();
+    query("SELECT id, email, is_admin FROM users WHERE id = $1", [decoded.id])
+      .then(results => {
+        if (results.rowCount === 0 || !results.rows[0].is_admin)
+          return res.status(403).json({ error: "Unauthorized." });
+
+        res.locals.user = results.rows[0];
+        next();
+      })
+      .catch(error => res.status(401).json({ error: `Unauthorized. ${error}` }));
   });
 }

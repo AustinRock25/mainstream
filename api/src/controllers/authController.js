@@ -8,7 +8,7 @@ const cookieOptions = {
   maxAge: 86400000,
   httpOnly: true,
   secure: true,
-  sameSite: "lax",
+  sameSite: "none",
   path: "/"
 };
 
@@ -88,7 +88,7 @@ export const logout = (req, res) => {
   res.clearCookie("jwt", {
     httpOnly: true,
     secure: true,
-    sameSite: "lax",
+    sameSite: "none",
     path: "/"
   });
   res.json({ message: "Successfully logged out." });
