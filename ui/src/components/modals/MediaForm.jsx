@@ -93,7 +93,7 @@ function MediaForm({ show, setShow, media }) {
       if (person.death_date) {
         const deathDate = new Date(person.death_date);
         const limitDate = new Date(deathDate);
-        limitDate.setFullYear(limitDate.getFullYear() + 3);
+        limitDate.setFullYear(limitDate.getUTCFullYear() + 3);
 
         if (mediaDate > limitDate)
           return false;
@@ -113,7 +113,7 @@ function MediaForm({ show, setShow, media }) {
       } 
       else {
         const limitDate = new Date(firstCreditDate);
-        limitDate.setFullYear(limitDate.getFullYear() - 10);
+        limitDate.setFullYear(limitDate.getUTCFullYear() - 10);
 
         if (mediaDate <= limitDate)
           return false;
@@ -154,47 +154,17 @@ function MediaForm({ show, setShow, media }) {
       else if (!media.grade)
         media.grade = media.grade_tv;
 
-      if (user.rating_scale == 1) {
-        if (media.grade < 175/4) {
-          setPillColor("danger");
-          setPillTextColor("white");
-        }
-        else if (media.grade < 225/4) {
-          setPillColor("warning");
-          setPillTextColor("black");
-        }
-        else {
-          setPillColor("success");
-          setPillTextColor("white");
-        }
+      if (media.grade <= 49) {
+        setPillColor("danger");
+        setPillTextColor("white");
       }
-      else if (user.rating_scale == 2) {
-        if (media.grade < 175/5) {
-          setPillColor("danger");
-          setPillTextColor("white");
-        }
-        else if (media.grade < 325/5) {
-          setPillColor("warning");
-          setPillTextColor("black");
-        }
-        else {
-          setPillColor("success");
-          setPillTextColor("white");
-        }
+      else if (media.grade <= 74) {
+        setPillColor("warning");
+        setPillTextColor("black");
       }
       else {
-        if (media.grade <= 500/14) {
-          setPillColor("danger");
-          setPillTextColor("white");
-        }
-        else if (media.grade <= 800/14) {
-          setPillColor("warning");
-          setPillTextColor("black");
-        }
-        else {
-          setPillColor("success");
-          setPillTextColor("white");
-        }
+        setPillColor("success");
+        setPillTextColor("white");
       }
 
       if (user.rating_scale == 1) {
@@ -242,29 +212,29 @@ function MediaForm({ show, setShow, media }) {
           grade = 5;
       }
       else {
-        if (media.grade <= 200/14)
+        if (media.grade < 50/12)
           grade = 0;
-        else if (media.grade <= 300/14)
+        else if (media.grade < 150/12)
           grade = 1;
-        else if (media.grade <= 400/14)
+        else if (media.grade < 250/12)
           grade = 2;
-        else if (media.grade <= 500/14)
+        else if (media.grade < 350/12)
           grade = 3;
-        else if (media.grade <= 600/14)
+        else if (media.grade < 450/12)
           grade = 4;
-        else if (media.grade <= 700/14)
+        else if (media.grade < 550/12)
           grade = 5;
-        else if (media.grade <= 800/14)
+        else if (media.grade < 650/12)
           grade = 6;
-        else if (media.grade <= 900/14)
+        else if (media.grade < 750/12)
           grade = 7;
-        else if (media.grade <= 1000/14)
+        else if (media.grade < 850/12)
           grade = 8;
-        else if (media.grade <= 1100/14)
+        else if (media.grade < 950/12)
           grade = 9;
-        else if (media.grade <= 1200/14)
+        else if (media.grade < 1050/12)
           grade = 10;
-        else if (media.grade <= 1300/14)
+        else if (media.grade < 1150/12)
           grade = 11;
         else
           grade = 12;
@@ -354,7 +324,7 @@ function MediaForm({ show, setShow, media }) {
         setPillColor("danger");
         setPillTextColor("white");
       }
-      else if (value == 2) {
+      else if (value <= 2.5) {
         setPillColor("warning");
         setPillTextColor("black");
       }
@@ -364,11 +334,11 @@ function MediaForm({ show, setShow, media }) {
       }
     }
     else if (user.rating_scale == 2 && key === "grade") {
-      if (value <= 1.5) {
+      if (value <= 2) {
         setPillColor("danger");
         setPillTextColor("white");
       }
-      else if (value <= 3) {
+      else if (value <= 3.5) {
         setPillColor("warning");
         setPillTextColor("black");
       }
@@ -378,11 +348,11 @@ function MediaForm({ show, setShow, media }) {
       }
     }
     else if (user.rating_scale == 3 && key === "grade") {
-      if (value <= 3) {
+      if (value <= 5) {
         setPillColor("danger");
         setPillTextColor("white");
       }
-      else if (value <= 6) {
+      else if (value <= 8) {
         setPillColor("warning");
         setPillTextColor("black");
       }
@@ -457,12 +427,8 @@ function MediaForm({ show, setShow, media }) {
       formData.grade = (parseFloat(formData.grade) * 100) / 4;
     else if (user.rating_scale == 2)
       formData.grade = (parseFloat(formData.grade) * 100) / 5;
-    if (user.rating_scale == 3) {
-      if (formData.grade == 0)
-        formData.grade = 0;
-      else
-        formData.grade = ((parseFloat(formData.grade) + 1) * 100) / 13;
-    }
+    else
+      formData.grade = (parseFloat(formData.grade) * 100) / 12;
 
     const payload = { ...formData, castAndCrew: selected };
     const apiCall = media?.id ? api.put(`/media/${media.id}`, [payload, media]) : api.post("/media", payload);
@@ -517,7 +483,7 @@ function MediaForm({ show, setShow, media }) {
               <Col sm={9}>
                 <Form.Select value={formData.id} isInvalid={!!errors.id} onChange={(e) => handleChange(e, "id")}>
                   <option value="">Select existing show for new season</option>
-                  {Array.isArray(shows) && shows.map(s => <option key={s.id} value={s.id}>{s.title} ({new Date(s.start_date).getFullYear()})</option>)}
+                  {Array.isArray(shows) && shows.map(s => <option key={s.id} value={s.id}>{s.title} ({new Date(s.start_date).getUTCFullYear()})</option>)}
                   <option value="na">Create a new show</option>
                 </Form.Select>
               </Col>
@@ -593,7 +559,7 @@ function MediaForm({ show, setShow, media }) {
                   </Form.Group>
                   <ListGroup style={{maxHeight: "200px", overflowY: "auto"}}>
                     {isLoading ? <Spinner /> : Array.isArray(castAndCrew) && castAndCrew.map(p => (
-                      <ListGroup.Item key={p.id} action onClick={() => handleSelectPerson(p)}>{p.name} <span style={{fontSize: "0.6rem"}}>{!!p.birth_date && `${new Date(p.birth_date).getFullYear()}`}{(!!p.birth_date || !!p.death_date) && `-`}{!!p.death_date && `${new Date(p.death_date).getFullYear()}`}</span></ListGroup.Item>
+                      <ListGroup.Item key={p.id} action onClick={() => handleSelectPerson(p)}>{p.name} <span style={{fontSize: "0.6rem"}}>{!!p.birth_date && `${new Date(p.birth_date).getUTCFullYear()}`}{(!!p.birth_date || !!p.death_date) && `-`}{!!p.death_date && `${new Date(p.death_date).getUTCFullYear()}`}</span></ListGroup.Item>
                     ))}
                   </ListGroup>
                   </Col>

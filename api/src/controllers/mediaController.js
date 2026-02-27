@@ -110,31 +110,51 @@ export const index = (req, res) => {
     else if (grade == "5/5")
       filterClauses.push("(COALESCE(m.grade, s.grade) >= (475/5))");
     else if (grade == "F")
-      filterClauses.push("(COALESCE(m.grade, s.grade) <= (200/14))");
+      filterClauses.push("(COALESCE(m.grade, s.grade) < (50/12))");
     else if (grade == "D-")
-      filterClauses.push("(COALESCE(m.grade, s.grade) > (200/14) AND COALESCE(m.grade, s.grade) <= (300/14))");
+      filterClauses.push("(COALESCE(m.grade, s.grade) >= (50/12) AND COALESCE(m.grade, s.grade) < (150/12))");
     else if (grade == "D")
-      filterClauses.push("(COALESCE(m.grade, s.grade) > (300/14) AND COALESCE(m.grade, s.grade) <= (400/14))");
+      filterClauses.push("(COALESCE(m.grade, s.grade) >= (150/12) AND COALESCE(m.grade, s.grade) < (250/12))");
     else if (grade == "D+")
-      filterClauses.push("(COALESCE(m.grade, s.grade) > (400/14) AND COALESCE(m.grade, s.grade) <= (500/14))");
+      filterClauses.push("(COALESCE(m.grade, s.grade) >= (250/12) AND COALESCE(m.grade, s.grade) < (350/12))");
     else if (grade == "C-")
-      filterClauses.push("(COALESCE(m.grade, s.grade) > (500/14) AND COALESCE(m.grade, s.grade) <= (600/14))");
+      filterClauses.push("(COALESCE(m.grade, s.grade) >= (350/12) AND COALESCE(m.grade, s.grade) < (450/12))");
     else if (grade == "C")
-      filterClauses.push("(COALESCE(m.grade, s.grade) > (600/14) AND COALESCE(m.grade, s.grade) <= (700/14))");
+      filterClauses.push("(COALESCE(m.grade, s.grade) >= (450/12) AND COALESCE(m.grade, s.grade) < (550/12))");
     else if (grade == "C+")
-      filterClauses.push("(COALESCE(m.grade, s.grade) > (700/14) AND COALESCE(m.grade, s.grade) <= (800/14))");
+      filterClauses.push("(COALESCE(m.grade, s.grade) >= (550/12) AND COALESCE(m.grade, s.grade) < (650/12))");
     else if (grade == "B-")
-      filterClauses.push("(COALESCE(m.grade, s.grade) > (800/14) AND COALESCE(m.grade, s.grade) <= (900/14))");
+      filterClauses.push("(COALESCE(m.grade, s.grade) >= (650/12) AND COALESCE(m.grade, s.grade) < (750/12))");
     else if (grade == "B")
-      filterClauses.push("(COALESCE(m.grade, s.grade) > (900/14) AND COALESCE(m.grade, s.grade) <= (1000/14))");
+      filterClauses.push("(COALESCE(m.grade, s.grade) >= (750/12) AND COALESCE(m.grade, s.grade) < (850/12))");
     else if (grade == "B+")
-      filterClauses.push("(COALESCE(m.grade, s.grade) > (1000/14) AND COALESCE(m.grade, s.grade) <= (1100/14))");
+      filterClauses.push("(COALESCE(m.grade, s.grade) >= (850/12) AND COALESCE(m.grade, s.grade) < (950/12))");
     else if (grade == "A-")
-      filterClauses.push("(COALESCE(m.grade, s.grade) > (1100/14) AND COALESCE(m.grade, s.grade) <= (1200/14))");
+      filterClauses.push("(COALESCE(m.grade, s.grade) >= (950/12) AND COALESCE(m.grade, s.grade) < (1050/12))");
     else if (grade == "A")
-      filterClauses.push("(COALESCE(m.grade, s.grade) > (1200/14) AND COALESCE(m.grade, s.grade) <= (1300/14))");
+      filterClauses.push("(COALESCE(m.grade, s.grade) >= (1050/12) AND COALESCE(m.grade, s.grade) < (1150/12))");
+    else if (grade == "A+")
+      filterClauses.push("(COALESCE(m.grade, s.grade) >= (1150/12))");
+    else if (grade == "1/10")
+      filterClauses.push("(COALESCE(m.grade, s.grade) < (50/9))");
+    else if (grade == "2/10")
+      filterClauses.push("(COALESCE(m.grade, s.grade) >= (50/9) AND COALESCE(m.grade, s.grade) < (150/9))");
+    else if (grade == "3/10")
+      filterClauses.push("(COALESCE(m.grade, s.grade) >= (150/9) AND COALESCE(m.grade, s.grade) < (250/9))");
+    else if (grade == "4/10")
+      filterClauses.push("(COALESCE(m.grade, s.grade) >= (250/9) AND COALESCE(m.grade, s.grade) < (350/9))");
+    else if (grade == "5/10")
+      filterClauses.push("(COALESCE(m.grade, s.grade) >= (350/9) AND COALESCE(m.grade, s.grade) < (450/9))");
+    else if (grade == "6/10")
+      filterClauses.push("(COALESCE(m.grade, s.grade) >= (450/9) AND COALESCE(m.grade, s.grade) < (550/9))");
+    else if (grade == "7/10")
+      filterClauses.push("(COALESCE(m.grade, s.grade) >= (550/9) AND COALESCE(m.grade, s.grade) < (650/9))");
+    else if (grade == "8/10")
+      filterClauses.push("(COALESCE(m.grade, s.grade) >= (650/9) AND COALESCE(m.grade, s.grade) < (750/9))");
+    else if (grade == "9/10")
+      filterClauses.push("(COALESCE(m.grade, s.grade) >= (750/9) AND COALESCE(m.grade, s.grade) < (850/9))");
     else
-      filterClauses.push("(COALESCE(m.grade, s.grade) > (1300/14))");
+      filterClauses.push("(COALESCE(m.grade, s.grade) >= (850/9))");
   }
 
   const whereClause = filterClauses.length > 0 ? `WHERE ${filterClauses.join(" AND ")}` : "";
@@ -326,31 +346,51 @@ export const indexLength = (req, res) => {
     else if (grade == "5/5")
       filterClauses.push("(COALESCE(m.grade, s.grade) >= (475/5))");
     else if (grade == "F")
-      filterClauses.push("(COALESCE(m.grade, s.grade) <= (200/14))");
+      filterClauses.push("(COALESCE(m.grade, s.grade) < (50/12))");
     else if (grade == "D-")
-      filterClauses.push("(COALESCE(m.grade, s.grade) > (200/14) AND COALESCE(m.grade, s.grade) <= (300/14))");
+      filterClauses.push("(COALESCE(m.grade, s.grade) >= (50/12) AND COALESCE(m.grade, s.grade) < (150/12))");
     else if (grade == "D")
-      filterClauses.push("(COALESCE(m.grade, s.grade) > (300/14) AND COALESCE(m.grade, s.grade) <= (400/14))");
+      filterClauses.push("(COALESCE(m.grade, s.grade) >= (150/12) AND COALESCE(m.grade, s.grade) < (250/12))");
     else if (grade == "D+")
-      filterClauses.push("(COALESCE(m.grade, s.grade) > (400/14) AND COALESCE(m.grade, s.grade) <= (500/14))");
+      filterClauses.push("(COALESCE(m.grade, s.grade) >= (250/12) AND COALESCE(m.grade, s.grade) < (350/12))");
     else if (grade == "C-")
-      filterClauses.push("(COALESCE(m.grade, s.grade) > (500/14) AND COALESCE(m.grade, s.grade) <= (600/14))");
+      filterClauses.push("(COALESCE(m.grade, s.grade) >= (350/12) AND COALESCE(m.grade, s.grade) < (450/12))");
     else if (grade == "C")
-      filterClauses.push("(COALESCE(m.grade, s.grade) > (600/14) AND COALESCE(m.grade, s.grade) <= (700/14))");
+      filterClauses.push("(COALESCE(m.grade, s.grade) >= (450/12) AND COALESCE(m.grade, s.grade) < (550/12))");
     else if (grade == "C+")
-      filterClauses.push("(COALESCE(m.grade, s.grade) > (700/14) AND COALESCE(m.grade, s.grade) <= (800/14))");
+      filterClauses.push("(COALESCE(m.grade, s.grade) >= (550/12) AND COALESCE(m.grade, s.grade) < (650/12))");
     else if (grade == "B-")
-      filterClauses.push("(COALESCE(m.grade, s.grade) > (800/14) AND COALESCE(m.grade, s.grade) <= (900/14))");
+      filterClauses.push("(COALESCE(m.grade, s.grade) >= (650/12) AND COALESCE(m.grade, s.grade) < (750/12))");
     else if (grade == "B")
-      filterClauses.push("(COALESCE(m.grade, s.grade) > (900/14) AND COALESCE(m.grade, s.grade) <= (1000/14))");
+      filterClauses.push("(COALESCE(m.grade, s.grade) >= (750/12) AND COALESCE(m.grade, s.grade) < (850/12))");
     else if (grade == "B+")
-      filterClauses.push("(COALESCE(m.grade, s.grade) > (1000/14) AND COALESCE(m.grade, s.grade) <= (1100/14))");
+      filterClauses.push("(COALESCE(m.grade, s.grade) >= (850/12) AND COALESCE(m.grade, s.grade) < (950/12))");
     else if (grade == "A-")
-      filterClauses.push("(COALESCE(m.grade, s.grade) > (1100/14) AND COALESCE(m.grade, s.grade) <= (1200/14))");
+      filterClauses.push("(COALESCE(m.grade, s.grade) >= (950/12) AND COALESCE(m.grade, s.grade) < (1050/12))");
     else if (grade == "A")
-      filterClauses.push("(COALESCE(m.grade, s.grade) > (1200/14) AND COALESCE(m.grade, s.grade) <= (1300/14))");
+      filterClauses.push("(COALESCE(m.grade, s.grade) >= (1050/12) AND COALESCE(m.grade, s.grade) < (1150/12))");
+    else if (grade == "A+")
+      filterClauses.push("(COALESCE(m.grade, s.grade) >= (1150/12))");
+    else if (grade == "1/10")
+      filterClauses.push("(COALESCE(m.grade, s.grade) < (50/9))");
+    else if (grade == "2/10")
+      filterClauses.push("(COALESCE(m.grade, s.grade) >= (50/9) AND COALESCE(m.grade, s.grade) < (150/9))");
+    else if (grade == "3/10")
+      filterClauses.push("(COALESCE(m.grade, s.grade) >= (150/9) AND COALESCE(m.grade, s.grade) < (250/9))");
+    else if (grade == "4/10")
+      filterClauses.push("(COALESCE(m.grade, s.grade) >= (250/9) AND COALESCE(m.grade, s.grade) < (350/9))");
+    else if (grade == "5/10")
+      filterClauses.push("(COALESCE(m.grade, s.grade) >= (350/9) AND COALESCE(m.grade, s.grade) < (450/9))");
+    else if (grade == "6/10")
+      filterClauses.push("(COALESCE(m.grade, s.grade) >= (450/9) AND COALESCE(m.grade, s.grade) < (550/9))");
+    else if (grade == "7/10")
+      filterClauses.push("(COALESCE(m.grade, s.grade) >= (550/9) AND COALESCE(m.grade, s.grade) < (650/9))");
+    else if (grade == "8/10")
+      filterClauses.push("(COALESCE(m.grade, s.grade) >= (650/9) AND COALESCE(m.grade, s.grade) < (750/9))");
+    else if (grade == "9/10")
+      filterClauses.push("(COALESCE(m.grade, s.grade) >= (750/9) AND COALESCE(m.grade, s.grade) < (850/9))");
     else
-      filterClauses.push("(COALESCE(m.grade, s.grade) > (1300/14))");
+      filterClauses.push("(COALESCE(m.grade, s.grade) >= (850/9))");
   }
 
   const whereClause = filterClauses.length > 0 ? `WHERE ${filterClauses.join(" AND ")}` : "";

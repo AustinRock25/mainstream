@@ -27,47 +27,18 @@ function MediaCard ({media}) {
     if (!media.grade)
       media.grade = media.grade_tv;
 
-    if (!user || user.rating_scale == 2) {
-      if (media.grade < 175/5) {
-        setPillColor("danger");
-        setPillTextColor("white");
-      }
-      else if (media.grade < 325/5) {
-        setPillColor("warning");
-        setPillTextColor("black");
-      }
-      else {
-        setPillColor("success");
-        setPillTextColor("white");
-      }
+    
+    if (media.grade <= 49) {
+      setPillColor("danger");
+      setPillTextColor("white");
     }
-    else if (user.rating_scale == 1) {
-      if (media.grade < 175/4) {
-        setPillColor("danger");
-        setPillTextColor("white");
-      }
-      else if (media.grade < 225/4) {
-        setPillColor("warning");
-        setPillTextColor("black");
-      }
-      else {
-        setPillColor("success");
-        setPillTextColor("white");
-      }
+    else if (media.grade <= 74) {
+      setPillColor("warning");
+      setPillTextColor("black");
     }
     else {
-      if (media.grade <= 500/14) {
-        setPillColor("danger");
-        setPillTextColor("white");
-      }
-      else if (media.grade <= 800/14) {
-        setPillColor("warning");
-        setPillTextColor("black");
-      }
-      else {
-        setPillColor("success");
-        setPillTextColor("white");
-      }
+      setPillColor("success");
+      setPillTextColor("white");
     }
 
     if (media.type === "show") {
@@ -143,7 +114,49 @@ function MediaCard ({media}) {
     if (!media.grade)
       media.grade = media.grade_tv;
 
-    if (!user || user.rating_scale == 2) {
+    if (!user) {
+      if (media.grade < 50/9)
+        return "1/10";
+      else if (media.grade < 150/9)
+        return "2/10";
+      else if (media.grade < 250/9)
+        return "3/10";
+      else if (media.grade < 350/9)
+        return "4/10";
+      else if (media.grade < 450/9)
+        return "5/10";
+      else if (media.grade < 550/9)
+        return "6/10";
+      else if (media.grade < 650/9)
+        return "7/10";
+      else if (media.grade < 750/9)
+        return "8/10";
+      else if (media.grade < 850/9)
+        return "9/10";
+      else
+        return "10/10";
+    }
+    else if (user.rating_scale == 1) {
+      if (media.grade < 25/4)
+        return "0/4";
+      else if (media.grade < 75/4)
+        return "0.5/4";
+      else if (media.grade < 125/4)
+        return "1/4";
+      else if (media.grade < 175/4)
+        return "1.5/4";
+      else if (media.grade < 225/4)
+        return "2/4";
+      else if (media.grade < 275/4)
+        return "2.5/4";
+      else if (media.grade < 325/4)
+        return "3/4";
+      else if (media.grade < 375/4)
+        return "3.5/4";
+      else
+        return "4/4";
+    }
+    else if (user.rating_scale == 2) {
       if (media.grade < 25/5)
         return "0/5";
       else if (media.grade < 75/5)
@@ -167,50 +180,30 @@ function MediaCard ({media}) {
       else
         return "5/5";
     }
-    else if (user.rating_scale == 1) {
-      if (media.grade < 25/4)
-        return "0/4";
-      else if (media.grade < 75/4)
-        return "0.5/4";
-      else if (media.grade < 125/4)
-        return "1/4";
-      else if (media.grade < 175/4)
-        return "1.5/4";
-      else if (media.grade < 225/4)
-        return "2/4";
-      else if (media.grade < 275/4)
-        return "2.5/4";
-      else if (media.grade < 325/4)
-        return "3/4";
-      else if (media.grade < 375/4)
-        return "3.5/4";
-      else
-        return "4/4";
-    }
     else {
-      if (media.grade <= 200/14)
+      if (media.grade < 50/12)
         return "F";
-      else if (media.grade <= 300/14)
+      else if (media.grade < 150/12)
         return "D-";
-      else if (media.grade <= 400/14)
+      else if (media.grade < 250/12)
         return "D";
-      else if (media.grade <= 500/14)
+      else if (media.grade < 350/12)
         return "D+";
-      else if (media.grade <= 600/14)
+      else if (media.grade < 450/12)
         return "C-";
-      else if (media.grade <= 700/14)
+      else if (media.grade < 550/12)
         return "C";
-      else if (media.grade <= 800/14)
+      else if (media.grade < 650/12)
         return "C+";
-      else if (media.grade <= 900/14)
+      else if (media.grade < 750/12)
         return "B-";
-      else if (media.grade <= 1000/14)
+      else if (media.grade < 850/12)
         return "B";
-      else if (media.grade <= 1100/14)
+      else if (media.grade < 950/12)
         return "B+";
-      else if (media.grade <= 1200/14)
+      else if (media.grade < 1050/12)
         return "A-";
-      else if (media.grade <= 1300/14)
+      else if (media.grade < 1150/12)
         return "A";
       else
         return "A+";
