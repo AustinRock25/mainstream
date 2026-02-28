@@ -27,18 +27,61 @@ function MediaCard ({media}) {
     if (!media.grade)
       media.grade = media.grade_tv;
 
-    
-    if ((!user && media.grade < (350/9)) || (user.rating_scale == 1 && media.grade < (175/4)) || (user.rating_scale == 2 && media.grade < (175/5)) || (user.rating_scale == 3 && media.grade < (450/12))) {
-      setPillColor("danger");
-      setPillTextColor("white");
+    if (!user) {
+      if (media.grade < 350/9) {
+        setPillColor("danger");
+        setPillTextColor("white");
+      }
+      else if (media.grade < 550/9) {
+        setPillColor("warning");
+        setPillTextColor("black");
+      }
+      else {
+        setPillColor("success");
+        setPillTextColor("white");
+      }
     }
-    else if ((!user && media.grade < (550/9)) || (user.rating_scale == 1 && media.grade < (225/4)) || (user.rating_scale == 2 && media.grade < (325/5)) || (user.rating_scale == 3 && media.grade < (750/12))) {
-      setPillColor("warning");
-      setPillTextColor("black");
+    else if (user.rating_scale == 1) {
+      if (media.grade < 175/4) {
+        setPillColor("danger");
+        setPillTextColor("white");
+      }
+      else if (media.grade < 225/4) {
+        setPillColor("warning");
+        setPillTextColor("black");
+      }
+      else {
+        setPillColor("success");
+        setPillTextColor("white");
+      }
+    }
+    else if (user.rating_scale == 2) {
+      if (media.grade < 175/5) {
+        setPillColor("danger");
+        setPillTextColor("white");
+      }
+      else if (media.grade < 325/5) {
+        setPillColor("warning");
+        setPillTextColor("black");
+      }
+      else {
+        setPillColor("success");
+        setPillTextColor("white");
+      }
     }
     else {
-      setPillColor("success");
-      setPillTextColor("white");
+      if (media.grade <= 450/12) {
+        setPillColor("danger");
+        setPillTextColor("white");
+      }
+      else if (media.grade <= 750/12) {
+        setPillColor("warning");
+        setPillTextColor("black");
+      }
+      else {
+        setPillColor("success");
+        setPillTextColor("white");
+      }
     }
 
     if (media.type === "show") {
