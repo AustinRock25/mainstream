@@ -296,7 +296,7 @@ function Media() {
                 <Form.Label>Grades</Form.Label>
                 <div className="d-flex flex-wrap" style={{ maxHeight: "150px", overflowY: "auto" }}>
                 {
-                  (!user) && Array.isArray(GRADESDEFAULT) && GRADESDEFAULT.map(grade => (
+                  (!user) ? (Array.isArray(GRADESDEFAULT) && GRADESDEFAULT.map(grade => (
                     <Form.Check 
                       key={grade} 
                       type="radio" 
@@ -307,8 +307,8 @@ function Media() {
                       onChange={handleFilterChange} 
                       className="me-3"
                     />
-                  ))
-                  (user.rating_scale == 1) && Array.isArray(GRADES1) && GRADES1.map(grade => (
+                  ))) :
+                  (user.rating_scale == 1) ? (Array.isArray(GRADES1) && GRADES1.map(grade => (
                     <Form.Check 
                       key={grade} 
                       type="radio" 
@@ -319,8 +319,8 @@ function Media() {
                       onChange={handleFilterChange} 
                       className="me-3"
                     />
-                  ))
-                  (user.rating_scale == 2) && Array.isArray(GRADES2) && GRADES2.map(grade => (
+                  ))) :
+                  (user.rating_scale == 2) ? (Array.isArray(GRADES2) && GRADES2.map(grade => (
                     <Form.Check 
                       key={grade} 
                       type="radio" 
@@ -331,8 +331,8 @@ function Media() {
                       onChange={handleFilterChange} 
                       className="me-3"
                     />
-                  ))
-                  (user.rating_scale == 3) && Array.isArray(GRADES3) && GRADES3.map(grade => (
+                  ))) :
+                  (user.rating_scale == 3 && Array.isArray(GRADES3)) && GRADES3.map(grade => (
                     <Form.Check 
                       key={grade} 
                       type="radio" 
