@@ -320,7 +320,7 @@ function Media() {
                       className="me-3"
                     />
                   ))
-                  (user.rating_scale == 1) && Array.isArray(GRADES1) && GRADES1.map(grade => (
+                  (user.rating_scale == 2) && Array.isArray(GRADES2) && GRADES2.map(grade => (
                     <Form.Check 
                       key={grade} 
                       type="radio" 

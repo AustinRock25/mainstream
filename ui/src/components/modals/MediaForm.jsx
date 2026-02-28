@@ -154,11 +154,11 @@ function MediaForm({ show, setShow, media }) {
       else if (!media.grade)
         media.grade = media.grade_tv;
 
-      if (media.grade <= 49) {
+      if ((user.rating_scale == 1 && media.grade < (175/4)) || (user.rating_scale == 2 && media.grade < (175/5)) || (user.rating_scale == 3 && media.grade < (450/12))) {
         setPillColor("danger");
         setPillTextColor("white");
       }
-      else if (media.grade <= 74) {
+      else if ((user.rating_scale == 1 && media.grade < (225/4)) || (user.rating_scale == 2 && media.grade < (325/5)) || (user.rating_scale == 3 && media.grade < (750/12))) {
         setPillColor("warning");
         setPillTextColor("black");
       }
@@ -324,7 +324,7 @@ function MediaForm({ show, setShow, media }) {
         setPillColor("danger");
         setPillTextColor("white");
       }
-      else if (value <= 2.5) {
+      else if (value == 2) {
         setPillColor("warning");
         setPillTextColor("black");
       }
@@ -334,11 +334,11 @@ function MediaForm({ show, setShow, media }) {
       }
     }
     else if (user.rating_scale == 2 && key === "grade") {
-      if (value <= 2) {
+      if (value <= 1.5) {
         setPillColor("danger");
         setPillTextColor("white");
       }
-      else if (value <= 3.5) {
+      else if (value <= 3) {
         setPillColor("warning");
         setPillTextColor("black");
       }
@@ -348,11 +348,11 @@ function MediaForm({ show, setShow, media }) {
       }
     }
     else if (user.rating_scale == 3 && key === "grade") {
-      if (value <= 5) {
+      if (value <= 4) {
         setPillColor("danger");
         setPillTextColor("white");
       }
-      else if (value <= 8) {
+      else if (value <= 7) {
         setPillColor("warning");
         setPillTextColor("black");
       }
@@ -389,7 +389,7 @@ function MediaForm({ show, setShow, media }) {
       return grade + "/4";
     else if (user.rating_scale == 2)
       return grade + "/5";
-    if (user.rating_scale == 3) {
+    else {
       if (grade == 0)
         return "F";
       else if (grade == 1)

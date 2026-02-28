@@ -28,11 +28,11 @@ function MediaCard ({media}) {
       media.grade = media.grade_tv;
 
     
-    if (media.grade <= 49) {
+    if ((!user && media.grade < (350/9)) || (user.rating_scale == 1 && media.grade < (175/4)) || (user.rating_scale == 2 && media.grade < (175/5)) || (user.rating_scale == 3 && media.grade < (450/12))) {
       setPillColor("danger");
       setPillTextColor("white");
     }
-    else if (media.grade <= 74) {
+    else if ((!user && media.grade < (550/9)) || (user.rating_scale == 1 && media.grade < (225/4)) || (user.rating_scale == 2 && media.grade < (325/5)) || (user.rating_scale == 3 && media.grade < (750/12))) {
       setPillColor("warning");
       setPillTextColor("black");
     }
