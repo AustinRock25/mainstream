@@ -158,31 +158,31 @@ function MediaCard ({media}) {
       media.grade = media.grade_tv;
 
     if (!user) {
-      if (media.grade < 50/9)
+      if (media.grade < 5.56)
         return "1/10";
-      else if (media.grade < 150/9)
+      else if (media.grade < 16.67)
         return "2/10";
-      else if (media.grade < 250/9)
+      else if (media.grade < 27.78)
         return "3/10";
-      else if (media.grade < 350/9)
+      else if (media.grade < 38.89)
         return "4/10";
-      else if (media.grade < 450/9)
+      else if (media.grade < 50)
         return "5/10";
-      else if (media.grade < 550/9)
+      else if (media.grade < 61.11)
         return "6/10";
-      else if (media.grade < 650/9)
+      else if (media.grade < 72.22)
         return "7/10";
-      else if (media.grade < 750/9)
+      else if (media.grade < 83.33)
         return "8/10";
-      else if (media.grade < 850/9)
+      else if (media.grade < 94.44)
         return "9/10";
       else
         return "10/10";
     }
     else if (user.rating_scale == 1) {
-      if (media.grade < 25/4)
+      if (media.grade < 6.25)
         return "0/4";
-      else if (media.grade < 75/4)
+      else if (media.grade < 18.75)
         return "0.5/4";
       else if (media.grade < 125/4)
         return "1/4";
