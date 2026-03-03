@@ -154,11 +154,11 @@ function MediaForm({ show, setShow, media }) {
       else if (!media.grade)
         media.grade = media.grade_tv;
 
-      if ((user.rating_scale == 1 && media.grade < (175/4)) || (user.rating_scale == 2 && media.grade < (175/5)) || (user.rating_scale == 3 && media.grade < (450/12))) {
+      if ((user.rating_scale == 1 && media.grade < (43.75)) || (user.rating_scale == 2 && media.grade < (35)) || (user.rating_scale == 3 && media.grade < (37.5))) {
         setPillColor("danger");
         setPillTextColor("white");
       }
-      else if ((user.rating_scale == 1 && media.grade < (225/4)) || (user.rating_scale == 2 && media.grade < (325/5)) || (user.rating_scale == 3 && media.grade < (750/12))) {
+      else if ((user.rating_scale == 1 && media.grade < (56.25)) || (user.rating_scale == 2 && media.grade < (65)) || (user.rating_scale == 3 && media.grade < (62.5))) {
         setPillColor("warning");
         setPillTextColor("black");
       }
@@ -168,73 +168,73 @@ function MediaForm({ show, setShow, media }) {
       }
 
       if (user.rating_scale == 1) {
-        if (media.grade < 25/4)
+        if (media.grade < 6.25)
           grade = 0;
-        else if (media.grade < 75/4)
+        else if (media.grade < 18.75)
           grade = 0.5;
-        else if (media.grade < 125/4)
+        else if (media.grade < 31.25)
           grade = 1;
-        else if (media.grade < 175/4)
+        else if (media.grade < 43.75)
           grade = 1.5;
-        else if (media.grade < 225/4)
+        else if (media.grade < 56.25)
           grade = 2;
-        else if (media.grade < 275/4)
+        else if (media.grade < 68.75)
           grade = 2.5;
-        else if (media.grade < 325/4)
+        else if (media.grade < 81.25)
           grade = 3;
-        else if (media.grade < 375/4)
+        else if (media.grade < 93.75)
           grade = 3.5;
         else
           grade = 4;
       }
       else if (user.rating_scale == 2) {
-        if (media.grade < 25/5)
+        if (media.grade < 5)
           grade = 0;
-        else if (media.grade < 75/5)
+        else if (media.grade < 15)
           grade = 0.5;
-        else if (media.grade < 125/5)
+        else if (media.grade < 25)
           grade = 1;
-        else if (media.grade < 175/5)
+        else if (media.grade < 35)
           grade = 1.5;
-        else if (media.grade < 225/5)
+        else if (media.grade < 45)
           grade = 2;
-        else if (media.grade < 275/5)
+        else if (media.grade < 55)
           grade = 2.5;
-        else if (media.grade < 325/5)
+        else if (media.grade < 65)
           grade = 3;
-        else if (media.grade < 375/5)
+        else if (media.grade < 75)
           grade = 3.5;
-        else if (media.grade < 425/5)
+        else if (media.grade < 85)
           grade = 4;
-        else if (media.grade < 475/5)
+        else if (media.grade < 95)
           grade = 4.5;
         else
           grade = 5;
       }
       else {
-        if (media.grade < 50/12)
+        if (media.grade < 4.17)
           grade = 0;
-        else if (media.grade < 150/12)
+        else if (media.grade < 12.5)
           grade = 1;
-        else if (media.grade < 250/12)
+        else if (media.grade < 20.83)
           grade = 2;
-        else if (media.grade < 350/12)
+        else if (media.grade < 29.17)
           grade = 3;
-        else if (media.grade < 450/12)
+        else if (media.grade < 37.5)
           grade = 4;
-        else if (media.grade < 550/12)
+        else if (media.grade < 45.83)
           grade = 5;
-        else if (media.grade < 650/12)
+        else if (media.grade < 54.17)
           grade = 6;
-        else if (media.grade < 750/12)
+        else if (media.grade < 62.5)
           grade = 7;
-        else if (media.grade < 850/12)
+        else if (media.grade < 70.83)
           grade = 8;
-        else if (media.grade < 950/12)
+        else if (media.grade < 79.17)
           grade = 9;
-        else if (media.grade < 1050/12)
+        else if (media.grade < 87.5)
           grade = 10;
-        else if (media.grade < 1150/12)
+        else if (media.grade < 95.83)
           grade = 11;
         else
           grade = 12;
