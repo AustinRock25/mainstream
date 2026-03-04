@@ -7,8 +7,8 @@ export const index = (req, res) => {
     endRecord,
     sortBy,
     sortOrder = "ASC",
-    minBirthDate,
-    maxBirthDate,
+    minBirthDate = new Date() || "",
+    maxBirthDate = new Date() || "",
     noBirthDate,
     minDeathDate,
     maxDeathDate,
@@ -57,6 +57,10 @@ export const index = (req, res) => {
       filterClauses.push(`death_date <= $${paramIndex++}`);
       params.push(maxDeathDate);
     }
+  }
+
+  if ((minBirthDate == new Date() && maxBirthDate == new Date()) && (minBirthDate && maxBirthDate)) {
+    filterClauses.push(`EXTRACT(MONTH FROM birth_date) = EXTRACT(MONTH FROM CURRENT_DATE) AND EXTRACT(DAY FROM birth_date) = EXTRACT(DAY FROM CURRENT_DATE)`);
   }
 
   const whereClause = filterClauses.length > 0 ? `WHERE ${filterClauses.join(" AND ")}` : "";
@@ -162,8 +166,8 @@ export const index = (req, res) => {
 export const indexLength = (req, res) => {
   const { 
     searchTerm,
-    minBirthDate,
-    maxBirthDate,
+    minBirthDate = new Date() || "",
+    maxBirthDate = new Date() || "",
     noBirthDate,
     minDeathDate,
     maxDeathDate,
@@ -212,6 +216,10 @@ export const indexLength = (req, res) => {
       filterClauses.push(`death_date <= $${paramIndex++}`);
       params.push(maxDeathDate);
     }
+  }
+
+  if ((minBirthDate == new Date() && maxBirthDate == new Date()) && (minBirthDate && maxBirthDate)) {
+    filterClauses.push(`EXTRACT(MONTH FROM birth_date) = EXTRACT(MONTH FROM CURRENT_DATE) AND EXTRACT(DAY FROM birth_date) = EXTRACT(DAY FROM CURRENT_DATE)`);
   }
 
   const whereClause = filterClauses.length > 0 ? `WHERE ${filterClauses.join(" AND ")}` : "";
