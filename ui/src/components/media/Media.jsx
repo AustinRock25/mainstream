@@ -24,7 +24,7 @@ const getInitialState = () => {
     episodes: { min: "", max: "" },
     selectedRatings: [],
     selectedGrade: "",
-    dateRange: { start: "", end: "" },
+    dateRange: { start: new Date(), end: new Date() },
   };
 
   return savedState ? JSON.parse(savedState) : defaults;
@@ -39,7 +39,7 @@ const getDefaultState = () => ({
   episodes: { min: "", max: "" },
   selectedRatings: [],
   selectedGrade: "",
-  dateRange: { start: "", end: "" },
+  dateRange: { start: new Date(), end: new Date() },
 });
 
 function Media() {
@@ -74,8 +74,8 @@ function Media() {
       maxEpisodes: currentFilters.episodes.max,
       ratings: currentFilters.selectedRatings.join(","),
       grade: currentFilters.selectedGrade,
-      startDate: currentFilters.dateRange.start || new Date(),
-      endDate: currentFilters.dateRange.end || new Date(),
+      startDate: currentFilters.dateRange.start,
+      endDate: currentFilters.dateRange.end,
     };
 
     Object.keys(params).forEach(key => (params[key] === "" || params[key] === null || params[key] === undefined) && delete params[key]);
