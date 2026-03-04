@@ -154,11 +154,11 @@ function MediaForm({ show, setShow, media }) {
       else if (!media.grade)
         media.grade = media.grade_tv;
 
-      if ((user.rating_scale == 1 && media.grade < (43.75)) || (user.rating_scale == 2 && media.grade < (35)) || (user.rating_scale == 3 && media.grade < (37.5))) {
+      if (media.grade <= 33.33) {
         setPillColor("danger");
         setPillTextColor("white");
       }
-      else if ((user.rating_scale == 1 && media.grade < (56.25)) || (user.rating_scale == 2 && media.grade < (65)) || (user.rating_scale == 3 && media.grade < (62.5))) {
+      else if (media.grade <= 66.67) {
         setPillColor("warning");
         setPillTextColor("black");
       }
@@ -320,11 +320,11 @@ function MediaForm({ show, setShow, media }) {
     }
 
     if (user.rating_scale == 1 && key === "grade") {
-      if (value <= 1.5) {
+      if (value <= 1) {
         setPillColor("danger");
         setPillTextColor("white");
       }
-      else if (value == 2) {
+      else if (value <= 2.5) {
         setPillColor("warning");
         setPillTextColor("black");
       }
@@ -352,7 +352,7 @@ function MediaForm({ show, setShow, media }) {
         setPillColor("danger");
         setPillTextColor("white");
       }
-      else if (value <= 7) {
+      else if (value <= 8) {
         setPillColor("warning");
         setPillTextColor("black");
       }

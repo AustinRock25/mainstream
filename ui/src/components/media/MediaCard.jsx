@@ -27,61 +27,17 @@ function MediaCard ({media}) {
     if (!media.grade)
       media.grade = media.grade_tv;
 
-    if (!user) {
-      if (media.grade < 38.89) {
-        setPillColor("danger");
-        setPillTextColor("white");
-      }
-      else if (media.grade < 61.11) {
-        setPillColor("warning");
-        setPillTextColor("black");
-      }
-      else {
-        setPillColor("success");
-        setPillTextColor("white");
-      }
+    if (media.grade <= 33.33) {
+      setPillColor("danger");
+      setPillTextColor("white");
     }
-    else if (user.rating_scale == 1) {
-      if (media.grade < 43.75) {
-        setPillColor("danger");
-        setPillTextColor("white");
-      }
-      else if (media.grade < 56.25) {
-        setPillColor("warning");
-        setPillTextColor("black");
-      }
-      else {
-        setPillColor("success");
-        setPillTextColor("white");
-      }
-    }
-    else if (user.rating_scale == 2) {
-      if (media.grade < 35) {
-        setPillColor("danger");
-        setPillTextColor("white");
-      }
-      else if (media.grade < 65) {
-        setPillColor("warning");
-        setPillTextColor("black");
-      }
-      else {
-        setPillColor("success");
-        setPillTextColor("white");
-      }
+    else if (media.grade <= 66.67) {
+      setPillColor("warning");
+      setPillTextColor("black");
     }
     else {
-      if (media.grade <= 37.5) {
-        setPillColor("danger");
-        setPillTextColor("white");
-      }
-      else if (media.grade <= 62.5) {
-        setPillColor("warning");
-        setPillTextColor("black");
-      }
-      else {
-        setPillColor("success");
-        setPillTextColor("white");
-      }
+      setPillColor("success");
+      setPillTextColor("white");
     }
 
     if (media.type === "show") {
