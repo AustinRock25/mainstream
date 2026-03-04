@@ -24,7 +24,7 @@ const getInitialState = () => {
     episodes: { min: "", max: "" },
     selectedRatings: [],
     selectedGrade: "",
-    dateRange: { start: new Date(), end: new Date() },
+    dateRange: { start: "", end: "" },
   };
 
   return savedState ? JSON.parse(savedState) : defaults;
@@ -39,7 +39,7 @@ const getDefaultState = () => ({
   episodes: { min: "", max: "" },
   selectedRatings: [],
   selectedGrade: "",
-  dateRange: { start: new Date(), end: new Date() },
+  dateRange: { start: "", end: "" },
 });
 
 function Media() {

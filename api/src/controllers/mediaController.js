@@ -58,18 +58,17 @@ export const index = (req, res) => {
     params.push(ratings.split(","));
   }
 
-  if (startDate) {
-    filterClauses.push(`COALESCE(m.release_date, s.start_date) >= $${paramIndex++}`);
-    params.push(startDate);
-  }
-
-  if (endDate) {
-    filterClauses.push(`COALESCE(m.release_date, s.start_date) <= $${paramIndex++}`);
-    params.push(endDate);
-  }
-
-  if ((startDate == new Date() && endDate == new Date()) && (startDate && endDate)) {
+  if (!startDate && !endDate)
     filterClauses.push(`COALESCE(EXTRACT(MONTH FROM m.release_date), EXTRACT(MONTH FROM s.start_date)) = EXTRACT(MONTH FROM CURRENT_DATE) AND COALESCE(EXTRACT(DAY FROM m.release_date), EXTRACT(DAY FROM s.start_date)) = EXTRACT(DAY FROM CURRENT_DATE)`);
+  else {
+    if (startDate) {
+      filterClauses.push(`COALESCE(m.release_date, s.start_date) >= $${paramIndex++}`);
+      params.push(startDate);
+    }
+    if (endDate) {
+      filterClauses.push(`COALESCE(m.release_date, s.start_date) <= $${paramIndex++}`);
+      params.push(endDate);
+    }
   }
 
   if (grade) {
@@ -308,8 +307,17 @@ export const indexLength = (req, res) => {
     params.push(endDate);
   }
 
-  if ((startDate == new Date() && endDate == new Date()) && (startDate && endDate)) {
+  if (!startDate && !endDate)
     filterClauses.push(`COALESCE(EXTRACT(MONTH FROM m.release_date), EXTRACT(MONTH FROM s.start_date)) = EXTRACT(MONTH FROM CURRENT_DATE) AND COALESCE(EXTRACT(DAY FROM m.release_date), EXTRACT(DAY FROM s.start_date)) = EXTRACT(DAY FROM CURRENT_DATE)`);
+  else {
+    if (startDate) {
+      filterClauses.push(`COALESCE(m.release_date, s.start_date) >= $${paramIndex++}`);
+      params.push(startDate);
+    }
+    if (endDate) {
+      filterClauses.push(`COALESCE(m.release_date, s.start_date) <= $${paramIndex++}`);
+      params.push(endDate);
+    }
   }
 
   if (grade) {
