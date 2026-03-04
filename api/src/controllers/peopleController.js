@@ -7,8 +7,8 @@ export const index = (req, res) => {
     endRecord,
     sortBy,
     sortOrder = "ASC",
-    minBirthDate = new Date() || "",
-    maxBirthDate = new Date() || "",
+    minBirthDate,
+    maxBirthDate,
     noBirthDate,
     minDeathDate,
     maxDeathDate,
@@ -166,8 +166,8 @@ export const index = (req, res) => {
 export const indexLength = (req, res) => {
   const { 
     searchTerm,
-    minBirthDate = new Date() || "",
-    maxBirthDate = new Date() || "",
+    minBirthDate,
+    maxBirthDate,
     noBirthDate,
     minDeathDate,
     maxDeathDate,

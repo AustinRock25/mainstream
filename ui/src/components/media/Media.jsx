@@ -74,8 +74,8 @@ function Media() {
       maxEpisodes: currentFilters.episodes.max,
       ratings: currentFilters.selectedRatings.join(","),
       grade: currentFilters.selectedGrade,
-      startDate: currentFilters.dateRange.start,
-      endDate: currentFilters.dateRange.end,
+      startDate: currentFilters.dateRange.start || new Date(),
+      endDate: currentFilters.dateRange.end || new Date(),
     };
 
     Object.keys(params).forEach(key => (params[key] === "" || params[key] === null || params[key] === undefined) && delete params[key]);

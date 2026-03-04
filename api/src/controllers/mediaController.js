@@ -14,8 +14,8 @@ export const index = (req, res) => {
     maxEpisodes,
     ratings,
     grade,
-    startDate = new Date() || "",
-    endDate = new Date() || ""
+    startDate,
+    endDate
   } = req.query;
 
   let params = [beginRecord, endRecord];
@@ -254,8 +254,8 @@ export const indexLength = (req, res) => {
     maxEpisodes,
     ratings,
     grade,
-    startDate = new Date() || "",
-    endDate = new Date() || ""
+    startDate,
+    endDate
   } = req.query;
 
   let params = [];
