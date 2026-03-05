@@ -197,8 +197,8 @@ function Media() {
                 <Form.Group>
                   <Form.Label>Sort By</Form.Label>
                   <Form.Select name="sortBy" value={filters.sortBy} onChange={handleFilterChange}>
-                    <option value="release_date">Release Date</option>
                     <option value="title">Title</option>
+                    <option value="release_date">Release Date</option>
                     <option value="grade">Grade</option>
                     <option value="runtime">Runtime</option>
                     {filters.filterType === "show" && <option value="episodes">Episode Count</option>}
