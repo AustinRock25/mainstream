@@ -175,7 +175,7 @@ function Media() {
   return (
     <Container className="pt-3 text-center">
       {alert?.message && <Alert variant={alert.variant} onClose={() => setAlert({ message: "", variant: "" })} dismissible>{alert.message}</Alert>}
-      <h2 className="fw-bolder text-white mb-4">Films and TV Shows{(filters.searchTerm || (filters.filterType && filters.filterType !== "all") || filters.runtime.min || filters.runtime.max || filters.episodes.min || filters.episodes.max || filters.ratings || filters.grade || filters.dateRange.start || filters.dateRange.end) ? "" : " - Released this day"}</h2>
+      <h2 className="fw-bolder text-white mb-4">Films and TV Shows</h2>
       <Form onSubmit={handleApplyFilters} className="mb-4">
         <Row className="justify-content-center">
           <Col md={8} lg={6} className="d-flex">
@@ -367,6 +367,7 @@ function Media() {
                 <>
                   <div className="d-flex justify-content-between align-items-center mb-3">
                     <p className="text-white-50 mb-0">{media.length} result{media.length > 1 && `s`} displayed</p>
+                    <h6 className="fw-bolder text-white mb-0">{(filters.searchTerm || (filters.filterType && filters.filterType !== "all") || filters.runtime.min || filters.runtime.max || filters.episodes.min || filters.episodes.max || filters.selectedRatings || filters.selectedGrade || filters.dateRange.start || filters.dateRange.end) ? "" : "Released this day"}</h6>
                     <h6 className="fw-bolder text-white mb-0">Page {currentPage} of {pages}</h6>
                   </div>
                   <Row className="g-4 justify-content-center" xs={1} sm={2} md={3} lg={4} xl={5}>
