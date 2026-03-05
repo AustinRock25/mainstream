@@ -137,7 +137,7 @@ const People = () => {
           dismissible>{alert.message}
         </Alert>
       }
-      <h2 className="fw-bolder text-white mb-4">People</h2>
+      <h2 className="fw-bolder text-white mb-4">People{(filters.searchTerm || filters.birthDateRange.start || filters.birthDateRange.end || filters.noBirthDate || filters.deathDateRange.start || filters.deathDateRange.end || filters.noDeathDate) && " - Born this day"}</h2>
       <Form onSubmit={handleApplyFilters} className="mb-4">
         <Row className="justify-content-center">
           <Col md={8} lg={6} className="d-flex">

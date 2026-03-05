@@ -17,8 +17,8 @@ const getInitialState = () => {
 
   const defaults = {
     searchTerm: "",
-    sortBy: "release_date",
-    sortOrder: "DESC",
+    sortBy: "title",
+    sortOrder: "ASC",
     filterType: "all",
     runtime: { min: "", max: "" },
     episodes: { min: "", max: "" },
@@ -32,8 +32,8 @@ const getInitialState = () => {
 
 const getDefaultState = () => ({
   searchTerm: "",
-  sortBy: "release_date",
-  sortOrder: "DESC",
+  sortBy: "title",
+  sortOrder: "ASC",
   filterType: "all",
   runtime: { min: "", max: "" },
   episodes: { min: "", max: "" },
@@ -175,7 +175,7 @@ function Media() {
   return (
     <Container className="pt-3 text-center">
       {alert?.message && <Alert variant={alert.variant} onClose={() => setAlert({ message: "", variant: "" })} dismissible>{alert.message}</Alert>}
-      <h2 className="fw-bolder text-white mb-4">Films and TV Shows</h2>
+      <h2 className="fw-bolder text-white mb-4">Films and TV Shows{(filters.searchTerm || (filters.filterType && filters.filterType !== "all") || filters.runtime.min || filters.runtime.max || filters.episodes.min || filters.episodes.max || filters.ratings || filters.grade || filters.dateRange.start || filters.dateRange.end) ? "" : " - Released this day"}</h2>
       <Form onSubmit={handleApplyFilters} className="mb-4">
         <Row className="justify-content-center">
           <Col md={8} lg={6} className="d-flex">

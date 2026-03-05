@@ -6,7 +6,7 @@ export const index = (req, res) => {
     beginRecord,
     endRecord,
     sortBy,
-    sortOrder = "DESC",
+    sortOrder = "ASC",
     filterType,
     minRuntime,
     maxRuntime,
@@ -22,151 +22,152 @@ export const index = (req, res) => {
   let filterClauses = [];
   let paramIndex = 3;
 
-  if (searchTerm) {
-    const searchSystem = `(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(title, 'à', 'a'), 'One Hundred and One', '101'), '''', ''), 'Thirteen', '13'), 'Twelve', '12'), 'Eleven', '11'), 'é', 'e'), 'Four', '4'), 'IV', '4'), 'Eight', '8'), 'VIII', '8'), 'Seven', '7'), 'VII', '7'), 'Six', '6'), 'VI', '6'), 'Five', '5'), 'V', '5'), 'Three', '3'), 'III', '3'), 'Two', '2'), 'II', '2'), 'Nine', '9'), 'IX', '9'), 'One', '1'), 'I', '1'), '.', ''), '&', 'and'), '-', ''), ':', ''), '!', ''), ',', '') ILIKE $${paramIndex++} OR REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(title, 'à', 'a'), 'One Hundred and One', '101'), '''', ''), 'Thirteen', '13'), 'Twelve', '12'), 'Eleven', '11'), 'é', 'e'), 'Four', '4'), 'IV', '4'), 'Eight', '8'), 'VIII', '8'), 'Seven', '7'), 'VII', '7'), 'Six', '6'), 'VI', '6'), 'Five', '5'), 'V', '5'), 'Three', '3'), 'III', '3'), 'Two', '2'), 'II', '2'), 'Nine', '9'), 'IX', '9'), 'One', '1'), 'I', '1'), '.', ''), '&', 'and'), '-', ''), ':', ''), '!', ''), ',', '') ILIKE $${paramIndex++} OR title ILIKE $${paramIndex-2} OR title ILIKE $${paramIndex-1})`;
-    filterClauses.push(searchSystem);
-    params.push(`% ${searchTerm}%`, `${searchTerm}%`);
-  }
+  if (searchTerm || (filterType && filterType !== "all") || minRuntime || maxRuntime || minEpisodes || maxEpisodes || ratings || grade || startDate || endDate) {
+    if (searchTerm) {
+      const searchSystem = `(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(title, 'à', 'a'), 'One Hundred and One', '101'), '''', ''), 'Thirteen', '13'), 'Twelve', '12'), 'Eleven', '11'), 'é', 'e'), 'Four', '4'), 'IV', '4'), 'Eight', '8'), 'VIII', '8'), 'Seven', '7'), 'VII', '7'), 'Six', '6'), 'VI', '6'), 'Five', '5'), 'V', '5'), 'Three', '3'), 'III', '3'), 'Two', '2'), 'II', '2'), 'Nine', '9'), 'IX', '9'), 'One', '1'), 'I', '1'), '.', ''), '&', 'and'), '-', ''), ':', ''), '!', ''), ',', '') ILIKE $${paramIndex++} OR REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(title, 'à', 'a'), 'One Hundred and One', '101'), '''', ''), 'Thirteen', '13'), 'Twelve', '12'), 'Eleven', '11'), 'é', 'e'), 'Four', '4'), 'IV', '4'), 'Eight', '8'), 'VIII', '8'), 'Seven', '7'), 'VII', '7'), 'Six', '6'), 'VI', '6'), 'Five', '5'), 'V', '5'), 'Three', '3'), 'III', '3'), 'Two', '2'), 'II', '2'), 'Nine', '9'), 'IX', '9'), 'One', '1'), 'I', '1'), '.', ''), '&', 'and'), '-', ''), ':', ''), '!', ''), ',', '') ILIKE $${paramIndex++} OR title ILIKE $${paramIndex-2} OR title ILIKE $${paramIndex-1})`;
+      filterClauses.push(searchSystem);
+      params.push(`% ${searchTerm}%`, `${searchTerm}%`);
+    }
 
-  if (filterType && filterType !== "all") {
-    filterClauses.push(`m.type = $${paramIndex++}`);
-    params.push(filterType);
-  }
+    if (filterType && filterType !== "all") {
+      filterClauses.push(`m.type = $${paramIndex++}`);
+      params.push(filterType);
+    }
 
-  if (minRuntime) {
-    filterClauses.push(`COALESCE(m.runtime, s.runtime) >= $${paramIndex++}`);
-    params.push(minRuntime);
-  }
+    if (minRuntime) {
+      filterClauses.push(`COALESCE(m.runtime, s.runtime) >= $${paramIndex++}`);
+      params.push(minRuntime);
+    }
 
-  if (maxRuntime) {
-    filterClauses.push(`COALESCE(m.runtime, s.runtime) <= $${paramIndex++}`);
-    params.push(maxRuntime);
-  }
+    if (maxRuntime) {
+      filterClauses.push(`COALESCE(m.runtime, s.runtime) <= $${paramIndex++}`);
+      params.push(maxRuntime);
+    }
 
-  if (minEpisodes) {
-    filterClauses.push(`s.episodes >= $${paramIndex++}`);
-    params.push(minEpisodes);
-  }
+    if (minEpisodes) {
+      filterClauses.push(`s.episodes >= $${paramIndex++}`);
+      params.push(minEpisodes);
+    }
 
-  if (maxEpisodes) {
-    filterClauses.push(`s.episodes <= $${paramIndex++}`);
-    params.push(maxEpisodes);
-  }
+    if (maxEpisodes) {
+      filterClauses.push(`s.episodes <= $${paramIndex++}`);
+      params.push(maxEpisodes);
+    }
 
-  if (ratings) {
-    filterClauses.push(`m.rating = ANY($${paramIndex++})`);
-    params.push(ratings.split(","));
-  }
+    if (ratings) {
+      filterClauses.push(`m.rating = ANY($${paramIndex++})`);
+      params.push(ratings.split(","));
+    }
 
-  if (!startDate && !endDate)
-    filterClauses.push(`COALESCE(EXTRACT(MONTH FROM m.release_date), EXTRACT(MONTH FROM s.start_date)) = EXTRACT(MONTH FROM CURRENT_DATE) AND COALESCE(EXTRACT(DAY FROM m.release_date), EXTRACT(DAY FROM s.start_date)) = EXTRACT(DAY FROM CURRENT_DATE)`);
-  else {
     if (startDate) {
       filterClauses.push(`COALESCE(m.release_date, s.start_date) >= $${paramIndex++}`);
       params.push(startDate);
     }
+
     if (endDate) {
       filterClauses.push(`COALESCE(m.release_date, s.start_date) <= $${paramIndex++}`);
       params.push(endDate);
     }
-  }
 
-  if (grade) {
-    if (grade == "0/4")
-      filterClauses.push("(COALESCE(m.grade, s.grade) < (6.25))");
-    else if (grade == "0.5/4")
-      filterClauses.push("(COALESCE(m.grade, s.grade) >= (6.25) AND COALESCE(m.grade, s.grade) < (18.75))");
-    else if (grade == "1/4")
-      filterClauses.push("(COALESCE(m.grade, s.grade) >= (18.75) AND COALESCE(m.grade, s.grade) < (31.25))");
-    else if (grade == "1.5/4")
-      filterClauses.push("(COALESCE(m.grade, s.grade) >= (31.25) AND COALESCE(m.grade, s.grade) < (43.75))");
-    else if (grade == "2/4")
-      filterClauses.push("(COALESCE(m.grade, s.grade) >= (43.75) AND COALESCE(m.grade, s.grade) < (56.25))");
-    else if (grade == "2.5/4")
-      filterClauses.push("(COALESCE(m.grade, s.grade) >= (56.25) AND COALESCE(m.grade, s.grade) < (68.75))");
-    else if (grade == "3/4")
-      filterClauses.push("(COALESCE(m.grade, s.grade) >= (68.75) AND COALESCE(m.grade, s.grade) < (81.25))");
-    else if (grade == "3.5/4")
-      filterClauses.push("(COALESCE(m.grade, s.grade) >= (81.25) AND COALESCE(m.grade, s.grade) < (93.75))");
-    else if (grade == "4/4")
-      filterClauses.push("(COALESCE(m.grade, s.grade) >= (93.75))");
-    else if (grade == "0/5")
-      filterClauses.push("(COALESCE(m.grade, s.grade) < (5))");
-    else if (grade == "0.5/5")
-      filterClauses.push("(COALESCE(m.grade, s.grade) >= (5) AND COALESCE(m.grade, s.grade) < (15))");
-    else if (grade == "1/5")
-      filterClauses.push("(COALESCE(m.grade, s.grade) >= (15) AND COALESCE(m.grade, s.grade) < (25))");
-    else if (grade == "1.5/5")
-      filterClauses.push("(COALESCE(m.grade, s.grade) >= (25) AND COALESCE(m.grade, s.grade) < (35))");
-    else if (grade == "2/5")
-      filterClauses.push("(COALESCE(m.grade, s.grade) >= (35) AND COALESCE(m.grade, s.grade) < (45))");
-    else if (grade == "2.5/5")
-      filterClauses.push("(COALESCE(m.grade, s.grade) >= (45) AND COALESCE(m.grade, s.grade) < (55))");
-    else if (grade == "3/5")
-      filterClauses.push("(COALESCE(m.grade, s.grade) >= (55) AND COALESCE(m.grade, s.grade) < (65))");
-    else if (grade == "3.5/5")
-      filterClauses.push("(COALESCE(m.grade, s.grade) >= (65) AND COALESCE(m.grade, s.grade) < (75))");
-    else if (grade == "4/5")
-      filterClauses.push("(COALESCE(m.grade, s.grade) >= (75) AND COALESCE(m.grade, s.grade) < (85))");
-    else if (grade == "4.5/5")
-      filterClauses.push("(COALESCE(m.grade, s.grade) >= (85) AND COALESCE(m.grade, s.grade) < (95))");
-    else if (grade == "5/5")
-      filterClauses.push("(COALESCE(m.grade, s.grade) >= (95))");
-    else if (grade == "F")
-      filterClauses.push("(COALESCE(m.grade, s.grade) < (4.17))");
-    else if (grade == "D-")
-      filterClauses.push("(COALESCE(m.grade, s.grade) >= (4.17) AND COALESCE(m.grade, s.grade) < (12.5))");
-    else if (grade == "D")
-      filterClauses.push("(COALESCE(m.grade, s.grade) >= (12.5) AND COALESCE(m.grade, s.grade) < (20.83))");
-    else if (grade == "D+")
-      filterClauses.push("(COALESCE(m.grade, s.grade) >= (20.83) AND COALESCE(m.grade, s.grade) < (29.17))");
-    else if (grade == "C-")
-      filterClauses.push("(COALESCE(m.grade, s.grade) >= (29.17) AND COALESCE(m.grade, s.grade) < (37.5))");
-    else if (grade == "C")
-      filterClauses.push("(COALESCE(m.grade, s.grade) >= (37.5) AND COALESCE(m.grade, s.grade) < (45.83))");
-    else if (grade == "C+")
-      filterClauses.push("(COALESCE(m.grade, s.grade) >= (45.83) AND COALESCE(m.grade, s.grade) < (54.17))");
-    else if (grade == "B-")
-      filterClauses.push("(COALESCE(m.grade, s.grade) >= (54.17) AND COALESCE(m.grade, s.grade) < (62.5))");
-    else if (grade == "B")
-      filterClauses.push("(COALESCE(m.grade, s.grade) >= (62.5) AND COALESCE(m.grade, s.grade) < (70.83))");
-    else if (grade == "B+")
-      filterClauses.push("(COALESCE(m.grade, s.grade) >= (70.83) AND COALESCE(m.grade, s.grade) < (79.17))");
-    else if (grade == "A-")
-      filterClauses.push("(COALESCE(m.grade, s.grade) >= (79.17) AND COALESCE(m.grade, s.grade) < (87.5))");
-    else if (grade == "A")
-      filterClauses.push("(COALESCE(m.grade, s.grade) >= (87.5) AND COALESCE(m.grade, s.grade) < (95.83))");
-    else if (grade == "A+")
-      filterClauses.push("(COALESCE(m.grade, s.grade) >= (95.83))");
-    else if (grade == "1/10")
-      filterClauses.push("(COALESCE(m.grade, s.grade) < (5.56))");
-    else if (grade == "2/10")
-      filterClauses.push("(COALESCE(m.grade, s.grade) >= (5.56) AND COALESCE(m.grade, s.grade) < (16.67))");
-    else if (grade == "3/10")
-      filterClauses.push("(COALESCE(m.grade, s.grade) >= (16.67) AND COALESCE(m.grade, s.grade) < (27.78))");
-    else if (grade == "4/10")
-      filterClauses.push("(COALESCE(m.grade, s.grade) >= (27.78) AND COALESCE(m.grade, s.grade) < (38.89))");
-    else if (grade == "5/10")
-      filterClauses.push("(COALESCE(m.grade, s.grade) >= (38.89) AND COALESCE(m.grade, s.grade) < (50))");
-    else if (grade == "6/10")
-      filterClauses.push("(COALESCE(m.grade, s.grade) >= (50) AND COALESCE(m.grade, s.grade) < (61.11))");
-    else if (grade == "7/10")
-      filterClauses.push("(COALESCE(m.grade, s.grade) >= (61.11) AND COALESCE(m.grade, s.grade) < (72.22))");
-    else if (grade == "8/10")
-      filterClauses.push("(COALESCE(m.grade, s.grade) >= (72.22) AND COALESCE(m.grade, s.grade) < (83.33))");
-    else if (grade == "9/10")
-      filterClauses.push("(COALESCE(m.grade, s.grade) >= (83.33) AND COALESCE(m.grade, s.grade) < (94.44))");
-    else
-      filterClauses.push("(COALESCE(m.grade, s.grade) >= (94.44))");
+    if (grade) {
+      if (grade == "0/4")
+        filterClauses.push("(COALESCE(m.grade, s.grade) < (6.25))");
+      else if (grade == "0.5/4")
+        filterClauses.push("(COALESCE(m.grade, s.grade) >= (6.25) AND COALESCE(m.grade, s.grade) < (18.75))");
+      else if (grade == "1/4")
+        filterClauses.push("(COALESCE(m.grade, s.grade) >= (18.75) AND COALESCE(m.grade, s.grade) < (31.25))");
+      else if (grade == "1.5/4")
+        filterClauses.push("(COALESCE(m.grade, s.grade) >= (31.25) AND COALESCE(m.grade, s.grade) < (43.75))");
+      else if (grade == "2/4")
+        filterClauses.push("(COALESCE(m.grade, s.grade) >= (43.75) AND COALESCE(m.grade, s.grade) < (56.25))");
+      else if (grade == "2.5/4")
+        filterClauses.push("(COALESCE(m.grade, s.grade) >= (56.25) AND COALESCE(m.grade, s.grade) < (68.75))");
+      else if (grade == "3/4")
+        filterClauses.push("(COALESCE(m.grade, s.grade) >= (68.75) AND COALESCE(m.grade, s.grade) < (81.25))");
+      else if (grade == "3.5/4")
+        filterClauses.push("(COALESCE(m.grade, s.grade) >= (81.25) AND COALESCE(m.grade, s.grade) < (93.75))");
+      else if (grade == "4/4")
+        filterClauses.push("(COALESCE(m.grade, s.grade) >= (93.75))");
+      else if (grade == "0/5")
+        filterClauses.push("(COALESCE(m.grade, s.grade) < (5))");
+      else if (grade == "0.5/5")
+        filterClauses.push("(COALESCE(m.grade, s.grade) >= (5) AND COALESCE(m.grade, s.grade) < (15))");
+      else if (grade == "1/5")
+        filterClauses.push("(COALESCE(m.grade, s.grade) >= (15) AND COALESCE(m.grade, s.grade) < (25))");
+      else if (grade == "1.5/5")
+        filterClauses.push("(COALESCE(m.grade, s.grade) >= (25) AND COALESCE(m.grade, s.grade) < (35))");
+      else if (grade == "2/5")
+        filterClauses.push("(COALESCE(m.grade, s.grade) >= (35) AND COALESCE(m.grade, s.grade) < (45))");
+      else if (grade == "2.5/5")
+        filterClauses.push("(COALESCE(m.grade, s.grade) >= (45) AND COALESCE(m.grade, s.grade) < (55))");
+      else if (grade == "3/5")
+        filterClauses.push("(COALESCE(m.grade, s.grade) >= (55) AND COALESCE(m.grade, s.grade) < (65))");
+      else if (grade == "3.5/5")
+        filterClauses.push("(COALESCE(m.grade, s.grade) >= (65) AND COALESCE(m.grade, s.grade) < (75))");
+      else if (grade == "4/5")
+        filterClauses.push("(COALESCE(m.grade, s.grade) >= (75) AND COALESCE(m.grade, s.grade) < (85))");
+      else if (grade == "4.5/5")
+        filterClauses.push("(COALESCE(m.grade, s.grade) >= (85) AND COALESCE(m.grade, s.grade) < (95))");
+      else if (grade == "5/5")
+        filterClauses.push("(COALESCE(m.grade, s.grade) >= (95))");
+      else if (grade == "F")
+        filterClauses.push("(COALESCE(m.grade, s.grade) < (4.17))");
+      else if (grade == "D-")
+        filterClauses.push("(COALESCE(m.grade, s.grade) >= (4.17) AND COALESCE(m.grade, s.grade) < (12.5))");
+      else if (grade == "D")
+        filterClauses.push("(COALESCE(m.grade, s.grade) >= (12.5) AND COALESCE(m.grade, s.grade) < (20.83))");
+      else if (grade == "D+")
+        filterClauses.push("(COALESCE(m.grade, s.grade) >= (20.83) AND COALESCE(m.grade, s.grade) < (29.17))");
+      else if (grade == "C-")
+        filterClauses.push("(COALESCE(m.grade, s.grade) >= (29.17) AND COALESCE(m.grade, s.grade) < (37.5))");
+      else if (grade == "C")
+        filterClauses.push("(COALESCE(m.grade, s.grade) >= (37.5) AND COALESCE(m.grade, s.grade) < (45.83))");
+      else if (grade == "C+")
+        filterClauses.push("(COALESCE(m.grade, s.grade) >= (45.83) AND COALESCE(m.grade, s.grade) < (54.17))");
+      else if (grade == "B-")
+        filterClauses.push("(COALESCE(m.grade, s.grade) >= (54.17) AND COALESCE(m.grade, s.grade) < (62.5))");
+      else if (grade == "B")
+        filterClauses.push("(COALESCE(m.grade, s.grade) >= (62.5) AND COALESCE(m.grade, s.grade) < (70.83))");
+      else if (grade == "B+")
+        filterClauses.push("(COALESCE(m.grade, s.grade) >= (70.83) AND COALESCE(m.grade, s.grade) < (79.17))");
+      else if (grade == "A-")
+        filterClauses.push("(COALESCE(m.grade, s.grade) >= (79.17) AND COALESCE(m.grade, s.grade) < (87.5))");
+      else if (grade == "A")
+        filterClauses.push("(COALESCE(m.grade, s.grade) >= (87.5) AND COALESCE(m.grade, s.grade) < (95.83))");
+      else if (grade == "A+")
+        filterClauses.push("(COALESCE(m.grade, s.grade) >= (95.83))");
+      else if (grade == "1/10")
+        filterClauses.push("(COALESCE(m.grade, s.grade) < (5.56))");
+      else if (grade == "2/10")
+        filterClauses.push("(COALESCE(m.grade, s.grade) >= (5.56) AND COALESCE(m.grade, s.grade) < (16.67))");
+      else if (grade == "3/10")
+        filterClauses.push("(COALESCE(m.grade, s.grade) >= (16.67) AND COALESCE(m.grade, s.grade) < (27.78))");
+      else if (grade == "4/10")
+        filterClauses.push("(COALESCE(m.grade, s.grade) >= (27.78) AND COALESCE(m.grade, s.grade) < (38.89))");
+      else if (grade == "5/10")
+        filterClauses.push("(COALESCE(m.grade, s.grade) >= (38.89) AND COALESCE(m.grade, s.grade) < (50))");
+      else if (grade == "6/10")
+        filterClauses.push("(COALESCE(m.grade, s.grade) >= (50) AND COALESCE(m.grade, s.grade) < (61.11))");
+      else if (grade == "7/10")
+        filterClauses.push("(COALESCE(m.grade, s.grade) >= (61.11) AND COALESCE(m.grade, s.grade) < (72.22))");
+      else if (grade == "8/10")
+        filterClauses.push("(COALESCE(m.grade, s.grade) >= (72.22) AND COALESCE(m.grade, s.grade) < (83.33))");
+      else if (grade == "9/10")
+        filterClauses.push("(COALESCE(m.grade, s.grade) >= (83.33) AND COALESCE(m.grade, s.grade) < (94.44))");
+      else
+        filterClauses.push("(COALESCE(m.grade, s.grade) >= (94.44))");
+    }
   }
+  else 
+    filterClauses.push(`COALESCE(EXTRACT(MONTH FROM m.release_date), EXTRACT(MONTH FROM s.start_date)) = EXTRACT(MONTH FROM CURRENT_DATE) AND COALESCE(EXTRACT(DAY FROM m.release_date), EXTRACT(DAY FROM s.start_date)) = EXTRACT(DAY FROM CURRENT_DATE)`);
 
   const whereClause = filterClauses.length > 0 ? `WHERE ${filterClauses.join(" AND ")}` : "";
   let orderByClause = "";
-  const sanitizedSortOrder = ["ASC", "DESC"].includes(sortOrder.toUpperCase()) ? sortOrder.toUpperCase() : "DESC";
+  const sanitizedSortOrder = ["ASC", "DESC"].includes(sortOrder.toUpperCase()) ? sortOrder.toUpperCase() : "ASC";
 
   switch (sortBy) {
-    case "title":
-      orderByClause = `ORDER BY m.title ${sanitizedSortOrder}, s.season ${sanitizedSortOrder}`;
+    case "release_date":
+      orderByClause = `ORDER BY COALESCE(m.release_date, s.start_date) ${sanitizedSortOrder}, m.title ASC`;
       break;
     case "runtime":
       orderByClause = `ORDER BY COALESCE(m.runtime, s.runtime) ${sanitizedSortOrder}`;
@@ -177,9 +178,9 @@ export const index = (req, res) => {
     case "grade":
       orderByClause = `ORDER BY COALESCE(m.grade, s.grade) ${sanitizedSortOrder}`;
       break;
-    case "release_date":
+    case "title":
     default:
-      orderByClause = `ORDER BY COALESCE(m.release_date, s.start_date) ${sanitizedSortOrder}, m.title ASC`;
+      orderByClause = `ORDER BY m.title ${sanitizedSortOrder}, s.season ${sanitizedSortOrder}`;
       break;
   }
 
@@ -261,153 +262,144 @@ export const indexLength = (req, res) => {
   let filterClauses = [];
   let paramIndex = 1;
 
-  if (searchTerm) {
-    const searchSystem = `(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(title, 'à', 'a'), 'One Hundred and One', '101'), '''', ''), 'Thirteen', '13'), 'Twelve', '12'), 'Eleven', '11'), 'é', 'e'), 'Four', '4'), 'IV', '4'), 'Eight', '8'), 'VIII', '8'), 'Seven', '7'), 'VII', '7'), 'Six', '6'), 'VI', '6'), 'Five', '5'), 'V', '5'), 'Three', '3'), 'III', '3'), 'Two', '2'), 'II', '2'), 'Nine', '9'), 'IX', '9'), 'One', '1'), 'I', '1'), '.', ''), '&', 'and'), '-', ''), ':', ''), '!', ''), ',', '') ILIKE $${paramIndex++} OR REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(title, 'à', 'a'), 'One Hundred and One', '101'), '''', ''), 'Thirteen', '13'), 'Twelve', '12'), 'Eleven', '11'), 'é', 'e'), 'Four', '4'), 'IV', '4'), 'Eight', '8'), 'VIII', '8'), 'Seven', '7'), 'VII', '7'), 'Six', '6'), 'VI', '6'), 'Five', '5'), 'V', '5'), 'Three', '3'), 'III', '3'), 'Two', '2'), 'II', '2'), 'Nine', '9'), 'IX', '9'), 'One', '1'), 'I', '1'), '.', ''), '&', 'and'), '-', ''), ':', ''), '!', ''), ',', '') ILIKE $${paramIndex++} OR title ILIKE $${paramIndex-2} OR title ILIKE $${paramIndex-1})`;
-    filterClauses.push(searchSystem);
-    params.push(`% ${searchTerm}%`, `${searchTerm}%`);
-  }
+  if (searchTerm || (filterType && filterType !== "all") || minRuntime || maxRuntime || minEpisodes || maxEpisodes || ratings || grade || startDate || endDate) {
+    if (searchTerm) {
+      const searchSystem = `(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(title, 'à', 'a'), 'One Hundred and One', '101'), '''', ''), 'Thirteen', '13'), 'Twelve', '12'), 'Eleven', '11'), 'é', 'e'), 'Four', '4'), 'IV', '4'), 'Eight', '8'), 'VIII', '8'), 'Seven', '7'), 'VII', '7'), 'Six', '6'), 'VI', '6'), 'Five', '5'), 'V', '5'), 'Three', '3'), 'III', '3'), 'Two', '2'), 'II', '2'), 'Nine', '9'), 'IX', '9'), 'One', '1'), 'I', '1'), '.', ''), '&', 'and'), '-', ''), ':', ''), '!', ''), ',', '') ILIKE $${paramIndex++} OR REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(title, 'à', 'a'), 'One Hundred and One', '101'), '''', ''), 'Thirteen', '13'), 'Twelve', '12'), 'Eleven', '11'), 'é', 'e'), 'Four', '4'), 'IV', '4'), 'Eight', '8'), 'VIII', '8'), 'Seven', '7'), 'VII', '7'), 'Six', '6'), 'VI', '6'), 'Five', '5'), 'V', '5'), 'Three', '3'), 'III', '3'), 'Two', '2'), 'II', '2'), 'Nine', '9'), 'IX', '9'), 'One', '1'), 'I', '1'), '.', ''), '&', 'and'), '-', ''), ':', ''), '!', ''), ',', '') ILIKE $${paramIndex++} OR title ILIKE $${paramIndex-2} OR title ILIKE $${paramIndex-1})`;
+      filterClauses.push(searchSystem);
+      params.push(`% ${searchTerm}%`, `${searchTerm}%`);
+    }
 
-  if (filterType && filterType !== "all") {
-    filterClauses.push(`m.type = $${paramIndex++}`);
-    params.push(filterType);
-  }
+    if (filterType && filterType !== "all") {
+      filterClauses.push(`m.type = $${paramIndex++}`);
+      params.push(filterType);
+    }
 
-  if (minRuntime) {
-    filterClauses.push(`COALESCE(m.runtime, s.runtime) >= $${paramIndex++}`);
-    params.push(minRuntime);
-  }
+    if (minRuntime) {
+      filterClauses.push(`COALESCE(m.runtime, s.runtime) >= $${paramIndex++}`);
+      params.push(minRuntime);
+    }
 
-  if (maxRuntime) {
-    filterClauses.push(`COALESCE(m.runtime, s.runtime) <= $${paramIndex++}`);
-    params.push(maxRuntime);
-  }
+    if (maxRuntime) {
+      filterClauses.push(`COALESCE(m.runtime, s.runtime) <= $${paramIndex++}`);
+      params.push(maxRuntime);
+    }
 
-  if (minEpisodes) {
-    filterClauses.push(`s.episodes >= $${paramIndex++}`);
-    params.push(minEpisodes);
-  }
+    if (minEpisodes) {
+      filterClauses.push(`s.episodes >= $${paramIndex++}`);
+      params.push(minEpisodes);
+    }
 
-  if (maxEpisodes) {
-    filterClauses.push(`s.episodes <= $${paramIndex++}`);
-    params.push(maxEpisodes);
-  }
+    if (maxEpisodes) {
+      filterClauses.push(`s.episodes <= $${paramIndex++}`);
+      params.push(maxEpisodes);
+    }
 
-  if (ratings) {
-    filterClauses.push(`m.rating = ANY($${paramIndex++})`);
-    params.push(ratings.split(','));
-  }
+    if (ratings) {
+      filterClauses.push(`m.rating = ANY($${paramIndex++})`);
+      params.push(ratings.split(","));
+    }
 
-  if (startDate) {
-    filterClauses.push(`COALESCE(m.release_date, s.start_date) >= $${paramIndex++}`);
-    params.push(startDate);
-  }
-
-  if (endDate) {
-    filterClauses.push(`COALESCE(m.release_date, s.start_date) <= $${paramIndex++}`);
-    params.push(endDate);
-  }
-
-  if (!startDate && !endDate)
-    filterClauses.push(`COALESCE(EXTRACT(MONTH FROM m.release_date), EXTRACT(MONTH FROM s.start_date)) = EXTRACT(MONTH FROM CURRENT_DATE) AND COALESCE(EXTRACT(DAY FROM m.release_date), EXTRACT(DAY FROM s.start_date)) = EXTRACT(DAY FROM CURRENT_DATE)`);
-  else {
     if (startDate) {
       filterClauses.push(`COALESCE(m.release_date, s.start_date) >= $${paramIndex++}`);
       params.push(startDate);
     }
+
     if (endDate) {
       filterClauses.push(`COALESCE(m.release_date, s.start_date) <= $${paramIndex++}`);
       params.push(endDate);
     }
-  }
 
-  if (grade) {
-    if (grade == "0/4")
-      filterClauses.push("(COALESCE(m.grade, s.grade) < (6.25))");
-    else if (grade == "0.5/4")
-      filterClauses.push("(COALESCE(m.grade, s.grade) >= (6.25) AND COALESCE(m.grade, s.grade) < (18.75))");
-    else if (grade == "1/4")
-      filterClauses.push("(COALESCE(m.grade, s.grade) >= (18.75) AND COALESCE(m.grade, s.grade) < (31.25))");
-    else if (grade == "1.5/4")
-      filterClauses.push("(COALESCE(m.grade, s.grade) >= (31.25) AND COALESCE(m.grade, s.grade) < (43.75))");
-    else if (grade == "2/4")
-      filterClauses.push("(COALESCE(m.grade, s.grade) >= (43.75) AND COALESCE(m.grade, s.grade) < (56.25))");
-    else if (grade == "2.5/4")
-      filterClauses.push("(COALESCE(m.grade, s.grade) >= (56.25) AND COALESCE(m.grade, s.grade) < (68.75))");
-    else if (grade == "3/4")
-      filterClauses.push("(COALESCE(m.grade, s.grade) >= (68.75) AND COALESCE(m.grade, s.grade) < (81.25))");
-    else if (grade == "3.5/4")
-      filterClauses.push("(COALESCE(m.grade, s.grade) >= (81.25) AND COALESCE(m.grade, s.grade) < (93.75))");
-    else if (grade == "4/4")
-      filterClauses.push("(COALESCE(m.grade, s.grade) >= (93.75))");
-    else if (grade == "0/5")
-      filterClauses.push("(COALESCE(m.grade, s.grade) < (5))");
-    else if (grade == "0.5/5")
-      filterClauses.push("(COALESCE(m.grade, s.grade) >= (5) AND COALESCE(m.grade, s.grade) < (15))");
-    else if (grade == "1/5")
-      filterClauses.push("(COALESCE(m.grade, s.grade) >= (15) AND COALESCE(m.grade, s.grade) < (25))");
-    else if (grade == "1.5/5")
-      filterClauses.push("(COALESCE(m.grade, s.grade) >= (25) AND COALESCE(m.grade, s.grade) < (35))");
-    else if (grade == "2/5")
-      filterClauses.push("(COALESCE(m.grade, s.grade) >= (35) AND COALESCE(m.grade, s.grade) < (45))");
-    else if (grade == "2.5/5")
-      filterClauses.push("(COALESCE(m.grade, s.grade) >= (45) AND COALESCE(m.grade, s.grade) < (55))");
-    else if (grade == "3/5")
-      filterClauses.push("(COALESCE(m.grade, s.grade) >= (55) AND COALESCE(m.grade, s.grade) < (65))");
-    else if (grade == "3.5/5")
-      filterClauses.push("(COALESCE(m.grade, s.grade) >= (65) AND COALESCE(m.grade, s.grade) < (75))");
-    else if (grade == "4/5")
-      filterClauses.push("(COALESCE(m.grade, s.grade) >= (75) AND COALESCE(m.grade, s.grade) < (85))");
-    else if (grade == "4.5/5")
-      filterClauses.push("(COALESCE(m.grade, s.grade) >= (85) AND COALESCE(m.grade, s.grade) < (95))");
-    else if (grade == "5/5")
-      filterClauses.push("(COALESCE(m.grade, s.grade) >= (95))");
-    else if (grade == "F")
-      filterClauses.push("(COALESCE(m.grade, s.grade) < (4.17))");
-    else if (grade == "D-")
-      filterClauses.push("(COALESCE(m.grade, s.grade) >= (4.17) AND COALESCE(m.grade, s.grade) < (12.5))");
-    else if (grade == "D")
-      filterClauses.push("(COALESCE(m.grade, s.grade) >= (12.5) AND COALESCE(m.grade, s.grade) < (20.83))");
-    else if (grade == "D+")
-      filterClauses.push("(COALESCE(m.grade, s.grade) >= (20.83) AND COALESCE(m.grade, s.grade) < (29.17))");
-    else if (grade == "C-")
-      filterClauses.push("(COALESCE(m.grade, s.grade) >= (29.17) AND COALESCE(m.grade, s.grade) < (37.5))");
-    else if (grade == "C")
-      filterClauses.push("(COALESCE(m.grade, s.grade) >= (37.5) AND COALESCE(m.grade, s.grade) < (45.83))");
-    else if (grade == "C+")
-      filterClauses.push("(COALESCE(m.grade, s.grade) >= (45.83) AND COALESCE(m.grade, s.grade) < (54.17))");
-    else if (grade == "B-")
-      filterClauses.push("(COALESCE(m.grade, s.grade) >= (54.17) AND COALESCE(m.grade, s.grade) < (62.5))");
-    else if (grade == "B")
-      filterClauses.push("(COALESCE(m.grade, s.grade) >= (62.5) AND COALESCE(m.grade, s.grade) < (70.83))");
-    else if (grade == "B+")
-      filterClauses.push("(COALESCE(m.grade, s.grade) >= (70.83) AND COALESCE(m.grade, s.grade) < (79.17))");
-    else if (grade == "A-")
-      filterClauses.push("(COALESCE(m.grade, s.grade) >= (79.17) AND COALESCE(m.grade, s.grade) < (87.5))");
-    else if (grade == "A")
-      filterClauses.push("(COALESCE(m.grade, s.grade) >= (87.5) AND COALESCE(m.grade, s.grade) < (95.83))");
-    else if (grade == "A+")
-      filterClauses.push("(COALESCE(m.grade, s.grade) >= (95.83))");
-    else if (grade == "1/10")
-      filterClauses.push("(COALESCE(m.grade, s.grade) < (5.56))");
-    else if (grade == "2/10")
-      filterClauses.push("(COALESCE(m.grade, s.grade) >= (5.56) AND COALESCE(m.grade, s.grade) < (16.67))");
-    else if (grade == "3/10")
-      filterClauses.push("(COALESCE(m.grade, s.grade) >= (16.67) AND COALESCE(m.grade, s.grade) < (27.78))");
-    else if (grade == "4/10")
-      filterClauses.push("(COALESCE(m.grade, s.grade) >= (27.78) AND COALESCE(m.grade, s.grade) < (38.89))");
-    else if (grade == "5/10")
-      filterClauses.push("(COALESCE(m.grade, s.grade) >= (38.89) AND COALESCE(m.grade, s.grade) < (50))");
-    else if (grade == "6/10")
-      filterClauses.push("(COALESCE(m.grade, s.grade) >= (50) AND COALESCE(m.grade, s.grade) < (61.11))");
-    else if (grade == "7/10")
-      filterClauses.push("(COALESCE(m.grade, s.grade) >= (61.11) AND COALESCE(m.grade, s.grade) < (72.22))");
-    else if (grade == "8/10")
-      filterClauses.push("(COALESCE(m.grade, s.grade) >= (72.22) AND COALESCE(m.grade, s.grade) < (83.33))");
-    else if (grade == "9/10")
-      filterClauses.push("(COALESCE(m.grade, s.grade) >= (83.33) AND COALESCE(m.grade, s.grade) < (94.44))");
-    else
-      filterClauses.push("(COALESCE(m.grade, s.grade) >= (94.44))");
+    if (grade) {
+      if (grade == "0/4")
+        filterClauses.push("(COALESCE(m.grade, s.grade) < (6.25))");
+      else if (grade == "0.5/4")
+        filterClauses.push("(COALESCE(m.grade, s.grade) >= (6.25) AND COALESCE(m.grade, s.grade) < (18.75))");
+      else if (grade == "1/4")
+        filterClauses.push("(COALESCE(m.grade, s.grade) >= (18.75) AND COALESCE(m.grade, s.grade) < (31.25))");
+      else if (grade == "1.5/4")
+        filterClauses.push("(COALESCE(m.grade, s.grade) >= (31.25) AND COALESCE(m.grade, s.grade) < (43.75))");
+      else if (grade == "2/4")
+        filterClauses.push("(COALESCE(m.grade, s.grade) >= (43.75) AND COALESCE(m.grade, s.grade) < (56.25))");
+      else if (grade == "2.5/4")
+        filterClauses.push("(COALESCE(m.grade, s.grade) >= (56.25) AND COALESCE(m.grade, s.grade) < (68.75))");
+      else if (grade == "3/4")
+        filterClauses.push("(COALESCE(m.grade, s.grade) >= (68.75) AND COALESCE(m.grade, s.grade) < (81.25))");
+      else if (grade == "3.5/4")
+        filterClauses.push("(COALESCE(m.grade, s.grade) >= (81.25) AND COALESCE(m.grade, s.grade) < (93.75))");
+      else if (grade == "4/4")
+        filterClauses.push("(COALESCE(m.grade, s.grade) >= (93.75))");
+      else if (grade == "0/5")
+        filterClauses.push("(COALESCE(m.grade, s.grade) < (5))");
+      else if (grade == "0.5/5")
+        filterClauses.push("(COALESCE(m.grade, s.grade) >= (5) AND COALESCE(m.grade, s.grade) < (15))");
+      else if (grade == "1/5")
+        filterClauses.push("(COALESCE(m.grade, s.grade) >= (15) AND COALESCE(m.grade, s.grade) < (25))");
+      else if (grade == "1.5/5")
+        filterClauses.push("(COALESCE(m.grade, s.grade) >= (25) AND COALESCE(m.grade, s.grade) < (35))");
+      else if (grade == "2/5")
+        filterClauses.push("(COALESCE(m.grade, s.grade) >= (35) AND COALESCE(m.grade, s.grade) < (45))");
+      else if (grade == "2.5/5")
+        filterClauses.push("(COALESCE(m.grade, s.grade) >= (45) AND COALESCE(m.grade, s.grade) < (55))");
+      else if (grade == "3/5")
+        filterClauses.push("(COALESCE(m.grade, s.grade) >= (55) AND COALESCE(m.grade, s.grade) < (65))");
+      else if (grade == "3.5/5")
+        filterClauses.push("(COALESCE(m.grade, s.grade) >= (65) AND COALESCE(m.grade, s.grade) < (75))");
+      else if (grade == "4/5")
+        filterClauses.push("(COALESCE(m.grade, s.grade) >= (75) AND COALESCE(m.grade, s.grade) < (85))");
+      else if (grade == "4.5/5")
+        filterClauses.push("(COALESCE(m.grade, s.grade) >= (85) AND COALESCE(m.grade, s.grade) < (95))");
+      else if (grade == "5/5")
+        filterClauses.push("(COALESCE(m.grade, s.grade) >= (95))");
+      else if (grade == "F")
+        filterClauses.push("(COALESCE(m.grade, s.grade) < (4.17))");
+      else if (grade == "D-")
+        filterClauses.push("(COALESCE(m.grade, s.grade) >= (4.17) AND COALESCE(m.grade, s.grade) < (12.5))");
+      else if (grade == "D")
+        filterClauses.push("(COALESCE(m.grade, s.grade) >= (12.5) AND COALESCE(m.grade, s.grade) < (20.83))");
+      else if (grade == "D+")
+        filterClauses.push("(COALESCE(m.grade, s.grade) >= (20.83) AND COALESCE(m.grade, s.grade) < (29.17))");
+      else if (grade == "C-")
+        filterClauses.push("(COALESCE(m.grade, s.grade) >= (29.17) AND COALESCE(m.grade, s.grade) < (37.5))");
+      else if (grade == "C")
+        filterClauses.push("(COALESCE(m.grade, s.grade) >= (37.5) AND COALESCE(m.grade, s.grade) < (45.83))");
+      else if (grade == "C+")
+        filterClauses.push("(COALESCE(m.grade, s.grade) >= (45.83) AND COALESCE(m.grade, s.grade) < (54.17))");
+      else if (grade == "B-")
+        filterClauses.push("(COALESCE(m.grade, s.grade) >= (54.17) AND COALESCE(m.grade, s.grade) < (62.5))");
+      else if (grade == "B")
+        filterClauses.push("(COALESCE(m.grade, s.grade) >= (62.5) AND COALESCE(m.grade, s.grade) < (70.83))");
+      else if (grade == "B+")
+        filterClauses.push("(COALESCE(m.grade, s.grade) >= (70.83) AND COALESCE(m.grade, s.grade) < (79.17))");
+      else if (grade == "A-")
+        filterClauses.push("(COALESCE(m.grade, s.grade) >= (79.17) AND COALESCE(m.grade, s.grade) < (87.5))");
+      else if (grade == "A")
+        filterClauses.push("(COALESCE(m.grade, s.grade) >= (87.5) AND COALESCE(m.grade, s.grade) < (95.83))");
+      else if (grade == "A+")
+        filterClauses.push("(COALESCE(m.grade, s.grade) >= (95.83))");
+      else if (grade == "1/10")
+        filterClauses.push("(COALESCE(m.grade, s.grade) < (5.56))");
+      else if (grade == "2/10")
+        filterClauses.push("(COALESCE(m.grade, s.grade) >= (5.56) AND COALESCE(m.grade, s.grade) < (16.67))");
+      else if (grade == "3/10")
+        filterClauses.push("(COALESCE(m.grade, s.grade) >= (16.67) AND COALESCE(m.grade, s.grade) < (27.78))");
+      else if (grade == "4/10")
+        filterClauses.push("(COALESCE(m.grade, s.grade) >= (27.78) AND COALESCE(m.grade, s.grade) < (38.89))");
+      else if (grade == "5/10")
+        filterClauses.push("(COALESCE(m.grade, s.grade) >= (38.89) AND COALESCE(m.grade, s.grade) < (50))");
+      else if (grade == "6/10")
+        filterClauses.push("(COALESCE(m.grade, s.grade) >= (50) AND COALESCE(m.grade, s.grade) < (61.11))");
+      else if (grade == "7/10")
+        filterClauses.push("(COALESCE(m.grade, s.grade) >= (61.11) AND COALESCE(m.grade, s.grade) < (72.22))");
+      else if (grade == "8/10")
+        filterClauses.push("(COALESCE(m.grade, s.grade) >= (72.22) AND COALESCE(m.grade, s.grade) < (83.33))");
+      else if (grade == "9/10")
+        filterClauses.push("(COALESCE(m.grade, s.grade) >= (83.33) AND COALESCE(m.grade, s.grade) < (94.44))");
+      else
+        filterClauses.push("(COALESCE(m.grade, s.grade) >= (94.44))");
+    }
   }
+  else 
+    filterClauses.push(`COALESCE(EXTRACT(MONTH FROM m.release_date), EXTRACT(MONTH FROM s.start_date)) = EXTRACT(MONTH FROM CURRENT_DATE) AND COALESCE(EXTRACT(DAY FROM m.release_date), EXTRACT(DAY FROM s.start_date)) = EXTRACT(DAY FROM CURRENT_DATE)`);
 
   const whereClause = filterClauses.length > 0 ? `WHERE ${filterClauses.join(" AND ")}` : "";
 
