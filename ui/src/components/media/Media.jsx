@@ -367,7 +367,7 @@ function Media() {
                 <>
                   <div className="d-flex justify-content-between align-items-center mb-3">
                     <p className="text-white-50 mb-0">{media.length} result{media.length > 1 && `s`} displayed</p>
-                    <h6 className="fw-bolder text-white mb-0">{(filters.searchTerm || filters.filterType !== "all" || filters.runtime.min || filters.runtime.max || filters.episodes.min || filters.episodes.max || filters.selectedRatings.length !== 0 || filters.selectedGrade !== "" || filters.dateRange.start || filters.dateRange.end) ? "" : "Released this day"}</h6>
+                    <h6 className="fw-bolder text-white mb-0">{(filters.searchTerm || filters.filterType !== "all" || filters.runtime.min || filters.runtime.max || filters.episodes.min || filters.episodes.max || filters.selectedRatings.length !== 0 || filters.selectedGrade !== "" || filters.dateRange.start || filters.dateRange.end) ? "" : `Released ${new Date().getUTCMonth()}/${new Date().getUTCDate()}`}</h6>
                     <h6 className="fw-bolder text-white mb-0">Page {currentPage} of {pages}</h6>
                   </div>
                   <Row className="g-4 justify-content-center" xs={1} sm={2} md={3} lg={4} xl={5}>
