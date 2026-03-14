@@ -227,7 +227,7 @@ const People = () => {
               <>
                 <div className="d-flex justify-content-between align-items-center mb-3">
                   <p className="text-white-50 mb-0">{people.length} result{people.length > 1 && `s`} displayed</p>
-                  <h6 className="fw-bolder text-white mb-0">{(filters.searchTerm || filters.birthDateRange.start || filters.birthDateRange.end || filters.noBirthDate || filters.deathDateRange.start || filters.deathDateRange.end || filters.noDeathDate) ? "" : `Born ${new Date().getUTCMonth()}/${new Date().getUTCDate()}`}</h6>
+                  <h6 className="fw-bolder text-white mb-0">{(filters.searchTerm || filters.birthDateRange.start || filters.birthDateRange.end || filters.noBirthDate || filters.deathDateRange.start || filters.deathDateRange.end || filters.noDeathDate) ? "" : `Born ${new Date().getUTCMonth() + 1}/${new Date().getUTCDate()}`}</h6>
                   <h6 className="fw-bolder text-white mb-0">Page {currentPage} of {pages}</h6>
                 </div>
                 
