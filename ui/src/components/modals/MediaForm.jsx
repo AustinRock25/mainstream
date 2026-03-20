@@ -25,8 +25,7 @@ function MediaForm({ show, setShow, media }) {
     grade: 0,
     rating: "Not Rated",
     release_date: "",
-    start_date: "",
-    end_date: "",
+    release_dates: [],
     poster: "",
     runtime: "",
     episodes: "",
@@ -36,6 +35,13 @@ function MediaForm({ show, setShow, media }) {
   };
 
   const [formData, setFormData] = useState(initialFormData);
+
+  const getPrimaryMediaDate = useCallback(() => {
+    if (formData.type === "movie") 
+      return formData.release_date;
+
+    return formData.release_dates?.[0] || "";
+  }, [formData.type, formData.release_date, formData.release_dates]);
 
   const getSortedCredits = (person) => {
     let allCredits = [];
@@ -52,8 +58,8 @@ function MediaForm({ show, setShow, media }) {
     });
 
     allCredits.sort((a, b) => {
-      const dateA = new Date(a.release_date || a.start_date);
-      const dateB = new Date(b.release_date || b.start_date);
+      const dateA = new Date(a.release_date || (a.release_dates && a.release_dates[0]));
+      const dateB = new Date(b.release_date || (b.release_dates && b.release_dates[0]));
 
       if (isNaN(dateA.getTime())) 
         return 1;
@@ -68,26 +74,26 @@ function MediaForm({ show, setShow, media }) {
   };
 
   const filterPeopleByDate = useCallback((people) => {
-    const mediaDateStr = formData.release_date || formData.start_date;
+    const mediaDateStr = getPrimaryMediaDate();
 
-    if (!mediaDateStr)
+    if (!mediaDateStr) 
       return people;
 
     const mediaDate = new Date(mediaDateStr);
 
-    if (isNaN(mediaDate.getTime()))
+    if (isNaN(mediaDate.getTime())) 
       return people;
 
     return people.filter(person => {
       const sortedCredits = getSortedCredits(person);
 
-      if (sortedCredits.length === 0)
+      if (sortedCredits.length === 0) 
         return true;
 
       const firstCredit = sortedCredits[0];
-      const firstCreditDate = new Date(firstCredit.release_date || firstCredit.start_date);
+      const firstCreditDate = new Date(firstCredit.release_date || (firstCredit.release_dates && firstCredit.release_dates[0]));
 
-      if (isNaN(firstCreditDate.getTime()))
+      if (isNaN(firstCreditDate.getTime())) 
         return true;
         
       if (person.death_date) {
@@ -95,7 +101,7 @@ function MediaForm({ show, setShow, media }) {
         const limitDate = new Date(deathDate);
         limitDate.setFullYear(limitDate.getUTCFullYear() + 3);
 
-        if (mediaDate > limitDate)
+        if (mediaDate > limitDate) 
           return false;
       }
 
@@ -108,20 +114,20 @@ function MediaForm({ show, setShow, media }) {
         const avgTimestamp = (birthDate.getTime() + firstCreditDate.getTime()) / 2;
         const avgDate = new Date(avgTimestamp);
 
-        if (mediaDate <= avgDate)
+        if (mediaDate <= avgDate) 
           return false;
       } 
       else {
         const limitDate = new Date(firstCreditDate);
         limitDate.setFullYear(limitDate.getUTCFullYear() - 10);
 
-        if (mediaDate <= limitDate)
+        if (mediaDate <= limitDate) 
           return false;
       }
 
       return true;
     });
-  }, [formData.release_date, formData.start_date]);
+  }, [getPrimaryMediaDate]);
 
   const loadExistingData = useCallback(() => {
     if (media?.id) {
@@ -254,8 +260,7 @@ function MediaForm({ show, setShow, media }) {
         grade: grade || 0,
         rating: media.rating || "Not Rated",
         release_date: media.release_date ? new Date(media.release_date).toISOString().split("T")[0] : "",
-        start_date: media.start_date ? new Date(media.start_date).toISOString().split("T")[0] : "",
-        end_date: media.end_date ? new Date(media.end_date).toISOString().split("T")[0] : "",
+        release_dates: media.release_dates ? media.release_dates.map(d => new Date(d).toISOString().split("T")[0]) : [],
         poster: media.poster || "",
         runtime: media.runtime || "",
         episodes: media.episodes || "",
@@ -361,6 +366,21 @@ function MediaForm({ show, setShow, media }) {
         setPillTextColor("white");
       }
     }
+  };
+
+  const handleReleaseDateChange = (index, value) => {
+    const newDates = [...formData.release_dates];
+    newDates[index] = value;
+    setFormData({ ...formData, release_dates: newDates });
+  };
+
+  const addReleaseDate = () => {
+    setFormData({ ...formData, release_dates: [...formData.release_dates, ""] });
+  };
+
+  const removeReleaseDate = (index) => {
+    const newDates = formData.release_dates.filter((_, i) => i !== index);
+    setFormData({ ...formData, release_dates: newDates });
   };
 
   const handleSelectPerson = (person) => {
@@ -483,7 +503,7 @@ function MediaForm({ show, setShow, media }) {
               <Col sm={9}>
                 <Form.Select value={formData.id} isInvalid={!!errors.id} onChange={(e) => handleChange(e, "id")}>
                   <option value="">Select existing show for new season</option>
-                  {Array.isArray(shows) && shows.map(s => <option key={s.id} value={s.id}>{s.title} ({new Date(s.start_date).getUTCFullYear()})</option>)}
+                  {Array.isArray(shows) && shows.map(s => <option key={s.id} value={s.id}>{s.title} ({s.release_dates?.[0] ? new Date(s.release_dates[0]).getUTCFullYear() : 'N/A'})</option>)}
                   <option value="na">Create a new show</option>
                 </Form.Select>
               </Col>
@@ -502,10 +522,20 @@ function MediaForm({ show, setShow, media }) {
                 <Col sm={9}><Form.Control type="number" value={formData.episodes} placeholder="Number of episodes" isInvalid={!!errors.episodes} onChange={e => handleChange(e, "episodes")} /></Col>
               </Form.Group>
               <Form.Group as={Row} className="mb-3">
-                <Form.Label column sm={3}>Date Range</Form.Label>
-                <Col sm={4}><Form.Control type="date" value={formData.start_date} isInvalid={!!errors.start_date} onChange={e => handleChange(e, "start_date")} /></Col>
-                <Col sm={1} className="text-center align-self-center">-</Col>
-                <Col sm={4}><Form.Control type="date" value={formData.end_date} isInvalid={!!errors.end_date} onChange={e => handleChange(e, "end_date")} /></Col>
+                <Form.Label column sm={3}>Release Dates</Form.Label>
+                <Col sm={9}>
+                  {formData.release_dates.map((date, index) => (
+                    <div key={index} className="d-flex mb-2">
+                      <Form.Control 
+                        type="date" 
+                        value={date} 
+                        onChange={(e) => handleReleaseDateChange(index, e.target.value)} 
+                      />
+                      <Button variant="outline-danger" className="ms-2" onClick={() => removeReleaseDate(index)}>×</Button>
+                    </div>
+                  ))}
+                  <Button variant="outline-primary" size="sm" onClick={addReleaseDate}>+ Add Date</Button>
+                </Col>
               </Form.Group>
               <Form.Group as={Row} className="mb-3">
                 <Form.Label column sm={3}>Series Status</Form.Label>

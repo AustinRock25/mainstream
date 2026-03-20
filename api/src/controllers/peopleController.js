@@ -78,7 +78,7 @@ export const index = (req, res) => {
       orderByClause = `ORDER BY death_date ${sanitizedSortOrder} NULLS LAST`;
       break;
     default:
-      orderByClause = `ORDER BY birth_date ASC NULLS LAST`;
+      orderByClause = `ORDER BY birth_date ${sanitizedSortOrder} NULLS LAST`;
   }
 
   const sql = 
@@ -93,7 +93,7 @@ export const index = (req, res) => {
       ), DirectorTVCredits AS (
         SELECT
           sd.director_id,
-          json_agg(json_build_object('id', m.id, 'title', m.title, 'start_date', s.start_date, 'end_date', s.end_date)) AS credited_as_director_tv
+          json_agg(json_build_object('id', m.id, 'title', m.title, 'start_date', (SELECT MIN(sd) FROM unnest(s.release_dates) AS sd), 'end_date', (SELECT MAX(ed) FROM unnest(s.release_dates) AS ed))) AS credited_as_director_tv
         FROM seasons_directors sd
         JOIN seasons s ON s.season = sd.season AND s.show_id = sd.show_id
         JOIN media m ON m.id = s.show_id
@@ -108,7 +108,7 @@ export const index = (req, res) => {
       ), WriterTVCredits AS (
         SELECT
           sw.writer_id,
-          json_agg(json_build_object('id', m.id, 'title', m.title, 'start_date', s.start_date, 'end_date', s.end_date)) AS credited_as_writer_tv
+          json_agg(json_build_object('id', m.id, 'title', m.title, 'start_date', (SELECT MIN(sd) FROM unnest(s.release_dates) AS sd), 'end_date', (SELECT MAX(ed) FROM unnest(s.release_dates) AS ed))) AS credited_as_writer_tv
         FROM seasons_writers sw
         JOIN seasons s ON s.season = sw.season AND s.show_id = sw.show_id
         JOIN media m ON m.id = s.show_id
@@ -123,7 +123,7 @@ export const index = (req, res) => {
       ), CastTVCredits AS (
         SELECT
           scm.actor_id,
-          json_agg(json_build_object('id', m.id, 'title', m.title, 'start_date', s.start_date, 'end_date', s.end_date)) AS credited_as_cast_member_tv
+          json_agg(json_build_object('id', m.id, 'title', m.title, 'start_date', (SELECT MIN(sd) FROM unnest(s.release_dates) AS sd), 'end_date', (SELECT MAX(ed) FROM unnest(s.release_dates) AS ed))) AS credited_as_cast_member_tv
         FROM seasons_cast scm
         JOIN seasons s ON s.season = scm.season AND s.show_id = scm.show_id
         JOIN media m ON m.id = s.show_id
@@ -257,7 +257,7 @@ export const indexSelect = (req, res) => {
         ), DirectorTVCredits AS (
           SELECT
             sd.director_id,
-            json_agg(json_build_object('id', m.id, 'title', m.title, 'start_date', s.start_date, 'end_date', s.end_date)) AS credited_as_director_tv
+            json_agg(json_build_object('id', m.id, 'title', m.title, 'start_date', (SELECT MIN(sd) FROM unnest(s.release_dates) AS sd), 'end_date', (SELECT MAX(ed) FROM unnest(s.release_dates) AS ed))) AS credited_as_director_tv
           FROM seasons_directors sd
           JOIN seasons s ON s.season = sd.season AND s.show_id = sd.show_id
           JOIN media m ON m.id = s.show_id
@@ -272,7 +272,7 @@ export const indexSelect = (req, res) => {
         ), WriterTVCredits AS (
           SELECT
             sw.writer_id,
-            json_agg(json_build_object('id', m.id, 'title', m.title, 'start_date', s.start_date, 'end_date', s.end_date)) AS credited_as_writer_tv
+            json_agg(json_build_object('id', m.id, 'title', m.title, 'start_date', (SELECT MIN(sd) FROM unnest(s.release_dates) AS sd), 'end_date', (SELECT MAX(ed) FROM unnest(s.release_dates) AS ed))) AS credited_as_writer_tv
           FROM seasons_writers sw
           JOIN seasons s ON s.season = sw.season AND s.show_id = sw.show_id
           JOIN media m ON m.id = s.show_id
@@ -287,7 +287,7 @@ export const indexSelect = (req, res) => {
         ), CastTVCredits AS (
           SELECT
             scm.actor_id,
-            json_agg(json_build_object('id', m.id, 'title', m.title, 'start_date', s.start_date, 'end_date', s.end_date)) AS credited_as_cast_member_tv
+            json_agg(json_build_object('id', m.id, 'title', m.title, 'start_date', (SELECT MIN(sd) FROM unnest(s.release_dates) AS sd), 'end_date', (SELECT MAX(ed) FROM unnest(s.release_dates) AS ed))) AS credited_as_cast_member_tv
           FROM seasons_cast scm
           JOIN seasons s ON s.season = scm.season AND s.show_id = scm.show_id
           JOIN media m ON m.id = s.show_id

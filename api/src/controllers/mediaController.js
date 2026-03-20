@@ -435,11 +435,11 @@ export const indexLength = (req, res) => {
 export const indexShows = (req, res) => {
   const sql = 
     `
-      SELECT id, title, s.start_date
+      SELECT id, title, (SELECT MIN(sd) FROM unnest(s.release_dates) AS sd) AS start_date
       FROM media m
       LEFT JOIN seasons s ON m.id = s.show_id
       WHERE type = 'show' AND completed = false AND s.season = 1
-      ORDER BY s.start_date DESC;
+      ORDER BY start_date DESC;
     `;
 
   query(sql)
