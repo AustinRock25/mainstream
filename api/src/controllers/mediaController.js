@@ -60,12 +60,12 @@ export const index = (req, res) => {
     }
 
     if (startDate) {
-      filterClauses.push(`COALESCE(m.release_date, s.start_date) >= $${paramIndex++}`);
+      filterClauses.push(`u.matched_date >= $${paramIndex++}`);
       params.push(startDate);
     }
 
     if (endDate) {
-      filterClauses.push(`COALESCE(m.release_date, s.start_date) <= $${paramIndex++}`);
+      filterClauses.push(`u.matched_date <= $${paramIndex++}`);
       params.push(endDate);
     }
 
@@ -159,7 +159,7 @@ export const index = (req, res) => {
     }
   }
   else 
-    filterClauses.push(`COALESCE(EXTRACT(MONTH FROM m.release_date), EXTRACT(MONTH FROM s.start_date)) = EXTRACT(MONTH FROM CURRENT_DATE) AND COALESCE(EXTRACT(DAY FROM m.release_date), EXTRACT(DAY FROM s.start_date)) = EXTRACT(DAY FROM CURRENT_DATE)`);
+    filterClauses.push(`EXTRACT(MONTH FROM u.matched_date) = EXTRACT(MONTH FROM CURRENT_DATE) AND EXTRACT(DAY FROM u.matched_date) = EXTRACT(DAY FROM CURRENT_DATE)`);
 
   const whereClause = filterClauses.length > 0 ? `WHERE ${filterClauses.join(" AND ")}` : "";
   let orderByClause = "";
@@ -189,8 +189,8 @@ export const index = (req, res) => {
       WITH NumberedRecords AS (
         SELECT ROW_NUMBER() OVER (${orderByClause}) AS RowNum, 
               m.id, m.title, m.grade, m.release_date, m.rating, m.poster, m.runtime, m.completed, m.type, 
-              s.season, s.grade AS grade_tv, s.episodes, s.runtime AS runtime_tv, s.start_date, s.end_date, 
-              directors, directors_tv, cast_members, cast_members_tv, writers, writers_tv
+              s.season, s.grade AS grade_tv, s.episodes, s.runtime AS runtime_tv, (SELECT MIN(sd) FROM unnest(s.release_dates) AS sd) AS start_date, 
+              (SELECT MAX(ed) FROM unnest(s.release_dates) AS ed) AS end_date, directors, directors_tv, cast_members, cast_members_tv, writers, writers_tv
         FROM media m
         LEFT JOIN seasons s ON m.id = s.show_id
         LEFT JOIN LATERAL (
@@ -229,6 +229,12 @@ export const index = (req, res) => {
           LEFT JOIN people p ON sw.writer_id = p.id
           WHERE m.id = sw.show_id AND s.season = sw.season
         ) sw ON TRUE
+        INNER JOIN LATERAL unnest(
+          CASE 
+            WHEN s.season IS NOT NULL THEN s.release_dates 
+            ELSE ARRAY[m.release_date] 
+          END
+        ) AS u(matched_date) ON TRUE
         ${whereClause}
       )
       SELECT * FROM NumberedRecords
@@ -300,12 +306,12 @@ export const indexLength = (req, res) => {
     }
 
     if (startDate) {
-      filterClauses.push(`COALESCE(m.release_date, s.start_date) >= $${paramIndex++}`);
+      filterClauses.push(`u.matched_date >= $${paramIndex++}`);
       params.push(startDate);
     }
 
     if (endDate) {
-      filterClauses.push(`COALESCE(m.release_date, s.start_date) <= $${paramIndex++}`);
+      filterClauses.push(`u.matched_date <= $${paramIndex++}`);
       params.push(endDate);
     }
 
@@ -399,7 +405,7 @@ export const indexLength = (req, res) => {
     }
   }
   else 
-    filterClauses.push(`COALESCE(EXTRACT(MONTH FROM m.release_date), EXTRACT(MONTH FROM s.start_date)) = EXTRACT(MONTH FROM CURRENT_DATE) AND COALESCE(EXTRACT(DAY FROM m.release_date), EXTRACT(DAY FROM s.start_date)) = EXTRACT(DAY FROM CURRENT_DATE)`);
+    filterClauses.push(`EXTRACT(MONTH FROM u.matched_date) = EXTRACT(MONTH FROM CURRENT_DATE) AND EXTRACT(DAY FROM u.matched_date) = EXTRACT(DAY FROM CURRENT_DATE)`);
 
   const whereClause = filterClauses.length > 0 ? `WHERE ${filterClauses.join(" AND ")}` : "";
 
@@ -408,6 +414,12 @@ export const indexLength = (req, res) => {
       SELECT COUNT(*)
       FROM media m
       LEFT JOIN seasons s ON m.id = s.show_id
+      INNER JOIN LATERAL unnest(
+        CASE 
+          WHEN s.season IS NOT NULL THEN s.release_dates 
+          ELSE ARRAY[m.release_date] 
+        END
+      ) AS u(matched_date) ON TRUE
       ${whereClause};
     `;
 
@@ -445,7 +457,7 @@ export const indexNew = (req, res) => {
   
   const sql = 
     `
-      SELECT m.id, m.title, m.grade, m.release_date, m.rating, m.poster, m.runtime, m.completed, m.type, s.season, s.grade AS grade_tv, s.episodes, s.runtime AS runtime_tv, s.start_date, s.end_date, directors, directors_tv, cast_members, cast_members_tv, writers, writers_tv
+      SELECT m.id, m.title, m.grade, m.release_date, m.rating, m.poster, m.runtime, m.completed, m.type, s.season, s.grade AS grade_tv, s.episodes, s.runtime AS runtime_tv, (SELECT MIN(sd) FROM unnest(s.release_dates) AS sd) AS start_date, (SELECT MAX(ed) FROM unnest(s.release_dates) AS ed) AS end_date, directors, directors_tv, cast_members, cast_members_tv, writers, writers_tv
       FROM media m
       LEFT JOIN seasons s ON m.id = s.show_id
       LEFT JOIN LATERAL (
@@ -683,23 +695,23 @@ async function createNewShow(media, { directors, writers, castMembers }) {
         RETURNING id
       ),
       insert_season AS (
-        INSERT INTO seasons (season, show_id, grade, episodes, runtime, start_date, end_date, date_added)
-        VALUES (1, (SELECT id FROM new_media), $5, $6, $7, $8, $9, $10)
+        INSERT INTO seasons (season, show_id, grade, episodes, runtime, release_dates, date_added)
+        VALUES (1, (SELECT id FROM new_media), $5, $6, $7, $8, $9)
       ),
       insert_directors AS (
         INSERT INTO seasons_directors (ordering, show_id, season, director_id)
         SELECT row_number() OVER (), (SELECT id FROM new_media), 1, director_id
-        FROM unnest($11::int[]) AS director_id
+        FROM unnest($10::int[]) AS director_id
       ),
       insert_cast AS (
         INSERT INTO seasons_cast (ordering, season, show_id, actor_id)
         SELECT row_number() OVER (), 1, (SELECT id FROM new_media), actor_id
-        FROM unnest($12::int[]) AS actor_id
+        FROM unnest($11::int[]) AS actor_id
       ),
       insert_writers AS (
         INSERT INTO seasons_writers (ordering, show_id, season, writer_id)
         SELECT row_number() OVER (), (SELECT id FROM new_media), 1, writer_id
-        FROM unnest($13::int[]) AS writer_id
+        FROM unnest($12::int[]) AS writer_id
       )
       SELECT id FROM new_media;
     `;
@@ -712,8 +724,7 @@ async function createNewShow(media, { directors, writers, castMembers }) {
     media.grade, 
     media.episodes, 
     media.runtime,
-    media.start_date, 
-    media.end_date,
+    media.release_dates,
     new Date(),
     directors, 
     castMembers, 
@@ -734,11 +745,11 @@ async function addSeasonToShow(media, { directors, writers, castMembers }) {
       WITH new_season_info AS (
         SELECT COALESCE(MAX(season), 0) + 1 AS season_num FROM seasons WHERE show_id = $1
       )
-      INSERT INTO seasons (season, show_id, grade, episodes, runtime, start_date, end_date, date_added)
-      SELECT season_num, $1, $2, $3, $4, $5, $6, $7 FROM new_season_info;
+      INSERT INTO seasons (season, show_id, grade, episodes, runtime, release_dates, date_added)
+      SELECT season_num, $1, $2, $3, $4, $5, $6 FROM new_season_info;
     `;
 
-  await query(sql, [media.id, media.grade, media.episodes, media.runtime, media.start_date, media.end_date, new Date()]);
+  await query(sql, [media.id, media.grade, media.episodes, media.runtime, media.release_dates, new Date()]);
 
   sql = 
     `
@@ -877,14 +888,9 @@ async function updateShow(media, og, { directors, writers, castMembers }) {
     await query(sql, [media.rating, media.id]);
   }
 
-  if (media.start_date != new Date(og.start_date).toISOString().split("T")[0]) {
-    sql = `UPDATE seasons SET start_date = $1 WHERE show_id = $2 AND season = $3;`;
-    await query(sql, [media.start_date, media.id, media.season]);
-  }
-
-  if (media.end_date != new Date(og.end_date).toISOString().split("T")[0]) {
-    sql = `UPDATE seasons SET end_date = $1 WHERE show_id = $2 AND season = $3;`;
-    await query(sql, [media.end_date, media.id, media.season]);
+  if (media.release_dates != og.release_dates) {
+    sql = `UPDATE seasons SET release_dates = $1 WHERE show_id = $2 AND season = $3;`;
+    await query(sql, [media.release_dates, media.id, media.season]);
   }
 
   if (media.grade != og.grade) {
