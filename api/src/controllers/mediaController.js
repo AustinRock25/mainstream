@@ -190,7 +190,7 @@ export const index = (req, res) => {
         SELECT ROW_NUMBER() OVER (${orderByClause}) AS RowNum, 
               m.id, m.title, m.grade, m.release_date, m.rating, m.poster, m.runtime, m.completed, m.type, 
               s.season, s.grade AS grade_tv, s.episodes, s.runtime AS runtime_tv, (SELECT MIN(sd) FROM unnest(s.release_dates) AS sd) AS start_date, 
-              (SELECT MAX(ed) FROM unnest(s.release_dates) AS ed) AS end_date, directors, directors_tv, cast_members, cast_members_tv, writers, writers_tv
+              (SELECT MAX(ed) FROM unnest(s.release_dates) AS ed) AS end_date, s.release_dates, directors, directors_tv, cast_members, cast_members_tv, writers, writers_tv
         FROM media m
         LEFT JOIN seasons s ON m.id = s.show_id
         LEFT JOIN LATERAL (
