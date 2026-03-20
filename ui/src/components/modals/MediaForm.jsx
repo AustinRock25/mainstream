@@ -503,7 +503,7 @@ function MediaForm({ show, setShow, media }) {
               <Col sm={9}>
                 <Form.Select value={formData.id} isInvalid={!!errors.id} onChange={(e) => handleChange(e, "id")}>
                   <option value="">Select existing show for new season</option>
-                  {Array.isArray(shows) && shows.map(s => <option key={s.id} value={s.id}>{s.title} ({s.release_dates?.[0] ? new Date(s.release_dates[0]).getUTCFullYear() : 'N/A'})</option>)}
+                  {Array.isArray(shows) && shows.map(s => <option key={s.id} value={s.id}>{s.title} ({s.start_date ? new Date(s.start_date).getUTCFullYear() : 'N/A'})</option>)}
                   <option value="na">Create a new show</option>
                 </Form.Select>
               </Col>
