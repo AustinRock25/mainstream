@@ -159,7 +159,7 @@ export const index = (req, res) => {
     }
   }
   else
-    filterClauses.push(`EXISTS (SELECT 1 FROM unnest(CASE WHEN season IS NOT NULL THEN release_dates ELSE ARRAY[release_date] END) AS matched_date WHERE EXTRACT(MONTH FROM matched_date) = EXTRACT(MONTH FROM CURRENT_DATE) AND EXTRACT(DAY FROM matched_date) = EXTRACT(DAY FROM CURRENT_DATE)`);
+    filterClauses.push(`EXISTS (SELECT 1 FROM unnest(CASE WHEN season IS NOT NULL THEN release_dates ELSE ARRAY[release_date] END) AS matched_date WHERE EXTRACT(MONTH FROM matched_date) = EXTRACT(MONTH FROM CURRENT_DATE) AND EXTRACT(DAY FROM matched_date) = EXTRACT(DAY FROM CURRENT_DATE))`);
 
   const whereClause = filterClauses.length > 0 ? `WHERE ${filterClauses.join(" AND ")}` : "";
   let orderByClause = "";
@@ -214,15 +214,15 @@ export const index = (req, res) => {
           SELECT json_agg(json_build_object('name', p.name, 'birth_date', p.birth_date)) AS writers_tv
           FROM seasons_writers sw LEFT JOIN people p ON sw.writer_id = p.id WHERE m.id = sw.show_id AND s.season = sw.season
         ) sw ON TRUE
-    ),
-    FinalNumbered AS (
-        SELECT ROW_NUMBER() OVER (${orderByClause}) AS RowNum, *
-        FROM FilteredData 
-        ${whereClause}
-    )
-    SELECT * FROM FinalNumbered
-    WHERE RowNum BETWEEN $1 AND $2;
-  `;
+      ),
+      FinalNumbered AS (
+          SELECT ROW_NUMBER() OVER (${orderByClause}) AS RowNum, *
+          FROM FilteredData 
+          ${whereClause}
+      )
+      SELECT * FROM FinalNumbered
+      WHERE RowNum BETWEEN $1 AND $2;
+    `;
     
   query(sql, params)
   .then(results => {
