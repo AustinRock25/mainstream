@@ -388,7 +388,7 @@ export const indexLength = (req, res) => {
     }
   }
   else 
-    filterClauses.push(`EXISTS (SELECT 1 FROM unnest(CASE WHEN season IS NOT NULL THEN release_dates ELSE ARRAY[release_date] END) AS matched_date WHERE EXTRACT(MONTH FROM matched_date) = EXTRACT(MONTH FROM CURRENT_DATE) AND EXTRACT(DAY FROM matched_date) = EXTRACT(DAY FROM CURRENT_DATE)`);
+    filterClauses.push(`EXISTS (SELECT 1 FROM unnest(CASE WHEN s.season IS NOT NULL THEN s.release_dates ELSE ARRAY[m.release_date] END) AS matched_date WHERE EXTRACT(MONTH FROM matched_date) = EXTRACT(MONTH FROM CURRENT_DATE) AND EXTRACT(DAY FROM matched_date) = EXTRACT(DAY FROM CURRENT_DATE))`);
 
   const whereClause = filterClauses.length > 0 ? `WHERE ${filterClauses.join(" AND ")}` : "";
 
