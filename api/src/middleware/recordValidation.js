@@ -16,9 +16,6 @@ export const validateMedia = async (req, res, next) => {
   if ((!media.release_dates || media.release_dates.length == 0) && media.type == "show")
     errors.release_dates = "Required";
 
-  if ((new Date(media.start_date) > new Date(media.end_date)) && media.type == "show")
-    errors.start_date = "The start date can't come after the end date";
-
   if ((!media.poster || media.poster.length === 0) && (media.type == "movie" || media.id == "na"))
     errors.poster = "Required";
 

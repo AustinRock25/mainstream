@@ -84,63 +84,40 @@ export const index = (req, res) => {
   const sql = 
     `
       WITH DirectorCredits AS (
-        SELECT
-          md.director_id,
-          json_agg(json_build_object('id', m.id, 'title', m.title, 'release_date', m.release_date)) AS credited_as_director
+        SELECT md.director_id, json_agg(json_build_object('id', m.id, 'title', m.title, 'release_date', m.release_date)) AS credited_as_director
         FROM media_directors md
         JOIN media m ON md.media_id = m.id
         GROUP BY md.director_id
       ), DirectorTVCredits AS (
-        SELECT
-          sd.director_id,
-          json_agg(json_build_object('id', m.id, 'title', m.title, 'start_date', (SELECT MIN(sd) FROM unnest(s.release_dates) AS sd), 'end_date', (SELECT MAX(ed) FROM unnest(s.release_dates) AS ed))) AS credited_as_director_tv
+        SELECT sd.director_id, json_agg(json_build_object('id', m.id, 'title', m.title, 'start_date', (SELECT MIN(sd) FROM unnest(s.release_dates) AS sd), 'end_date', (SELECT MAX(ed) FROM unnest(s.release_dates) AS ed))) AS credited_as_director_tv
         FROM seasons_directors sd
         JOIN seasons s ON s.season = sd.season AND s.show_id = sd.show_id
         JOIN media m ON m.id = s.show_id
         GROUP BY sd.director_id
       ), WriterCredits AS (
-        SELECT
-          mw.writer_id,
-          json_agg(json_build_object('id', m.id, 'title', m.title, 'release_date', m.release_date)) AS credited_as_writer
+        SELECT mw.writer_id, json_agg(json_build_object('id', m.id, 'title', m.title, 'release_date', m.release_date)) AS credited_as_writer
         FROM media_writers mw
         JOIN media m ON mw.media_id = m.id
         GROUP BY mw.writer_id
       ), WriterTVCredits AS (
-        SELECT
-          sw.writer_id,
-          json_agg(json_build_object('id', m.id, 'title', m.title, 'start_date', (SELECT MIN(sd) FROM unnest(s.release_dates) AS sd), 'end_date', (SELECT MAX(ed) FROM unnest(s.release_dates) AS ed))) AS credited_as_writer_tv
+        SELECT sw.writer_id, json_agg(json_build_object('id', m.id, 'title', m.title, 'start_date', (SELECT MIN(sd) FROM unnest(s.release_dates) AS sd), 'end_date', (SELECT MAX(ed) FROM unnest(s.release_dates) AS ed))) AS credited_as_writer_tv
         FROM seasons_writers sw
         JOIN seasons s ON s.season = sw.season AND s.show_id = sw.show_id
         JOIN media m ON m.id = s.show_id
         GROUP BY sw.writer_id
       ), CastCredits AS (
-        SELECT
-          mcm.actor_id,
-          json_agg(json_build_object('id', m.id, 'title', m.title, 'release_date', m.release_date)) AS credited_as_cast_member
+        SELECT mcm.actor_id, json_agg(json_build_object('id', m.id, 'title', m.title, 'release_date', m.release_date)) AS credited_as_cast_member
         FROM media_cast mcm
         JOIN media m ON mcm.media_id = m.id
         GROUP BY mcm.actor_id
       ), CastTVCredits AS (
-        SELECT
-          scm.actor_id,
-          json_agg(json_build_object('id', m.id, 'title', m.title, 'start_date', (SELECT MIN(sd) FROM unnest(s.release_dates) AS sd), 'end_date', (SELECT MAX(ed) FROM unnest(s.release_dates) AS ed))) AS credited_as_cast_member_tv
+        SELECT scm.actor_id, json_agg(json_build_object('id', m.id, 'title', m.title, 'start_date', (SELECT MIN(sd) FROM unnest(s.release_dates) AS sd), 'end_date', (SELECT MAX(ed) FROM unnest(s.release_dates) AS ed))) AS credited_as_cast_member_tv
         FROM seasons_cast scm
         JOIN seasons s ON s.season = scm.season AND s.show_id = scm.show_id
         JOIN media m ON m.id = s.show_id
         GROUP BY scm.actor_id
       ), NumberedRecords AS (
-        SELECT 
-          ROW_NUMBER() OVER (${orderByClause}) AS RowNum,
-          p.id, 
-          p.name, 
-          p.birth_date, 
-          p.death_date,
-          d.credited_as_director,
-          dtv.credited_as_director_tv,
-          w.credited_as_writer,
-          wtv.credited_as_writer_tv,
-          c.credited_as_cast_member,
-          ctv.credited_as_cast_member_tv
+        SELECT ROW_NUMBER() OVER (${orderByClause}) AS RowNum, p.id, p.name, p.birth_date, p.death_date, d.credited_as_director, dtv.credited_as_director_tv, w.credited_as_writer, wtv.credited_as_writer_tv, c.credited_as_cast_member, ctv.credited_as_cast_member_tv
         FROM people p
         LEFT JOIN DirectorCredits d ON p.id = d.director_id
         LEFT JOIN DirectorTVCredits dtv ON p.id = dtv.director_id
@@ -248,62 +225,40 @@ export const indexSelect = (req, res) => {
     searchSystem = 
       `
         WITH DirectorCredits AS (
-          SELECT
-            md.director_id,
-            json_agg(json_build_object('id', m.id, 'title', m.title, 'release_date', m.release_date)) AS credited_as_director
+          SELECT md.director_id, json_agg(json_build_object('id', m.id, 'title', m.title, 'release_date', m.release_date)) AS credited_as_director
           FROM media_directors md
           JOIN media m ON md.media_id = m.id
           GROUP BY md.director_id
         ), DirectorTVCredits AS (
-          SELECT
-            sd.director_id,
-            json_agg(json_build_object('id', m.id, 'title', m.title, 'start_date', (SELECT MIN(sd) FROM unnest(s.release_dates) AS sd), 'end_date', (SELECT MAX(ed) FROM unnest(s.release_dates) AS ed))) AS credited_as_director_tv
+          SELECT sd.director_id, json_agg(json_build_object('id', m.id, 'title', m.title, 'start_date', (SELECT MIN(sd) FROM unnest(s.release_dates) AS sd), 'end_date', (SELECT MAX(ed) FROM unnest(s.release_dates) AS ed))) AS credited_as_director_tv
           FROM seasons_directors sd
           JOIN seasons s ON s.season = sd.season AND s.show_id = sd.show_id
           JOIN media m ON m.id = s.show_id
           GROUP BY sd.director_id
         ), WriterCredits AS (
-          SELECT
-            mw.writer_id,
-            json_agg(json_build_object('id', m.id, 'title', m.title, 'release_date', m.release_date)) AS credited_as_writer
+          SELECT mw.writer_id, json_agg(json_build_object('id', m.id, 'title', m.title, 'release_date', m.release_date)) AS credited_as_writer
           FROM media_writers mw
           JOIN media m ON mw.media_id = m.id
           GROUP BY mw.writer_id
         ), WriterTVCredits AS (
-          SELECT
-            sw.writer_id,
-            json_agg(json_build_object('id', m.id, 'title', m.title, 'start_date', (SELECT MIN(sd) FROM unnest(s.release_dates) AS sd), 'end_date', (SELECT MAX(ed) FROM unnest(s.release_dates) AS ed))) AS credited_as_writer_tv
+          SELECT sw.writer_id, json_agg(json_build_object('id', m.id, 'title', m.title, 'start_date', (SELECT MIN(sd) FROM unnest(s.release_dates) AS sd), 'end_date', (SELECT MAX(ed) FROM unnest(s.release_dates) AS ed))) AS credited_as_writer_tv
           FROM seasons_writers sw
           JOIN seasons s ON s.season = sw.season AND s.show_id = sw.show_id
           JOIN media m ON m.id = s.show_id
           GROUP BY sw.writer_id
         ), CastCredits AS (
-          SELECT
-            mcm.actor_id,
-            json_agg(json_build_object('id', m.id, 'title', m.title, 'release_date', m.release_date)) AS credited_as_cast_member
+          SELECT mcm.actor_id, json_agg(json_build_object('id', m.id, 'title', m.title, 'release_date', m.release_date)) AS credited_as_cast_member
           FROM media_cast mcm
           JOIN media m ON mcm.media_id = m.id
           GROUP BY mcm.actor_id
         ), CastTVCredits AS (
-          SELECT
-            scm.actor_id,
-            json_agg(json_build_object('id', m.id, 'title', m.title, 'start_date', (SELECT MIN(sd) FROM unnest(s.release_dates) AS sd), 'end_date', (SELECT MAX(ed) FROM unnest(s.release_dates) AS ed))) AS credited_as_cast_member_tv
+          SELECT scm.actor_id, json_agg(json_build_object('id', m.id, 'title', m.title, 'start_date', (SELECT MIN(sd) FROM unnest(s.release_dates) AS sd), 'end_date', (SELECT MAX(ed) FROM unnest(s.release_dates) AS ed))) AS credited_as_cast_member_tv
           FROM seasons_cast scm
           JOIN seasons s ON s.season = scm.season AND s.show_id = scm.show_id
           JOIN media m ON m.id = s.show_id
           GROUP BY scm.actor_id
         ), Records AS (
-            SELECT
-              p.id, 
-              p.name, 
-              p.birth_date, 
-              p.death_date,
-              d.credited_as_director,
-              dtv.credited_as_director_tv,
-              w.credited_as_writer,
-              wtv.credited_as_writer_tv,
-              c.credited_as_cast_member,
-              ctv.credited_as_cast_member_tv
+            SELECT p.id, p.name, p.birth_date, p.death_date, d.credited_as_director, dtv.credited_as_director_tv, w.credited_as_writer, wtv.credited_as_writer_tv, c.credited_as_cast_member, ctv.credited_as_cast_member_tv
             FROM people p
             LEFT JOIN DirectorCredits d ON p.id = d.director_id
             LEFT JOIN DirectorTVCredits dtv ON p.id = dtv.director_id

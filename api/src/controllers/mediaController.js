@@ -60,12 +60,12 @@ export const index = (req, res) => {
     }
 
     if (startDate) {
-      filterClauses.push(`u.matched_date >= $${paramIndex++}`);
+      filterClauses.push(`COALESCE(m.release_date, start_date) >= $${paramIndex++}`);
       params.push(startDate);
     }
 
     if (endDate) {
-      filterClauses.push(`u.matched_date <= $${paramIndex++}`);
+      filterClauses.push(`COALESCE(m.release_date, start_date) <= $${paramIndex++}`);
       params.push(endDate);
     }
 
@@ -158,8 +158,8 @@ export const index = (req, res) => {
         filterClauses.push("(COALESCE(m.grade, s.grade) >= (94.44))");
     }
   }
-  else 
-    filterClauses.push(`EXTRACT(MONTH FROM u.matched_date) = EXTRACT(MONTH FROM CURRENT_DATE) AND EXTRACT(DAY FROM u.matched_date) = EXTRACT(DAY FROM CURRENT_DATE)`);
+  else
+    filterClauses.push(`EXISTS (SELECT 1 FROM unnest(CASE WHEN season IS NOT NULL THEN release_dates ELSE ARRAY[release_date] END) AS matched_date WHERE EXTRACT(MONTH FROM matched_date) = EXTRACT(MONTH FROM CURRENT_DATE) AND EXTRACT(DAY FROM matched_date) = EXTRACT(DAY FROM CURRENT_DATE)`);
 
   const whereClause = filterClauses.length > 0 ? `WHERE ${filterClauses.join(" AND ")}` : "";
   let orderByClause = "";
@@ -186,60 +186,43 @@ export const index = (req, res) => {
 
   const sql = 
     `
-      WITH NumberedRecords AS (
-        SELECT ROW_NUMBER() OVER (${orderByClause}) AS RowNum, 
-              m.id, m.title, m.grade, m.release_date, m.rating, m.poster, m.runtime, m.completed, m.type, 
-              s.season, s.grade AS grade_tv, s.episodes, s.runtime AS runtime_tv, (SELECT MIN(sd) FROM unnest(s.release_dates) AS sd) AS start_date, 
-              (SELECT MAX(ed) FROM unnest(s.release_dates) AS ed) AS end_date, s.release_dates, directors, directors_tv, cast_members, cast_members_tv, writers, writers_tv
+      WITH FilteredData AS (
+        SELECT m.id, m.title, m.grade, m.release_date, m.rating, m.poster, m.runtime, m.completed, m.type, s.season, s.grade AS grade_tv, s.episodes, s.runtime AS runtime_tv, (SELECT MIN(sd) FROM unnest(s.release_dates) AS sd) AS start_date, (SELECT MAX(ed) FROM unnest(s.release_dates) AS ed) AS end_date, s.release_dates, directors, directors_tv, cast_members, cast_members_tv, writers, writers_tv
         FROM media m
         LEFT JOIN seasons s ON m.id = s.show_id
         LEFT JOIN LATERAL (
-          SELECT json_agg(json_build_object('ordering', md.ordering, 'media_id', md.media_id, 'director_id', md.director_id, 'name', p.name, 'birth_date', p.birth_date, 'death_date', p.death_date)) AS directors
-          FROM media_directors md
-          LEFT JOIN people p ON md.director_id = p.id
-          WHERE m.id = md.media_id
+          SELECT json_agg(json_build_object('name', p.name, 'birth_date', p.birth_date)) AS directors
+          FROM media_directors md LEFT JOIN people p ON md.director_id = p.id WHERE m.id = md.media_id
         ) md ON TRUE
         LEFT JOIN LATERAL (
-          SELECT json_agg(json_build_object('ordering', sd.ordering, 'show_id', sd.show_id, 'director_id', sd.director_id, 'name', p.name, 'birth_date', p.birth_date, 'death_date', p.death_date)) AS directors_tv
-          FROM seasons_directors sd
-          LEFT JOIN people p ON sd.director_id = p.id
-          WHERE m.id = sd.show_id AND s.season = sd.season
+          SELECT json_agg(json_build_object('name', p.name, 'birth_date', p.birth_date)) AS directors_tv
+          FROM seasons_directors sd LEFT JOIN people p ON sd.director_id = p.id WHERE m.id = sd.show_id AND s.season = sd.season
         ) sd ON TRUE
         LEFT JOIN LATERAL (
-          SELECT json_agg(json_build_object('ordering', mc.ordering, 'media_id', mc.media_id, 'actor_id', mc.actor_id, 'name', p.name, 'birth_date', p.birth_date, 'death_date', p.death_date)) AS cast_members
-          FROM media_cast mc
-          LEFT JOIN people p ON mc.actor_id = p.id
-          WHERE m.id = mc.media_id
+          SELECT json_agg(json_build_object('name', p.name, 'birth_date', p.birth_date)) AS cast_members
+          FROM media_cast mc LEFT JOIN people p ON mc.actor_id = p.id WHERE m.id = mc.media_id
         ) mc ON TRUE
         LEFT JOIN LATERAL (
-          SELECT json_agg(json_build_object('ordering', sc.ordering, 'show_id', sc.show_id, 'actor_id', sc.actor_id, 'name', p.name, 'birth_date', p.birth_date, 'death_date', p.death_date)) AS cast_members_tv
-          FROM seasons_cast sc
-          LEFT JOIN people p ON sc.actor_id = p.id
-          WHERE m.id = sc.show_id AND s.season = sc.season
+          SELECT json_agg(json_build_object('name', p.name, 'birth_date', p.birth_date)) AS cast_members_tv
+          FROM seasons_cast sc LEFT JOIN people p ON sc.actor_id = p.id WHERE m.id = sc.show_id AND s.season = sc.season
         ) sc ON TRUE
         LEFT JOIN LATERAL (
-          SELECT json_agg(json_build_object('ordering', mw.ordering, 'media_id', mw.media_id, 'writer_id', mw.writer_id, 'name', p.name, 'birth_date', p.birth_date, 'death_date', p.death_date)) AS writers
-          FROM media_writers mw
-          LEFT JOIN people p ON mw.writer_id = p.id
-          WHERE m.id = mw.media_id
+          SELECT json_agg(json_build_object('name', p.name, 'birth_date', p.birth_date)) AS writers
+          FROM media_writers mw LEFT JOIN people p ON mw.writer_id = p.id WHERE m.id = mw.media_id
         ) mw ON TRUE
         LEFT JOIN LATERAL (
-          SELECT json_agg(json_build_object('ordering', sw.ordering, 'show_id', sw.show_id, 'writer_id', sw.writer_id, 'name', p.name, 'birth_date', p.birth_date, 'death_date', p.death_date)) AS writers_tv
-          FROM seasons_writers sw
-          LEFT JOIN people p ON sw.writer_id = p.id
-          WHERE m.id = sw.show_id AND s.season = sw.season
+          SELECT json_agg(json_build_object('name', p.name, 'birth_date', p.birth_date)) AS writers_tv
+          FROM seasons_writers sw LEFT JOIN people p ON sw.writer_id = p.id WHERE m.id = sw.show_id AND s.season = sw.season
         ) sw ON TRUE
-        INNER JOIN LATERAL unnest(
-          CASE 
-            WHEN s.season IS NOT NULL THEN s.release_dates 
-            ELSE ARRAY[m.release_date] 
-          END
-        ) AS u(matched_date) ON TRUE
-        ${whereClause}
-      )
-      SELECT * FROM NumberedRecords
-      WHERE (RowNum BETWEEN $1 AND $2);
-    `;
+    ),
+    FinalNumbered AS (
+        SELECT ROW_NUMBER() OVER (${orderByClause}) AS RowNum, *
+        FROM FilteredData 
+        WHERE ${whereClause}
+    )
+    SELECT * FROM FinalNumbered
+    WHERE RowNum BETWEEN $1 AND $2;
+  `;
     
   query(sql, params)
   .then(results => {
@@ -306,12 +289,12 @@ export const indexLength = (req, res) => {
     }
 
     if (startDate) {
-      filterClauses.push(`u.matched_date >= $${paramIndex++}`);
+      filterClauses.push(`COALESCE(m.release_date, (SELECT MIN(sd) FROM unnest(s.release_dates) AS sd)) >= $${paramIndex++}`);
       params.push(startDate);
     }
 
     if (endDate) {
-      filterClauses.push(`u.matched_date <= $${paramIndex++}`);
+      filterClauses.push(`COALESCE(m.release_date, (SELECT MIN(sd) FROM unnest(s.release_dates) AS sd)) <= $${paramIndex++}`);
       params.push(endDate);
     }
 
@@ -405,7 +388,7 @@ export const indexLength = (req, res) => {
     }
   }
   else 
-    filterClauses.push(`EXTRACT(MONTH FROM u.matched_date) = EXTRACT(MONTH FROM CURRENT_DATE) AND EXTRACT(DAY FROM u.matched_date) = EXTRACT(DAY FROM CURRENT_DATE)`);
+    filterClauses.push(`EXISTS (SELECT 1 FROM unnest(CASE WHEN season IS NOT NULL THEN release_dates ELSE ARRAY[release_date] END) AS matched_date WHERE EXTRACT(MONTH FROM matched_date) = EXTRACT(MONTH FROM CURRENT_DATE) AND EXTRACT(DAY FROM matched_date) = EXTRACT(DAY FROM CURRENT_DATE)`);
 
   const whereClause = filterClauses.length > 0 ? `WHERE ${filterClauses.join(" AND ")}` : "";
 
@@ -414,12 +397,6 @@ export const indexLength = (req, res) => {
       SELECT COUNT(*)
       FROM media m
       LEFT JOIN seasons s ON m.id = s.show_id
-      INNER JOIN LATERAL unnest(
-        CASE 
-          WHEN s.season IS NOT NULL THEN s.release_dates 
-          ELSE ARRAY[m.release_date] 
-        END
-      ) AS u(matched_date) ON TRUE
       ${whereClause};
     `;
 
