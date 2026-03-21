@@ -529,7 +529,7 @@ function MediaForm({ show, setShow, media }) {
                 <Col sm={9}>
                   {formData.release_dates.map((date, index) => (
                     <div key={index} className="d-flex mb-2">
-                      <span className="me-2 align-self-center">Episode {index + 1}:</span>
+                      <span className="me-2 align-self-center">Ep. {index + 1}:</span>
                       <Form.Control 
                         type="date" 
                         value={date} 
