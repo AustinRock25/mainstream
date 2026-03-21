@@ -452,7 +452,7 @@ function MediaForm({ show, setShow, media }) {
 
     const payload = { ...formData, castAndCrew: selected };
     const apiCall = media?.id ? api.put(`/media/${media.id}`, [payload, media]) : api.post("/media", payload);
-    
+    console.log(formData);
     apiCall
     .then(() => {
       handleHide();
