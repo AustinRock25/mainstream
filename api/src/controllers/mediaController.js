@@ -207,11 +207,11 @@ export const index = (req, res) => {
           FROM seasons_cast sc LEFT JOIN people p ON sc.actor_id = p.id WHERE m.id = sc.show_id AND s.season = sc.season
         ) sc ON TRUE
         LEFT JOIN LATERAL (
-          SELECT json_agg(json_build_object('ordering', mw.ordering, 'media_id', mw.media_id, 'writer_id', mw.writer_id, 'name', p.name, 'birth_date', p.birth_date)) AS writers
+          SELECT json_agg(json_build_object('ordering', mw.ordering, 'media_id', mw.media_id, 'writer_id', mw.writer_id, 'name', p.name, 'birth_date', p.birth_date, 'death_date', p.death_date)) AS writers
           FROM media_writers mw LEFT JOIN people p ON mw.writer_id = p.id WHERE m.id = mw.media_id
         ) mw ON TRUE
         LEFT JOIN LATERAL (
-          SELECT json_agg(json_build_object('ordering', sw.ordering, 'show_id', sw.show_id, 'season', sw.season, 'writer_id', sw.writer_id, 'name', p.name, 'birth_date', p.birth_date)) AS writers_tv
+          SELECT json_agg(json_build_object('ordering', sw.ordering, 'show_id', sw.show_id, 'season', sw.season, 'writer_id', sw.writer_id, 'name', p.name, 'birth_date', p.birth_date, 'death_date', p.death_date)) AS writers_tv
           FROM seasons_writers sw LEFT JOIN people p ON sw.writer_id = p.id WHERE m.id = sw.show_id AND s.season = sw.season
         ) sw ON TRUE
       ),
