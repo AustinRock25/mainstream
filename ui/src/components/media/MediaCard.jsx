@@ -209,6 +209,13 @@ function MediaCard ({media}) {
     }
   }
 
+  function matchDates(d1, d2) {
+    if (d1.getMonth() === d2.getMonth() && d1.getDate() === d2.getDate())
+      return true;
+    else
+      return false;
+  }
+
   return (
     <Col>
       <Card className="h-100">
@@ -252,6 +259,17 @@ function MediaCard ({media}) {
                   <div className="mb-1">
                     <b>Starring</b>
                     {Array.isArray(cast) && cast.map((name, index) => <div key={`cast-${index}`}>{name}</div>)}
+                  </div>
+                )}
+                {media.release_dates.some(date => matchDates(new Date(date), new Date())) && (
+                  <div className="mb-1">
+                    <b>Episodes released on this day</b>
+                    {media.release_dates.map((date, index) => {
+                      const releaseDate = new Date(date);
+                      if (matchDates(releaseDate, new Date()))
+                        return <div key={`release-date-${index}`}>Episode {index + 1}</div>;
+                    })}
+
                   </div>
                 )}
               </div>
