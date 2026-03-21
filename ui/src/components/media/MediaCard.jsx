@@ -261,7 +261,7 @@ function MediaCard ({media}) {
                     {Array.isArray(cast) && cast.map((name, index) => <div key={`cast-${index}`}>{name}</div>)}
                   </div>
                 )}
-                {(media.release_dates.length > 0 && media.release_dates.some(date => matchDates(new Date(date), new Date()))) && (
+                {(media.release_dates && media.release_dates.some(date => matchDates(new Date(date), new Date()))) && (
                   <div className="mb-1">
                     <b>Episodes released on this day</b>
                     {media.release_dates.map((date, index) => {
