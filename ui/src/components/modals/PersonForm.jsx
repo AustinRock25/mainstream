@@ -96,7 +96,6 @@ function PersonForm({ show, setShow, person }) {
               type="text"
               value={formData.name}
               placeholder="Enter full name"
-              isInvalid={!!errors.name}
               onChange={(e) => handleChange(e, "name")}
             />
             <Form.Control.Feedback type="invalid">{errors.name}</Form.Control.Feedback>
@@ -106,7 +105,6 @@ function PersonForm({ show, setShow, person }) {
             <Form.Control
               type="date"
               value={formData.birth_date}
-              isInvalid={!!errors.birth_date}
               onChange={(e) => handleChange(e, "birth_date")}
             />
             <Form.Control.Feedback type="invalid">{errors.birth_date}</Form.Control.Feedback>
@@ -116,7 +114,6 @@ function PersonForm({ show, setShow, person }) {
             <Form.Control
               type="date"
               value={formData.death_date}
-              isInvalid={!!errors.death_date}
               onChange={(e) => handleChange(e, "death_date")}
             />
             <Form.Control.Feedback type="invalid">{errors.death_date}</Form.Control.Feedback>

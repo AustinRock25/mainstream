@@ -488,7 +488,7 @@ function MediaForm({ show, setShow, media }) {
             <Form.Group as={Row} className="mb-3">
               <Form.Label column sm={3}>Type</Form.Label>
               <Col sm={9}>
-                <Form.Select value={formData.type} isInvalid={!!errors.type} onChange={e => handleChange(e, "type")}>
+                <Form.Select value={formData.type} onChange={e => handleChange(e, "type")}>
                   <option value="">Select type</option>
                   <option value="movie">Movie</option>
                   <option value="show">TV Show</option>
@@ -501,25 +501,28 @@ function MediaForm({ show, setShow, media }) {
             <Form.Group as={Row} className="mb-3">
               <Form.Label column sm={3}>Show</Form.Label>
               <Col sm={9}>
-                <Form.Select value={formData.id} isInvalid={!!errors.id} onChange={(e) => handleChange(e, "id")}>
+                <Form.Select value={formData.id} onChange={(e) => handleChange(e, "id")}>
                   <option value="">Select existing show for new season</option>
                   {Array.isArray(shows) && shows.map(s => <option key={s.id} value={s.id}>{s.title} ({s.start_date ? new Date(s.start_date).getUTCFullYear() : 'N/A'})</option>)}
                   <option value="na">Create a new show</option>
                 </Form.Select>
+                <Form.Control.Feedback type="invalid">{errors.id}</Form.Control.Feedback>
               </Col>
             </Form.Group>
           )}
           {(formData.type === "movie" || formData.id === "na" || media?.id) && (
             <Form.Group as={Row} className="mb-3">
               <Form.Label column sm={3}>Title</Form.Label>
-              <Col sm={9}><Form.Control type="text" value={formData.title} placeholder="Enter title" isInvalid={!!errors.title} onChange={e => handleChange(e, "title")} /></Col>
+              <Col sm={9}><Form.Control type="text" value={formData.title} placeholder="Enter title" onChange={e => handleChange(e, "title")} /></Col>
+              <Form.Control.Feedback type="invalid">{errors.title}</Form.Control.Feedback>
             </Form.Group>
           )}
           {formData.type === "show" && (
             <>
               <Form.Group as={Row} className="mb-3">
                 <Form.Label column sm={3}>Episodes</Form.Label>
-                <Col sm={9}><Form.Control type="number" value={formData.episodes} placeholder="Number of episodes" isInvalid={!!errors.episodes} onChange={e => handleChange(e, "episodes")} /></Col>
+                <Col sm={9}><Form.Control type="number" value={formData.episodes} placeholder="Number of episodes" onChange={e => handleChange(e, "episodes")} /></Col>
+                <Form.Control.Feedback type="invalid">{errors.episodes}</Form.Control.Feedback>
               </Form.Group>
               <Form.Group as={Row} className="mb-3">
                 <Form.Label column sm={3}>Release Dates</Form.Label>
@@ -535,6 +538,7 @@ function MediaForm({ show, setShow, media }) {
                     </div>
                   ))}
                   <Button variant="outline-primary" size="sm" onClick={addReleaseDate}>+ Add Date</Button>
+                  <Form.Control.Feedback type="invalid">{errors.release_dates}</Form.Control.Feedback>
                 </Col>
               </Form.Group>
               <Form.Group as={Row} className="mb-3">
@@ -546,12 +550,14 @@ function MediaForm({ show, setShow, media }) {
           {formData.type === "movie" && (
             <Form.Group as={Row} className="mb-3">
               <Form.Label column sm={3}>Release Date</Form.Label>
-              <Col sm={9}><Form.Control type="date" value={formData.release_date} isInvalid={!!errors.release_date} onChange={e => handleChange(e, "release_date")} /></Col>
+              <Col sm={9}><Form.Control type="date" value={formData.release_date} onChange={e => handleChange(e, "release_date")} /></Col>
+              <Form.Control.Feedback type="invalid">{errors.release_date}</Form.Control.Feedback>
             </Form.Group>
           )}
           <Form.Group as={Row} className="mb-3">
             <Form.Label column sm={3}>Runtime (mins)</Form.Label>
-            <Col sm={9}><Form.Control type="number" value={formData.runtime} placeholder="e.g., 120" isInvalid={!!errors.runtime} onChange={e => handleChange(e, "runtime")} /></Col>
+            <Col sm={9}><Form.Control type="number" value={formData.runtime} placeholder="e.g., 120" onChange={e => handleChange(e, "runtime")} /></Col>
+            <Form.Control.Feedback type="invalid">{errors.runtime}</Form.Control.Feedback>
           </Form.Group>
           {formData.type && (
             <>
@@ -561,17 +567,19 @@ function MediaForm({ show, setShow, media }) {
                   {user.rating_scale == 1 && <Col sm={9}><Form.Range min="0" max="4" step="0.5" value={formData.grade} onChange={(e) => handleChange(e, "grade")} /></Col>}
                   {user.rating_scale == 2 && <Col sm={9}><Form.Range min="0" max="5" step="0.5" value={formData.grade} onChange={(e) => handleChange(e, "grade")} /></Col>}
                   {user.rating_scale == 3 && <Col sm={9}><Form.Range min="0" max="12" step="1" value={formData.grade} onChange={(e) => handleChange(e, "grade")} /></Col>}
+                  <Form.Control.Feedback type="invalid">{errors.grade}</Form.Control.Feedback>
                 </Form.Group>
                 {(formData.type === "movie" || formData.id == "na" || media?.id) && (
                   <>
                     <Form.Group as={Row} className="mb-3">
                       <Form.Label column sm={3}>Poster File</Form.Label>
-                      <Col sm={9}><Form.Control type="text" value={formData.poster} placeholder="e.g., tenet_2020" isInvalid={!!errors.poster} onChange={e => handleChange(e, "poster")} /></Col>
+                      <Col sm={9}><Form.Control type="text" value={formData.poster} placeholder="e.g., tenet_2020" onChange={e => handleChange(e, "poster")} /></Col>
+                      <Form.Control.Feedback type="invalid">{errors.poster}</Form.Control.Feedback>
                     </Form.Group>
                     <Form.Group as={Row} className="mb-3">
                       <Form.Label column sm={3}>Rating</Form.Label>
                       <Col sm={9}>
-                        <Form.Select value={formData.rating} isInvalid={!!errors.rating} onChange={(e) => handleChange(e, "rating")}>
+                        <Form.Select value={formData.rating} onChange={(e) => handleChange(e, "rating")}>
                           {formData.type !== "movie" ? Array.isArray(["Not Rated", "TV-Y", "TV-Y7", "TV-Y7 FV", "TV-G", "TV-PG", "TV-14", "TV-MA"]) && ["Not Rated", "TV-Y", "TV-Y7", "TV-Y7 FV", "TV-G", "TV-PG", "TV-14", "TV-MA"].map(r => <option key={r} value={r}>{r}</option>) : Array.isArray(["Not Rated", "G", "PG", "PG-13", "R", "NC-17", "TV-Y", "TV-Y7", "TV-Y7 FV", "TV-G", "TV-PG", "TV-14", "TV-MA"]) && ["Not Rated", "G", "PG", "PG-13", "R", "NC-17", "TV-Y", "TV-Y7", "TV-Y7 FV", "TV-G", "TV-PG", "TV-14", "TV-MA"].map(r => <option key={r} value={r}>{r}</option>)}
                         </Form.Select>
                       </Col>
@@ -610,6 +618,7 @@ function MediaForm({ show, setShow, media }) {
                           </ListGroup.Item>
                         ))}
                       </ListGroup>
+                      <Form.Control.Feedback type="invalid">{errors.castAndCrew}</Form.Control.Feedback>
                   </Col>
               </Row>
             </>

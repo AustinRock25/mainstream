@@ -103,7 +103,6 @@ function AuthModal({ show, setShow, action }) {
               <Form.Control
                 type="email"
                 value={formData.email}
-                isInvalid={!!errors.email}
                 onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                 placeholder="Enter email"
               />
@@ -114,7 +113,6 @@ function AuthModal({ show, setShow, action }) {
                 <Form.Control
                   type="password"
                   value={formData.password}
-                  isInvalid={!!errors.password}
                   onChange={(e) => setFormData({ ...formData, password: e.target.value })}
                   placeholder="Password"
                 />

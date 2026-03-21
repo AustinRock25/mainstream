@@ -865,7 +865,7 @@ async function updateShow(media, og, { directors, writers, castMembers }) {
     await query(sql, [media.rating, media.id]);
   }
 
-  if (media.release_dates != og.release_dates) {
+  if (JSON.stringify(media.release_dates) !== JSON.stringify(og.release_dates)) {
     sql = `UPDATE seasons SET release_dates = $1 WHERE show_id = $2 AND season = $3;`;
     await query(sql, [media.release_dates, media.id, media.season]);
   }
