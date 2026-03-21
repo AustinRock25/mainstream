@@ -374,15 +374,6 @@ function MediaForm({ show, setShow, media }) {
     setFormData({ ...formData, release_dates: newDates });
   };
 
-  const addReleaseDate = () => {
-    setFormData({ ...formData, release_dates: [...formData.release_dates, ""] });
-  };
-
-  const removeReleaseDate = (index) => {
-    const newDates = formData.release_dates.filter((_, i) => i !== index);
-    setFormData({ ...formData, release_dates: newDates });
-  };
-
   const handleSelectPerson = (person) => {
     setSelected([...selected, { ...person, director: false, writer: false, cast: false }]);
     setCastAndCrew(castAndCrew.filter(p => p.id !== person.id));
@@ -527,7 +518,7 @@ function MediaForm({ show, setShow, media }) {
               <Form.Group as={Row} className="mb-3">
                 <Form.Label column sm={3}>Release Dates</Form.Label>
                 <Col sm={9}>
-                  {formData.release_dates.map((date, index) => (
+                  {formData.release_dates.map((date, index) => (index <= formData.episodes &&
                     <div key={index} className="d-flex mb-2">
                       <span className="me-2 align-self-center">Ep. {index + 1}:</span>
                       <Form.Control 
@@ -535,10 +526,8 @@ function MediaForm({ show, setShow, media }) {
                         value={date} 
                         onChange={(e) => handleReleaseDateChange(index, e.target.value)} 
                       />
-                      <Button variant="outline-danger" className="ms-2" onClick={() => removeReleaseDate(index)}>×</Button>
                     </div>
                   ))}
-                  <Button variant="outline-primary" size="sm" onClick={addReleaseDate}>+ Add Date</Button>
                   <Form.Control.Feedback type="invalid">{errors.release_dates}</Form.Control.Feedback>
                 </Col>
               </Form.Group>
