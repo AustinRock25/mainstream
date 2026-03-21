@@ -53,14 +53,8 @@ export const validateMediaUpdate = async (req, res, next) => {
   if ((!media.release_date || media.release_date.length === 0) && media.type == "movie")
     errors.release_date = "Required";
 
-  if ((!media.start_date || media.start_date.length === 0) && media.type == "show")
-    errors.start_date = "Required";
-
-  if ((!media.end_date || media.end_date.length === 0) && media.type == "show")
-    errors.end_date = "Required";
-
-  if ((new Date(media.start_date) > new Date(media.end_date)) && media.type == "show")
-    errors.start_date = "The start date can't come after the end date";
+  if ((!media.release_dates || media.release_dates.length == 0) && media.type == "show")
+    errors.release_dates = "Required";
 
   if ((!media.poster || media.poster.length === 0) && (media.type == "movie" || media.id == "na"))
     errors.poster = "Required";
