@@ -578,6 +578,9 @@ export const update = async (req, res) => {
   const client = await connect();
   const originalPersonIds = new Set();
 
+  console.log(media);
+  console.log(og);
+
   const addIdsToSet = (people, idKey) => {
     if (people && Array.isArray(people))
       people.forEach(p => originalPersonIds.add(p[idKey]));
