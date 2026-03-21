@@ -327,7 +327,8 @@ function MediaForm({ show, setShow, media }) {
     if (key === "episodes") {
       const newCount = parseInt(value) || 0;
       setFormData(prev => {
-        const newDates = Array.from({ length: newCount }, (_, i) => prev.release_dates[i] || "");
+        const existingDates = prev.release_dates || [];
+        const newDates = Array.from({ length: newCount }, (_, i) => existingDates[i] || "");
         
         return {
           ...prev,
