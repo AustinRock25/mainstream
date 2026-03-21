@@ -324,6 +324,19 @@ function MediaForm({ show, setShow, media }) {
       setSelected([]);
     }
 
+    if (field === "episodes") {
+      const newCount = parseInt(value) || 0;
+      setFormData(prev => {
+        const newDates = Array.from({ length: newCount }, (_, i) => prev.release_dates[i] || "");
+        
+        return {
+          ...prev,
+          episodes: newCount,
+          release_dates: newDates
+        };
+      });
+    }
+
     if (user.rating_scale == 1 && key === "grade") {
       if (value <= 1) {
         setPillColor("danger");
@@ -518,7 +531,7 @@ function MediaForm({ show, setShow, media }) {
               <Form.Group as={Row} className="mb-3">
                 <Form.Label column sm={3}>Release Dates</Form.Label>
                 <Col sm={9}>
-                  {formData.release_dates.map((date, index) => (index <= formData.episodes &&
+                  {formData.release_dates.map((date, index) => (
                     <div key={index} className="d-flex mb-2">
                       <span className="me-2 align-self-center">Ep. {index + 1}:</span>
                       <Form.Control 
