@@ -229,6 +229,18 @@ function MediaCard ({media}) {
           <Card.Title className="h6">
             <span className="fw-normal text-white-50"><i>{media.title}</i> {getYear(media)}</span>
           </Card.Title>
+          <div className="small text-white-50" style={{fontSize: "0.8rem"}}>
+            {(media.release_dates && media.release_dates.some(date => matchDates(new Date(date), new Date()))) && (
+              <div className="mb-1">
+                <b>Episodes released this day</b>
+                {media.release_dates.map((date, index) => {
+                  const releaseDate = new Date(date);
+                  if (matchDates(releaseDate, new Date()))
+                    return <div key={`release-date-${index}`}>Episode {index + 1}</div>;
+                })}
+              </div>
+            )}
+          </div>
           <Stack direction="horizontal" gap={2} className="mt-2 mb-3 mx-auto">
             <Badge bg={pillColor} text={pillTextColor} pill>{getGrade(media)}</Badge>
             <Badge bg="secondary" pill>{media.rating == "Not Rated" ? "NR" : media.rating}</Badge>
@@ -237,16 +249,6 @@ function MediaCard ({media}) {
           {(media.id != 1597) 
             ? 
               <div className="small text-white-50" style={{fontSize: "0.8rem"}}>
-                {(media.release_dates && media.release_dates.some(date => matchDates(new Date(date), new Date()))) && (
-                  <div className="mb-1">
-                    <b>Episodes released this day</b>
-                    {media.release_dates.map((date, index) => {
-                      const releaseDate = new Date(date);
-                      if (matchDates(releaseDate, new Date()))
-                        return <div key={`release-date-${index}`}>Episode {index + 1}</div>;
-                    })}
-                  </div>
-                )}
                 {isCombined && (
                   <div className="mb-1">
                     <b>Written & Directed by</b>
