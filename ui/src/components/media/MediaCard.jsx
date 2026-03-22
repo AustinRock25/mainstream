@@ -210,7 +210,7 @@ function MediaCard ({media}) {
   }
 
   function matchDates(d1, d2) {
-    if (d1.getMonth() === d2.getMonth() && d1.getDate() === d2.getDate())
+    if (d1.getUTCMonth() === d2.getUTCMonth() && d1.getUTCDate() === d2.getUTCDate())
       return true;
     else
       return false;
