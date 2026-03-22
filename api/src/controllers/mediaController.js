@@ -845,9 +845,6 @@ async function updateMovie(media, og, { directors, writers, castMembers }) {
 async function updateShow(media, og, { directors, writers, castMembers }) {
   let sql = ``;
 
-  console.log(media);
-  console.log(og);
-
   if (media.title != og.title) {
     sql = `UPDATE media SET title = $1 WHERE id = $2;`;
     await query(sql, [media.title, media.id]);
@@ -879,7 +876,7 @@ async function updateShow(media, og, { directors, writers, castMembers }) {
   }
 
   if (media.episodes != og.episodes) {
-    sql = `UPDATE seasons SET episode = $1 WHERE show_id = $2 AND season = $3;`;
+    sql = `UPDATE seasons SET episodes = $1 WHERE show_id = $2 AND season = $3;`;
     await query(sql, [media.episodes, media.id, media.season]);
   }
 
