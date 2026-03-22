@@ -845,6 +845,9 @@ async function updateMovie(media, og, { directors, writers, castMembers }) {
 async function updateShow(media, og, { directors, writers, castMembers }) {
   let sql = ``;
 
+  console.log(media);
+  console.log(og);
+
   if (media.title != og.title) {
     sql = `UPDATE media SET title = $1 WHERE id = $2;`;
     await query(sql, [media.title, media.id]);
