@@ -237,6 +237,16 @@ function MediaCard ({media}) {
           {(media.id != 1597) 
             ? 
               <div className="small text-white-50" style={{fontSize: "0.8rem"}}>
+                {(media.release_dates && media.release_dates.some(date => matchDates(new Date(date), new Date()))) && (
+                  <div className="mb-1">
+                    <b>Episodes released this day</b>
+                    {media.release_dates.map((date, index) => {
+                      const releaseDate = new Date(date);
+                      if (matchDates(releaseDate, new Date()))
+                        return <div key={`release-date-${index}`}>Episode {index + 1}</div>;
+                    })}
+                  </div>
+                )}
                 {isCombined && (
                   <div className="mb-1">
                     <b>Written & Directed by</b>
@@ -259,17 +269,6 @@ function MediaCard ({media}) {
                   <div className="mb-1">
                     <b>Starring</b>
                     {Array.isArray(cast) && cast.map((name, index) => <div key={`cast-${index}`}>{name}</div>)}
-                  </div>
-                )}
-                {(media.release_dates && media.release_dates.some(date => matchDates(new Date(date), new Date()))) && (
-                  <div className="mb-1">
-                    <b>Episodes released on this day</b>
-                    {media.release_dates.map((date, index) => {
-                      const releaseDate = new Date(date);
-                      if (matchDates(releaseDate, new Date()))
-                        return <div key={`release-date-${index}`}>Episode {index + 1}</div>;
-                    })}
-
                   </div>
                 )}
               </div>
