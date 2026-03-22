@@ -476,7 +476,7 @@ function MediaForm({ show, setShow, media }) {
   }
 
   return (
-    <Modal show={show} onHide={handleHide} backdrop="static" size="lg" centered>
+    <Modal show={show} onHide={handleHide} backdrop="static" size="lg" centered style={{overflowY: "auto"}}>
       <Modal.Header>
         <Modal.Title>{media?.id ? `Edit ${media.title} ${(media.type == "show" && media.season != 1) ? `season ${media.season}` : ""}` : "Add Film/Show"}</Modal.Title>
       </Modal.Header>
