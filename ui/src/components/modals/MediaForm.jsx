@@ -535,7 +535,7 @@ function MediaForm({ show, setShow, media }) {
             <>
               <Form.Group as={Row} className="mb-3">
                 <Form.Label column sm={3}>Episodes</Form.Label>
-                <Col sm={9}>
+                <Col sm={12}>
                   {episodes.map((episode, index) => (
                     <div key={index} className="d-flex mb-2">
                       <span className="me-2 align-self-center">{index + 1}.</span>
