@@ -8,7 +8,7 @@ function MediaForm({ show, setShow, media }) {
   const [alert, setAlert] = useState({ message: "", variant: "" });
   const [castAndCrew, setCastAndCrew] = useState([]);
   const [errors, setErrors] = useState({});
-  const [episodes, setEpisodes] = useState({ title: "", release_date: "" });
+  const [episodes, setEpisodes] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const navigate = useNavigate();
@@ -375,8 +375,8 @@ function MediaForm({ show, setShow, media }) {
     }
   };
 
-  const handleAddEpisode = () => {
-    setEpisodes([...episodes, { release_date: "", title: "" }]);
+  const handleAddEpisode = (index) => {
+    setEpisodes([...episodes, { title: "", release_date: "" }]);
   };
 
   const handleEpisode = (e, key, index, episode) => {
@@ -393,7 +393,7 @@ function MediaForm({ show, setShow, media }) {
   };
 
   const handleRemoveEpisode = (index) => {
-    setEpisodes(episodes.filter(e => episodes.indexOf(e) !== index));
+    setEpisodes((episodes) => episodes.filter((_, i) => i !== index));
   };
 
   const handleSelectPerson = (person) => {
@@ -536,7 +536,7 @@ function MediaForm({ show, setShow, media }) {
               <Form.Group as={Row} className="mb-3">
                 <Form.Label column sm={3}>Episodes</Form.Label>
                 <Col sm={9}>
-                  {formData.episodes.map((episode, index) => (
+                  {episodes.map((episode, index) => (
                     <div key={index} className="d-flex mb-2">
                       <span className="me-2 align-self-center">{index + 1}.</span>
                       <Col><Form.Control type="text" value={episode.title} placeholder="Enter title" onChange={e => handleEpisode(e, "title", index, episode)} /></Col>
