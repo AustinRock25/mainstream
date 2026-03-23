@@ -14,17 +14,16 @@ function EditMedia() {
     grade_tv: 0,
     rating: "",
     release_date: "", 
-    release_dates: [],
     year: "",
     poster: "", 
     runtime: "",
     runtime_tv: "",
-    episodes: "",
     completed: "",
     type: "",
     directors: [],
     cast_members: [],
-    writers: []
+    writers: [],
+    episodes: []
   });
 
   let selectedDirectors = [];
@@ -76,12 +75,12 @@ function EditMedia() {
           poster: results.data.poster, 
           runtime: results.data.runtime,
           runtime_tv: results.data.runtime_tv,
-          episodes: results.data.episodes,
           type: results.data.type,
           completed: results.data.completed,
           directors: selectedDirectors,
           cast_members: selectedCastMembers,
-          writers: selectedWriters
+          writers: selectedWriters,
+          episodes: results.data.episodes
         });
         
         if (media.type == "show")

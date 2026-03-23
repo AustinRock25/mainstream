@@ -8,6 +8,7 @@ function MediaForm({ show, setShow, media }) {
   const [alert, setAlert] = useState({ message: "", variant: "" });
   const [castAndCrew, setCastAndCrew] = useState([]);
   const [errors, setErrors] = useState({});
+  const [episodes, setEpisodes] = useState({ title: "", release_date: "" });
   const [isLoading, setIsLoading] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const navigate = useNavigate();
@@ -25,13 +26,12 @@ function MediaForm({ show, setShow, media }) {
     grade: 0,
     rating: "Not Rated",
     release_date: "",
-    release_dates: [],
     poster: "",
     runtime: "",
-    episodes: "",
     type: "",
     completed: false,
-    castAndCrew: []
+    castAndCrew: [],
+    episodes: []
   };
 
   const [formData, setFormData] = useState(initialFormData);
@@ -58,8 +58,8 @@ function MediaForm({ show, setShow, media }) {
     });
 
     allCredits.sort((a, b) => {
-      const dateA = new Date(a.release_date || (a.release_dates && a.release_dates[0]));
-      const dateB = new Date(b.release_date || (b.release_dates && b.release_dates[0]));
+      const dateA = new Date(a.release_date || (a.episodes.release_date && a.episodes.release_date[0]));
+      const dateB = new Date(b.release_date || (b.episodes.release_date && b.episodes.release_date[0]));
 
       if (isNaN(dateA.getTime())) 
         return 1;
@@ -91,7 +91,7 @@ function MediaForm({ show, setShow, media }) {
         return true;
 
       const firstCredit = sortedCredits[0];
-      const firstCreditDate = new Date(firstCredit.release_date || (firstCredit.release_dates && firstCredit.release_dates[0]));
+      const firstCreditDate = new Date(firstCredit.release_date || (firstCredit.episodes.release_date && firstCredit.episodes.release_date[0]));
 
       if (isNaN(firstCreditDate.getTime())) 
         return true;
@@ -132,6 +132,7 @@ function MediaForm({ show, setShow, media }) {
   const loadExistingData = useCallback(() => {
     if (media?.id) {
       let cast = [];
+      let ep = [];
       let grade = null;
       const peopleMap = new Map();
 
@@ -152,6 +153,13 @@ function MediaForm({ show, setShow, media }) {
       (media.writers || media.writers_tv || []).forEach(p => addPerson(p, "writer"));
       (media.cast_members || media.cast_members_tv || []).forEach(p => addPerson(p, "cast"));
       cast = Array.from(peopleMap.values());
+
+      if (media.episodes) {
+        for (let i = 0; i < media.episodes.length; i++) {
+          ep[i].title = media.episodes[i].title;
+          ep[i].release_date = media.episodes[i].release_date;
+        }
+      }
 
       if (!media.grade && !media.grade_tv) {
         media.grade = 0;
@@ -260,19 +268,20 @@ function MediaForm({ show, setShow, media }) {
         grade: grade || 0,
         rating: media.rating || "Not Rated",
         release_date: media.release_date ? new Date(media.release_date).toISOString().split("T")[0] : "",
-        release_dates: media.release_dates ? media.release_dates.map(d => new Date(d).toISOString().split("T")[0]) : [],
         poster: media.poster || "",
         runtime: media.runtime || "",
-        episodes: media.episodes || "",
         completed: media.completed || false,
-        type: media.type || ""
+        type: media.type || "",
+        episodes: media.episodes || []
       });
 
       setSelected(cast);
+      setEpisodes(ep);
     }
     else {
       setFormData(initialFormData);
       setSelected([]);
+      setEpisodes([]);
     }
   }, [media]);
 
@@ -324,20 +333,6 @@ function MediaForm({ show, setShow, media }) {
       setSelected([]);
     }
 
-    if (key === "episodes") {
-      const newCount = parseInt(value) || 0;
-      setFormData(prev => {
-        const existingDates = prev.release_dates || [];
-        const newDates = Array.from({ length: newCount }, (_, i) => existingDates[i] || "");
-        
-        return {
-          ...prev,
-          episodes: newCount,
-          release_dates: newDates
-        };
-      });
-    }
-
     if (user.rating_scale == 1 && key === "grade") {
       if (value <= 1) {
         setPillColor("danger");
@@ -382,10 +377,26 @@ function MediaForm({ show, setShow, media }) {
     }
   };
 
-  const handleReleaseDateChange = (index, value) => {
-    const newDates = [...formData.release_dates];
-    newDates[index] = value;
-    setFormData({ ...formData, release_dates: newDates });
+  const handleAddEpisode = (episode) => {
+    setEpisodes([...episodes, { ...episode, release_date: "", title: "" }]);
+    setEpisodes(episodes.filter(e => e.indexOf(e) !== e.indexOf(episode)));
+  };
+
+  const handleEpisode = (e, key, index, episode) => {
+    const newInfo = [...episodes, { ...episode, release_date: "", title: "" }];
+
+    if (key === "release_date") {
+      newInfo[index].release_date = e.target.value;
+      setEpisodes([ ...episodes, { ...episode, release_date: newInfo[index].release_date } ]);
+    }
+    else {
+      newInfo[index].title = e.target.value;
+      setEpisodes([ ...episodes, { ...episode, title: newInfo[index].title } ]);
+    }
+  };
+
+  const handleRemoveEpisode = (episode) => {
+    setEpisodes(episodes.filter(e => e.indexOf(e) !== e.indexOf(episode)));
   };
 
   const handleSelectPerson = (person) => {
@@ -406,6 +417,7 @@ function MediaForm({ show, setShow, media }) {
     setErrors({});
     setSearchTerm("");
     setCastAndCrew([]);
+    setEpisodes([]);
     setAlert({ message: "", variant: "" });
   }
 
@@ -455,7 +467,7 @@ function MediaForm({ show, setShow, media }) {
     else
       formData.grade = (parseFloat(formData.grade) * 100) / 12;
 
-    const payload = { ...formData, castAndCrew: selected };
+    const payload = { ...formData, castAndCrew: selected, episodes: episodes };
     const apiCall = media?.id ? api.put(`/media/${media.id}`, [payload, media]) : api.post("/media", payload);
   
     apiCall
@@ -526,23 +538,22 @@ function MediaForm({ show, setShow, media }) {
             <>
               <Form.Group as={Row} className="mb-3">
                 <Form.Label column sm={3}>Episodes</Form.Label>
-                <Col sm={9}><Form.Control type="number" value={formData.episodes} placeholder="Number of episodes" onChange={e => handleChange(e, "episodes")} /></Col>
-                <Form.Control.Feedback type="invalid">{errors.episodes}</Form.Control.Feedback>
-              </Form.Group>
-              <Form.Group as={Row} className="mb-3">
-                <Form.Label column sm={3}>Release Dates</Form.Label>
                 <Col sm={9}>
-                  {formData.release_dates.map((date, index) => (
-                    <div key={index} className="d-flex mb-2">
-                      <span className="me-2 align-self-center">Ep. {index + 1}:</span>
-                      <Form.Control 
-                        type="date" 
-                        value={date} 
-                        onChange={(e) => handleReleaseDateChange(index, e.target.value)} 
-                      />
-                    </div>
+                  {formData.episodes.map((episode, index) => (
+                    <>
+                      <div key={index} className="d-flex mb-2">
+                        <span className="me-2 align-self-center">{index + 1}.</span>
+                        <Col sm={9}><Form.Control type="text" value={episode.title} placeholder="Enter title" onChange={e => handleEpisode(e, "title", index, episode)} /></Col>
+                        <Form.Control 
+                          type="date" 
+                          value={episode.release_date} 
+                          onChange={(e) => handleEpisode(e, "release_date", index, episode)} 
+                        />
+                        <Button variant="outline-danger" size="sm" onClick={() => handleRemoveEpisode(episode)}>X</Button>
+                      </div>
+                      <Button variant="outline-success" size="sm" onClick={() => handleAddEpisode(episode)}>Add episode</Button>    
+                    </>               
                   ))}
-                  <Form.Control.Feedback type="invalid">{errors.release_dates}</Form.Control.Feedback>
                 </Col>
               </Form.Group>
               <Form.Group as={Row} className="mb-3">

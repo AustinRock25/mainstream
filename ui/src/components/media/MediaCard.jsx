@@ -230,13 +230,25 @@ function MediaCard ({media}) {
             <span className="fw-normal text-white-50"><i>{media.title}</i> {getYear(media)}</span>
           </Card.Title>
           <div className="small text-white-50" style={{fontSize: "0.8rem"}}>
-            {(media.release_dates && media.release_dates.some(date => matchDates(new Date(date), new Date()))) && (
+            {(media.episodes && media.episodes.some(ep => matchDates(new Date(ep.release_date), new Date()))) && (
               <div className="mb-1">
                 <b>Episodes released this day</b>
-                {media.release_dates.map((date, index) => {
-                  const releaseDate = new Date(date);
+                {media.episodes.map((ep, index) => {
+                  const releaseDate = new Date(ep.release_date);
                   if (matchDates(releaseDate, new Date()))
-                    return <div key={`release-date-${index}`}>Episode {index + 1}</div>;
+                    return <div key={`release-date-${index}`}>{index + 1}. "{ep.title}" {getYear(ep.release_date)}</div>;
+                })}
+              </div>
+            )}
+          </div>
+          <div className="small text-white-50" style={{fontSize: "0.8rem"}}>
+            {media.episodes && (
+              <div className="mb-1">
+                <b>Episodes list</b>
+                {media.episodes.map((ep, index) => {
+                  const releaseDate = new Date(ep.release_date);
+                  if (matchDates(releaseDate, new Date()))
+                    return <div key={`episode-${index}`}>{ep.episode}. "{ep.title}" {getYear(ep.release_date)}</div>;
                 })}
               </div>
             )}
@@ -244,7 +256,7 @@ function MediaCard ({media}) {
           <Stack direction="horizontal" gap={2} className="mt-2 mb-3 mx-auto">
             <Badge bg={pillColor} text={pillTextColor} pill>{getGrade(media)}</Badge>
             <Badge bg="secondary" pill>{media.rating == "Not Rated" ? "NR" : media.rating}</Badge>
-            {media.type === "movie" ? <Badge bg="dark" pill>{time(media.runtime)}</Badge> : <Badge bg="dark" pill onClick={handlePillClick} style={{ cursor: "pointer" }}>{showRuntime ? time(media.runtime_tv) : media.episodes + "eps"}</Badge>}
+            <Badge bg="dark" pill>{time(media.runtime)}</Badge>
           </Stack>
           {(media.id != 1597) 
             ? 
