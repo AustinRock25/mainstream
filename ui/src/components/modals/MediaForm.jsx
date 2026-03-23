@@ -375,21 +375,12 @@ function MediaForm({ show, setShow, media }) {
     }
   };
 
-  const handleAddEpisode = (index) => {
+  const handleAddEpisode = () => {
     setEpisodes([...episodes, { title: "", release_date: "" }]);
   };
 
-  const handleEpisode = (e, key, index, episode) => {
-    const newInfo = [...episodes, { ...episode, release_date: "", title: "" }];
-
-    if (key === "release_date") {
-      newInfo[index].release_date = e.target.value;
-      setEpisodes([ ...episodes, { ...episode, release_date: newInfo[index].release_date } ]);
-    }
-    else {
-      newInfo[index].title = e.target.value;
-      setEpisodes([ ...episodes, { ...episode, title: newInfo[index].title } ]);
-    }
+  const handleEpisode = (e, key, index) => {
+    setEpisodes((episodes) => episodes.map((ep, i) => i === index ? { ...ep, [key]: e.target.value } : ep));
   };
 
   const handleRemoveEpisode = (index) => {
@@ -539,11 +530,11 @@ function MediaForm({ show, setShow, media }) {
                   {episodes.map((episode, index) => (
                     <div key={index} className="d-flex mb-2">
                       <span className="me-2 align-self-center">{index + 1}.</span>
-                      <Form.Control type="text" value={episode.title} placeholder="Enter title" onChange={e => handleEpisode(e, "title", index, episode)} />
+                      <Form.Control type="text" value={episode.title} placeholder="Enter title" onChange={e => handleEpisode(e, "title", index)} />
                       <Form.Control 
                         type="date" 
                         value={episode.release_date} 
-                        onChange={(e) => handleEpisode(e, "release_date", index, episode)} 
+                        onChange={(e) => handleEpisode(e, "release_date", index)} 
                       />
                       <Button variant="outline-danger" size="sm" onClick={() => handleRemoveEpisode(index)}>X</Button>
                     </div>
