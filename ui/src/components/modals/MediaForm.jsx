@@ -539,7 +539,7 @@ function MediaForm({ show, setShow, media }) {
                   {episodes.map((episode, index) => (
                     <div key={index} className="d-flex mb-2">
                       <span className="me-2 align-self-center">{index + 1}.</span>
-                      <Col><Form.Control type="text" value={episode.title} placeholder="Enter title" onChange={e => handleEpisode(e, "title", index, episode)} /></Col>
+                      <Form.Control type="text" value={episode.title} placeholder="Enter title" onChange={e => handleEpisode(e, "title", index, episode)} />
                       <Form.Control 
                         type="date" 
                         value={episode.release_date} 
