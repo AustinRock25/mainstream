@@ -10,17 +10,9 @@ function MediaCard ({media}) {
   const [pillTextColor, setPillTextColor] = useState("white");
   const [seasonCount, setSeasonCount] = useState(0);
   const [showMediaModal, setShowMediaModal] = useState(false);
-  const [showRuntime, setShowRuntime] = useState(false);
 
   function handleEditMediaClick() {
     setShowMediaModal(true);
-  }
-
-  function handlePillClick() {
-    if (showRuntime)
-      setShowRuntime(false);
-    else
-      setShowRuntime(true);
   }
 
   useEffect(() => {
@@ -230,25 +222,14 @@ function MediaCard ({media}) {
             <span className="fw-normal text-white-50"><i>{media.title}</i> {getYear(media)}</span>
           </Card.Title>
           <div className="small text-white-50" style={{fontSize: "0.8rem"}}>
-            {(media.episodes && media.episodes.some(ep => matchDates(new Date(ep.release_date), new Date()))) && (
-              <div className="mb-1">
-                <b>Episodes released this day</b>
-                {media.episodes.map((ep, index) => {
-                  const releaseDate = new Date(ep.release_date);
-                  if (matchDates(releaseDate, new Date()))
-                    return <div key={`release-date-${index}`}>{index + 1}. "{ep.title}" {getYear(ep.release_date)}</div>;
-                })}
-              </div>
-            )}
-          </div>
-          <div className="small text-white-50" style={{fontSize: "0.8rem"}}>
             {media.episodes && (
               <div className="mb-1">
                 <b>Episodes list</b>
                 {media.episodes.map((ep, index) => {
-                  const releaseDate = new Date(ep.release_date);
-                  if (matchDates(releaseDate, new Date()))
-                    return <div key={`episode-${index}`}>{ep.episode}. "{ep.title}" {getYear(ep.release_date)}</div>;
+                  if (matchDates(new Date(ep.release_date), new Date()))
+                    return <div key={`episode-${index}`}><b>{ep.episode}. "{ep.title}" {getYear(ep.release_date)}</b></div>
+                  else
+                    return <div key={`episode-${index}`}>{ep.episode}. "{ep.title}" ({getYear(ep.release_date)})</div>
                 })}
               </div>
             )}

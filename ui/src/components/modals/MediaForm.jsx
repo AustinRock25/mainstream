@@ -155,10 +155,8 @@ function MediaForm({ show, setShow, media }) {
       cast = Array.from(peopleMap.values());
 
       if (media.episodes) {
-        for (let i = 0; i < media.episodes.length; i++) {
-          ep[i].title = media.episodes[i].title;
-          ep[i].release_date = media.episodes[i].release_date;
-        }
+        for (let i = 0; i < media.episodes.length; i++)
+          ep[i] = media.episodes[i];
       }
 
       if (!media.grade && !media.grade_tv) {
