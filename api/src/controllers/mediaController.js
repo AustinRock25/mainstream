@@ -712,8 +712,8 @@ async function createNewShow(media, { directors, writers, castMembers }) {
       ),
       insert_episodes AS (
         INSERT INTO seasons_episodes (show_id, season, episode, title, release_date)
-        SELECT (SELECT id FROM new_media), 1, row_number() OVER (), ep->>'title', (ep->>'release_date')::date
-        FROM json_array_elements($11::json) AS ep
+        SELECT (SELECT id FROM new_media), 1, ep.pos, ep.title, ep.release_date::date
+        FROM json_to_recordset($11::json) WITH ORDINALITY AS ep(title text, release_date text, pos int);
       )
       SELECT id FROM new_media;
     `;
@@ -729,7 +729,7 @@ async function createNewShow(media, { directors, writers, castMembers }) {
     directors, 
     castMembers, 
     writers,
-    episodes
+    JSON.stringify(episodes)
   ];
   
   const result = await query(sql, params);
@@ -794,11 +794,12 @@ async function addSeasonToShow(media, { directors, writers, castMembers }) {
         SELECT COALESCE(MAX(season), 0) AS season_num FROM seasons WHERE show_id = $1
       )
       INSERT INTO seasons_episodes (show_id, season, episode, title, release_date)
-      SELECT $1, (SELECT season_num FROM new_season_info), row_number() OVER (), ep->>'title', (ep->>'release_date')::date
-      FROM json_array_elements($2::json) AS ep;
+      SELECT $1, row_number() OVER (), ep.pos, ep.title, ep.release_date::date
+      FROM json_to_recordset($2::json) WITH ORDINALITY AS ep(title text, release_date text, pos int);
     `;
 
-  await query(sql, [media.id, episodes]);
+    await query(sql, [media.id, JSON.stringify(episodes)]);
+
   return { id: media.id };
 }
 
@@ -953,18 +954,17 @@ async function updateShow(media, og, { directors, writers, castMembers, episodes
     await query(sql, [media.season, media.id, castMembers]);
   }
 
-  if (!og.episodes || !episodes || og.episodes.length != episodes.length || !(episodes.every(ep => og.episodes.some(ogep => ogep["episode"] === ep.episode && ogep["title"] === ep.title && ogep["release_date"] === ep.release_date)))) {
+  if (!og.episodes || !episodes || og.episodes.length !== episodes.length || !(episodes.every(ep => og.episodes.some(ogep => ogep.episode === ep.episode && ogep.title === ep.title && ogep.release_date === ep.release_date)))) {
     sql = `DELETE FROM seasons_episodes WHERE show_id = $1 AND season = $2;`;
     await query(sql, [media.id, media.season]);
     
-    sql = 
-      `
-        INSERT INTO seasons_episodes (show_id, season, episode, title, release_date)
-        SELECT $1, $2, row_number() OVER (), ep->>'title', (ep->>'release_date')::date
-        FROM json_array_elements($3::json) AS ep;
-      `;
+    sql = `
+      INSERT INTO seasons_episodes (show_id, season, episode, title, release_date)
+      SELECT $1, $2, ep.pos, ep.title, ep.release_date::date
+      FROM json_to_recordset($3::json) WITH ORDINALITY AS ep(title text, release_date text, pos int);
+    `;
 
-    await query(sql, [media.id, media.season, episodes]);
+    await query(sql, [media.id, media.season, JSON.stringify(episodes)]);
   }
 }
 
