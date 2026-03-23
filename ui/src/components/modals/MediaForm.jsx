@@ -375,9 +375,8 @@ function MediaForm({ show, setShow, media }) {
     }
   };
 
-  const handleAddEpisode = (episode) => {
-    setEpisodes([...episodes, { ...episode, release_date: "", title: "" }]);
-    setEpisodes(episodes.filter(e => e.indexOf(e) !== e.indexOf(episode)));
+  const handleAddEpisode = () => {
+    setEpisodes([...episodes, { release_date: "", title: "" }]);
   };
 
   const handleEpisode = (e, key, index, episode) => {
@@ -393,8 +392,8 @@ function MediaForm({ show, setShow, media }) {
     }
   };
 
-  const handleRemoveEpisode = (episode) => {
-    setEpisodes(episodes.filter(e => e.indexOf(e) !== e.indexOf(episode)));
+  const handleRemoveEpisode = (index) => {
+    setEpisodes(episodes.filter(e => episodes.indexOf(e) !== index));
   };
 
   const handleSelectPerson = (person) => {
@@ -538,20 +537,18 @@ function MediaForm({ show, setShow, media }) {
                 <Form.Label column sm={3}>Episodes</Form.Label>
                 <Col sm={9}>
                   {formData.episodes.map((episode, index) => (
-                    <>
-                      <div key={index} className="d-flex mb-2">
-                        <span className="me-2 align-self-center">{index + 1}.</span>
-                        <Col><Form.Control type="text" value={episode.title} placeholder="Enter title" onChange={e => handleEpisode(e, "title", index, episode)} /></Col>
-                        <Form.Control 
-                          type="date" 
-                          value={episode.release_date} 
-                          onChange={(e) => handleEpisode(e, "release_date", index, episode)} 
-                        />
-                        <Button variant="outline-danger" size="sm" onClick={() => handleRemoveEpisode(episode)}>X</Button>
-                      </div>    
-                    </>               
+                    <div key={index} className="d-flex mb-2">
+                      <span className="me-2 align-self-center">{index + 1}.</span>
+                      <Col><Form.Control type="text" value={episode.title} placeholder="Enter title" onChange={e => handleEpisode(e, "title", index, episode)} /></Col>
+                      <Form.Control 
+                        type="date" 
+                        value={episode.release_date} 
+                        onChange={(e) => handleEpisode(e, "release_date", index, episode)} 
+                      />
+                      <Button variant="outline-danger" size="sm" onClick={() => handleRemoveEpisode(index)}>X</Button>
+                    </div>
                   ))}
-                  <Button variant="outline-success" size="sm" onClick={() => handleAddEpisode(episode)}>Add episode</Button>
+                  <Button variant="outline-success" size="sm" onClick={() => handleAddEpisode()}>Add episode</Button>
                 </Col>
               </Form.Group>
               <Form.Group as={Row} className="mb-3">
