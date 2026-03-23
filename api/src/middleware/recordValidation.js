@@ -13,9 +13,6 @@ export const validateMedia = async (req, res, next) => {
   if ((!media.release_date || media.release_date.length === 0) && media.type == "movie")
     errors.release_date = "Required";
 
-  if ((!media.release_dates || media.release_dates.length == 0) && media.type == "show")
-    errors.release_dates = "Required";
-
   if ((!media.poster || media.poster.length === 0) && (media.type == "movie" || media.id == "na"))
     errors.poster = "Required";
 
@@ -52,9 +49,6 @@ export const validateMediaUpdate = async (req, res, next) => {
 
   if ((!media.release_date || media.release_date.length === 0) && media.type == "movie")
     errors.release_date = "Required";
-
-  if ((!media.release_dates || media.release_dates.length == 0) && media.type == "show")
-    errors.release_dates = "Required";
 
   if ((!media.poster || media.poster.length === 0) && (media.type == "movie" || media.id == "na"))
     errors.poster = "Required";
