@@ -541,17 +541,17 @@ function MediaForm({ show, setShow, media }) {
                     <>
                       <div key={index} className="d-flex mb-2">
                         <span className="me-2 align-self-center">{index + 1}.</span>
-                        <Col sm={9}><Form.Control type="text" value={episode.title} placeholder="Enter title" onChange={e => handleEpisode(e, "title", index, episode)} /></Col>
+                        <Col><Form.Control type="text" value={episode.title} placeholder="Enter title" onChange={e => handleEpisode(e, "title", index, episode)} /></Col>
                         <Form.Control 
                           type="date" 
                           value={episode.release_date} 
                           onChange={(e) => handleEpisode(e, "release_date", index, episode)} 
                         />
                         <Button variant="outline-danger" size="sm" onClick={() => handleRemoveEpisode(episode)}>X</Button>
-                      </div>
-                      <Button variant="outline-success" size="sm" onClick={() => handleAddEpisode(episode)}>Add episode</Button>    
+                      </div>    
                     </>               
                   ))}
+                  <Button variant="outline-success" size="sm" onClick={() => handleAddEpisode(episode)}>Add episode</Button>
                 </Col>
               </Form.Group>
               <Form.Group as={Row} className="mb-3">
