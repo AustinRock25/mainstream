@@ -227,9 +227,9 @@ function MediaCard ({media}) {
                 <b>Episodes list</b>
                 {media.episodes.map((ep, index) => {
                   if (matchDates(new Date(ep.release_date), new Date()))
-                    return <div key={`episode-${index}`}><b>{ep.episode}. "{ep.title}" ({ep.release_date.getUTCFullYear()})</b></div>
+                    return <div key={`episode-${index}`}><b>{ep.episode}. "{ep.title}" ({new Date(ep.release_date).getFullYear()})</b></div>
                   else
-                    return <div key={`episode-${index}`}>{ep.episode}. "{ep.title}" ({ep.release_date.getUTCFullYear()})</div>
+                    return <div key={`episode-${index}`}>{ep.episode}. "{ep.title}" ({new Date(ep.release_date).getFullYear()})</div>
                 })}
               </div>
             )}
