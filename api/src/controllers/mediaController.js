@@ -712,8 +712,8 @@ async function createNewShow(media, { directors, writers, castMembers }) {
       ),
       insert_episodes AS (
         INSERT INTO seasons_episodes (show_id, season, episode, title, release_date)
-        SELECT (SELECT id FROM new_media), 1, ep.pos, ep.title, ep.release_date::date
-        FROM json_to_recordset($11::json) WITH ORDINALITY AS ep(title text, release_date text, pos int);
+        SELECT row_number() OVER (), 1, ep.n, (ep.obj->>'title'), NULLIF(ep.obj->>'release_date', '')::date
+        FROM json_array_elements($11::json) WITH ORDINALITY AS ep(obj, n);
       )
       SELECT id FROM new_media;
     `;
@@ -794,8 +794,8 @@ async function addSeasonToShow(media, { directors, writers, castMembers }) {
         SELECT COALESCE(MAX(season), 0) AS season_num FROM seasons WHERE show_id = $1
       )
       INSERT INTO seasons_episodes (show_id, season, episode, title, release_date)
-      SELECT $1, row_number() OVER (), ep.pos, ep.title, ep.release_date::date
-      FROM json_to_recordset($2::json) WITH ORDINALITY AS ep(title text, release_date text, pos int);
+      SELECT $1, row_number() OVER (), ep.n, (ep.obj->>'title'), NULLIF(ep.obj->>'release_date', '')::date
+      FROM json_array_elements($2::json) WITH ORDINALITY AS ep(obj, n);
     `;
 
     await query(sql, [media.id, JSON.stringify(media.episodes)]);
@@ -960,14 +960,12 @@ async function updateShow(media, og, { directors, writers, castMembers, episodes
     
     sql = `
       INSERT INTO seasons_episodes (show_id, season, episode, title, release_date)
-      SELECT $1, $2, ep.pos, ep.title, ep.release_date::date
-      FROM json_to_recordset($3::json) WITH ORDINALITY AS ep(title text, release_date text, pos int);
+      SELECT $1, $2, ep.n, (ep.obj->>'title'), NULLIF(ep.obj->>'release_date', '')::date
+      FROM json_array_elements($3::json) WITH ORDINALITY AS ep(obj, n);
     `;
 
     await query(sql, [media.id, media.season, JSON.stringify(media.episodes)]);
   }
-
-  console.log(JSON.stringify(media.episodes));
 }
 
 async function deleteOrphanedPeople(personIds) {
