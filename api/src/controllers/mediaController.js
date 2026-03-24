@@ -966,6 +966,8 @@ async function updateShow(media, og, { directors, writers, castMembers, episodes
 
     await query(sql, [media.id, media.season, JSON.stringify(media.episodes)]);
   }
+
+  console.log(JSON.stringify(media.episodes));
 }
 
 async function deleteOrphanedPeople(personIds) {
