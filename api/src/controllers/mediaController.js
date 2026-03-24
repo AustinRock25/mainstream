@@ -729,7 +729,7 @@ async function createNewShow(media, { directors, writers, castMembers }) {
     directors, 
     castMembers, 
     writers,
-    JSON.stringify(episodes)
+    JSON.stringify(media.episodes)
   ];
   
   const result = await query(sql, params);
@@ -798,7 +798,7 @@ async function addSeasonToShow(media, { directors, writers, castMembers }) {
       FROM json_to_recordset($2::json) WITH ORDINALITY AS ep(title text, release_date text, pos int);
     `;
 
-    await query(sql, [media.id, JSON.stringify(episodes)]);
+    await query(sql, [media.id, JSON.stringify(media.episodes)]);
 
   return { id: media.id };
 }
@@ -964,7 +964,7 @@ async function updateShow(media, og, { directors, writers, castMembers, episodes
       FROM json_to_recordset($3::json) WITH ORDINALITY AS ep(title text, release_date text, pos int);
     `;
 
-    await query(sql, [media.id, media.season, JSON.stringify(episodes)]);
+    await query(sql, [media.id, media.season, JSON.stringify(media.episodes)]);
   }
 }
 
