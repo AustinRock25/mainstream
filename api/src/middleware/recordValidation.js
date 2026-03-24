@@ -22,9 +22,6 @@ export const validateMedia = async (req, res, next) => {
   if (!media.type || media.type.length === 0)
     errors.type = "Required";
 
-  if (!media.episodes && media.type == "show")
-    errors.episodes = "Required";
-
   if (!media.castAndCrew || media.castAndCrew.length == 0)
     errors.castAndCrew = "At least one is required";
   else {
@@ -55,9 +52,6 @@ export const validateMediaUpdate = async (req, res, next) => {
 
   if ((!media.runtime || media.runtime.length === 0) && media.type == "movie")
     errors.runtime = "Required";
-
-  if (!media.episodes && media.type == "show")
-    errors.episodes = "Required";
 
   if (!media.castAndCrew || media.castAndCrew.length == 0)
     errors.castAndCrew = "At least one is required";
