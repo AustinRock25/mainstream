@@ -238,7 +238,6 @@ const People = () => {
                       <th>Date of Birth</th>
                       <th>Date of Death</th>
                       <th>Age</th>
-                      <th style={{width: "30%"}}>Known For</th>
                       <th>Actions</th>
                     </tr>
                   </thead>

@@ -37,11 +37,8 @@ function MediaForm({ show, setShow, media }) {
   const [formData, setFormData] = useState(initialFormData);
 
   const getPrimaryMediaDate = useCallback(() => {
-    if (formData.type === "movie") 
-      return formData.release_date;
-
-    return formData.release_dates?.[0] || "";
-  }, [formData.type, formData.release_date, formData.release_dates]);
+    return formData.release_date;
+  }, [formData.type, formData.release_date]);
 
   const getSortedCredits = (person) => {
     let allCredits = [];
@@ -58,8 +55,8 @@ function MediaForm({ show, setShow, media }) {
     });
 
     allCredits.sort((a, b) => {
-      const dateA = new Date(a.release_date || (a.episodes.release_date && a.episodes.release_date[0]));
-      const dateB = new Date(b.release_date || (b.episodes.release_date && b.episodes.release_date[0]));
+      const dateA = new Date(a.release_date);
+      const dateB = new Date(b.release_date);
 
       if (isNaN(dateA.getTime())) 
         return 1;
@@ -91,7 +88,7 @@ function MediaForm({ show, setShow, media }) {
         return true;
 
       const firstCredit = sortedCredits[0];
-      const firstCreditDate = new Date(firstCredit.release_date || (firstCredit.episodes.release_date && firstCredit.episodes.release_date[0]));
+      const firstCreditDate = new Date(firstCredit.release_date);
 
       if (isNaN(firstCreditDate.getTime())) 
         return true;

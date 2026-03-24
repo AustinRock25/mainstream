@@ -9,11 +9,8 @@ function MediaCard ({media}) {
   const [pillColor, setPillColor] = useState("danger");
   const [pillTextColor, setPillTextColor] = useState("white");
   const [seasonCount, setSeasonCount] = useState(0);
+  const [showMediaForm, setShowMediaForm] = useState(false);
   const [showMediaModal, setShowMediaModal] = useState(false);
-
-  function handleEditMediaClick() {
-    setShowMediaModal(true);
-  }
 
   useEffect(() => {
     if (!media.grade)
@@ -40,172 +37,12 @@ function MediaCard ({media}) {
     }
   }, [media.id, media.type]);
 
-  const getNames = (people) => {
-    if (!people || people.length === 0)
-      return [];
-
-    people.sort((a, b) => (a.ordering > b.ordering ? 1 : -1));
-    return Array.isArray(people) && people.map(p => `${p.name}${p.death_date ? "†" : ""}`);
-  };
-
-  const combineDirectorsAndWriters = (media) => {
-    const directorIds = Array.isArray(media.directors || media.directors_tv || []) && (media.directors || media.directors_tv || []).map(d => d.director_id).sort().join(",");
-    const writerIds = Array.isArray(media.writers || media.writers_tv || []) && (media.writers || media.writers_tv || []).map(w => w.writer_id).sort().join(",");
-    return directorIds && writerIds && directorIds === writerIds;
-  };
-  
-  const directors = getNames(media.directors || media.directors_tv);
-  const writers = getNames(media.writers || media.writers_tv);
-  const cast = getNames(media.cast_members || media.cast_members_tv);
-  const isCombined = combineDirectorsAndWriters(media);
-
-  const time = (runtime) => {
-    if (!runtime) 
-      return "";
-
-    const hours = Math.floor(runtime / 60);
-    const minutes = runtime % 60;
-    let timeStr = "";
-
-    if (hours > 0) 
-      timeStr += `${hours}h `;
-
-    if (minutes > 0) 
-      timeStr += `${minutes}m`;
-
-    return timeStr.trim();
+  const handleOpenModal = () => {
+    setShowMediaModal(true);
   }
 
-  const getYearRange = (start, end) => {
-    const startYear = new Date(start).getFullYear();
-
-    if (!end) 
-      return startYear;
-
-    const endYear = new Date(end).getFullYear();
-
-    if (startYear === endYear)
-      return startYear;
-
-    return `${startYear}–${String(endYear).slice(-2)}`;
-  };
-  
-  const getYear = (media) => {
-    if (media.type !== "show")
-      return `(${new Date(media.release_date).getFullYear()})`;
-    else {
-      if (seasonCount == 1 && media.completed == true)
-        return `(${getYearRange(media.start_date, media.end_date)})`;
-      else
-        return `season ${media.season} (${getYearRange(media.start_date, media.end_date)})`;
-    }
-  };
-
-  const getGrade = (media) => {
-    if (!media.grade)
-      media.grade = media.grade_tv;
-
-    if (!user) {
-      if (media.grade < 5.56)
-        return "1/10";
-      else if (media.grade < 16.67)
-        return "2/10";
-      else if (media.grade < 27.78)
-        return "3/10";
-      else if (media.grade < 38.89)
-        return "4/10";
-      else if (media.grade < 50)
-        return "5/10";
-      else if (media.grade < 61.11)
-        return "6/10";
-      else if (media.grade < 72.22)
-        return "7/10";
-      else if (media.grade < 83.33)
-        return "8/10";
-      else if (media.grade < 94.44)
-        return "9/10";
-      else
-        return "10/10";
-    }
-    else if (user.rating_scale == 1) {
-      if (media.grade < 6.25)
-        return "0/4";
-      else if (media.grade < 18.75)
-        return "0.5/4";
-      else if (media.grade < 31.25)
-        return "1/4";
-      else if (media.grade < 43.75)
-        return "1.5/4";
-      else if (media.grade < 56.25)
-        return "2/4";
-      else if (media.grade < 68.75)
-        return "2.5/4";
-      else if (media.grade < 81.25)
-        return "3/4";
-      else if (media.grade < 93.75)
-        return "3.5/4";
-      else
-        return "4/4";
-    }
-    else if (user.rating_scale == 2) {
-      if (media.grade < 5)
-        return "0/5";
-      else if (media.grade < 15)
-        return "0.5/5";
-      else if (media.grade < 25)
-        return "1/5";
-      else if (media.grade < 35)
-        return "1.5/5";
-      else if (media.grade < 45)
-        return "2/5";
-      else if (media.grade < 55)
-        return "2.5/5";
-      else if (media.grade < 65)
-        return "3/5";
-      else if (media.grade < 75)
-        return "3.5/5";
-      else if (media.grade < 85)
-        return "4/5";
-      else if (media.grade < 95)
-        return "4.5/5";
-      else
-        return "5/5";
-    }
-    else {
-      if (media.grade < 4.17)
-        return "F";
-      else if (media.grade < 12.5)
-        return "D-";
-      else if (media.grade < 20.83)
-        return "D";
-      else if (media.grade < 29.17)
-        return "D+";
-      else if (media.grade < 37.5)
-        return "C-";
-      else if (media.grade < 45.83)
-        return "C";
-      else if (media.grade < 54.17)
-        return "C+";
-      else if (media.grade < 62.5)
-        return "B-";
-      else if (media.grade < 70.83)
-        return "B";
-      else if (media.grade < 79.17)
-        return "B+";
-      else if (media.grade < 87.5)
-        return "A-";
-      else if (media.grade < 95.83)
-        return "A";
-      else
-        return "A+";
-    }
-  }
-
-  function matchDates(d1, d2) {
-    if (d1.getUTCMonth() === d2.getUTCMonth() && d1.getUTCDate() === d2.getUTCDate())
-      return true;
-    else
-      return false;
+  const handleEditMediaClick = () => {
+    setShowMediaForm(true);
   }
 
   return (
@@ -215,98 +52,9 @@ function MediaCard ({media}) {
           variant="top" 
           src={media.type !== "show" ? `posters/${media.poster}_poster.jpg` : `posters/${media.poster}-season-${media.season}_poster.jpg`}
           alt={`Poster for ${media.title}`} 
+          onClick={handleOpenModal}
           fluid
         />
-        <Card.Body className="d-flex flex-column">
-          <Card.Title className="h6">
-            <span className="fw-normal text-white-50"><i>{media.title}</i> {getYear(media)}</span>
-          </Card.Title>
-          <div className="small text-white-50" style={{fontSize: "0.8rem"}}>
-            {media.episodes && (
-              <div className="mb-1">
-                <b>Episodes list</b>
-                {media.episodes.map((ep, index) => {
-                  if (matchDates(new Date(ep.release_date), new Date()))
-                    return <div key={`episode-${index}`}><b>{ep.episode}. "{ep.title}" ({new Date(ep.release_date).getFullYear()})</b></div>
-                  else
-                    return <div key={`episode-${index}`}>{ep.episode}. "{ep.title}" ({new Date(ep.release_date).getFullYear()})</div>
-                })}
-              </div>
-            )}
-          </div>
-          <Stack direction="horizontal" gap={2} className="mt-2 mb-3 mx-auto">
-            <Badge bg={pillColor} text={pillTextColor} pill>{getGrade(media)}</Badge>
-            <Badge bg="secondary" pill>{media.rating == "Not Rated" ? "NR" : media.rating}</Badge>
-            <Badge bg="dark" pill>{time(media.runtime)}</Badge>
-          </Stack>
-          {(media.id != 1597) 
-            ? 
-              <div className="small text-white-50" style={{fontSize: "0.8rem"}}>
-                {isCombined && (
-                  <div className="mb-1">
-                    <b>Written & Directed by</b>
-                    {Array.isArray(directors) && directors.map((name, index) => <div key={`director-writer-${index}`}>{name}</div>)}
-                  </div>
-                )}
-                {!isCombined && directors.length > 0 && (
-                  <div className="mb-1">
-                    <b>Directed by</b>
-                    {Array.isArray(directors) && directors.map((name, index) => <div key={`director-${index}`}>{name}</div>)}
-                  </div>
-                )}
-                {!isCombined && writers.length > 0 && (
-                  <div className="mb-1">
-                    <b>Written by</b>
-                    {Array.isArray(writers) && writers.map((name, index) => <div key={`writer-${index}`}>{name}</div>)}
-                  </div>
-                )}
-                {cast.length > 0 && (
-                  <div className="mb-1">
-                    <b>Starring</b>
-                    {Array.isArray(cast) && cast.map((name, index) => <div key={`cast-${index}`}>{name}</div>)}
-                  </div>
-                )}
-              </div>
-            : 
-              <>
-                <div className="text-white-50">
-                  <i>Planet Terror</i>
-                  <div className="mb-1 small text-white-50" style={{fontSize: "0.8rem"}}>
-                    <b>Written & Directed by</b>
-                    <div key={`director-writer-0`}>{media.directors[0].name}{media.directors[0].death_date ? "†" : ""}</div>
-                  </div>
-                  <div className="mb-1 small text-white-50" style={{fontSize: "0.8rem"}}>
-                    <b>Starring</b>
-                    <div key={`cast-0`}>{media.cast_members[0].name}{media.cast_members[0].death_date ? "†" : ""}</div>
-                    <div key={`cast-1`}>{media.cast_members[1].name}{media.cast_members[1].death_date ? "†" : ""}</div>
-                    <div key={`cast-2`}>{media.cast_members[2].name}{media.cast_members[2].death_date ? "†" : ""}</div>
-                    <div key={`cast-3`}>{media.cast_members[3].name}{media.cast_members[3].death_date ? "†" : ""}</div>
-                    <div key={`cast-4`}>{media.cast_members[4].name}{media.cast_members[4].death_date ? "†" : ""}</div>
-                    <div key={`cast-5`}>{media.cast_members[5].name}{media.cast_members[5].death_date ? "†" : ""}</div>
-                  </div>
-                </div>
-                <div className="text-white-50">
-                  <i>Death Proof</i>
-                  <div className="mb-1 small text-white-50" style={{fontSize: "0.8rem"}}>
-                    <b>Written & Directed by</b>
-                    <div key={`director-writer-1`}>{media.directors[1].name}{media.directors[1].death_date ? "†" : ""}</div>
-                  </div>
-                  <div className="mb-1 small text-white-50" style={{fontSize: "0.8rem"}}>
-                    <b>Starring</b>
-                    <div key={`cast-6`}>{media.cast_members[6].name}{media.cast_members[6].death_date ? "†" : ""}</div>
-                    <div key={`cast-7`}>{media.cast_members[7].name}{media.cast_members[7].death_date ? "†" : ""}</div>
-                    <div key={`cast-8`}>{media.cast_members[8].name}{media.cast_members[8].death_date ? "†" : ""}</div>
-                    <div key={`cast-9`}>{media.cast_members[9].name}{media.cast_members[9].death_date ? "†" : ""}</div>
-                    <div key={`cast-0`}>{media.cast_members[0].name}{media.cast_members[0].death_date ? "†" : ""}</div>
-                    <div key={`cast-10`}>{media.cast_members[10].name}{media.cast_members[10].death_date ? "†" : ""}</div>
-                    <div key={`cast-11`}>{media.cast_members[11].name}{media.cast_members[11].death_date ? "†" : ""}</div>
-                    <div key={`cast-12`}>{media.cast_members[12].name}{media.cast_members[12].death_date ? "†" : ""}</div>
-                    <div key={`cast-13`}>{media.cast_members[13].name}{media.cast_members[13].death_date ? "†" : ""}</div>
-                  </div>
-                </div>
-              </>
-          }
-        </Card.Body>
         {isAdmin && (
           <Card.Footer className="text-end bg-transparent border-top-0">
             <Button variant="outline-light" size="sm" onClick={handleEditMediaClick}>
@@ -315,7 +63,8 @@ function MediaCard ({media}) {
           </Card.Footer>
         )}
       </Card>
-      {!!user && <MediaForm show={showMediaModal} setShow={setShowMediaModal} media={media} />}
+      {!!user && <MediaForm show={showMediaForm} setShow={setShowMediaForm} media={media} />}
+      <MediaModal show={showMediaModal} setShow={setShowMediaModal} media={media} user={user} seasonCount={seasonCount} pillColor={pillColor} pillTextColor={pillTextColor} />
     </Col>
   );
 }
