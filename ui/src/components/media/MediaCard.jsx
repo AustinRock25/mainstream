@@ -1,6 +1,7 @@
 import api from "../../api";
 import { Button, Card, Col, Badge, Stack } from "react-bootstrap";
 import MediaForm from "../modals/MediaForm";
+import MediaModal from "./MediaModal";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 

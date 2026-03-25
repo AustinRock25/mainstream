@@ -1,7 +1,6 @@
 import AdminOnlyLayout from "./layouts/AdminOnlyLayout";
 import "./App.css";
 import ApplicationLayout from "./layouts/ApplicationLayout";
-import AuthenticatedLayout from "./layouts/AuthenticatedLayout";
 import EditMedia from "./components/media/EditMedia";
 import EditPerson from "./components/people/EditPerson";
 import Home from "./components/Home";

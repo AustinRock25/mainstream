@@ -1,7 +1,9 @@
 import { Modal, Row, Col, Badge, Stack, Accordion } from "react-bootstrap";
 
 function MediaModal({ show, setShow, media, user, seasonCount, pillColor, pillTextColor }) {
-  const handleClose = () => setShow(false);
+  const handleClose = () => {
+    setShow(false)
+  };
 
   const getNames = (people) => {
     if (!people || people.length === 0) 
@@ -170,7 +172,7 @@ function MediaModal({ show, setShow, media, user, seasonCount, pillColor, pillTe
               style={{ maxHeight: "300px" }}
             />
             <Stack direction="horizontal" gap={2} className="justify-content-center">
-              <Badge bg="primary" pill>{getGrade()}</Badge>
+              <Badge bg={pillColor} text={pillTextColor} pill>{getGrade()}</Badge>
               <Badge bg="secondary" pill>{media.rating === "Not Rated" ? "NR" : media.rating}</Badge>
               <Badge bg="dark" pill className="border border-secondary">{time(media.runtime)}</Badge>
             </Stack>
