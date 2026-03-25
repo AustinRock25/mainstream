@@ -13,7 +13,6 @@ function MediaModal({ show, setShow, media, user, seasonCount, pillColor, pillTe
 
   const handleEditMediaClick = () => {
     setShowMediaForm(true);
-    setShow(false);
   }
 
   const getNames = (people) => {
@@ -163,6 +162,13 @@ function MediaModal({ show, setShow, media, user, seasonCount, pillColor, pillTe
     }
   };
 
+  function matchDates(d1, d2) {
+    if (d1.getUTCMonth() === d2.getUTCMonth() && d1.getUTCDate() === d2.getUTCDate())
+      return true;
+    else
+      return false;
+  }
+
   const directors = getNames(media.directors || media.directors_tv);
   const writers = getNames(media.writers || media.writers_tv);
   const cast = getNames(media.cast_members || media.cast_members_tv);
@@ -222,7 +228,7 @@ function MediaModal({ show, setShow, media, user, seasonCount, pillColor, pillTe
                   {media.episodes.map((ep, index) => (
                     <Accordion.Item eventKey={index.toString()} key={index} className="border-0">
                       <Accordion.Header>
-                        <span className="fs-5 fw-bold">{ep.episode}. {ep.title} <small className="ms-auto me-3 small opacity-50">({new Date(ep.release_date).getFullYear()})</small></span>
+                        <span className="fs-5 fw-bold">{ep.episode}. {ep.title} <small className="ms-auto me-3 small opacity-50">({new Date(ep.release_date).getFullYear()})</small>{matchDates(new Date(ep.release_date), new Date()) && <span className="badge bg-white text-dark ms-2">Anniversary</span>}</span>
                       </Accordion.Header>
                       <Accordion.Body className="bg-dark text-white-50">Released: {new Date(ep.release_date).toLocaleDateString("en-US", { timeZone: "UTC"})}</Accordion.Body>
                     </Accordion.Item>
@@ -230,15 +236,15 @@ function MediaModal({ show, setShow, media, user, seasonCount, pillColor, pillTe
                 </Accordion>
               </div>
             )}
-            {isAdmin && (
-              <div className="d-flex justify-content-end mt-4">
-                <Button variant="outline-light" size="sm" onClick={handleEditMediaClick}>Edit</Button>
-              </div>
-            )}
-            {!!user && <MediaForm show={showMediaForm} setShow={setShowMediaForm} media={media} />}
           </Col>
         </Row>
       </Modal.Body>
+      {isAdmin && (
+        <div className="d-flex justify-content-end mt-4">
+          <Button variant="outline-light" size="sm" onClick={handleEditMediaClick}>Edit</Button>
+        </div>
+      )}
+      {!!user && <MediaForm show={showMediaForm} setShow={setShowMediaForm} media={media} />}
     </Modal>
   );
 }
