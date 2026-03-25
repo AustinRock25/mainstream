@@ -52,7 +52,6 @@ function MediaCard ({media}) {
           fluid
         />
       </Card>
-      {!!user && <MediaForm show={showMediaForm} setShow={setShowMediaForm} media={media} />}
       <MediaModal show={showMediaModal} setShow={setShowMediaModal} media={media} user={user} seasonCount={seasonCount} pillColor={pillColor} pillTextColor={pillTextColor} />
     </Col>
   );
