@@ -93,3 +93,19 @@
 p, td, li {
   white-space: normal;
 }
+
+.accordion-button {
+    background-color: #000000 !important;
+    color: #ffffff !important;
+    border: 1px solid #333;
+}
+
+.accordion-button:not(.collapsed) {
+    background-color: #000000 !important;
+    color: #ffffff !important;
+    box-shadow: none !important;
+}
+
+.accordion-button::after {
+    filter: invert(1);
+}

@@ -1,16 +1,15 @@
 import api from "../../api";
-import { Button, Card, Col, Badge, Stack } from "react-bootstrap";
+import { Card, Col } from "react-bootstrap";
 import MediaForm from "../modals/MediaForm";
 import MediaModal from "./MediaModal";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 
 function MediaCard ({media}) {
-  const { isAdmin, user } = useSelector(state => state.auth);
+  const { user } = useSelector(state => state.auth);
   const [pillColor, setPillColor] = useState("danger");
   const [pillTextColor, setPillTextColor] = useState("white");
   const [seasonCount, setSeasonCount] = useState(0);
-  const [showMediaForm, setShowMediaForm] = useState(false);
   const [showMediaModal, setShowMediaModal] = useState(false);
 
   useEffect(() => {
@@ -56,13 +55,6 @@ function MediaCard ({media}) {
           onClick={handleOpenModal}
           fluid
         />
-        {isAdmin && (
-          <Card.Footer className="text-end bg-transparent border-top-0">
-            <Button variant="outline-light" size="sm" onClick={handleEditMediaClick}>
-              Edit
-            </Button>
-          </Card.Footer>
-        )}
       </Card>
       {!!user && <MediaForm show={showMediaForm} setShow={setShowMediaForm} media={media} />}
       <MediaModal show={showMediaModal} setShow={setShowMediaModal} media={media} user={user} seasonCount={seasonCount} pillColor={pillColor} pillTextColor={pillTextColor} />

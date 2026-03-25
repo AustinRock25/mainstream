@@ -1,9 +1,18 @@
 import { Modal, Row, Col, Badge, Stack, Accordion } from "react-bootstrap";
+import { useSelector } from "react-redux";
 
 function MediaModal({ show, setShow, media, user, seasonCount, pillColor, pillTextColor }) {
+  const { isAdmin } = useSelector(state => state.auth);
+  const [showMediaForm, setShowMediaForm] = useState(false);
+  
   const handleClose = () => {
-    setShow(false)
+    setShow(false);
   };
+
+  const handleEditMediaClick = () => {
+    setShowMediaForm(true);
+    setShow(false);
+  }
 
   const getNames = (people) => {
     if (!people || people.length === 0) 
@@ -207,18 +216,24 @@ function MediaModal({ show, setShow, media, user, seasonCount, pillColor, pillTe
             {media.type === "show" && media.episodes && (
               <div className="mt-4">
                 <h5 className="mb-3 border-bottom border-secondary pb-2">Episodes</h5>
-                <Accordion variant="dark">
+                <Accordion flush>
                   {media.episodes.map((ep, index) => (
-                    <Accordion.Item eventKey={index.toString()} key={index} bg="dark" className="text-white">
+                    <Accordion.Item eventKey={index.toString()} key={index} className="border-0">
                       <Accordion.Header>
-                        <span className="fs-5 fw-bold text-white">{ep.episode}. {ep.title} <small className="ms-2 text-white-50 fw-light">({new Date(ep.release_date).getFullYear()})</small></span>
+                        <span className="fs-5 fw-bold">{ep.episode}. {ep.title} <small className="ms-auto me-3 small opacity-50">({new Date(ep.release_date).getFullYear()})</small></span>
                       </Accordion.Header>
-                      <Accordion.Body className="text-white-50">Released: {new Date(ep.release_date).toLocaleDateString("en-US", { timeZone: "UTC"})}</Accordion.Body>
+                      <Accordion.Body className="bg-dark text-white-50">Released: {new Date(ep.release_date).toLocaleDateString("en-US", { timeZone: "UTC"})}</Accordion.Body>
                     </Accordion.Item>
                   ))}
                 </Accordion>
               </div>
             )}
+            {isAdmin && (
+              <div className="d-flex justify-content-end mt-4">
+                <Button variant="outline-light" size="sm" onClick={handleEditMediaClick}>Edit</Button>
+              </div>
+            )}
+            {!!user && <MediaForm show={showMediaForm} setShow={setShowMediaForm} media={media} />}
           </Col>
         </Row>
       </Modal.Body>
