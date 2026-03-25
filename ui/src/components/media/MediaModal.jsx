@@ -207,7 +207,7 @@ function MediaModal({ show, setShow, media, user, seasonCount, pillColor, pillTe
             {media.type === "show" && media.episodes && (
               <div className="mt-4">
                 <h5 className="mb-3 border-bottom border-secondary pb-2">Episodes</h5>
-                <Accordion flush>
+                <Accordion variant="dark">
                   {media.episodes.map((ep, index) => (
                     <Accordion.Item eventKey={index.toString()} key={index} className="text-white">
                       <Accordion.Header>
