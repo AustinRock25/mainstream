@@ -41,10 +41,6 @@ function MediaCard ({media}) {
     setShowMediaModal(true);
   }
 
-  const handleEditMediaClick = () => {
-    setShowMediaForm(true);
-  }
-
   return (
     <Col>
       <Card className="h-100">

@@ -1,5 +1,6 @@
 import { Modal, Row, Col, Badge, Stack, Accordion } from "react-bootstrap";
 import { useSelector } from "react-redux";
+import { useState } from "react";
 
 function MediaModal({ show, setShow, media, user, seasonCount, pillColor, pillTextColor }) {
   const { isAdmin } = useSelector(state => state.auth);
