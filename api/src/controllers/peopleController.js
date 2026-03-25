@@ -83,7 +83,7 @@ export const index = (req, res) => {
 
   const sql = 
     `
-      NumberedRecords AS (
+      WITH NumberedRecords AS (
         SELECT ROW_NUMBER() OVER (${orderByClause}) AS RowNum, p.id, p.name, p.birth_date, p.death_date
         FROM people p
         ${whereClause}
