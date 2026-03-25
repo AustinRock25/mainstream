@@ -210,7 +210,7 @@ function MediaModal({ show, setShow, media, user, seasonCount, pillColor, pillTe
                 <Accordion variant="dark">
                   {media.episodes.map((ep, index) => (
                     <Accordion.Item eventKey={index.toString()} key={index} className="text-white">
-                      <Accordion.Header>
+                      <Accordion.Header bg="dark">
                         <span className="fs-5 fw-bold text-white">{ep.episode}. {ep.title} <small className="ms-2 text-white-50 fw-light">({new Date(ep.release_date).getFullYear()})</small></span>
                       </Accordion.Header>
                       <Accordion.Body className="text-white-50">Released: {new Date(ep.release_date).toLocaleDateString("en-US", { timeZone: "UTC"})}</Accordion.Body>
