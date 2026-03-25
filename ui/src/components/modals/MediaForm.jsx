@@ -224,7 +224,7 @@ function MediaForm({ show, setShow, media }) {
     .finally(() =>
       setIsLoading(false)
     );
-  }, [searchTerm, selected, filterPeopleByDate]);
+  }, [searchTerm, selected]);
 
   const handleChange = (e, key) => {
     const { value, type, checked } = e.target;
