@@ -36,96 +36,6 @@ function MediaForm({ show, setShow, media }) {
 
   const [formData, setFormData] = useState(initialFormData);
 
-  const getPrimaryMediaDate = useCallback(() => {
-    return formData.release_date;
-  }, [formData.type, formData.release_date]);
-
-  const getSortedCredits = (person) => {
-    let allCredits = [];
-
-    const creditTypes = [
-        "credited_as_director", "credited_as_director_tv",
-        "credited_as_writer", "credited_as_writer_tv",
-        "credited_as_cast_member", "credited_as_cast_member_tv"
-    ];
-
-    creditTypes.forEach(type => {
-      if (person[type] && Array.isArray(person[type]))
-        allCredits.push(...person[type]);
-    });
-
-    allCredits.sort((a, b) => {
-      const dateA = new Date(a.release_date);
-      const dateB = new Date(b.release_date);
-
-      if (isNaN(dateA.getTime())) 
-        return 1;
-
-      if (isNaN(dateB.getTime())) 
-        return -1;
-
-      return dateA.getTime() - dateB.getTime();
-    });
-
-    return allCredits;
-  };
-
-  const filterPeopleByDate = useCallback((people) => {
-    const mediaDateStr = getPrimaryMediaDate();
-
-    if (!mediaDateStr) 
-      return people;
-
-    const mediaDate = new Date(mediaDateStr);
-
-    if (isNaN(mediaDate.getTime())) 
-      return people;
-
-    return people.filter(person => {
-      const sortedCredits = getSortedCredits(person);
-
-      if (sortedCredits.length === 0) 
-        return true;
-
-      const firstCredit = sortedCredits[0];
-      const firstCreditDate = new Date(firstCredit.release_date);
-
-      if (isNaN(firstCreditDate.getTime())) 
-        return true;
-        
-      if (person.death_date) {
-        const deathDate = new Date(person.death_date);
-        const limitDate = new Date(deathDate);
-        limitDate.setFullYear(limitDate.getUTCFullYear() + 3);
-
-        if (mediaDate > limitDate) 
-          return false;
-      }
-
-      if (person.birth_date) {
-        const birthDate = new Date(person.birth_date);
-
-        if (isNaN(birthDate.getTime())) 
-          return true;
-
-        const avgTimestamp = (birthDate.getTime() + firstCreditDate.getTime()) / 2;
-        const avgDate = new Date(avgTimestamp);
-
-        if (mediaDate <= avgDate) 
-          return false;
-      } 
-      else {
-        const limitDate = new Date(firstCreditDate);
-        limitDate.setFullYear(limitDate.getUTCFullYear() - 10);
-
-        if (mediaDate <= limitDate) 
-          return false;
-      }
-
-      return true;
-    });
-  }, [getPrimaryMediaDate]);
-
   const loadExistingData = useCallback(() => {
     if (media?.id) {
       let cast = [];
@@ -306,8 +216,7 @@ function MediaForm({ show, setShow, media }) {
     .then(response => {
       const selectedIds = new Set(Array.isArray(selected) && selected.map(s => s.id));
       const initialResults = response.data.filter(p => !selectedIds.has(p.id));
-      const filteredResults = filterPeopleByDate(initialResults);
-      setCastAndCrew(filteredResults);
+      setCastAndCrew(initialResults);
     })
     .catch(error =>
       setAlert({ message: "Failed to load people", variant: "danger" })
