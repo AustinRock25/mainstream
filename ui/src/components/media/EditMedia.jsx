@@ -17,7 +17,6 @@ function EditMedia() {
     year: "",
     poster: "", 
     runtime: "",
-    runtime_tv: "",
     completed: "",
     type: "",
     directors: [],
@@ -38,11 +37,6 @@ function EditMedia() {
             selectedDirectors[x] = results.data.directors[x].director_id;
         }
 
-        if (!!results.data.directors_tv) {
-          for (let x = 0; x < results.data.directors_tv.length; x++)
-            selectedDirectors[x] = results.data.directors_tv[x].director_id;
-        }
-
         if (!!results.data.cast_members) {
           for (let x = 0; x < results.data.cast_members.length; x++)
             selectedCastMembers[x] = results.data.cast_members[x].actor_id;
@@ -58,11 +52,6 @@ function EditMedia() {
             selectedWriters[x] = results.data.writers[x].writer_id;
         }
 
-        if (!!results.data.writers_tv) {
-          for (let x = 0; x < results.data.writers_tv.length; x++)
-            selectedWriters[x] = results.data.writers_tv[x].writer_id;
-        }
-
         setMedia({
           id: results.data.id,
           title: results.data.title, 
@@ -74,7 +63,6 @@ function EditMedia() {
           release_dates: results.data.release_dates,
           poster: results.data.poster, 
           runtime: results.data.runtime,
-          runtime_tv: results.data.runtime_tv,
           type: results.data.type,
           completed: results.data.completed,
           directors: selectedDirectors,

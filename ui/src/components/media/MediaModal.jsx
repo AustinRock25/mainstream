@@ -23,8 +23,8 @@ function MediaModal({ show, setShow, media, user, seasonCount, pillColor, pillTe
   };
 
   const combineDirectorsAndWriters = (media) => {
-    const directors = media.directors || media.directors_tv || [];
-    const writers = media.writers || media.writers_tv || [];
+    const directors = media.directors || [];
+    const writers = media.writers || [];
 
     if (directors.length === 0 || writers.length === 0) 
       return false;
@@ -43,7 +43,7 @@ function MediaModal({ show, setShow, media, user, seasonCount, pillColor, pillTe
 
   const getYear = (media) => {
     if (media.type !== "show") 
-      return `(${new Date(media.release_date).getFullYear()})`;
+      return `(${new Date(media.release_date).getUTCFullYear()})`;
     else
       return ``;
   };
@@ -169,11 +169,6 @@ function MediaModal({ show, setShow, media, user, seasonCount, pillColor, pillTe
       return false;
   }
 
-  const directors = getNames(media.directors || media.directors_tv);
-  const writers = getNames(media.writers || media.writers_tv);
-  const cast = getNames(media.cast_members || media.cast_members_tv);
-  const isCombined = combineDirectorsAndWriters(media);
-
   return (
     <Modal show={show} onHide={handleClose} size="lg" centered contentClassName="bg-dark text-white">
       <Modal.Header closeButton closeVariant="white">
@@ -196,28 +191,28 @@ function MediaModal({ show, setShow, media, user, seasonCount, pillColor, pillTe
           </Col>
           <Col xs={12} md={8}>
             <div className="mb-4">
-              {isCombined && (
+              {combineDirectorsAndWriters(media) && (
                 <div className="mb-2">
                   <h6 className="text-uppercase text-secondary small fw-bold">Written & Directed by</h6>
-                  <p>{directors.join(", ")}</p>
+                  <p>{getNames(media.directors).join(", ")}</p>
                 </div>
               )}
-              {!isCombined && directors.length > 0 && (
+              {!combineDirectorsAndWriters(media) && getNames(media.directors).length > 0 && (
                 <div className="mb-2">
                   <h6 className="text-uppercase text-secondary small fw-bold">Directed by</h6>
-                  <p>{directors.join(", ")}</p>
+                  <p>{getNames(media.directors).join(", ")}</p>
                 </div>
               )}
-              {!isCombined && writers.length > 0 && (
+              {!combineDirectorsAndWriters(media) && getNames(media.writers).length > 0 && (
                 <div className="mb-2">
                   <h6 className="text-uppercase text-secondary small fw-bold">Written by</h6>
-                  <p>{writers.join(", ")}</p>
+                  <p>{getNames(media.writers).join(", ")}</p>
                 </div>
               )}
-              {cast.length > 0 && (
+              {getNames(media.cast_members || media.cast_members_tv).length > 0 && (
                 <div className="mb-2">
                   <h6 className="text-uppercase text-secondary small fw-bold">Starring</h6>
-                  <p>{cast.join(", ")}</p>
+                  <p>{getNames(media.cast_members || media.cast_members_tv).join(", ")}</p>
                 </div>
               )}
             </div>
@@ -228,9 +223,28 @@ function MediaModal({ show, setShow, media, user, seasonCount, pillColor, pillTe
                   {media.episodes.map((ep, index) => (
                     <Accordion.Item eventKey={index.toString()} key={index} className="border-0">
                       <Accordion.Header>
-                        <span className="fs-5 fw-bold">{ep.episode}. {ep.title} <small className="ms-auto me-3 small opacity-50">({new Date(ep.release_date).getFullYear()})</small>{matchDates(new Date(ep.release_date), new Date()) && <span className="badge bg-white text-dark ms-2">Anniversary</span>}</span>
+                        <span className="fs-5 fw-bold">{ep.episode}. {ep.title} <small className="ms-auto me-3 small opacity-50">({new Date(ep.release_date).getUTCFullYear()})</small>{matchDates(new Date(ep.release_date), new Date()) && <span className="badge bg-white text-dark ms-2">Anniversary</span>}</span>
                       </Accordion.Header>
-                      <Accordion.Body className="bg-dark text-white-50">Released: {new Date(ep.release_date).toLocaleDateString("en-US", { timeZone: "UTC"})}</Accordion.Body>
+                      <Accordion.Body className="bg-dark text-white-50">
+                        {combineDirectorsAndWriters(ep) && (
+                          <div className="mb-2">
+                            <h6 className="text-uppercase text-secondary small fw-bold">Written & Directed by</h6>
+                            <p>{getNames(ep.directors).join(", ")}</p>
+                          </div>
+                        )}
+                        {!combineDirectorsAndWriters(ep) && ep.directors.length > 0 && (
+                          <div className="mb-2">
+                            <h6 className="text-uppercase text-secondary small fw-bold">Directed by</h6>
+                            <p>{getNames(ep.directors).join(", ")}</p>
+                          </div>
+                        )}
+                        {!combineDirectorsAndWriters(ep) && getNames(ep.writers).length > 0 && (
+                          <div className="mb-2">
+                            <h6 className="text-uppercase text-secondary small fw-bold">Written by</h6>
+                            <p>{getNames(ep.writers).join(", ")}</p>
+                          </div>
+                        )}
+                      </Accordion.Body>
                     </Accordion.Item>
                   ))}
                 </Accordion>

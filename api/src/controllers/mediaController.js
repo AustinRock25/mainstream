@@ -35,12 +35,12 @@ export const index = (req, res) => {
     }
 
     if (minRuntime) {
-      filterClauses.push(`COALESCE(runtime, runtime_tv) >= $${paramIndex++}`);
+      filterClauses.push(`runtime >= $${paramIndex++}`);
       params.push(minRuntime);
     }
 
     if (maxRuntime) {
-      filterClauses.push(`COALESCE(runtime, runtime_tv) <= $${paramIndex++}`);
+      filterClauses.push(`runtime <= $${paramIndex++}`);
       params.push(maxRuntime);
     }
 
@@ -170,7 +170,7 @@ export const index = (req, res) => {
       orderByClause = `ORDER BY COALESCE(release_date, start_date) ${sanitizedSortOrder}, m.title ASC`;
       break;
     case "runtime":
-      orderByClause = `ORDER BY COALESCE(runtime, runtime_tv) ${sanitizedSortOrder}`;
+      orderByClause = `ORDER BY runtime ${sanitizedSortOrder}`;
       break;
     case "episodes":
       orderByClause = `ORDER BY episode_count ${sanitizedSortOrder}`;
@@ -187,17 +187,13 @@ export const index = (req, res) => {
   const sql = 
     `
       WITH FilteredData AS (
-        SELECT m.id, m.title, m.grade, m.release_date, m.rating, m.poster, m.runtime, m.completed, m.type, s.season, s.grade AS grade_tv, episode_count, s.runtime AS runtime_tv, start_date, end_date, episodes, directors, directors_tv, cast_members, cast_members_tv, writers, writers_tv
+        SELECT m.id, m.title, m.grade, m.release_date, m.rating, m.poster, m.runtime, m.completed, m.type, s.season, s.grade AS grade_tv, episode_count, start_date, end_date, episodes, directors, cast_members, cast_members_tv, writers
         FROM media m
         LEFT JOIN seasons s ON m.id = s.show_id
         LEFT JOIN LATERAL (
           SELECT json_agg(json_build_object('ordering', md.ordering, 'media_id', md.media_id, 'director_id', md.director_id, 'name', p.name, 'birth_date', p.birth_date, 'death_date', p.death_date)) AS directors
           FROM media_directors md LEFT JOIN people p ON md.director_id = p.id WHERE m.id = md.media_id
         ) md ON TRUE
-        LEFT JOIN LATERAL (
-          SELECT json_agg(json_build_object('ordering', sd.ordering, 'show_id', sd.show_id, 'season', sd.season, 'director_id', sd.director_id, 'name', p.name, 'birth_date', p.birth_date, 'death_date', p.death_date)) AS directors_tv
-          FROM seasons_directors sd LEFT JOIN people p ON sd.director_id = p.id WHERE m.id = sd.show_id AND s.season = sd.season
-        ) sd ON TRUE
         LEFT JOIN LATERAL (
           SELECT json_agg(json_build_object('ordering', mc.ordering, 'media_id', mc.media_id, 'actor_id', mc.actor_id, 'name', p.name, 'birth_date', p.birth_date, 'death_date', p.death_date)) AS cast_members
           FROM media_cast mc LEFT JOIN people p ON mc.actor_id = p.id WHERE m.id = mc.media_id
@@ -211,12 +207,16 @@ export const index = (req, res) => {
           FROM media_writers mw LEFT JOIN people p ON mw.writer_id = p.id WHERE m.id = mw.media_id
         ) mw ON TRUE
         LEFT JOIN LATERAL (
-          SELECT json_agg(json_build_object('ordering', sw.ordering, 'show_id', sw.show_id, 'season', sw.season, 'writer_id', sw.writer_id, 'name', p.name, 'birth_date', p.birth_date, 'death_date', p.death_date)) AS writers_tv
-          FROM seasons_writers sw LEFT JOIN people p ON sw.writer_id = p.id WHERE m.id = sw.show_id AND s.season = sw.season
-        ) sw ON TRUE
-        LEFT JOIN LATERAL (
-          SELECT json_agg(json_build_object('show_id', se.show_id, 'season', se.season, 'episode', se.episode, 'release_date', se.release_date, 'title', se.title)) AS episodes, MIN(se.release_date) AS start_date, MAX(se.release_date) AS end_date, COUNT(*) AS episode_count
+          SELECT json_agg(json_build_object('show_id', se.show_id, 'season', se.season, 'episode', se.episode, 'release_date', se.release_date, 'title', se.title, 'directors', sd.directors, 'writers', sw.writers)) AS episodes, MIN(se.release_date) AS start_date, MAX(se.release_date) AS end_date, COUNT(*) AS episode_count
           FROM seasons_episodes se 
+          LEFT JOIN LATERAL (
+            SELECT json_agg(json_build_object('ordering', sd.ordering, 'show_id', sd.show_id, 'season', sd.season, 'episode', sd.episode, 'director_id', sd.director_id, 'name', p.name, 'birth_date', p.birth_date, 'death_date', p.death_date)) AS directors
+            FROM seasons_directors sd LEFT JOIN people p ON sd.director_id = p.id WHERE m.id = sd.show_id AND s.season = sd.season AND se.episode = sd.episode
+          ) sd ON TRUE
+          LEFT JOIN LATERAL (
+            SELECT json_agg(json_build_object('ordering', sw.ordering, 'show_id', sw.show_id, 'season', sw.season, 'episode', sw.episode, 'writer_id', sw.writer_id, 'name', p.name, 'birth_date', p.birth_date, 'death_date', p.death_date)) AS writers
+            FROM seasons_writers sw LEFT JOIN people p ON sw.writer_id = p.id WHERE m.id = sw.show_id AND s.season = sw.season AND se.episode = sw.episode
+          ) sw ON TRUE
           WHERE m.id = se.show_id AND s.season = se.season
         ) se ON TRUE
       ),
@@ -269,12 +269,12 @@ export const indexLength = (req, res) => {
     }
 
     if (minRuntime) {
-      filterClauses.push(`COALESCE(m.runtime, s.runtime) >= $${paramIndex++}`);
+      filterClauses.push(`m.runtime >= $${paramIndex++}`);
       params.push(minRuntime);
     }
 
     if (maxRuntime) {
-      filterClauses.push(`COALESCE(m.runtime, s.runtime) <= $${paramIndex++}`);
+      filterClauses.push(`m.runtime <= $${paramIndex++}`);
       params.push(maxRuntime);
     }
 
@@ -449,48 +449,36 @@ export const indexNew = (req, res) => {
   
   const sql = 
     `
-      SELECT m.id, m.title, m.grade, m.release_date, m.rating, m.poster, m.runtime, m.completed, m.type, s.season, s.grade AS grade_tv, episode_count, s.runtime AS runtime_tv, start_date, end_date, episodes, directors, directors_tv, cast_members, cast_members_tv, writers, writers_tv
+      SELECT m.id, m.title, m.grade, m.release_date, m.rating, m.poster, m.runtime, m.completed, m.type, s.season, s.grade AS grade_tv, episode_count, start_date, end_date, episodes, directors, directors_tv, cast_members, cast_members_tv, writers, writers_tv
       FROM media m
       LEFT JOIN seasons s ON m.id = s.show_id
       LEFT JOIN LATERAL (
         SELECT json_agg(json_build_object('ordering', md.ordering, 'media_id', md.media_id, 'director_id', md.director_id, 'name', p.name, 'birth_date', p.birth_date, 'death_date', p.death_date)) AS directors
-        FROM media_directors md
-        LEFT JOIN people p ON md.director_id = p.id
-        WHERE m.id = md.media_id
+        FROM media_directors md LEFT JOIN people p ON md.director_id = p.id WHERE m.id = md.media_id
       ) md ON TRUE
       LEFT JOIN LATERAL (
-        SELECT json_agg(json_build_object('ordering', sd.ordering, 'show_id', sd.show_id, 'director_id', sd.director_id, 'name', p.name, 'birth_date', p.birth_date, 'death_date', p.death_date)) AS directors_tv
-        FROM seasons_directors sd
-        LEFT JOIN people p ON sd.director_id = p.id
-        WHERE m.id = sd.show_id AND s.season = sd.season
-      ) sd ON TRUE
-      LEFT JOIN LATERAL (
         SELECT json_agg(json_build_object('ordering', mc.ordering, 'media_id', mc.media_id, 'actor_id', mc.actor_id, 'name', p.name, 'birth_date', p.birth_date, 'death_date', p.death_date)) AS cast_members
-        FROM media_cast mc
-        LEFT JOIN people p ON mc.actor_id = p.id
-        WHERE m.id = mc.media_id
+        FROM media_cast mc LEFT JOIN people p ON mc.actor_id = p.id WHERE m.id = mc.media_id
       ) mc ON TRUE
       LEFT JOIN LATERAL (
-        SELECT json_agg(json_build_object('ordering', sc.ordering, 'show_id', sc.show_id, 'actor_id', sc.actor_id, 'name', p.name, 'birth_date', p.birth_date, 'death_date', p.death_date)) AS cast_members_tv
-        FROM seasons_cast sc
-        LEFT JOIN people p ON sc.actor_id = p.id
-        WHERE m.id = sc.show_id AND s.season = sc.season
+        SELECT json_agg(json_build_object('ordering', sc.ordering, 'show_id', sc.show_id, 'season', sc.season, 'actor_id', sc.actor_id, 'name', p.name, 'birth_date', p.birth_date, 'death_date', p.death_date)) AS cast_members_tv
+        FROM seasons_cast sc LEFT JOIN people p ON sc.actor_id = p.id WHERE m.id = sc.show_id AND s.season = sc.season
       ) sc ON TRUE
       LEFT JOIN LATERAL (
         SELECT json_agg(json_build_object('ordering', mw.ordering, 'media_id', mw.media_id, 'writer_id', mw.writer_id, 'name', p.name, 'birth_date', p.birth_date, 'death_date', p.death_date)) AS writers
-        FROM media_writers mw
-        LEFT JOIN people p ON mw.writer_id = p.id
-        WHERE m.id = mw.media_id
+        FROM media_writers mw LEFT JOIN people p ON mw.writer_id = p.id WHERE m.id = mw.media_id
       ) mw ON TRUE
       LEFT JOIN LATERAL (
-        SELECT json_agg(json_build_object('ordering', sw.ordering, 'show_id', sw.show_id, 'writer_id', sw.writer_id, 'name', p.name, 'birth_date', p.birth_date, 'death_date', p.death_date)) AS writers_tv
-        FROM seasons_writers sw
-        LEFT JOIN people p ON sw.writer_id = p.id
-        WHERE m.id = sw.show_id AND s.season = sw.season
-      ) sw ON TRUE
-      LEFT JOIN LATERAL (
-        SELECT json_agg(json_build_object('show_id', se.show_id, 'season', se.season, 'episode', se.episode, 'release_date', se.release_date, 'title', se.title)) AS episodes, MIN(se.release_date) AS start_date, MAX(se.release_date) AS end_date, COUNT(*) AS episode_count
+        SELECT json_agg(json_build_object('show_id', se.show_id, 'season', se.season, 'episode', se.episode, 'release_date', se.release_date, 'title', se.title, 'directors', sd.directors, 'writers', sw.writers)) AS episodes, MIN(se.release_date) AS start_date, MAX(se.release_date) AS end_date, COUNT(*) AS episode_count
         FROM seasons_episodes se 
+        LEFT JOIN LATERAL (
+          SELECT json_agg(json_build_object('ordering', sd.ordering, 'show_id', sd.show_id, 'season', sd.season, 'episode', sd.episode, 'director_id', sd.director_id, 'name', p.name, 'birth_date', p.birth_date, 'death_date', p.death_date)) AS directors
+          FROM seasons_directors sd LEFT JOIN people p ON sd.director_id = p.id WHERE m.id = sd.show_id AND s.season = sd.season AND se.episode = sd.episode
+        ) sd ON TRUE
+        LEFT JOIN LATERAL (
+          SELECT json_agg(json_build_object('ordering', sw.ordering, 'show_id', sw.show_id, 'season', sw.season, 'episode', sw.episode, 'writer_id', sw.writer_id, 'name', p.name, 'birth_date', p.birth_date, 'death_date', p.death_date)) AS writers
+          FROM seasons_writers sw LEFT JOIN people p ON sw.writer_id = p.id WHERE m.id = sw.show_id AND s.season = sw.season AND se.episode = sw.episode
+        ) sw ON TRUE
         WHERE m.id = se.show_id AND s.season = se.season
       ) se ON TRUE
       WHERE (m.date_added IS NOT NULL AND m.date_added > CURRENT_TIMESTAMP - INTERVAL '1 MONTH') OR (s.date_added IS NOT NULL AND s.date_added > CURRENT_TIMESTAMP - INTERVAL '1 MONTH')
@@ -576,9 +564,9 @@ export const create = async (req, res) => {
       result = await createMovie(media, { directors, writers, castMembers });
     else if (media.type === "show") {
       if (media.id === "na")
-        result = await createNewShow(media, { directors, writers, castMembers });
+        result = await createNewShow(media, { castMembers });
       else
-        result = await addSeasonToShow(media, { directors, writers, castMembers });
+        result = await addSeasonToShow(media, { castMembers });
     } 
     else
       return res.status(400).json({ error: "Invalid media type specified." });
@@ -606,8 +594,6 @@ export const update = async (req, res) => {
   addIdsToSet(og.directors, 'director_id');
   addIdsToSet(og.writers, 'writer_id');
   addIdsToSet(og.cast_members, 'actor_id');
-  addIdsToSet(og.directors_tv, 'director_id');
-  addIdsToSet(og.writers_tv, 'writer_id');
   addIdsToSet(og.cast_members_tv, 'actor_id');
   const getIdsByRole = (role) => Array.isArray(media.castAndCrew?.filter(person => person[role])) && (media.castAndCrew?.filter(person => person[role]).map(person => person.id) || []);
   const directors = getIdsByRole("director");
@@ -620,7 +606,7 @@ export const update = async (req, res) => {
     if (media.type === "movie")
       await updateMovie(media, og, { directors, writers, castMembers });
     else if (media.type === "show")
-      await updateShow(media, og, { directors, writers, castMembers });
+      await updateShow(media, og, { castMembers });
     else
       return res.status(400).json({ error: "Invalid media type specified." });
     
@@ -682,8 +668,8 @@ async function createMovie(media, { directors, writers, castMembers }) {
   return { id: result.rows[0].id };
 }
 
-async function createNewShow(media, { directors, writers, castMembers }) {
-  const sql = 
+async function createNewShow(media, { castMembers }) {
+  let sql = 
     `
       WITH new_media AS (
         INSERT INTO media (id, title, poster, rating, completed, type)
@@ -695,25 +681,15 @@ async function createNewShow(media, { directors, writers, castMembers }) {
         INSERT INTO seasons (season, show_id, grade, runtime, date_added)
         VALUES (1, (SELECT id FROM new_media), $5, $6, $7)
       ),
-      insert_directors AS (
-        INSERT INTO seasons_directors (ordering, show_id, season, director_id)
-        SELECT row_number() OVER (), (SELECT id FROM new_media), 1, director_id
-        FROM unnest($8::int[]) AS director_id
-      ),
-      insert_cast AS (
-        INSERT INTO seasons_cast (ordering, season, show_id, actor_id)
-        SELECT row_number() OVER (), 1, (SELECT id FROM new_media), actor_id
-        FROM unnest($9::int[]) AS actor_id
-      ),
-      insert_writers AS (
-        INSERT INTO seasons_writers (ordering, show_id, season, writer_id)
-        SELECT row_number() OVER (), (SELECT id FROM new_media), 1, writer_id
-        FROM unnest($10::int[]) AS writer_id
-      ),
       insert_episodes AS (
         INSERT INTO seasons_episodes (show_id, season, episode, title, release_date)
         SELECT row_number() OVER (), 1, ep.n, (ep.obj->>'title'), NULLIF(ep.obj->>'release_date', '')::date
-        FROM json_array_elements($11::json) WITH ORDINALITY AS ep(obj, n);
+        FROM json_array_elements($9::json) WITH ORDINALITY AS ep(obj, n);
+      )
+      insert_cast AS (
+        INSERT INTO seasons_cast (ordering, season, show_id, actor_id)
+        SELECT row_number() OVER (), 1, (SELECT id FROM new_media), actor_id
+        FROM unnest($8::int[]) AS actor_id
       )
       SELECT id FROM new_media;
     `;
@@ -726,17 +702,39 @@ async function createNewShow(media, { directors, writers, castMembers }) {
     media.grade, 
     media.runtime,
     new Date(),
-    directors, 
-    castMembers, 
-    writers,
+    castMembers,
     JSON.stringify(media.episodes)
   ];
   
   const result = await query(sql, params);
+
+  for (let i = 0; i < media.episodes.length; i++) {
+    for (const creative of media.episodes[i].creatives) {
+      if (creative.director) {
+        sql = 
+          `
+            INSERT INTO seasons_directors (ordering, show_id, season, episode, director_id)
+            SELECT row_number() OVER (), $1, 1, $2, $3
+          `;
+
+        await query(sql, [media.id, i + 1, creative.id]);
+      }
+      if (creative.writer) {
+        sql = 
+          `
+            INSERT INTO seasons_writers (ordering, show_id, season, episode, writer_id)
+            SELECT row_number() OVER (), $1, 1, $2, $3
+          `;
+
+        await query(sql, [media.id, i + 1, creative.id]);
+      }
+    }
+  }
+
   return { id: result.rows[0].id };
 }
 
-async function addSeasonToShow(media, { directors, writers, castMembers }) {
+async function addSeasonToShow(media, { castMembers }) {
   let sql = ``;
   sql = `UPDATE media SET completed = $1 WHERE id = $2;`;
   await query(sql, [media.completed || false, media.id]);
@@ -746,23 +744,40 @@ async function addSeasonToShow(media, { directors, writers, castMembers }) {
       WITH new_season_info AS (
         SELECT COALESCE(MAX(season), 0) + 1 AS season_num FROM seasons WHERE show_id = $1
       )
-      INSERT INTO seasons (season, show_id, grade, runtime, date_added)
-      SELECT season_num, $1, $2, $3, $4 FROM new_season_info;
+      INSERT INTO seasons (season, show_id, grade, date_added)
+      SELECT season_num, $1, $2, $3, FROM new_season_info;
     `;
 
-  await query(sql, [media.id, media.grade, media.runtime, new Date()]);
+  await query(sql, [media.id, media.grade, new Date()]);
 
-  sql = 
-    `
-      WITH new_season_info AS (
-        SELECT COALESCE(MAX(season), 0) AS season_num FROM seasons WHERE show_id = $1
-      )
-      INSERT INTO seasons_directors (ordering, show_id, season, director_id)
-      SELECT row_number() OVER (), $1, (SELECT season_num FROM new_season_info), director_id
-      FROM unnest($2::int[]) AS director_id;
-    `;
+  for (let i = 0; i < media.episodes.length; i++) {
+    for (const creative of media.episodes[i].creatives) {
+      if (creative.director) {
+        sql = 
+          `
+            WITH new_season_info AS (
+              SELECT COALESCE(MAX(season), 0) AS season_num FROM seasons WHERE show_id = $1
+            )
+            INSERT INTO seasons_directors (ordering, show_id, season, episode, director_id)
+            SELECT row_number() OVER (), $1, (SELECT season_num FROM new_season_info), $2, $3
+          `;
 
-  await query(sql, [media.id, directors]);
+        await query(sql, [media.id, i + 1, creative.id]);
+      }
+      if (creative.writer) {
+        sql = 
+          `
+            WITH new_season_info AS (
+              SELECT COALESCE(MAX(season), 0) AS season_num FROM seasons WHERE show_id = $1
+            )
+            INSERT INTO seasons_writers (ordering, show_id, season, episode, writer_id)
+            SELECT row_number() OVER (), $1, (SELECT season_num FROM new_season_info), $2, $3
+          `;
+
+        await query(sql, [media.id, i + 1, creative.id]);
+      }
+    }
+  }
 
   sql = 
     `
@@ -775,18 +790,6 @@ async function addSeasonToShow(media, { directors, writers, castMembers }) {
     `;
 
   await query(sql, [media.id, castMembers]);
-
-  sql = 
-    `
-      WITH new_season_info AS (
-        SELECT COALESCE(MAX(season), 0) AS season_num FROM seasons WHERE show_id = $1
-      )
-      INSERT INTO seasons_writers (ordering, show_id, season, writer_id)
-      SELECT row_number() OVER (), $1, (SELECT season_num FROM new_season_info), writer_id
-      FROM unnest($2::int[]) AS writer_id;
-    `;
-
-  await query(sql, [media.id, writers]);
 
   sql = 
     `
@@ -879,7 +882,7 @@ async function updateMovie(media, og, { directors, writers, castMembers }) {
   }
 }
 
-async function updateShow(media, og, { directors, writers, castMembers, episodes }) {
+async function updateShow(media, og, { castMembers, episodes }) {
   let sql = ``;
 
   if (media.title != og.title) {
@@ -907,39 +910,6 @@ async function updateShow(media, og, { directors, writers, castMembers, episodes
     await query(sql, [media.grade, media.id, media.season]);
   }
 
-  if (media.runtime != og.runtime) {
-    sql = `UPDATE seasons SET runtime = $1 WHERE show_id = $2 AND season = $3;`;
-    await query(sql, [media.runtime, media.id, media.season]);
-  }
-
-  if (!og.directors_tv || !directors || og.directors_tv.length != directors.length || !(directors.every(d => og.directors_tv.some(ogd => ogd["director_id"] === d)))) {
-    sql = `DELETE FROM seasons_directors WHERE show_id = $1 AND season = $2;`;
-    await query(sql, [media.id, media.season]);
-    
-    sql = 
-      `
-        INSERT INTO seasons_directors (ordering, season, show_id, director_id)
-        SELECT row_number() OVER (), $1, $2, director_id
-        FROM unnest($3::int[]) AS director_id;
-      `;
-
-    await query(sql, [media.season, media.id, directors]);
-  }
-
-  if (!og.writers_tv || !writers || og.writers_tv.length != writers.length || !(writers.every(w => og.writers_tv.some(ogw => ogw["writer_id"] === w)))) {
-    sql = `DELETE FROM seasons_writers WHERE show_id = $1 AND season = $2;`;
-    await query(sql, [media.id, media.season]);
-
-    sql = 
-      `
-        INSERT INTO seasons_writers (ordering, season, show_id, writer_id)
-        SELECT row_number() OVER (), $1, $2, writer_id
-        FROM unnest($3::int[]) AS writer_id;
-      `;
-
-    await query(sql, [media.season, media.id, writers]);
-  }
-
   if (!og.cast_members_tv || !castMembers || og.cast_members_tv.length != castMembers.length || !(castMembers.every(cm => og.cast_members_tv.some(ogcm => ogcm["actor_id"] === cm)))) {
     sql = `DELETE FROM seasons_cast WHERE show_id = $1 AND season = $2;`;
     await query(sql, [media.id, media.season]);
@@ -957,6 +927,12 @@ async function updateShow(media, og, { directors, writers, castMembers, episodes
   if (!og.episodes || !episodes || og.episodes.length !== episodes.length || !(episodes.every(ep => og.episodes.some(ogep => ogep.episode === ep.episode && ogep.title === ep.title && ogep.release_date === ep.release_date)))) {
     sql = `DELETE FROM seasons_episodes WHERE show_id = $1 AND season = $2;`;
     await query(sql, [media.id, media.season]);
+
+    sql = `DELETE FROM seasons_directors WHERE show_id = $1 AND season = $2;`;
+    await query(sql, [media.id, media.season]);
+
+    sql = `DELETE FROM seasons_writers WHERE show_id = $1 AND season = $2;`;
+    await query(sql, [media.id, media.season]);
     
     sql = `
       INSERT INTO seasons_episodes (show_id, season, episode, title, release_date)
@@ -965,6 +941,29 @@ async function updateShow(media, og, { directors, writers, castMembers, episodes
     `;
 
     await query(sql, [media.id, media.season, JSON.stringify(media.episodes)]);
+
+    for (let i = 0; i < media.episodes.length; i++) {
+      for (const creative of media.episodes[i].creatives) {
+        if (creative.director) {
+          sql = 
+            `
+              INSERT INTO seasons_directors (ordering, show_id, season, episode, director_id)
+              SELECT row_number() OVER (), $1, $2, $3, $4
+            `;
+
+          await query(sql, [media.id, media.season, i + 1, creative.id]);
+        }
+        if (creative.writer) {
+          sql = 
+            `
+              INSERT INTO seasons_writers (ordering, show_id, season, episode, writer_id)
+              SELECT row_number() OVER (), $1, $2, $3, $4
+            `;
+
+          await query(sql, [media.id, media.season, i + 1, creative.id]);
+        }
+      }
+    }
   }
 }
 
