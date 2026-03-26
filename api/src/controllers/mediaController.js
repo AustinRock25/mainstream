@@ -1,6 +1,6 @@
 import { query, connect } from "../config/pgClient.js";
 
-export const index = (req, res) => {
+export const index = (req, res) => { 
   const { 
     searchTerm,
     beginRecord,
