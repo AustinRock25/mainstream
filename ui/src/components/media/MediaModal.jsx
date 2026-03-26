@@ -232,7 +232,7 @@ function MediaModal({ show, setShow, media, user, seasonCount, pillColor, pillTe
                             <p>{getNames(ep.directors).join(", ")}</p>
                           </div>
                         )}
-                        {!combineDirectorsAndWriters(ep) && ep.directors.length > 0 && (
+                        {!combineDirectorsAndWriters(ep) && getNames(ep.writers).length > 0 && (
                           <div className="mb-2">
                             <h6 className="text-uppercase text-secondary small fw-bold">Directed by</h6>
                             <p>{getNames(ep.directors).join(", ")}</p>

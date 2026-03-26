@@ -449,7 +449,7 @@ export const indexNew = (req, res) => {
   
   const sql = 
     `
-      SELECT m.id, m.title, m.grade, m.release_date, m.rating, m.poster, m.runtime, m.completed, m.type, s.season, s.grade AS grade_tv, episode_count, start_date, end_date, episodes, directors, directors_tv, cast_members, cast_members_tv, writers, writers_tv
+      SELECT m.id, m.title, m.grade, m.release_date, m.rating, m.poster, m.runtime, m.completed, m.type, s.season, s.grade AS grade_tv, episode_count, start_date, end_date, episodes, directors, cast_members, cast_members_tv, writers
       FROM media m
       LEFT JOIN seasons s ON m.id = s.show_id
       LEFT JOIN LATERAL (
