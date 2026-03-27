@@ -455,7 +455,7 @@ function MediaForm({ show, setShow, media }) {
                       </div>
                       <Row className="mt-3">
                         <Col md={6}>
-                          <h6>Search Episode Crew</h6>
+                          <h6>Available</h6>
                           <div className="d-flex mb-2">
                             <Form.Control 
                               type="text" 
@@ -466,14 +466,12 @@ function MediaForm({ show, setShow, media }) {
                           </div>
                           <ListGroup style={{maxHeight: "100px", overflowY: "auto"}}>
                             {activeEpisodeIndex === index && isLoading ? <Spinner size="sm"/> : activeEpisodeIndex === index && castAndCrew.map(p => (
-                              <ListGroup.Item key={p.id} action onClick={() => handleSelectPersonEp(p, index)}>
-                                  {p.name}
-                              </ListGroup.Item>
+                              <ListGroup.Item key={p.id} action onClick={() => handleSelectPersonEp(p, index)}>{p.name}<span style={{fontSize: "0.6rem"}}>{!!p.birth_date && `${new Date(p.birth_date).getUTCFullYear()}`}{(!!p.birth_date || !!p.death_date) && `-`}{!!p.death_date && `${new Date(p.death_date).getUTCFullYear()}`}</span></ListGroup.Item>
                             ))}
                           </ListGroup>
                         </Col>
                         <Col md={6}>
-                          <h6>Episode Directors/Writers</h6>
+                          <h6>Episode Crew</h6>
                           <ListGroup style={{maxHeight: "150px", overflowY: "auto"}}>
                             {episode.creatives?.map(p => (
                               <ListGroup.Item key={p.id} className="p-2">

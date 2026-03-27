@@ -223,7 +223,7 @@ function MediaModal({ show, setShow, media, user, seasonCount, pillColor, pillTe
                   {media.episodes.map((ep, index) => (
                     <Accordion.Item eventKey={index.toString()} key={index} className="border-0">
                       <Accordion.Header>
-                        <span className="fs-5 fw-bold">{ep.episode}. {ep.title} <small className="ms-auto me-3 small opacity-50">({new Date(ep.release_date).getUTCFullYear()})</small>{matchDates(new Date(ep.release_date), new Date()) && <span className="badge bg-white text-dark ms-2">Anniversary</span>}</span>
+                        <span className="fs-5 fw-bold">{ep.episode}. {ep.title} <small className="ms-auto me-3 small opacity-50">{new Date(ep.release_date).getUTCFullYear()}</small>{matchDates(new Date(ep.release_date), new Date()) && <span className="badge bg-white text-dark ms-2">Anniversary</span>}</span>
                       </Accordion.Header>
                       <Accordion.Body className="bg-dark text-white-50">
                         {combineDirectorsAndWriters(ep) && (
