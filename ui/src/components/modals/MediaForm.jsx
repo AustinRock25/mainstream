@@ -15,6 +15,7 @@ function MediaForm({ show, setShow, media }) {
   const [pillColor, setPillColor] = useState("danger");
   const [pillTextColor, setPillTextColor] = useState("white");
   const [searchTerm, setSearchTerm] = useState("");
+  const [activeEpisodeIndex, setActiveEpisodeIndex] = useState(null); 
   const [selected, setSelected] = useState([]);
   const [shows, setShows] = useState([]);
   const { user } = useSelector(state => state.auth);
@@ -44,7 +45,7 @@ function MediaForm({ show, setShow, media }) {
       const peopleMap = new Map();
 
       const addPerson = (p, role) => {
-        if (!p)
+        if (!p) 
           return;
 
         const personId = p.actor_id || p.writer_id || p.director_id;
@@ -52,7 +53,7 @@ function MediaForm({ show, setShow, media }) {
         if (!peopleMap.has(personId))
           peopleMap.set(personId, { id: personId, name: p.name, director: false, writer: false, cast: false });
         
-        if (role)
+        if (role) 
           peopleMap.get(personId)[role] = true;
       };
 
@@ -63,19 +64,19 @@ function MediaForm({ show, setShow, media }) {
 
       if (media.episodes) {
         for (let i = 0; i < media.episodes.length; i++) {
-          ep[i] = media.episodes[i];
+          ep[i] = { ...media.episodes[i] };
           const episodePeopleMap = new Map();
 
           const episodeAddPerson = (p, role) => {
-            if (!p)
+            if (!p) 
               return;
 
             const personId = p.writer_id || p.director_id;
-
+            
             if (!episodePeopleMap.has(personId))
               episodePeopleMap.set(personId, { id: personId, name: p.name, director: false, writer: false });
             
-            if (role)
+            if (role) 
               episodePeopleMap.get(personId)[role] = true;
           };
 
@@ -85,24 +86,17 @@ function MediaForm({ show, setShow, media }) {
         }
       }
 
-      if (!media.grade && !media.grade_tv) {
-        media.grade = 0;
-        media.grade_tv = 0;
-      }
-      else if (!media.grade)
-        media.grade = media.grade_tv;
-
-      if (media.grade <= 33.33) {
-        setPillColor("danger");
-        setPillTextColor("white");
+      if (media.grade <= 33.33) { 
+        setPillColor("danger"); 
+        setPillTextColor("white"); 
       }
       else if (media.grade <= 66.67) {
-        setPillColor("warning");
-        setPillTextColor("black");
+        setPillColor("warning"); 
+        setPillTextColor("black"); 
       }
-      else {
-        setPillColor("success");
-        setPillTextColor("white");
+      else { 
+        setPillColor("success"); 
+        setPillTextColor("white"); 
       }
 
       if (user.rating_scale == 1) {
@@ -178,9 +172,6 @@ function MediaForm({ show, setShow, media }) {
           grade = 12;
       }
 
-      if (!media.runtime)
-        media.runtime = 0;
-
       setFormData({
         id: media.id || "",
         title: media.title || "",
@@ -219,32 +210,28 @@ function MediaForm({ show, setShow, media }) {
   }, [media, show, loadExistingData]);
 
   const fetchPeople = useCallback(() => {
-    if (!searchTerm) {
-      setCastAndCrew([]);
-      return;
+    if (!searchTerm) { 
+      setCastAndCrew([]); 
+      return; 
     }
 
     setIsLoading(true);
-
     api.get("/people/select", { params: { searchTerm } })
-    .then(response => {
-      const selectedIds = new Set(Array.isArray(selected) && selected.map(s => s.id));
-      const initialResults = response.data.filter(p => !selectedIds.has(p.id));
-      setCastAndCrew(initialResults);
-    })
-    .catch(error =>
-      setAlert({ message: "Failed to load people", variant: "danger" })
-    )
-    .finally(() =>
-      setIsLoading(false)
-    );
-  }, [searchTerm, selected]);
+      .then(response => {
+        const selectedIds = new Set(selected.map(s => s.id));
+
+        if (activeEpisodeIndex !== null && episodes[activeEpisodeIndex]?.creatives)
+          episodes[activeEpisodeIndex].creatives.forEach(c => selectedIds.add(c.id));
+
+        setCastAndCrew(response.data.filter(p => !selectedIds.has(p.id)));
+      })
+      .finally(() => 
+        setIsLoading(false));
+  }, [searchTerm, selected, episodes, activeEpisodeIndex]);
 
   const handleChange = (e, key) => {
     const { value, type, checked } = e.target;
-    setErrors({ ...errors, [key]: "" });
-    let newValue = type === "checkbox" ? checked : value;
-    setFormData({ ...formData, [key]: newValue });
+    setFormData(prev => ({ ...prev, [key]: type === "checkbox" ? checked : value }));
 
     if (key === "type") {
       setFormData({ ...initialFormData, type: value });
@@ -300,30 +287,24 @@ function MediaForm({ show, setShow, media }) {
   };
 
   const handleEpisode = (e, key, index) => {
-    setEpisodes((episodes) => episodes.map((ep, i) => i === index ? { ...ep, [key]: e.target.value } : ep));
+    setEpisodes(prev => prev.map((ep, i) => i === index ? { ...ep, [key]: e.target.value } : ep));
   };
 
   const handleRemoveEpisode = (index) => {
-    setEpisodes((episodes) => episodes.filter((_, i) => i !== index));
+    setEpisodes(prev => prev.filter((_, i) => i !== index));
   };
 
-  const handleSelectPersonEp = (person, index, key) => {
-    const [creatives, setCreatives] = useState(episodes[index].creatives);
-    setCreatives([...creatives, { ...person, director: false, writer: false }]);
-    setEpisodes((episodes) => episodes.map((ep, i) => i === index ? { ...ep, [key]: creatives } : ep));
-    setCastAndCrew(castAndCrew.filter(p => p.id !== person.id));
+  const handleSelectPersonEp = (person, index) => {
+    setEpisodes(prev => prev.map((ep, i) => i === index ? { ...ep, creatives: [...(ep.creatives || []), { ...person, director: false, writer: false }] } : ep));
+    setCastAndCrew(prev => prev.filter(p => p.id !== person.id));
   };
 
-  const handleRemovePersonEp = (person, index, key) => {
-    const [creatives, setCreatives] = useState(episodes[index].creatives);
-    setCreatives(creatives.filter(p => p.id !== person.id));
-    setEpisodes((episodes) => episodes.map((ep, i) => i === index ? { ...ep, [key]: creatives } : ep));
+  const handleRemovePersonEp = (personId, index) => {
+    setEpisodes(prev => prev.map((ep, i) => i === index ? { ...ep, creatives: ep.creatives.filter(p => p.id !== personId) } : ep));
   };
 
-  const handleRoleChangeEp = (personId, role, isChecked, key, index) => {
-    const [creatives, setCreatives] = useState(episodes[index].creatives);
-    setCreatives(Array.isArray(creatives) && creatives.map(p => p.id === personId ? { ...p, [role]: isChecked } : p));
-    setEpisodes((episodes) => episodes.map((ep, i) => i === index ? { ...ep, [key]: creatives } : ep));
+  const handleRoleChangeEp = (personId, role, isChecked, index) => {
+    setEpisodes(prev => prev.map((ep, i) => i === index ? { ...ep, creatives: ep.creatives.map(p => p.id === personId ? { ...p, [role]: isChecked } : p) } : ep));
   };
 
   const handleSelectPerson = (person) => {
@@ -333,18 +314,16 @@ function MediaForm({ show, setShow, media }) {
 
   const handleRemovePerson = (person) => {
     setSelected(selected.filter(p => p.id !== person.id));
-  };
+  }
 
   const handleRoleChange = (personId, role, isChecked) => {
-    setSelected(Array.isArray(selected) && selected.map(p => p.id === personId ? { ...p, [role]: isChecked } : p));
+    setSelected(prev => prev.map(p => p.id === personId ? { ...p, [role]: isChecked } : p));
   };
 
   function handleHide() {
     setShow(false);
-    setErrors({});
     setSearchTerm("");
-    setCastAndCrew([]);
-    setEpisodes([]);
+    setActiveEpisodeIndex(null);
     setAlert({ message: "", variant: "" });
   }
 
@@ -464,56 +443,58 @@ function MediaForm({ show, setShow, media }) {
           {formData.type === "show" && (
             <>
               <Form.Group as={Row} className="mb-3">
-                <Form.Label column sm={3}>Episodes</Form.Label>
+                <Form.Label column sm={12}>Episodes</Form.Label>
                 <Col sm={12}>
                   {episodes.map((episode, index) => (
-                    <>
-                      <div key={index} className="d-flex mb-2">
-                        <span className="me-2 align-self-center">{index + 1}.</span>
-                        <Form.Control type="text" value={episode.title} placeholder="Enter title" onChange={e => handleEpisode(e, "title", index)} />
-                        <Form.Control 
-                          type="date" 
-                          value={episode.release_date} 
-                          onChange={(e) => handleEpisode(e, "release_date", index)} 
-                        />
-                        <Button variant="outline-danger" size="sm" onClick={() => handleRemoveEpisode(index)}>X</Button>
+                    <div key={index} className="border p-3 mb-3 bg-light rounded">
+                      <div className="d-flex mb-2">
+                        <Badge bg="dark" className="me-2 align-self-center">Ep {index + 1}</Badge>
+                        <Form.Control className="me-2" type="text" value={episode.title} placeholder="Title" onChange={e => handleEpisode(e, "title", index)} />
+                        <Form.Control type="date" value={episode.release_date || ""} onChange={(e) => handleEpisode(e, "release_date", index)} />
+                        <Button variant="outline-danger" className="ms-2" onClick={() => handleRemoveEpisode(index)}>X</Button>
                       </div>
-                      <h2 className="mb-3">Cast & Crew</h2>
-                      <Row>
+
+                      <Row className="mt-3">
                         <Col md={6}>
-                          <h6>Available</h6>
-                          <Form.Group className="mb-2 d-flex">
-                            <Form.Control type="text" value={searchTerm} onChange={e => setSearchTerm(e.target.value)} placeholder="Search for person..." />
-                            <Button variant="primary" onClick={fetchPeople} className="ms-2">Search</Button>
-                          </Form.Group>
-                          <ListGroup style={{maxHeight: "200px", overflowY: "auto"}}>
-                            {isLoading ? <Spinner /> : Array.isArray(castAndCrew) && castAndCrew.map(p => (
-                              <ListGroup.Item key={p.id} action onClick={() => handleSelectPersonEp(p, index, "creatives")}>{p.name} <span style={{fontSize: "0.6rem"}}>{!!p.birth_date && `${new Date(p.birth_date).getUTCFullYear()}`}{(!!p.birth_date || !!p.death_date) && `-`}{!!p.death_date && `${new Date(p.death_date).getUTCFullYear()}`}</span></ListGroup.Item>
+                          <h6>Search Episode Crew</h6>
+                          <div className="d-flex mb-2">
+                            <Form.Control 
+                              type="text" 
+                              placeholder="Search..." 
+                              onChange={e => { setSearchTerm(e.target.value); setActiveEpisodeIndex(index); }} 
+                            />
+                            <Button size="sm" variant="primary" onClick={fetchPeople} className="ms-2">Search</Button>
+                          </div>
+                          <ListGroup style={{maxHeight: "100px", overflowY: "auto"}}>
+                            {activeEpisodeIndex === index && isLoading ? <Spinner size="sm"/> : 
+                            activeEpisodeIndex === index && castAndCrew.map(p => (
+                              <ListGroup.Item key={p.id} action onClick={() => handleSelectPersonEp(p, index)}>
+                                  {p.name}
+                              </ListGroup.Item>
                             ))}
                           </ListGroup>
-                          </Col>
-                          <Col md={6}>
-                            <h6>Selected</h6>
-                              <ListGroup style={{maxHeight: "250px", overflowY: "auto"}}>
-                                {Array.isArray(episode.creatives) && episode.creatives.map(p => (
-                                  <ListGroup.Item key={p.id}>
-                                    <div className="d-flex justify-content-between align-items-center">
-                                      {p.name}
-                                      <Button variant="outline-danger" size="sm" onClick={() => handleRemovePersonEp(p, index, "creatives")}>X</Button>
-                                    </div>
-                                    <div className="mt-2">
-                                      <Form.Check inline type="checkbox" label="Director" checked={p.director} onChange={e => handleRoleChangeEp(p.id, "director", e.target.checked, "creatives", index)} />
-                                      <Form.Check inline type="checkbox" label="Writer" checked={p.writer} onChange={e => handleRoleChangeEp(p.id, "writer", e.target.checked, "creatives", index)} />
-                                    </div>
-                                  </ListGroup.Item>
-                                ))}
-                              </ListGroup>
-                              <Form.Control.Feedback type="invalid">{errors.castAndCrew}</Form.Control.Feedback>
-                          </Col>
+                        </Col>
+                        <Col md={6}>
+                          <h6>Episode Directors/Writers</h6>
+                          <ListGroup style={{maxHeight: "150px", overflowY: "auto"}}>
+                            {episode.creatives?.map(p => (
+                              <ListGroup.Item key={p.id} className="p-2">
+                                <div className="d-flex justify-content-between align-items-center">
+                                  <strong>{p.name}</strong>
+                                  <Button variant="link" className="text-danger p-0" onClick={() => handleRemovePersonEp(p.id, index)}>Remove</Button>
+                                </div>
+                                <div className="mt-1">
+                                  <Form.Check inline type="checkbox" label="Dir" checked={p.director} onChange={e => handleRoleChangeEp(p.id, "director", e.target.checked, index)} />
+                                  <Form.Check inline type="checkbox" label="Writ" checked={p.writer} onChange={e => handleRoleChangeEp(p.id, "writer", e.target.checked, index)} />
+                                </div>
+                              </ListGroup.Item>
+                            ))}
+                          </ListGroup>
+                        </Col>
                       </Row>
-                    </>
+                    </div>
                   ))}
-                  <Button variant="outline-success" size="sm" onClick={() => handleAddEpisode()}>Add episode</Button>
+                  <Button variant="outline-success" onClick={handleAddEpisode}>+ Add Episode</Button>
                 </Col>
               </Form.Group>
               <Form.Group as={Row} className="mb-3">

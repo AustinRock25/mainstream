@@ -23,50 +23,30 @@ export const validateMedia = async (req, res, next) => {
     errors.type = "Required";
 
   if (!media.castAndCrew || media.castAndCrew.length == 0)
-    errors.castAndCrew = "At least one is required";
+    errors.castAndCrew = "At least one cast or crew member is required";
   else {
     for (let x = 0; x < media.castAndCrew.length; x++) {
-      if (media.castAndCrew[x].director == false && media.castAndCrew[x].writer == false && media.castAndCrew[x].cast == false)
-        errors.castAndCrew = "At least one checkbox must be checked in each row";
+      if (media.castAndCrew[x].director === false && media.castAndCrew[x].writer === false && media.castAndCrew[x].cast === false)
+        errors.castAndCrew = `Role required for ${media.castAndCrew[x].name}`;
     }
+  }
+
+  if (media.type === "show" && media.episodes) {
+    media.episodes.forEach((ep, index) => {
+      if (ep.creatives && ep.creatives.length > 0) {
+        ep.creatives.forEach((person) => {
+          if (person.director === false && person.writer === false)
+            errors[`episode_${index}_creatives`] = `Role required for ${person.name} in Episode ${index + 1}`;
+        });
+      }
+    });
   }
 
   if (Object.keys(errors).length > 0)
     res.status(422).json({ errors });
   else
     next();
-}
-
-export const validateMediaUpdate = async (req, res, next) => {
-  const errors = {};
-  let media = req.body[0];
-
-  if ((!media.title || media.title.length === 0) && (media.type == "movie" || media.id == "na"))
-    errors.title = "Required";
-
-  if ((!media.release_date || media.release_date.length === 0) && media.type == "movie")
-    errors.release_date = "Required";
-
-  if ((!media.poster || media.poster.length === 0) && (media.type == "movie" || media.id == "na"))
-    errors.poster = "Required";
-
-  if ((!media.runtime || media.runtime.length === 0) && media.type == "movie")
-    errors.runtime = "Required";
-
-  if (!media.castAndCrew || media.castAndCrew.length == 0)
-    errors.castAndCrew = "At least one is required";
-  else {
-    for (let x = 0; x < media.castAndCrew.length; x++) {
-      if (media.castAndCrew[x].director == false && media.castAndCrew[x].writer == false && media.castAndCrew[x].cast == false && media.castAndCrew[x].creator == false)
-        errors.castAndCrew = "At least one checkbox must be checked in each row";
-    }
-  }
-
-  if (Object.keys(errors).length > 0)
-    res.status(422).json({ errors });
-  else
-    next();
-}
+};
 
 export const validatePerson = async (req, res, next) => {
   const errors = {};
