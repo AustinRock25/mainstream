@@ -411,7 +411,7 @@ function MediaForm({ show, setShow, media }) {
             <Form.Group as={Row} className="mb-3">
               <Form.Label column sm={3}>Type</Form.Label>
               <Col sm={9}>
-                <Form.Select value={formData.type} onChange={e => handleChange(e, "type")}>
+                <Form.Select value={formData.type} onChange={e => handleChange(e, "type")} isInvalid={errors.type}>
                   <option value="">Select type</option>
                   <option value="movie">Movie</option>
                   <option value="show">TV Show</option>
@@ -424,7 +424,7 @@ function MediaForm({ show, setShow, media }) {
             <Form.Group as={Row} className="mb-3">
               <Form.Label column sm={3}>Show</Form.Label>
               <Col sm={9}>
-                <Form.Select value={formData.id} onChange={(e) => handleChange(e, "id")}>
+                <Form.Select value={formData.id} onChange={(e) => handleChange(e, "id")} isInvalid={errors.id}>
                   <option value="">Select existing show for new season</option>
                   {Array.isArray(shows) && shows.map(s => <option key={s.id} value={s.id}>{s.title} ({s.start_date ? new Date(s.start_date).getUTCFullYear() : 'N/A'})</option>)}
                   <option value="na">Create a new show</option>
@@ -436,7 +436,7 @@ function MediaForm({ show, setShow, media }) {
           {(formData.type === "movie" || formData.id === "na" || media?.id) && (
             <Form.Group as={Row} className="mb-3">
               <Form.Label column sm={3}>Title</Form.Label>
-              <Col sm={9}><Form.Control type="text" value={formData.title} placeholder="Enter title" onChange={e => handleChange(e, "title")} /></Col>
+              <Col sm={9}><Form.Control type="text" value={formData.title} placeholder="Enter title" onChange={e => handleChange(e, "title")} isInvalid={errors.title}/></Col>
               <Form.Control.Feedback type="invalid">{errors.title}</Form.Control.Feedback>
             </Form.Group>
           )}
@@ -446,14 +446,13 @@ function MediaForm({ show, setShow, media }) {
                 <Form.Label column sm={12}>Episodes</Form.Label>
                 <Col sm={12}>
                   {episodes.map((episode, index) => (
-                    <div key={index} className="border p-3 mb-3 bg-light rounded">
+                    <div key={index} className="border p-3 mb-3 bg-dark rounded">
                       <div className="d-flex mb-2">
                         <Badge bg="dark" className="me-2 align-self-center">Ep {index + 1}</Badge>
                         <Form.Control className="me-2" type="text" value={episode.title} placeholder="Title" onChange={e => handleEpisode(e, "title", index)} />
                         <Form.Control type="date" value={episode.release_date || ""} onChange={(e) => handleEpisode(e, "release_date", index)} />
                         <Button variant="outline-danger" className="ms-2" onClick={() => handleRemoveEpisode(index)}>X</Button>
                       </div>
-
                       <Row className="mt-3">
                         <Col md={6}>
                           <h6>Search Episode Crew</h6>
@@ -466,8 +465,7 @@ function MediaForm({ show, setShow, media }) {
                             <Button size="sm" variant="primary" onClick={fetchPeople} className="ms-2">Search</Button>
                           </div>
                           <ListGroup style={{maxHeight: "100px", overflowY: "auto"}}>
-                            {activeEpisodeIndex === index && isLoading ? <Spinner size="sm"/> : 
-                            activeEpisodeIndex === index && castAndCrew.map(p => (
+                            {activeEpisodeIndex === index && isLoading ? <Spinner size="sm"/> : activeEpisodeIndex === index && castAndCrew.map(p => (
                               <ListGroup.Item key={p.id} action onClick={() => handleSelectPersonEp(p, index)}>
                                   {p.name}
                               </ListGroup.Item>
@@ -480,12 +478,12 @@ function MediaForm({ show, setShow, media }) {
                             {episode.creatives?.map(p => (
                               <ListGroup.Item key={p.id} className="p-2">
                                 <div className="d-flex justify-content-between align-items-center">
-                                  <strong>{p.name}</strong>
-                                  <Button variant="link" className="text-danger p-0" onClick={() => handleRemovePersonEp(p.id, index)}>Remove</Button>
+                                  {p.name}
+                                  <Button variant="outline-danger" size="sm" onClick={() => handleRemovePersonEp(p.id, index)}>X</Button>
                                 </div>
                                 <div className="mt-1">
-                                  <Form.Check inline type="checkbox" label="Dir" checked={p.director} onChange={e => handleRoleChangeEp(p.id, "director", e.target.checked, index)} />
-                                  <Form.Check inline type="checkbox" label="Writ" checked={p.writer} onChange={e => handleRoleChangeEp(p.id, "writer", e.target.checked, index)} />
+                                  <Form.Check inline type="checkbox" label="Director" checked={p.director} onChange={e => handleRoleChangeEp(p.id, "director", e.target.checked, index)} />
+                                  <Form.Check inline type="checkbox" label="Writer" checked={p.writer} onChange={e => handleRoleChangeEp(p.id, "writer", e.target.checked, index)} />
                                 </div>
                               </ListGroup.Item>
                             ))}
@@ -504,17 +502,19 @@ function MediaForm({ show, setShow, media }) {
             </>
           )}
           {formData.type === "movie" && (
-            <Form.Group as={Row} className="mb-3">
-              <Form.Label column sm={3}>Release Date</Form.Label>
-              <Col sm={9}><Form.Control type="date" value={formData.release_date} onChange={e => handleChange(e, "release_date")} /></Col>
-              <Form.Control.Feedback type="invalid">{errors.release_date}</Form.Control.Feedback>
-            </Form.Group>
+            <>
+              <Form.Group as={Row} className="mb-3">
+                <Form.Label column sm={3}>Release Date</Form.Label>
+                <Col sm={9}><Form.Control type="date" value={formData.release_date} onChange={e => handleChange(e, "release_date")} /></Col>
+                <Form.Control.Feedback type="invalid">{errors.release_date}</Form.Control.Feedback>
+              </Form.Group>
+              <Form.Group as={Row} className="mb-3">
+                <Form.Label column sm={3}>Runtime (mins)</Form.Label>
+                <Col sm={9}><Form.Control type="number" value={formData.runtime} isInvalid={errors.runtime} placeholder="e.g., 120" onChange={e => handleChange(e, "runtime")} /></Col>
+                <Form.Control.Feedback type="invalid">{errors.runtime}</Form.Control.Feedback>
+              </Form.Group>
+            </>
           )}
-          <Form.Group as={Row} className="mb-3">
-            <Form.Label column sm={3}>Runtime (mins)</Form.Label>
-            <Col sm={9}><Form.Control type="number" value={formData.runtime} placeholder="e.g., 120" onChange={e => handleChange(e, "runtime")} /></Col>
-            <Form.Control.Feedback type="invalid">{errors.runtime}</Form.Control.Feedback>
-          </Form.Group>
           {formData.type && (
             <>
               <hr/>
