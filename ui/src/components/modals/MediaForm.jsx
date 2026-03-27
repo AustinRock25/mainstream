@@ -466,7 +466,7 @@ function MediaForm({ show, setShow, media }) {
                           </div>
                           <ListGroup style={{maxHeight: "100px", overflowY: "auto"}}>
                             {activeEpisodeIndex === index && isLoading ? <Spinner size="sm"/> : activeEpisodeIndex === index && castAndCrew.map(p => (
-                              <ListGroup.Item key={p.id} action onClick={() => handleSelectPersonEp(p, index)}>{p.name}<span style={{fontSize: "0.6rem"}}>{!!p.birth_date && `${new Date(p.birth_date).getUTCFullYear()}`}{(!!p.birth_date || !!p.death_date) && `-`}{!!p.death_date && `${new Date(p.death_date).getUTCFullYear()}`}</span></ListGroup.Item>
+                              <ListGroup.Item key={p.id} action onClick={() => handleSelectPersonEp(p, index)}>{p.name}<span style={{fontSize: "0.6rem"}}> {!!p.birth_date && `${new Date(p.birth_date).getUTCFullYear()}`}{(!!p.birth_date || !!p.death_date) && `-`}{!!p.death_date && `${new Date(p.death_date).getUTCFullYear()}`}</span></ListGroup.Item>
                             ))}
                           </ListGroup>
                         </Col>

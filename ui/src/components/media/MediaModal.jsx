@@ -43,7 +43,7 @@ function MediaModal({ show, setShow, media, user, seasonCount, pillColor, pillTe
 
   const getYear = (media) => {
     if (media.type !== "show") 
-      return `(${new Date(media.release_date).getUTCFullYear()})`;
+      return new Date(media.release_date).getUTCFullYear();
     else
       return ``;
   };

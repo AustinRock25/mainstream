@@ -167,7 +167,7 @@ export const index = (req, res) => {
 
   switch (sortBy) {
     case "release_date":
-      orderByClause = `ORDER BY COALESCE(release_date, start_date) ${sanitizedSortOrder}, m.title ASC`;
+      orderByClause = `ORDER BY COALESCE(release_date, start_date) ${sanitizedSortOrder}, title ASC`;
       break;
     case "runtime":
       orderByClause = `ORDER BY runtime ${sanitizedSortOrder}`;
