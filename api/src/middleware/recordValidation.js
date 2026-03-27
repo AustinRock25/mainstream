@@ -4,7 +4,7 @@ export const validateMedia = async (req, res, next) => {
   const errors = {};
   let media = req.body;
 
-  if ((!media.id || media.id.length === 0) && media.type == 'show')
+  if ((!media.id || media.id.length === 0) && media.type == "show")
     errors.id = "Required";
 
   if ((!media.title || media.title.length === 0) && (media.type == "movie" || media.id == "na"))
@@ -16,13 +16,13 @@ export const validateMedia = async (req, res, next) => {
   if ((!media.poster || media.poster.length === 0) && (media.type == "movie" || media.id == "na"))
     errors.poster = "Required";
 
-  if (!media.runtime || media.runtime.length === 0)
+  if ((!media.runtime || media.runtime.length === 0) && media.type == "movie")
     errors.runtime = "Required";
 
-  if (!media.type || media.type.length === 0)
+  if ((!media.type || media.type.length === 0) && !media.id)
     errors.type = "Required";
 
-  if (!media.castAndCrew || media.castAndCrew.length == 0)
+  if ((!media.castAndCrew || media.castAndCrew.length == 0) && media.type == "movie")
     errors.castAndCrew = "At least one cast or crew member is required";
   else {
     for (let x = 0; x < media.castAndCrew.length; x++) {
