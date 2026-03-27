@@ -24,7 +24,7 @@ export const validateMedia = async (req, res, next) => {
 
   if ((!media.castAndCrew || media.castAndCrew.length == 0) && media.type == "movie")
     errors.castAndCrew = "At least one cast or crew member is required";
-  else {
+  else if (media.type == "movie") {
     for (let x = 0; x < media.castAndCrew.length; x++) {
       if (media.castAndCrew[x].director === false && media.castAndCrew[x].writer === false && media.castAndCrew[x].cast === false)
         errors.castAndCrew = `Role required for ${media.castAndCrew[x].name}`;
