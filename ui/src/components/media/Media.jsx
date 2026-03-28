@@ -200,7 +200,7 @@ function Media() {
                     <option value="title">Title</option>
                     <option value="release_date">Release Date</option>
                     <option value="grade">Grade</option>
-                    <option value="runtime">Runtime</option>
+                    {filters.filterType === "movie" && <option value="runtime">Runtime</option>}
                     {filters.filterType === "show" && <option value="episodes">Episode Count</option>}
                   </Form.Select>
                 </Form.Group>
@@ -237,17 +237,19 @@ function Media() {
                   <Form.Control type="date" name="dateRange.end" value={filters.dateRange.end} onChange={handleFilterChange} />
                 </Form.Group>
               </Col>
-              <Col md={12}>
-                <Form.Label>Runtime (minutes)</Form.Label>
-                <Row>
-                  <Col>
-                    <Form.Control type="number" name="runtime.min" value={filters.runtime.min} placeholder="Min" onChange={handleFilterChange} />
-                  </Col>
-                  <Col>
-                    <Form.Control type="number" name="runtime.max" value={filters.runtime.max} placeholder="Max" onChange={handleFilterChange} />
-                  </Col>
-                </Row>
-              </Col>
+              {filters.filterType === "movie" && (
+                <Col md={12}>
+                  <Form.Label>Runtime (minutes)</Form.Label>
+                  <Row>
+                    <Col>
+                      <Form.Control type="number" name="runtime.min" value={filters.runtime.min} placeholder="Min" onChange={handleFilterChange} />
+                    </Col>
+                    <Col>
+                      <Form.Control type="number" name="runtime.max" value={filters.runtime.max} placeholder="Max" onChange={handleFilterChange} />
+                    </Col>
+                  </Row>
+                </Col>
+              )}
               {filters.filterType === "show" && (
                 <Col md={12}>
                   <Form.Label>Episode Count</Form.Label>

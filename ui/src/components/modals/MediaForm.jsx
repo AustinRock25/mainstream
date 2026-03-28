@@ -57,9 +57,9 @@ function MediaForm({ show, setShow, media }) {
           peopleMap.get(personId)[role] = true;
       };
 
-      (media.directors || []).forEach(p => addPerson(p, "director"));
-      (media.writers || []).forEach(p => addPerson(p, "writer"));
-      (media.cast_members || media.cast_members_tv || []).forEach(p => addPerson(p, "cast"));
+      (media.directors.sort((a, b) => (a.ordering > b.ordering ? 1 : -1)) || []).forEach(p => addPerson(p, "director"));
+      (media.writers.sort((a, b) => (a.ordering > b.ordering ? 1 : -1)) || []).forEach(p => addPerson(p, "writer"));
+      (media.cast_members.sort((a, b) => (a.ordering > b.ordering ? 1 : -1)) || media.cast_members_tv.sort((a, b) => (a.ordering > b.ordering ? 1 : -1)) || []).forEach(p => addPerson(p, "cast"));
       cast = Array.from(peopleMap.values());
 
       if (media.episodes) {
@@ -80,8 +80,8 @@ function MediaForm({ show, setShow, media }) {
               episodePeopleMap.get(personId)[role] = true;
           };
 
-          (media.episodes[i].directors || []).forEach(p => episodeAddPerson(p, "director"));
-          (media.episodes[i].writers || []).forEach(p => episodeAddPerson(p, "writer"));
+          (media.episodes[i].directors.sort((a, b) => (a.ordering > b.ordering ? 1 : -1)) || []).forEach(p => episodeAddPerson(p, "director"));
+          (media.episodes[i].writers.sort((a, b) => (a.ordering > b.ordering ? 1 : -1)) || []).forEach(p => episodeAddPerson(p, "writer"));
           ep[i].creatives = Array.from(episodePeopleMap.values());
         }
       }
