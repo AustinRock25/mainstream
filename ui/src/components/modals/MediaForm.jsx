@@ -57,10 +57,10 @@ function MediaForm({ show, setShow, media }) {
           peopleMap.get(personId)[role] = true;
       };
 
-      (media.directors.length > 0 && (media.directors.sort((a, b) => (a.ordering > b.ordering ? 1 : -1)))).forEach(p => addPerson(p, "director"));
-      (media.writers.length > 0 && (media.writers.sort((a, b) => (a.ordering > b.ordering ? 1 : -1)))).forEach(p => addPerson(p, "writer"));
-      (media.cast_members.length > 0 && (media.cast_members.sort((a, b) => (a.ordering > b.ordering ? 1 : -1)))).forEach(p => addPerson(p, "cast"));
-      (media.cast_members_tv.length > 0 && (media.cast_members_tv.sort((a, b) => (a.ordering > b.ordering ? 1 : -1)))).forEach(p => addPerson(p, "cast"));
+      (!!media.directors && (media.directors.sort((a, b) => (a.ordering > b.ordering ? 1 : -1)))).forEach(p => addPerson(p, "director"));
+      (!!media.writers && (media.writers.sort((a, b) => (a.ordering > b.ordering ? 1 : -1)))).forEach(p => addPerson(p, "writer"));
+      (!!media.cast_members && (media.cast_members.sort((a, b) => (a.ordering > b.ordering ? 1 : -1)))).forEach(p => addPerson(p, "cast"));
+      (!!media.cast_members_tv && (media.cast_members_tv.sort((a, b) => (a.ordering > b.ordering ? 1 : -1)))).forEach(p => addPerson(p, "cast"));
       cast = Array.from(peopleMap.values());
 
       if (media.episodes) {
@@ -81,8 +81,8 @@ function MediaForm({ show, setShow, media }) {
               episodePeopleMap.get(personId)[role] = true;
           };
 
-          (media.episodes[i].directors > 0 && (media.episodes[i].directors.sort((a, b) => (a.ordering > b.ordering ? 1 : -1)))).forEach(p => episodeAddPerson(p, "director"));
-          (media.episodes[i].writers > 0 && (media.episodes[i].writers.sort((a, b) => (a.ordering > b.ordering ? 1 : -1)))).forEach(p => episodeAddPerson(p, "writer"));
+          (!!media.episodes[i].directors && (media.episodes[i].directors.sort((a, b) => (a.ordering > b.ordering ? 1 : -1)))).forEach(p => episodeAddPerson(p, "director"));
+          (!!media.episodes[i].writers && (media.episodes[i].writers.sort((a, b) => (a.ordering > b.ordering ? 1 : -1)))).forEach(p => episodeAddPerson(p, "writer"));
           ep[i].creatives = Array.from(episodePeopleMap.values());
         }
       }
