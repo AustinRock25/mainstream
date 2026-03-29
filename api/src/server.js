@@ -37,6 +37,13 @@ app.use("/people", peopleRoutes);
 app.use(express.json({ limit: '1gb' }));
 app.use(express.urlencoded({ limit: '1gb', extended: true }));
 
+app.use((err, req, res, next) => {
+if (err.status === 413) {
+return res.status(413).json({ message: 'Payload too large' });
+}
+next(err);
+});
+
 const port = process.env.PORT || 10000;
 app.listen(port, () => {
   console.log(`Server listening on port ${port}`);
