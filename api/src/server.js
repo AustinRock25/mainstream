@@ -34,9 +34,6 @@ app.use("/media", mediaRoutes);
 import peopleRoutes from "./routes/peopleRoutes.js";
 app.use("/people", peopleRoutes);
 
-app.use(express.json({ limit: 100000000 }));
-app.use(express.urlencoded({ limit: 100000000, extended: true }));
-
 const port = process.env.PORT || 10000;
 app.listen(port, () => {
   console.log(`Server listening on port ${port}`);
