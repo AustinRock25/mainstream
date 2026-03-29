@@ -34,6 +34,20 @@ app.use("/media", mediaRoutes);
 import peopleRoutes from "./routes/peopleRoutes.js";
 app.use("/people", peopleRoutes);
 
+app.use((req, res, next) => {
+  const contentLength = req.headers['content-length'];
+
+  if (contentLength) {
+      console.log(`--- Request Inbound ---`);
+      console.log(`Path: ${req.path}`);
+      console.log(`Reported Size: ${contentLength} bytes (~${(contentLength / 1024).toFixed(2)} KB)`);
+  }
+  
+  next();
+});
+
+app.use(express.json({ limit: "1mb" }));
+
 const port = process.env.PORT || 10000;
 app.listen(port, () => {
   console.log(`Server listening on port ${port}`);
