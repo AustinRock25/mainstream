@@ -220,7 +220,7 @@ function MediaModal({ show, setShow, media, user, seasonCount, pillColor, pillTe
               <div className="mt-4">
                 <h5 className="mb-3 border-bottom border-secondary pb-2">Episodes</h5>
                 <Accordion flush>
-                  {media.episodes.map((ep, index) => (
+                  {media.episodes.sort((a, b) => (a.episode > b.episode ? 1 : -1)).map((ep, index) => (
                     <Accordion.Item eventKey={index.toString()} key={index} className="border-0">
                       <Accordion.Header>
                         <span className="fs-5 fw-bold">{ep.episode}. {ep.title} <small className="ms-auto me-3 small opacity-50">{new Date(ep.release_date).getUTCFullYear()}</small>{matchDates(new Date(ep.release_date), new Date()) && <span className="badge bg-white text-dark ms-2">Anniversary</span>}</span>
@@ -254,7 +254,7 @@ function MediaModal({ show, setShow, media, user, seasonCount, pillColor, pillTe
         </Row>
       </Modal.Body>
       {isAdmin && (
-        <div className="d-flex justify-content-end mt-4">
+        <div className="d-flex justify-content-end m-4">
           <Button variant="outline-light" size="sm" onClick={handleEditMediaClick}>Edit</Button>
         </div>
       )}
