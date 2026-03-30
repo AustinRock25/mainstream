@@ -635,17 +635,17 @@ async function createMovie(media, { directors, writers, castMembers }) {
       ),
       insert_directors AS (
         INSERT INTO media_directors (ordering, media_id, director_id)
-        SELECT row_number() OVER (), (SELECT id FROM new_media), director_id
+        SELECT (SELECT COALESCE(MAX(ordering), 0) + 1 FROM media_directors WHERE media_id = (SELECT id FROM new_media)), (SELECT id FROM new_media), director_id
         FROM unnest($8::int[]) AS director_id
       ),
       insert_cast AS (
         INSERT INTO media_cast (ordering, media_id, actor_id)
-        SELECT row_number() OVER (), (SELECT id FROM new_media), actor_id
+        SELECT (SELECT COALESCE(MAX(ordering), 0) + 1 FROM media_cast WHERE media_id = (SELECT id FROM new_media)), (SELECT id FROM new_media), actor_id
         FROM unnest($9::int[]) AS actor_id
       ),
       insert_writers AS (
         INSERT INTO media_writers (ordering, media_id, writer_id)
-        SELECT row_number() OVER (), (SELECT id FROM new_media), writer_id
+        SELECT (SELECT COALESCE(MAX(ordering), 0) + 1 FROM media_writers WHERE media_id = (SELECT id FROM new_media)), (SELECT id FROM new_media), writer_id
         FROM unnest($10::int[]) AS writer_id
       )
       SELECT id FROM new_media;
@@ -688,7 +688,7 @@ async function createNewShow(media, { castMembers }) {
       ),
       insert_cast AS (
         INSERT INTO seasons_cast (ordering, season, show_id, actor_id)
-        SELECT row_number() OVER (), 1, (SELECT id FROM new_media), actor_id
+        SELECT (SELECT COALESCE(MAX(ordering), 0) + 1 FROM seasons_cast WHERE show_id = (SELECT id FROM new_media) AND season = 1), 1, (SELECT id FROM new_media), actor_id
         FROM unnest($8::int[]) AS actor_id
       )
       SELECT id FROM new_media;
@@ -755,7 +755,7 @@ async function addSeasonToShow(media, { castMembers }) {
 
   await query(
     `INSERT INTO seasons_cast (ordering, season, show_id, actor_id)
-     SELECT row_number() OVER (), $1, $2, actor_id
+     SELECT (SELECT COALESCE(MAX(ordering), 0) + 1 FROM seasons_cast WHERE show_id = $2 AND season = $1), $1, $2, actor_id
      FROM unnest($3::int[]) AS actor_id`,
     [seasonNum, media.id, castMembers]
   );
@@ -803,7 +803,7 @@ async function updateMovie(media, og, { directors, writers, castMembers }) {
     sql = 
       `
         INSERT INTO media_directors (ordering, media_id, director_id)
-        SELECT row_number() OVER (), $1, director_id
+        SELECT (SELECT COALESCE(MAX(ordering), 0) + 1 FROM media_directors WHERE media_id = $1), $1, director_id
         FROM unnest($2::int[]) AS director_id;
       `;
 
@@ -817,7 +817,7 @@ async function updateMovie(media, og, { directors, writers, castMembers }) {
     sql = 
       `
         INSERT INTO media_writers (ordering, media_id, writer_id)
-        SELECT row_number() OVER (), $1, writer_id
+        SELECT (SELECT COALESCE(MAX(ordering), 0) + 1 FROM media_writers WHERE media_id = $1), $1, writer_id
         FROM unnest($2::int[]) AS writer_id;
       `;
 
@@ -831,7 +831,7 @@ async function updateMovie(media, og, { directors, writers, castMembers }) {
     sql = 
       `
         INSERT INTO media_cast (ordering, media_id, actor_id)
-        SELECT row_number() OVER (), $1, actor_id
+        SELECT (SELECT COALESCE(MAX(ordering), 0) + 1 FROM media_cast WHERE media_id = $1), $1, actor_id
         FROM unnest($2::int[]) AS actor_id;
       `;
 
@@ -861,7 +861,7 @@ async function updateShow(media, og, { castMembers }) {
     await query(`DELETE FROM seasons_cast WHERE show_id = $1 AND season = $2;`, [media.id, media.season]);
     await query(
       `INSERT INTO seasons_cast (ordering, season, show_id, actor_id)
-       SELECT row_number() OVER (), $1, $2, actor_id FROM unnest($3::int[]) AS actor_id;`,
+       SELECT (SELECT COALESCE(MAX(ordering), 0) + 1 FROM seasons_cast WHERE show_id = $2 AND season = $1), $1, $2, actor_id FROM unnest($3::int[]) AS actor_id;`,
       [media.season, media.id, castMembers]
     );
   }
