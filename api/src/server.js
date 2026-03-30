@@ -6,7 +6,7 @@ const app = express();
 const URL = `https://mainstream-api.onrender.com/healthcheck`;
 
 app.use(express.json({ limit: "1mb" }));
-app.use(express.urlencoded({ limit: '1mb', extended: true }));
+app.use(express.urlencoded({ limit: "1mb", extended: true }));
 
 setInterval(() => {
   fetch(URL)
