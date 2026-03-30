@@ -860,7 +860,7 @@ async function updateShow(media, og, { castMembers }) {
 
   if (JSON.stringify(castMembers) !== JSON.stringify(ogCast)) {
     await query(`DELETE FROM seasons_cast WHERE show_id = $1 AND season = $2;`, [media.id, media.season]);
-
+    console.log(castMembers);
     for (const cast of castMembers) {
       await query(`INSERT INTO seasons_cast (ordering, season, show_id, actor_id) VALUES ((SELECT COALESCE(MAX(ordering), 0) + 1 FROM seasons_cast WHERE show_id = $2 AND season = $1), $1, $2, $3;`, [media.season, media.id, cast]);
     }
