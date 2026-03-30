@@ -857,7 +857,7 @@ async function updateShow(media, og, { castMembers }) {
 
   const ogCast = og.cast_members_tv?.map(cm => cm.actor_id) || [];
 
-  if (JSON.stringify(castMembers.sort()) !== JSON.stringify(ogCast.sort())) {
+  if (JSON.stringify(castMembers) !== JSON.stringify(ogCast)) {
     await query(`DELETE FROM seasons_cast WHERE show_id = $1 AND season = $2;`, [media.id, media.season]);
     await query(
       `INSERT INTO seasons_cast (ordering, season, show_id, actor_id)
