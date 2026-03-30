@@ -802,7 +802,7 @@ async function updateMovie(media, og, { directors, writers, castMembers }) {
       sql = 
         `
           INSERT INTO media_directors (ordering, media_id, director_id)
-          VALUES (SELECT COALESCE(MAX(ordering), 0) + 1 FROM media_directors WHERE media_id = $1), $1, $2;
+          VALUES ((SELECT COALESCE(MAX(ordering), 0) + 1 FROM media_directors WHERE media_id = $1), $1, $2;
         `;
 
       await query(sql, [media.id, director.id]);
@@ -817,7 +817,7 @@ async function updateMovie(media, og, { directors, writers, castMembers }) {
       sql = 
         `
           INSERT INTO media_writers (ordering, media_id, writer_id)
-          VALUES (SELECT COALESCE(MAX(ordering), 0) + 1 FROM media_writers WHERE media_id = $1), $1, $2;
+          VALUES ((SELECT COALESCE(MAX(ordering), 0) + 1 FROM media_writers WHERE media_id = $1), $1, $2;
         `;
 
       await query(sql, [media.id, writer.id]);
@@ -832,7 +832,7 @@ async function updateMovie(media, og, { directors, writers, castMembers }) {
       sql = 
       `
         INSERT INTO media_cast (ordering, media_id, actor_id)
-        VALUES (SELECT COALESCE(MAX(ordering), 0) + 1 FROM media_cast WHERE media_id = $1), $1, $2;
+        VALUES ((SELECT COALESCE(MAX(ordering), 0) + 1 FROM media_cast WHERE media_id = $1), $1, $2;
       `;
 
       await query(sql, [media.id, cast.id]);
@@ -862,7 +862,7 @@ async function updateShow(media, og, { castMembers }) {
     await query(`DELETE FROM seasons_cast WHERE show_id = $1 AND season = $2;`, [media.id, media.season]);
 
     for (const cast of castMembers) {
-      await query(`INSERT INTO seasons_cast (ordering, season, show_id, actor_id) VALUES (SELECT COALESCE(MAX(ordering), 0) + 1 FROM seasons_cast WHERE show_id = $2 AND season = $1), $1, $2, $3;`, [media.season, media.id, cast.id]);
+      await query(`INSERT INTO seasons_cast (ordering, season, show_id, actor_id) VALUES ((SELECT COALESCE(MAX(ordering), 0) + 1 FROM seasons_cast WHERE show_id = $2 AND season = $1), $1, $2, $3;`, [media.season, media.id, cast.id]);
     }
   }
 
