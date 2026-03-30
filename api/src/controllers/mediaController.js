@@ -632,21 +632,6 @@ async function createMovie(media, { directors, writers, castMembers }) {
         SELECT COALESCE(MAX(id), 0) + 1, $1, $2, $3, $4, $5, $6, 'movie', $7
         FROM media
         RETURNING id
-      ),
-      insert_directors AS (
-        INSERT INTO media_directors (ordering, media_id, director_id)
-        SELECT (SELECT COALESCE(MAX(ordering), 0) + 1 FROM media_directors WHERE media_id = (SELECT id FROM new_media)), (SELECT id FROM new_media), director_id
-        FROM unnest($8::int[]) AS director_id
-      ),
-      insert_cast AS (
-        INSERT INTO media_cast (ordering, media_id, actor_id)
-        SELECT (SELECT COALESCE(MAX(ordering), 0) + 1 FROM media_cast WHERE media_id = (SELECT id FROM new_media)), (SELECT id FROM new_media), actor_id
-        FROM unnest($9::int[]) AS actor_id
-      ),
-      insert_writers AS (
-        INSERT INTO media_writers (ordering, media_id, writer_id)
-        SELECT (SELECT COALESCE(MAX(ordering), 0) + 1 FROM media_writers WHERE media_id = (SELECT id FROM new_media)), (SELECT id FROM new_media), writer_id
-        FROM unnest($10::int[]) AS writer_id
       )
       SELECT id FROM new_media;
     `;
@@ -658,13 +643,23 @@ async function createMovie(media, { directors, writers, castMembers }) {
     media.rating,
     media.poster, 
     media.runtime,
-    new Date(),
-    directors, 
-    castMembers, 
-    writers
+    new Date()
   ];
 
   const result = await query(sql, params);
+
+  for (const director of directors) {
+    await query(`INSERT INTO media_directors (ordering, media_id, director_id) VALUES ((SELECT COALESCE(MAX(ordering), 0) + 1 FROM media_directors WHERE media_id = $1), $1, $2)`, [result.rows[0].id, director.id]);
+  }
+
+  for (const cast of castMembers) {
+    await query(`INSERT INTO media_cast (ordering, media_id, actor_id) VALUES ((SELECT COALESCE(MAX(ordering), 0) + 1 FROM media_cast WHERE media_id = $1), $1, $2)`, [result.rows[0].id, cast.id]);
+  }
+
+  for (const writer of writers) {
+    await query(`INSERT INTO media_writers (ordering, media_id, writer_id) VALUES ((SELECT COALESCE(MAX(ordering), 0) + 1 FROM media_writers WHERE media_id = $1), $1, $2)`, [result.rows[0].id, writer.id]);
+  }
+
   return { id: result.rows[0].id };
 }
 
@@ -684,12 +679,7 @@ async function createNewShow(media, { castMembers }) {
       insert_episodes AS (
         INSERT INTO seasons_episodes (show_id, season, episode, title, release_date)
         SELECT (SELECT id FROM new_media), 1, ep.n, (ep.obj->>'title'), NULLIF(ep.obj->>'release_date', '')::date
-        FROM json_array_elements($9::json) WITH ORDINALITY AS ep(obj, n)
-      ),
-      insert_cast AS (
-        INSERT INTO seasons_cast (ordering, season, show_id, actor_id)
-        SELECT (SELECT COALESCE(MAX(ordering), 0) + 1 FROM seasons_cast WHERE show_id = (SELECT id FROM new_media) AND season = 1), 1, (SELECT id FROM new_media), actor_id
-        FROM unnest($8::int[]) AS actor_id
+        FROM json_array_elements($8::json) WITH ORDINALITY AS ep(obj, n)
       )
       SELECT id FROM new_media;
     `;
@@ -702,7 +692,6 @@ async function createNewShow(media, { castMembers }) {
     media.grade, 
     media.runtime,
     new Date(),
-    castMembers,
     JSON.stringify(media.episodes)
   ];
   
@@ -720,6 +709,14 @@ async function createNewShow(media, { castMembers }) {
           await query(`INSERT INTO seasons_writers (ordering, show_id, season, episode, writer_id) VALUES ((SELECT COALESCE(MAX(ordering), 0) + 1 FROM seasons_writers WHERE show_id = $1 AND season = 1 AND episode = $2), $1, 1, $2, $3)`, [newShowId, epNum, creative.id]);
       }
     }
+  }
+
+  for (const cast of castMembers) {
+    await query(
+      `INSERT INTO seasons_cast (ordering, season, show_id, actor_id)
+       VALUES ((SELECT COALESCE(MAX(ordering), 0) + 1 FROM seasons_cast WHERE show_id = $1 AND season = 1), 1, $1, $2)`,
+       [newShowId, cast.id]
+    );
   }
 
   return { id: newShowId };
@@ -753,12 +750,13 @@ async function addSeasonToShow(media, { castMembers }) {
     }
   }
 
-  await query(
-    `INSERT INTO seasons_cast (ordering, season, show_id, actor_id)
-     SELECT (SELECT COALESCE(MAX(ordering), 0) + 1 FROM seasons_cast WHERE show_id = $2 AND season = $1), $1, $2, actor_id
-     FROM unnest($3::int[]) AS actor_id`,
-    [seasonNum, media.id, castMembers]
-  );
+  for (const cast of castMembers) {
+    await query(
+      `INSERT INTO seasons_cast (ordering, season, show_id, actor_id)
+       VALUES ((SELECT COALESCE(MAX(ordering), 0) + 1 FROM seasons_cast WHERE show_id = $2 AND season = $1), $1, $2, $3)`,
+       [seasonNum, media.id, cast.id]
+    );
+  }
 
   return { id: media.id };
 }
@@ -800,42 +798,45 @@ async function updateMovie(media, og, { directors, writers, castMembers }) {
     sql = `DELETE FROM media_directors WHERE media_id = $1;`;
     await query(sql, [media.id]);
 
-    sql = 
-      `
-        INSERT INTO media_directors (ordering, media_id, director_id)
-        SELECT (SELECT COALESCE(MAX(ordering), 0) + 1 FROM media_directors WHERE media_id = $1), $1, director_id
-        FROM unnest($2::int[]) AS director_id;
-      `;
+    for (const director of directors) {
+      sql = 
+        `
+          INSERT INTO media_directors (ordering, media_id, director_id)
+          VALUES (SELECT COALESCE(MAX(ordering), 0) + 1 FROM media_directors WHERE media_id = $1), $1, $2;
+        `;
 
-    await query(sql, [media.id, directors]);
+      await query(sql, [media.id, director.id]);
+    }
   }
 
   if (!og.writers || !writers || og.writers.length != writers.length || !(writers.every(w => og.writers.some(ogw => ogw["writer_id"] === w)))) {
     sql = `DELETE FROM media_writers WHERE media_id = $1;`;
     await query(sql, [media.id]);
 
-    sql = 
-      `
-        INSERT INTO media_writers (ordering, media_id, writer_id)
-        SELECT (SELECT COALESCE(MAX(ordering), 0) + 1 FROM media_writers WHERE media_id = $1), $1, writer_id
-        FROM unnest($2::int[]) AS writer_id;
-      `;
+    for (const writer of writers) {
+      sql = 
+        `
+          INSERT INTO media_writers (ordering, media_id, writer_id)
+          VALUES (SELECT COALESCE(MAX(ordering), 0) + 1 FROM media_writers WHERE media_id = $1), $1, $2;
+        `;
 
-    await query(sql, [media.id, writers]);
+      await query(sql, [media.id, writer.id]);
+    }
   }
 
   if (!og.cast_members || !castMembers || og.cast_members.length != castMembers.length || !(castMembers.every(cm => og.cast_members.some(ogcm => ogcm["actor_id"] === cm)))) {
     sql = `DELETE FROM media_cast WHERE media_id = $1;`;
     await query(sql, [media.id]);
 
-    sql = 
+    for (const cast of castMembers) {
+      sql = 
       `
         INSERT INTO media_cast (ordering, media_id, actor_id)
-        SELECT (SELECT COALESCE(MAX(ordering), 0) + 1 FROM media_cast WHERE media_id = $1), $1, actor_id
-        FROM unnest($2::int[]) AS actor_id;
+        VALUES (SELECT COALESCE(MAX(ordering), 0) + 1 FROM media_cast WHERE media_id = $1), $1, $2;
       `;
 
-    await query(sql, [media.id, castMembers]);
+      await query(sql, [media.id, cast.id]);
+    }
   }
 }
 
@@ -859,11 +860,10 @@ async function updateShow(media, og, { castMembers }) {
 
   if (JSON.stringify(castMembers) !== JSON.stringify(ogCast)) {
     await query(`DELETE FROM seasons_cast WHERE show_id = $1 AND season = $2;`, [media.id, media.season]);
-    await query(
-      `INSERT INTO seasons_cast (ordering, season, show_id, actor_id)
-       SELECT (SELECT COALESCE(MAX(ordering), 0) + 1 FROM seasons_cast WHERE show_id = $2 AND season = $1), $1, $2, actor_id FROM unnest($3::int[]) AS actor_id;`,
-      [media.season, media.id, castMembers]
-    );
+
+    for (const cast of castMembers) {
+      await query(`INSERT INTO seasons_cast (ordering, season, show_id, actor_id) VALUES (SELECT COALESCE(MAX(ordering), 0) + 1 FROM seasons_cast WHERE show_id = $2 AND season = $1), $1, $2, $3;`, [media.season, media.id, cast.id]);
+    }
   }
 
   if (JSON.stringify(media.episodes) !== JSON.stringify(og.episodes)) {
