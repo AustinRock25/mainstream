@@ -7,6 +7,7 @@ import { useSelector } from "react-redux";
 function MediaForm({ show, setShow, media }) {
   const [alert, setAlert] = useState({ message: "", variant: "" });
   const [castAndCrew, setCastAndCrew] = useState([]);
+  const [castAndCrewEp, setCastAndCrewEp] = useState([]);
   const [errors, setErrors] = useState({});
   const [episodes, setEpisodes] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -225,6 +226,7 @@ function MediaForm({ show, setShow, media }) {
   const fetchPeople = useCallback(() => {
     if (!searchTerm) { 
       setCastAndCrew([]); 
+      setCastAndCrewEp([]); 
       return; 
     }
 
@@ -233,10 +235,12 @@ function MediaForm({ show, setShow, media }) {
       .then(response => {
         const selectedIds = new Set(selected.map(s => s.id));
 
-        if (activeEpisodeIndex !== null && episodes[activeEpisodeIndex]?.creatives)
+        if (activeEpisodeIndex !== null && episodes[activeEpisodeIndex]?.creatives) {
           episodes[activeEpisodeIndex].creatives.forEach(c => selectedIds.add(c.id));
-
-        setCastAndCrew(response.data.filter(p => !selectedIds.has(p.id)));
+          setCastAndCrewEp(response.data.filter(p => !selectedIds.has(p.id)));
+        }
+        else
+          setCastAndCrew(response.data.filter(p => !selectedIds.has(p.id)));
       })
       .finally(() => 
         setIsLoading(false));
@@ -249,6 +253,7 @@ function MediaForm({ show, setShow, media }) {
     if (key === "type") {
       setFormData({ ...initialFormData, type: value });
       setSelected([]);
+      setEpisodes([]);
     }
 
     if (user.rating_scale == 1 && key === "grade") {
@@ -309,7 +314,7 @@ function MediaForm({ show, setShow, media }) {
 
   const handleSelectPersonEp = (person, index) => {
     setEpisodes(prev => prev.map((ep, i) => i === index ? { ...ep, creatives: [...(ep.creatives || []), { ...person, director: false, writer: false }] } : ep));
-    setCastAndCrew(prev => prev.filter(p => p.id !== person.id));
+    setCastAndCrewEp(castAndCrewEp.filter(p => p.id !== person.id));
   };
 
   const handleRemovePersonEp = (personId, index) => {
@@ -478,7 +483,7 @@ function MediaForm({ show, setShow, media }) {
                             <Button size="sm" variant="primary" onClick={fetchPeople} className="ms-2">Search</Button>
                           </div>
                           <ListGroup style={{maxHeight: "100px", overflowY: "auto"}}>
-                            {activeEpisodeIndex === index && isLoading ? <Spinner size="sm"/> : activeEpisodeIndex === index && castAndCrew.map(p => (
+                            {activeEpisodeIndex === index && isLoading ? <Spinner size="sm"/> : activeEpisodeIndex === index && castAndCrewEp.map(p => (
                               <ListGroup.Item key={p.id} action onClick={() => handleSelectPersonEp(p, index)}>{p.name}<span style={{fontSize: "0.6rem"}}> {!!p.birth_date && `${new Date(p.birth_date).getUTCFullYear()}`}{(!!p.birth_date || !!p.death_date) && `-`}{!!p.death_date && `${new Date(p.death_date).getUTCFullYear()}`}</span></ListGroup.Item>
                             ))}
                           </ListGroup>
