@@ -19,7 +19,7 @@ function MediaModal({ show, setShow, media, user, seasonCount, pillColor, pillTe
     if (!people || people.length === 0) 
       return [];
 
-    return [...people].sort((a, b) => (a.ordering > b.ordering ? 1 : -1)).map(p => `${p.name}${p.death_date ? "†" : ""}`);
+    return people.sort((a, b) => (a.ordering > b.ordering ? 1 : -1)).map(p => `${p.name}${p.death_date ? "†" : ""}`);
   };
 
   const combineDirectorsAndWriters = (media) => {
