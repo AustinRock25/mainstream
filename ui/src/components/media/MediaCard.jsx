@@ -42,7 +42,7 @@ function MediaCard ({media}) {
 
   return (
     <Col>
-      <Card className="h-100">
+      <Card>
         <Card.Img 
           variant="top" 
           src={media.type !== "show" ? `posters/${media.poster}_poster.jpg` : `posters/${media.poster}-season-${media.season}_poster.jpg`}
