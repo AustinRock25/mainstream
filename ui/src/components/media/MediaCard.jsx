@@ -46,10 +46,10 @@ function MediaCard ({media}) {
         <Card.Img 
           variant="top" 
           src={media.type !== "show" ? `posters/${media.poster}_poster.jpg` : `posters/${media.poster}-season-${media.season}_poster.jpg`}
+          className="rounded"
           alt={`Poster for ${media.title}`} 
           onClick={handleOpenModal}
           fluid
-          className="rounded"
         />
       </Card>
       <MediaModal show={showMediaModal} setShow={setShowMediaModal} media={media} user={user} seasonCount={seasonCount} pillColor={pillColor} pillTextColor={pillTextColor} />
