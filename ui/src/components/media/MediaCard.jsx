@@ -49,6 +49,7 @@ function MediaCard ({media}) {
           alt={`Poster for ${media.title}`} 
           onClick={handleOpenModal}
           fluid
+          rounded
         />
       </Card>
       <MediaModal show={showMediaModal} setShow={setShowMediaModal} media={media} user={user} seasonCount={seasonCount} pillColor={pillColor} pillTextColor={pillTextColor} />
