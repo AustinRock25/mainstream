@@ -149,6 +149,7 @@ const People = () => {
               placeholder="Enter name..."
               className="me-2"
             />
+            <Button variant="success" type="submit" disabled={isLoading}>Search</Button>
             <Button onClick={() => setOpen(!open)} aria-controls="filters-collapse" aria-expanded={open} variant="secondary" className="me-2 flex-shrink-0">Filters & Sort</Button>
           </Col>
         </Row>
