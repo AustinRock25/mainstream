@@ -14,7 +14,6 @@ function ApplicationLayout() {
   const dispatch = useDispatch();
   const { isAdmin, isAuthenticated, user } = useSelector(state => state.auth);
   const location = useLocation();
-  const navigate = useNavigate();
   const [showAuthModal, setShowAuthModal] = useState(false);
   const [showMediaModal, setShowMediaModal] = useState(false);
   const [showPersonModal, setShowPersonModal] = useState(false);
