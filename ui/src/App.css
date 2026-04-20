@@ -115,5 +115,5 @@ p, td, li {
 }
 
 .btn-link:hover, .btn-link:active {
-  font-weight: bold;
+  font-weight: bold !important;
 }

@@ -170,7 +170,7 @@ function MediaModal({ show, setShow, media, user, seasonCount }) {
     <Modal show={show} onHide={handleClose} size="lg" centered contentClassName="bg-dark text-white">
       <Modal.Header closeButton closeVariant="white">
         <Modal.Title><i>{media.title}</i> 
-          <span className="fw-light fs-5 text-white-50">{getYear(media)}
+          <span className="fw-light fs-5 text-white-50 d-inline-flex"> {getYear(media)}
             <Stack direction="horizontal" gap={3} className="justify-content-center">
               <span>{media.rating === "Not Rated" ? "NR" : media.rating}</span>
               <span>{time(media.runtime)}</span>
