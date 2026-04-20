@@ -22,7 +22,7 @@ function MediaForm({ show, setShow, media, season }) {
   const initialFormData = {
     id: "",
     title: "",
-    season: currentSeason,
+    season: season,
     grade: 0,
     rating: "Not Rated",
     release_date: "",
@@ -177,7 +177,7 @@ function MediaForm({ show, setShow, media, season }) {
       setFormData({
         id: media.id || "",
         title: media.title || "",
-        season: currentSeason || "",
+        season: season || "",
         grade: grade || 0,
         rating: media.rating || "Not Rated",
         release_date: media.release_date ? new Date(media.release_date).toISOString().split("T")[0] : "",
@@ -359,7 +359,7 @@ function MediaForm({ show, setShow, media, season }) {
   return (
     <Modal show={show} onHide={handleHide} backdrop="static" size="lg" centered style={{overflowY: "auto"}}>
       <Modal.Header>
-        <Modal.Title>{media?.id ? `Edit ${media.title} ${(media.type == "show" && currentSeason != 0) ? `season ${currentSeason + 1}` : ""}` : "Add Film/Show"}</Modal.Title>
+        <Modal.Title>{media?.id ? `Edit ${media.title} ${(media.type == "show" && season != 0) ? `season ${season + 1}` : ""}` : "Add Film/Show"}</Modal.Title>
       </Modal.Header>
       <Modal.Body>
         {alert.message && 
