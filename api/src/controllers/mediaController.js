@@ -409,7 +409,7 @@ export const indexLength = (req, res) => {
         SELECT json_agg(json_build_object('show_id', s.show_id, 'season', s.season, 'grade', s.grade, 'cast_members', sc.cast_members, 'episodes', se.episodes)) AS seasons
         FROM seasons s
         LEFT JOIN LATERAL (
-          SELECT json_agg(json_build_object('show_id', se.show_id, 'season', se.season, 'episode', se.episode, 'release_date', se.release_date, 'title', se.title, 'directors', sd.directors, 'writers', sw.writers)) AS episodes
+          SELECT json_agg(json_build_object('show_id', se.show_id, 'season', se.season, 'episode', se.episode, 'release_date', se.release_date)) AS episodes
           FROM seasons_episodes se 
           WHERE m.id = se.show_id AND s.season = se.season
         ) se ON TRUE
