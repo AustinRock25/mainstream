@@ -1,11 +1,12 @@
 import MediaForm from "../modals/MediaForm";
-import { Modal, Row, Col, Badge, Stack, Accordion, Button } from "react-bootstrap";
+import { Modal, Row, Col, ToggleButton, Stack, Accordion, Button } from "react-bootstrap";
 import { useSelector } from "react-redux";
 import { useState } from "react";
 
-function MediaModal({ show, setShow, media, user, seasonCount, pillColor, pillTextColor }) {
+function MediaModal({ show, setShow, media, user, seasonCount, pillColor }) {
   const { isAdmin } = useSelector(state => state.auth);
   const [showMediaForm, setShowMediaForm] = useState(false);
+  const [currentSeason, setCurrentSeason] = useState(1);
   
   const handleClose = () => {
     setShow(false);
@@ -13,6 +14,10 @@ function MediaModal({ show, setShow, media, user, seasonCount, pillColor, pillTe
 
   const handleEditMediaClick = () => {
     setShowMediaForm(true);
+  }
+
+  const changeSeason = (season) => {
+    setCurrentSeason(season);
   }
 
   const getNames = (people) => {
@@ -34,18 +39,15 @@ function MediaModal({ show, setShow, media, user, seasonCount, pillColor, pillTe
     return directorIds === writerIds;
   };
 
-  const getSeason = (media) => {
-    if ((media.type === "show" && media.completed && seasonCount == 1) || media.type === "movie")
-      return ``;
-    else
-      return `season ${media.season}`;
-  };
-
   const getYear = (media) => {
-    if (media.type !== "show") 
-      return new Date(media.release_date).getUTCFullYear();
-    else
-      return ``;
+    if (media.type !== "show" || seasonCount == 1) 
+      return new Date(media.release_date || media.start_date).getUTCFullYear();
+    else {
+      if (seasonCount > 1 && media.completed)
+        return `${new Date(media.start_date).getUTCFullYear()}-${new Date(media.end_date).getUTCFullYear()}`;
+      else
+        return `${new Date(media.start_date).getUTCFullYear()}-`;
+    }
   };
 
   const time = (runtime) => {
@@ -172,22 +174,33 @@ function MediaModal({ show, setShow, media, user, seasonCount, pillColor, pillTe
   return (
     <Modal show={show} onHide={handleClose} size="lg" centered contentClassName="bg-dark text-white">
       <Modal.Header closeButton closeVariant="white">
-        <Modal.Title><i>{media.title}</i> {getSeason(media)}<span className="fw-light fs-5 text-white-50">{getYear(media)}</span></Modal.Title>
+        <Modal.Title><i>{media.title}</i> <span className="fw-light fs-5 text-white-50">{getYear(media)}</span> 
+          <Stack direction="horizontal" gap={3} className="justify-content-center">
+            <span className="fw-light fs-5 text-white-50">{media.rating === "Not Rated" ? "NR" : media.rating}</span>
+            <span className="fw-light fs-5 text-white-50">{time(media.runtime)}</span>
+            <span className={`fw-light fs-5 text-${pillColor}-50`}>{getGrade(media.grade || media.grade_tv)}</span>
+          </Stack></Modal.Title>
       </Modal.Header>
       <Modal.Body>
+        {media.type == "show" &&
+          <Row>
+            <Col className="justify-content-center">
+              <Stack direction="horizontal" gap={2} className="justify-content-center">
+                {media.seasons.map((season, index) => (
+                  <ToggleButton key={index + 1} type="radio" variant="link" checked={index + 1 == currentSeason} onChange={setChecked(index + 1)}>Season {index + 1}</ToggleButton>
+                ))}
+              </Stack>
+            </Col>
+          </Row>
+        }
         <Row>
           <Col xs={12} md={4} className="text-center mb-4 mb-md-0">
             <img 
-              src={media.type !== "show" ? `posters/${media.poster}_poster.jpg` : `posters/${media.poster}-season-${media.season}_poster.jpg`}
+              src={media.type !== "show" ? `posters/${media.poster}_poster.jpg` : `posters/${media.poster}-season-${currentSeason}_poster.jpg`}
               alt={media.title}
               className="img-fluid rounded mb-3 shadow"
               style={{ maxHeight: "300px" }}
             />
-            <Stack direction="horizontal" gap={2} className="justify-content-center">
-              <Badge bg={pillColor} text={pillTextColor} pill>{getGrade(media.grade || media.grade_tv)}</Badge>
-              <Badge bg="secondary" pill>{media.rating === "Not Rated" ? "NR" : media.rating}</Badge>
-              <Badge bg="dark" pill className="border border-secondary">{time(media.runtime)}</Badge>
-            </Stack>
           </Col>
           <Col xs={12} md={8}>
             <div className="mb-4">
@@ -209,18 +222,18 @@ function MediaModal({ show, setShow, media, user, seasonCount, pillColor, pillTe
                   <p>{getNames(media.writers).join(", ")}</p>
                 </div>
               )}
-              {getNames(media.cast_members || media.cast_members_tv).length > 0 && (
+              {getNames(media.cast_members || media.seasons[currentSeason].cast_members).length > 0 && (
                 <div className="mb-2">
                   <h6 className="text-uppercase text-secondary small fw-bold">Starring</h6>
-                  <p>{getNames(media.cast_members || media.cast_members_tv).join(", ")}</p>
+                  <p>{getNames(media.cast_members || media.seasons[currentSeason].cast_members).join(", ")}</p>
                 </div>
               )}
             </div>
-            {media.type === "show" && media.episodes && (
+            {media.type === "show" && media.seasons[currentSeason].episodes && (
               <div className="mt-4">
                 <h5 className="mb-3 border-bottom border-secondary pb-2">Episodes</h5>
                 <Accordion flush>
-                  {media.episodes.sort((a, b) => (a.episode > b.episode ? 1 : -1)).map((ep, index) => (
+                  {media.seasons[currentSeason].episodes.sort((a, b) => (a.episode > b.episode ? 1 : -1)).map((ep, index) => (
                     <Accordion.Item eventKey={index.toString()} key={index} className="border-0">
                       <Accordion.Header>
                         <span className="fs-5 fw-bold">{ep.episode}. {ep.title} <small className="ms-auto me-3 small opacity-50">{new Date(ep.release_date).getUTCFullYear()}</small>{matchDates(new Date(ep.release_date), new Date()) && <span className="badge bg-white text-dark ms-2">Anniversary</span>}</span>
