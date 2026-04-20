@@ -451,9 +451,8 @@ export const indexNew = (req, res) => {
   
   const sql = 
     `
-      SELECT m.id, m.title, m.grade, m.release_date, m.rating, m.poster, m.runtime, m.completed, m.type, s.season, s.grade AS grade_tv, episode_count, start_date, end_date, episodes, directors, cast_members, cast_members_tv, writers
+      SELECT m.id, m.title, m.grade, (SELECT AVG(grade) FROM seasons WHERE show_id = m.id) AS grade_tv, m.release_date, (SELECT MIN(release_date) FROM seasons_episodes WHERE show_id = m.id) AS start_date, (SELECT MAX(release_date) FROM seasons_episodes WHERE show_id = m.id) AS end_date, m.rating, m.poster, m.runtime, (SELECT COUNT(*) FROM seasons_episodes WHERE show_id = m.id) AS episode_count, m.completed, m.type, seasons, directors, cast_members, writers
       FROM media m
-      LEFT JOIN seasons s ON m.id = s.show_id
       LEFT JOIN LATERAL (
         SELECT json_agg(json_build_object('ordering', md.ordering, 'media_id', md.media_id, 'director_id', md.director_id, 'name', p.name, 'birth_date', p.birth_date, 'death_date', p.death_date)) AS directors
         FROM media_directors md LEFT JOIN people p ON md.director_id = p.id WHERE m.id = md.media_id
@@ -463,26 +462,31 @@ export const indexNew = (req, res) => {
         FROM media_cast mc LEFT JOIN people p ON mc.actor_id = p.id WHERE m.id = mc.media_id
       ) mc ON TRUE
       LEFT JOIN LATERAL (
-        SELECT json_agg(json_build_object('ordering', sc.ordering, 'show_id', sc.show_id, 'season', sc.season, 'actor_id', sc.actor_id, 'name', p.name, 'birth_date', p.birth_date, 'death_date', p.death_date)) AS cast_members_tv
-        FROM seasons_cast sc LEFT JOIN people p ON sc.actor_id = p.id WHERE m.id = sc.show_id AND s.season = sc.season
-      ) sc ON TRUE
-      LEFT JOIN LATERAL (
         SELECT json_agg(json_build_object('ordering', mw.ordering, 'media_id', mw.media_id, 'writer_id', mw.writer_id, 'name', p.name, 'birth_date', p.birth_date, 'death_date', p.death_date)) AS writers
         FROM media_writers mw LEFT JOIN people p ON mw.writer_id = p.id WHERE m.id = mw.media_id
       ) mw ON TRUE
       LEFT JOIN LATERAL (
-        SELECT json_agg(json_build_object('show_id', se.show_id, 'season', se.season, 'episode', se.episode, 'release_date', se.release_date, 'title', se.title, 'directors', sd.directors, 'writers', sw.writers)) AS episodes, MIN(se.release_date) AS start_date, MAX(se.release_date) AS end_date, COUNT(*) AS episode_count
-        FROM seasons_episodes se 
+        SELECT json_agg(json_build_object('show_id', s.show_id, 'season', s.season, 'grade', s.grade, 'cast_members', sc.cast_members, 'episodes', se.episodes)) AS seasons
+        FROM seasons s
         LEFT JOIN LATERAL (
-          SELECT json_agg(json_build_object('ordering', sd.ordering, 'show_id', sd.show_id, 'season', sd.season, 'episode', sd.episode, 'director_id', sd.director_id, 'name', p.name, 'birth_date', p.birth_date, 'death_date', p.death_date)) AS directors
-          FROM seasons_directors sd LEFT JOIN people p ON sd.director_id = p.id WHERE m.id = sd.show_id AND s.season = sd.season AND se.episode = sd.episode
-        ) sd ON TRUE
+          SELECT json_agg(json_build_object('ordering', sc.ordering, 'show_id', sc.show_id, 'season', sc.season, 'actor_id', sc.actor_id, 'name', p.name, 'birth_date', p.birth_date, 'death_date', p.death_date)) AS cast_members
+          FROM seasons_cast sc LEFT JOIN people p ON sc.actor_id = p.id WHERE m.id = sc.show_id AND s.season = sc.season
+        ) sc ON TRUE
         LEFT JOIN LATERAL (
-          SELECT json_agg(json_build_object('ordering', sw.ordering, 'show_id', sw.show_id, 'season', sw.season, 'episode', sw.episode, 'writer_id', sw.writer_id, 'name', p.name, 'birth_date', p.birth_date, 'death_date', p.death_date)) AS writers
-          FROM seasons_writers sw LEFT JOIN people p ON sw.writer_id = p.id WHERE m.id = sw.show_id AND s.season = sw.season AND se.episode = sw.episode
-        ) sw ON TRUE
-        WHERE m.id = se.show_id AND s.season = se.season
-      ) se ON TRUE
+          SELECT json_agg(json_build_object('show_id', se.show_id, 'season', se.season, 'episode', se.episode, 'release_date', se.release_date, 'title', se.title, 'directors', sd.directors, 'writers', sw.writers)) AS episodes
+          FROM seasons_episodes se 
+          LEFT JOIN LATERAL (
+            SELECT json_agg(json_build_object('ordering', sd.ordering, 'show_id', sd.show_id, 'season', sd.season, 'episode', sd.episode, 'director_id', sd.director_id, 'name', p.name, 'birth_date', p.birth_date, 'death_date', p.death_date)) AS directors
+            FROM seasons_directors sd LEFT JOIN people p ON sd.director_id = p.id WHERE m.id = sd.show_id AND s.season = sd.season AND se.episode = sd.episode
+          ) sd ON TRUE
+          LEFT JOIN LATERAL (
+            SELECT json_agg(json_build_object('ordering', sw.ordering, 'show_id', sw.show_id, 'season', sw.season, 'episode', sw.episode, 'writer_id', sw.writer_id, 'name', p.name, 'birth_date', p.birth_date, 'death_date', p.death_date)) AS writers
+            FROM seasons_writers sw LEFT JOIN people p ON sw.writer_id = p.id WHERE m.id = sw.show_id AND s.season = sw.season AND se.episode = sw.episode
+          ) sw ON TRUE
+          WHERE m.id = se.show_id AND s.season = se.season
+        ) se ON TRUE
+        WHERE m.id = s.show_id
+      ) s ON TRUE
       WHERE (m.date_added IS NOT NULL AND m.date_added > CURRENT_TIMESTAMP - INTERVAL '1 MONTH') OR (s.date_added IS NOT NULL AND s.date_added > CURRENT_TIMESTAMP - INTERVAL '1 MONTH')
       ORDER BY COALESCE(m.date_added, s.date_added) DESC;
     `;

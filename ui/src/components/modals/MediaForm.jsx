@@ -22,7 +22,7 @@ function MediaForm({ show, setShow, media, season }) {
   const initialFormData = {
     id: "",
     title: "",
-    season: season,
+    season: "",
     grade: 0,
     rating: "Not Rated",
     release_date: "",
@@ -70,7 +70,7 @@ function MediaForm({ show, setShow, media, season }) {
 
       cast = Array.from(peopleMap.values());
 
-      if (media.seasons[season].episodes) {
+      if (!!media.seasons[season].episodes) {
         for (let i = 0; i < media.seasons[season].episodes.length; i++) {
           ep[i] = { ...media.seasons[season].episodes[i] };
           const episodePeopleMap = new Map();
