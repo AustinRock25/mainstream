@@ -185,7 +185,7 @@ function MediaModal({ show, setShow, media, user, seasonCount }) {
             <Col className="justify-content-center">
               <Stack direction="horizontal" gap={2} className="justify-content-center">
                 {media.seasons.sort((a, b) => (a.season > b.season ? 1 : -1)).map((s, index) => (
-                  <ToggleButton key={index} type="radio" variant="link" checked={index == currentSeason} onClick={changeSeason(index)}>Season {s.season}</ToggleButton>
+                  <ToggleButton type="radio" variant="link" checked={index == currentSeason} onClick={changeSeason(index)}>Season {s.season}</ToggleButton>
                 ))}
               </Stack>
             </Col>
@@ -243,7 +243,7 @@ function MediaModal({ show, setShow, media, user, seasonCount }) {
                             <p>{getNames(ep.directors).join(", ")}</p>
                           </div>
                         )}
-                        {!combineDirectorsAndWriters(ep) && getNames(ep.writers).length > 0 && (
+                        {!combineDirectorsAndWriters(ep) && getNames(ep.directors).length > 0 && (
                           <div className="mb-2">
                             <h6 className="text-uppercase text-secondary small fw-bold">Directed by</h6>
                             <p>{getNames(ep.directors).join(", ")}</p>
