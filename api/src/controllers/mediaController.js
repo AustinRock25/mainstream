@@ -596,7 +596,7 @@ export const update = async (req, res) => {
   addIdsToSet(og.directors, 'director_id');
   addIdsToSet(og.writers, 'writer_id');
   addIdsToSet(og.cast_members, 'actor_id');
-  addIdsToSet(og.seasons[media.season - 1].cast_members, 'actor_id');
+  addIdsToSet(og.seasons[media.season].cast_members, 'actor_id');
   const getIdsByRole = (role) => Array.isArray(media.castAndCrew?.filter(person => person[role])) && (media.castAndCrew?.filter(person => person[role]).map(person => person.id) || []);
   const directors = getIdsByRole("director");
   const writers = getIdsByRole("writer");
@@ -855,29 +855,29 @@ async function updateShow(media, og, { castMembers }) {
   if (media.rating !== og.rating)
     await query(`UPDATE media SET rating = $1 WHERE id = $2;`, [media.rating, media.id]);
 
-  if (media.grade !== og.seasons[media.season - 1].grade)
-    await query(`UPDATE seasons SET grade = $1 WHERE show_id = $2 AND season = $3;`, [media.grade, media.id, media.season]);
+  if (media.grade !== og.seasons[media.season].grade)
+    await query(`UPDATE seasons SET grade = $1 WHERE show_id = $2 AND season = $3;`, [media.grade, media.id, media.season + 1]);
 
-  const ogCast = og.seasons[media.season - 1].cast_members?.map(cm => cm.actor_id) || [];
+  const ogCast = og.seasons[media.season].cast_members?.map(cm => cm.actor_id) || [];
 
   if (JSON.stringify(castMembers) !== JSON.stringify(ogCast)) {
-    await query(`DELETE FROM seasons_cast WHERE show_id = $1 AND season = $2;`, [media.id, media.season]);
+    await query(`DELETE FROM seasons_cast WHERE show_id = $1 AND season = $2;`, [media.id, media.season + 1]);
     
     for (const cast of castMembers) {
       await query(`INSERT INTO seasons_cast (ordering, season, show_id, actor_id) VALUES ((SELECT COALESCE(MAX(ordering), 0) + 1 FROM seasons_cast WHERE show_id = $2 AND season = $1), $1, $2, $3);`, [media.season, media.id, cast]);
     }
   }
 
-  if (JSON.stringify(media.episodes) !== JSON.stringify(og.seasons[media.season - 1].episodes)) {
-    await query(`DELETE FROM seasons_episodes WHERE show_id = $1 AND season = $2;`, [media.id, media.season]);
-    await query(`DELETE FROM seasons_directors WHERE show_id = $1 AND season = $2;`, [media.id, media.season]);
-    await query(`DELETE FROM seasons_writers WHERE show_id = $1 AND season = $2;`, [media.id, media.season]);
+  if (JSON.stringify(media.episodes) !== JSON.stringify(og.seasons[media.season].episodes)) {
+    await query(`DELETE FROM seasons_episodes WHERE show_id = $1 AND season = $2;`, [media.id, media.season + 1]);
+    await query(`DELETE FROM seasons_directors WHERE show_id = $1 AND season = $2;`, [media.id, media.season + 1]);
+    await query(`DELETE FROM seasons_writers WHERE show_id = $1 AND season = $2;`, [media.id, media.season + 1]);
 
     await query(
       `INSERT INTO seasons_episodes (show_id, season, episode, title, release_date)
        SELECT $1, $2, ep.n, (ep.obj->>'title'), NULLIF(ep.obj->>'release_date', '')::date
        FROM json_array_elements($3::json) WITH ORDINALITY AS ep(obj, n);`,
-      [media.id, media.season, JSON.stringify(media.episodes)]
+      [media.id, media.season + 1, JSON.stringify(media.episodes)]
     );
 
     for (let i = 0; i < media.episodes.length; i++) {
@@ -886,10 +886,10 @@ async function updateShow(media, og, { castMembers }) {
 
       for (const creative of creatives) {
         if (creative.director) 
-          await query(`INSERT INTO seasons_directors (ordering, show_id, season, episode, director_id) VALUES ((SELECT COALESCE(MAX(ordering), 0) + 1 FROM seasons_directors WHERE show_id = $1 AND season = $2 AND episode = $3), $1, $2, $3, $4)`, [media.id, media.season, epNum, creative.id]);
+          await query(`INSERT INTO seasons_directors (ordering, show_id, season, episode, director_id) VALUES ((SELECT COALESCE(MAX(ordering), 0) + 1 FROM seasons_directors WHERE show_id = $1 AND season = $2 AND episode = $3), $1, $2, $3, $4)`, [media.id, media.season + 1, epNum, creative.id]);
 
         if (creative.writer)
-          await query(`INSERT INTO seasons_writers (ordering, show_id, season, episode, writer_id) VALUES ((SELECT COALESCE(MAX(ordering), 0) + 1 FROM seasons_writers WHERE show_id = $1 AND season = $2 AND episode = $3), $1, $2, $3, $4)`, [media.id, media.season, epNum, creative.id]);
+          await query(`INSERT INTO seasons_writers (ordering, show_id, season, episode, writer_id) VALUES ((SELECT COALESCE(MAX(ordering), 0) + 1 FROM seasons_writers WHERE show_id = $1 AND season = $2 AND episode = $3), $1, $2, $3, $4)`, [media.id, media.season + 1, epNum, creative.id]);
       }
     }
   }

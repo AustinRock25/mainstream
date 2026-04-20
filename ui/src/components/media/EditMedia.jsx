@@ -9,12 +9,9 @@ function EditMedia() {
   const [media, setMedia] = useState({ 
     id: "",
     title: "", 
-    season: "",
     grade: 0, 
-    grade_tv: 0,
     rating: "",
-    release_date: "", 
-    year: "",
+    release_date: "",
     poster: "", 
     runtime: "",
     completed: "",
@@ -55,12 +52,9 @@ function EditMedia() {
         setMedia({
           id: results.data.id,
           title: results.data.title, 
-          season: results.data.season,
           grade: results.data.grade, 
-          grade_tv: results.data.grade_tv,
           rating: results.data.rating,
           release_date: results.data.release_date, 
-          release_dates: results.data.release_dates,
           poster: results.data.poster, 
           runtime: results.data.runtime,
           type: results.data.type,
@@ -70,9 +64,6 @@ function EditMedia() {
           writers: selectedWriters,
           episodes: results.data.episodes
         });
-        
-        if (media.type == "show")
-          setMedia({ grade: results.data.grade_tv, runtime: results.data.runtime_tv })
       })
       .catch(error => {
         setAlert({ message: "Failed to load media.", variant: "danger" });
