@@ -100,19 +100,6 @@ function MediaForm({ show, setShow, media }) {
         }
       }
 
-      if (media.grade <= 33.33) { 
-        setPillColor("danger"); 
-        setPillTextColor("white"); 
-      }
-      else if (media.grade <= 66.67) {
-        setPillColor("warning"); 
-        setPillTextColor("black"); 
-      }
-      else { 
-        setPillColor("success"); 
-        setPillTextColor("white"); 
-      }
-
       if (user.rating_scale == 1) {
         if (media.grade < 6.25)
           grade = 0;
@@ -254,49 +241,6 @@ function MediaForm({ show, setShow, media }) {
       setFormData({ ...initialFormData, type: value });
       setSelected([]);
       setEpisodes([]);
-    }
-
-    if (user.rating_scale == 1 && key === "grade") {
-      if (value <= 1) {
-        setPillColor("danger");
-        setPillTextColor("white");
-      }
-      else if (value <= 2.5) {
-        setPillColor("warning");
-        setPillTextColor("black");
-      }
-      else {
-        setPillColor("success");
-        setPillTextColor("white");
-      }
-    }
-    else if (user.rating_scale == 2 && key === "grade") {
-      if (value <= 1.5) {
-        setPillColor("danger");
-        setPillTextColor("white");
-      }
-      else if (value <= 3) {
-        setPillColor("warning");
-        setPillTextColor("black");
-      }
-      else {
-        setPillColor("success");
-        setPillTextColor("white");
-      }
-    }
-    else if (user.rating_scale == 3 && key === "grade") {
-      if (value <= 4) {
-        setPillColor("danger");
-        setPillTextColor("white");
-      }
-      else if (value <= 8) {
-        setPillColor("warning");
-        setPillTextColor("black");
-      }
-      else {
-        setPillColor("success");
-        setPillTextColor("white");
-      }
     }
   };
 
@@ -535,7 +479,7 @@ function MediaForm({ show, setShow, media }) {
             <>
               <hr/>
                 <Form.Group as={Row} className="mb-3">
-                  <Form.Label column sm={3}>Grade: <Badge bg={pillColor} text={pillTextColor}>{getGrade(formData.grade)}</Badge></Form.Label>
+                  <Form.Label column sm={3}>Grade: <span className="fw-light fs-3 text-white-50">{getGrade(formData.grade)}</span></Form.Label>
                   {user.rating_scale == 1 && <Col sm={9}><Form.Range min="0" max="4" step="0.5" value={formData.grade} onChange={(e) => handleChange(e, "grade")} /></Col>}
                   {user.rating_scale == 2 && <Col sm={9}><Form.Range min="0" max="5" step="0.5" value={formData.grade} onChange={(e) => handleChange(e, "grade")} /></Col>}
                   {user.rating_scale == 3 && <Col sm={9}><Form.Range min="0" max="12" step="1" value={formData.grade} onChange={(e) => handleChange(e, "grade")} /></Col>}

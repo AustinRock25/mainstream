@@ -6,28 +6,10 @@ import { useSelector } from "react-redux";
 
 function MediaCard ({media}) {
   const { user } = useSelector(state => state.auth);
-  const [pillColor, setPillColor] = useState("danger");
-  const [pillTextColor, setPillTextColor] = useState("white");
   const [seasonCount, setSeasonCount] = useState(0);
   const [showMediaModal, setShowMediaModal] = useState(false);
 
   useEffect(() => {
-    if (!media.grade)
-      media.grade = media.grade_tv;
-
-    if (media.grade <= 33.33) {
-      setPillColor("danger");
-      setPillTextColor("white");
-    }
-    else if (media.grade <= 66.67) {
-      setPillColor("warning");
-      setPillTextColor("black");
-    }
-    else {
-      setPillColor("success");
-      setPillTextColor("white");
-    }
-
     if (media.type === "show") {
       api.get("/media/seasons", { params: { id: media.id } })
       .then(response => {
@@ -45,14 +27,14 @@ function MediaCard ({media}) {
       <Card>
         <Card.Img 
           variant="top" 
-          src={media.type !== "show" ? `posters/${media.poster}_poster.jpg` : `posters/${media.poster}-season-${media.season}_poster.jpg`}
+          src={media.type !== "show" ? `posters/${media.poster}_poster.jpg` : `posters/${media.poster}-season-${seasonCount}_poster.jpg`}
           className="rounded"
           alt={`Poster for ${media.title}`} 
           onClick={handleOpenModal}
           fluid
         />
       </Card>
-      <MediaModal show={showMediaModal} setShow={setShowMediaModal} media={media} user={user} seasonCount={seasonCount} pillColor={pillColor} pillTextColor={pillTextColor} />
+      <MediaModal show={showMediaModal} setShow={setShowMediaModal} media={media} user={user} seasonCount={seasonCount} />
     </Col>
   );
 }

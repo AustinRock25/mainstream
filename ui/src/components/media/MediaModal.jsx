@@ -3,7 +3,7 @@ import { Modal, Row, Col, ToggleButton, Stack, Accordion, Button } from "react-b
 import { useSelector } from "react-redux";
 import { useState } from "react";
 
-function MediaModal({ show, setShow, media, user, seasonCount, pillColor }) {
+function MediaModal({ show, setShow, media, user, seasonCount }) {
   const { isAdmin } = useSelector(state => state.auth);
   const [showMediaForm, setShowMediaForm] = useState(false);
   const [currentSeason, setCurrentSeason] = useState(0);
@@ -175,11 +175,11 @@ function MediaModal({ show, setShow, media, user, seasonCount, pillColor }) {
     <Modal show={show} onHide={handleClose} size="lg" centered contentClassName="bg-dark text-white">
       <Modal.Header closeButton closeVariant="white">
         <Modal.Title><i>{media.title}</i> <span className="fw-light fs-5 text-white-50">{getYear(media)}</span> 
-          <span>
+          <span className="fw-light fs-5 text-white-50">
             <Stack direction="horizontal" gap={3} className="justify-content-center">
-              <span className="fw-light fs-5 text-white-50">{media.rating === "Not Rated" ? "NR" : media.rating}</span>
-              <span className="fw-light fs-5 text-white-50">{time(media.runtime)}</span>
-              <span className={`fw-light fs-5 text-${pillColor}-50`}>{getGrade(media.grade || media.grade_tv)}</span>
+              <span>{media.rating === "Not Rated" ? "NR" : media.rating}</span>
+              <span>{time(media.runtime)}</span>
+              <span>{getGrade(media.grade || media.grade_tv)}</span>
             </Stack>
           </span>
         </Modal.Title>
