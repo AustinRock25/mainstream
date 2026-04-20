@@ -187,7 +187,7 @@ function MediaModal({ show, setShow, media, user, seasonCount, pillColor }) {
             <Col className="justify-content-center">
               <Stack direction="horizontal" gap={2} className="justify-content-center">
                 {media.seasons.map((season, index) => (
-                  <ToggleButton key={index + 1} type="radio" variant="link" checked={index + 1 == currentSeason} onChange={setChecked(index + 1)}>Season {index + 1}</ToggleButton>
+                  <ToggleButton key={index + 1} type="radio" variant="link" checked={index + 1 == currentSeason} onChange={changeSeason(index + 1)}>Season {index + 1}</ToggleButton>
                 ))}
               </Stack>
             </Col>
