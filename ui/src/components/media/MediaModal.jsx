@@ -169,12 +169,12 @@ function MediaModal({ show, setShow, media, user, seasonCount }) {
   return (
     <Modal show={show} onHide={handleClose} size="lg" centered contentClassName="bg-dark text-white">
       <Modal.Header closeButton closeVariant="white">
-        <Modal.Title><i>{media.title}</i> <span className="fw-light fs-5 text-white-50">{getYear(media)}</span> 
-          <span className="fw-light fs-5 text-white-50">
+        <Modal.Title><i>{media.title}</i> 
+          <span className="fw-light fs-5 text-white-50">{getYear(media)}
             <Stack direction="horizontal" gap={3} className="justify-content-center">
               <span>{media.rating === "Not Rated" ? "NR" : media.rating}</span>
               <span>{time(media.runtime)}</span>
-              <span>{getGrade(media.grade || media.grade_tv)}</span>
+              <span className="fw-bold">{getGrade(media.grade || media.grade_tv)}</span>
             </Stack>
           </span>
         </Modal.Title>
@@ -185,7 +185,7 @@ function MediaModal({ show, setShow, media, user, seasonCount }) {
             <Col className="justify-content-center">
               <Stack direction="horizontal" gap={2} className="justify-content-center">
                 {media.seasons.sort((a, b) => (a.season > b.season ? 1 : -1)).map((s, index) => (
-                  <ToggleButton type="radio" variant="link" checked={index == currentSeason} onClick={() => changeSeason(index)}>Season {s.season}</ToggleButton>
+                  <ToggleButton type="radio" variant="link" style={{ color: "white" }} checked={index == currentSeason} onClick={() => changeSeason(index)}>{s.season}</ToggleButton>
                 ))}
               </Stack>
             </Col>

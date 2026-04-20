@@ -95,17 +95,25 @@ p, td, li {
 }
 
 .accordion-button {
-    background-color: #000000 !important;
-    color: #ffffff !important;
-    border: 1px solid #333;
+  background-color: #000000 !important;
+  color: #ffffff !important;
+  border: 1px solid #333;
 }
 
 .accordion-button:not(.collapsed) {
-    background-color: #000000 !important;
-    color: #ffffff !important;
-    box-shadow: none !important;
+  background-color: #000000 !important;
+  color: #ffffff !important;
+  box-shadow: none !important;
 }
 
 .accordion-button::after {
-    filter: invert(1);
+  filter: invert(1);
+}
+
+.btn-link {
+  color: white !important;
+}
+
+.btn-link:hover, .btn-link:active {
+  font-weight: bold;
 }
