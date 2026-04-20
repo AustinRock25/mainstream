@@ -42,12 +42,10 @@ function MediaModal({ show, setShow, media, user, seasonCount }) {
   const getYear = (media) => {
     if (media.type !== "show" || seasonCount == 1) 
       return new Date(media.release_date || media.start_date).getUTCFullYear();
-    else {
-      if (seasonCount > 1 && media.completed)
-        return `${new Date(media.start_date).getUTCFullYear()}-${new Date(media.end_date).getUTCFullYear()}`;
-      else
-        return `${new Date(media.start_date).getUTCFullYear()}-`;
-    }
+    else if (seasonCount > 1 && media.completed)
+      return `${new Date(media.start_date).getUTCFullYear()}-${new Date(media.end_date).getUTCFullYear()}`;
+    else
+      return `${new Date(media.start_date).getUTCFullYear()}-`;
   };
 
   const time = (runtime) => {
@@ -165,10 +163,7 @@ function MediaModal({ show, setShow, media, user, seasonCount }) {
   };
 
   function matchDates(d1, d2) {
-    if (d1.getUTCMonth() === d2.getUTCMonth() && d1.getUTCDate() === d2.getUTCDate())
-      return true;
-    else
-      return false;
+    return !!(d1.getUTCMonth() === d2.getUTCMonth() && d1.getUTCDate() === d2.getUTCDate());
   }
 
   return (
@@ -190,7 +185,7 @@ function MediaModal({ show, setShow, media, user, seasonCount }) {
             <Col className="justify-content-center">
               <Stack direction="horizontal" gap={2} className="justify-content-center">
                 {media.seasons.sort((a, b) => (a.season > b.season ? 1 : -1)).map((s, index) => (
-                  <ToggleButton key={index} type="radio" variant="link" checked={index == currentSeason} onChange={changeSeason(index)}>Season {s.season}</ToggleButton>
+                  <ToggleButton key={index} type="radio" variant="link" checked={index == currentSeason} onClick={changeSeason(index)}>Season {s.season}</ToggleButton>
                 ))}
               </Stack>
             </Col>
