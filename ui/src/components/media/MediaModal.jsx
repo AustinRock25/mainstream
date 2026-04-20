@@ -269,7 +269,8 @@ function MediaModal({ show, setShow, media, user, seasonCount }) {
           <Button variant="outline-light" size="sm" onClick={handleEditMediaClick}>Edit</Button>
         </div>
       )}
-      {!!user && <MediaForm show={showMediaForm} setShow={setShowMediaForm} media={media} />}
+      {(!!user && media.type == "movie") && <MediaForm show={showMediaForm} setShow={setShowMediaForm} media={media} />}
+      {(!!user && media.type == "show") && <MediaForm show={showMediaForm} setShow={setShowMediaForm} media={media.seasons[currentSeason]} />}
     </Modal>
   );
 }
