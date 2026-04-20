@@ -98,7 +98,7 @@ function MediaForm({ show, setShow, media, season }) {
         }
       }
 
-      if (!!media.grade)
+      if (media.type == "show")
         media.grade = media.seasons[season].grade;
 
       if (user.rating_scale == 1) {
