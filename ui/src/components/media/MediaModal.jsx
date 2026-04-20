@@ -4,6 +4,7 @@ import { useSelector } from "react-redux";
 import { useState } from "react";
 
 function MediaModal({ show, setShow, media, user, seasonCount }) {
+  console.log("MediaModal Rendered. Show:", show, "Media Title:", media?.title);
   const { isAdmin } = useSelector(state => state.auth);
   const [showMediaForm, setShowMediaForm] = useState(false);
   const [currentSeason, setCurrentSeason] = useState(0);
