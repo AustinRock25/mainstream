@@ -4,7 +4,6 @@ import { useSelector } from "react-redux";
 import { useState } from "react";
 
 function MediaModal({ show, setShow, media, user, seasonCount }) {
-  console.log("MediaModal Rendered. Show:", show, "Media Title:", media?.title);
   const { isAdmin } = useSelector(state => state.auth);
   const [showMediaForm, setShowMediaForm] = useState(false);
   const [currentSeason, setCurrentSeason] = useState(0);
@@ -186,7 +185,7 @@ function MediaModal({ show, setShow, media, user, seasonCount }) {
             <Col className="justify-content-center">
               <Stack direction="horizontal" gap={2} className="justify-content-center">
                 {media.seasons.sort((a, b) => (a.season > b.season ? 1 : -1)).map((s, index) => (
-                  <ToggleButton type="radio" variant="link" checked={index == currentSeason} onClick={changeSeason(index)}>Season {s.season}</ToggleButton>
+                  <ToggleButton type="radio" variant="link" checked={index == currentSeason} onClick={() => changeSeason(index)}>Season {s.season}</ToggleButton>
                 ))}
               </Stack>
             </Col>
