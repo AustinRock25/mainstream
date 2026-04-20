@@ -596,7 +596,7 @@ export const update = async (req, res) => {
   addIdsToSet(og.directors, 'director_id');
   addIdsToSet(og.writers, 'writer_id');
   addIdsToSet(og.cast_members, 'actor_id');
-  addIdsToSet(og.cast_members_tv, 'actor_id');
+  addIdsToSet(og.seasons[media.season - 1].cast_members, 'actor_id');
   const getIdsByRole = (role) => Array.isArray(media.castAndCrew?.filter(person => person[role])) && (media.castAndCrew?.filter(person => person[role]).map(person => person.id) || []);
   const directors = getIdsByRole("director");
   const writers = getIdsByRole("writer");
@@ -855,10 +855,10 @@ async function updateShow(media, og, { castMembers }) {
   if (media.rating !== og.rating)
     await query(`UPDATE media SET rating = $1 WHERE id = $2;`, [media.rating, media.id]);
 
-  if (media.grade !== og.grade)
+  if (media.grade !== og.seasons[media.season - 1].grade)
     await query(`UPDATE seasons SET grade = $1 WHERE show_id = $2 AND season = $3;`, [media.grade, media.id, media.season]);
 
-  const ogCast = og.cast_members_tv?.map(cm => cm.actor_id) || [];
+  const ogCast = og.seasons[media.season - 1].cast_members?.map(cm => cm.actor_id) || [];
 
   if (JSON.stringify(castMembers) !== JSON.stringify(ogCast)) {
     await query(`DELETE FROM seasons_cast WHERE show_id = $1 AND season = $2;`, [media.id, media.season]);
@@ -868,7 +868,7 @@ async function updateShow(media, og, { castMembers }) {
     }
   }
 
-  if (JSON.stringify(media.episodes) !== JSON.stringify(og.episodes)) {
+  if (JSON.stringify(media.episodes) !== JSON.stringify(og.seasons[media.season - 1].episodes)) {
     await query(`DELETE FROM seasons_episodes WHERE show_id = $1 AND season = $2;`, [media.id, media.season]);
     await query(`DELETE FROM seasons_directors WHERE show_id = $1 AND season = $2;`, [media.id, media.season]);
     await query(`DELETE FROM seasons_writers WHERE show_id = $1 AND season = $2;`, [media.id, media.season]);

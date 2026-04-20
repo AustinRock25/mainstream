@@ -4,7 +4,7 @@ import { useCallback, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 
-function MediaForm({ show, setShow, media }) {
+function MediaForm({ show, setShow, media, season }) {
   const [alert, setAlert] = useState({ message: "", variant: "" });
   const [castAndCrew, setCastAndCrew] = useState([]);
   const [castAndCrewEp, setCastAndCrewEp] = useState([]);
@@ -13,8 +13,6 @@ function MediaForm({ show, setShow, media }) {
   const [isLoading, setIsLoading] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const navigate = useNavigate();
-  const [pillColor, setPillColor] = useState("danger");
-  const [pillTextColor, setPillTextColor] = useState("white");
   const [searchTerm, setSearchTerm] = useState("");
   const [activeEpisodeIndex, setActiveEpisodeIndex] = useState(null); 
   const [selected, setSelected] = useState([]);
@@ -24,7 +22,7 @@ function MediaForm({ show, setShow, media }) {
   const initialFormData = {
     id: "",
     title: "",
-    season: "",
+    season: currentSeason,
     grade: 0,
     rating: "Not Rated",
     release_date: "",
@@ -67,14 +65,14 @@ function MediaForm({ show, setShow, media }) {
       if (!!media.cast_members)
         media.cast_members.sort((a, b) => (a.ordering > b.ordering ? 1 : -1)).forEach(p => addPerson(p, "cast"));
 
-      if (!!media.cast_members_tv)
-        media.cast_members_tv.sort((a, b) => (a.ordering > b.ordering ? 1 : -1  )).forEach(p => addPerson(p, "cast"));
+      if (!!media.seasons[season].cast_members)
+        media.seasons[season].cast_members.sort((a, b) => (a.ordering > b.ordering ? 1 : -1  )).forEach(p => addPerson(p, "cast"));
 
       cast = Array.from(peopleMap.values());
 
-      if (media.episodes) {
-        for (let i = 0; i < media.episodes.length; i++) {
-          ep[i] = { ...media.episodes[i] };
+      if (media.seasons[season].episodes) {
+        for (let i = 0; i < media.seasons[season].episodes.length; i++) {
+          ep[i] = { ...media.seasons[season].episodes[i] };
           const episodePeopleMap = new Map();
 
           const episodeAddPerson = (p, role) => {
@@ -90,15 +88,18 @@ function MediaForm({ show, setShow, media }) {
               episodePeopleMap.get(personId)[role] = true;
           };
 
-          if (!!media.episodes[i].directors)
-            media.episodes[i].directors.sort((a, b) => (a.ordering > b.ordering ? 1 : -1)).forEach(p => episodeAddPerson(p, "director"));
+          if (!!media.seasons[season].episodes[i].directors)
+            media.seasons[season].episodes[i].directors.sort((a, b) => (a.ordering > b.ordering ? 1 : -1)).forEach(p => episodeAddPerson(p, "director"));
 
-          if (!!media.episodes[i].writers)
-            media.episodes[i].writers.sort((a, b) => (a.ordering > b.ordering ? 1 : -1)).forEach(p => episodeAddPerson(p, "writer"));
+          if (!!media.seasons[season].episodes[i].writers)
+            media.seasons[season].episodes[i].writers.sort((a, b) => (a.ordering > b.ordering ? 1 : -1)).forEach(p => episodeAddPerson(p, "writer"));
           
           ep[i].creatives = Array.from(episodePeopleMap.values());
         }
       }
+
+      if (!!media.grade)
+        media.grade = media.seasons[season].grade;
 
       if (user.rating_scale == 1) {
         if (media.grade < 6.25)
@@ -176,7 +177,7 @@ function MediaForm({ show, setShow, media }) {
       setFormData({
         id: media.id || "",
         title: media.title || "",
-        season: media.season || "",
+        season: currentSeason || "",
         grade: grade || 0,
         rating: media.rating || "Not Rated",
         release_date: media.release_date ? new Date(media.release_date).toISOString().split("T")[0] : "",
@@ -358,7 +359,7 @@ function MediaForm({ show, setShow, media }) {
   return (
     <Modal show={show} onHide={handleHide} backdrop="static" size="lg" centered style={{overflowY: "auto"}}>
       <Modal.Header>
-        <Modal.Title>{media?.id ? `Edit ${media.title} ${(media.type == "show" && media.season != 1) ? `season ${media.season}` : ""}` : "Add Film/Show"}</Modal.Title>
+        <Modal.Title>{media?.id ? `Edit ${media.title} ${(media.type == "show" && currentSeason != 0) ? `season ${currentSeason + 1}` : ""}` : "Add Film/Show"}</Modal.Title>
       </Modal.Header>
       <Modal.Body>
         {alert.message && 
