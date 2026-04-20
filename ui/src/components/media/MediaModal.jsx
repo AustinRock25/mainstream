@@ -169,10 +169,12 @@ function MediaModal({ show, setShow, media, user, seasonCount }) {
   return (
     <Modal show={show} onHide={handleClose} size="lg" centered contentClassName="bg-dark text-white">
       <Modal.Header closeButton closeVariant="white">
-        <Modal.Title className="w-100 pr-3">
-          <div className="d-flex align-items-center justify-content-between w-100 border-0">
-            <i className="me-3">{media.title}</i>
-            <span className="fw-light fs-5 text-white-50">{getYear(media)}</span>
+        <Modal.Title className="w-100">
+          <div className="d-flex align-items-center justify-content-between w-100">
+            <div className="d-flex align-items-baseline">
+              <i className="me-2">{media.title}</i>
+              <span className="fw-light fs-5 text-white-50">{getYear(media)}</span>
+            </div>
             <span className="fw-light fs-5 text-white-50">{media.rating === "Not Rated" ? "NR" : media.rating}</span>
             <span className="fw-light fs-5 text-white-50">{time(media.runtime)}</span>
             <span className="fw-bold fs-5 text-white-50">{getGrade(media.grade || media.grade_tv)}</span>
@@ -199,6 +201,7 @@ function MediaModal({ show, setShow, media, user, seasonCount }) {
               className="img-fluid rounded mb-3 shadow"
               style={{ maxHeight: "300px" }}
             />
+            {media.type == "show" && <span className="fw-bold fs-5 text-white-50">{getGrade(media.seasons[currentSeason].grade)}</span>}
           </Col>
           <Col xs={12} md={8}>
             <div className="mb-4">
