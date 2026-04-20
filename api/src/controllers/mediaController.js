@@ -406,7 +406,7 @@ export const indexLength = (req, res) => {
       SELECT COUNT(*)
       FROM media m
       LEFT JOIN LATERAL (
-        SELECT json_agg(json_build_object('show_id', s.show_id, 'season', s.season, 'grade', s.grade, 'cast_members', sc.cast_members, 'episodes', se.episodes)) AS seasons
+        SELECT json_agg(json_build_object('show_id', s.show_id, 'season', s.season, 'grade', s.grade, 'episodes', se.episodes)) AS seasons
         FROM seasons s
         LEFT JOIN LATERAL (
           SELECT json_agg(json_build_object('show_id', se.show_id, 'season', se.season, 'episode', se.episode, 'release_date', se.release_date)) AS episodes
