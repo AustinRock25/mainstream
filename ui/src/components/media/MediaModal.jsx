@@ -6,7 +6,7 @@ import { useState } from "react";
 function MediaModal({ show, setShow, media, user, seasonCount, pillColor }) {
   const { isAdmin } = useSelector(state => state.auth);
   const [showMediaForm, setShowMediaForm] = useState(false);
-  const [currentSeason, setCurrentSeason] = useState(1);
+  const [currentSeason, setCurrentSeason] = useState(0);
   
   const handleClose = () => {
     setShow(false);
@@ -175,19 +175,22 @@ function MediaModal({ show, setShow, media, user, seasonCount, pillColor }) {
     <Modal show={show} onHide={handleClose} size="lg" centered contentClassName="bg-dark text-white">
       <Modal.Header closeButton closeVariant="white">
         <Modal.Title><i>{media.title}</i> <span className="fw-light fs-5 text-white-50">{getYear(media)}</span> 
-          <Stack direction="horizontal" gap={3} className="justify-content-center">
-            <span className="fw-light fs-5 text-white-50">{media.rating === "Not Rated" ? "NR" : media.rating}</span>
-            <span className="fw-light fs-5 text-white-50">{time(media.runtime)}</span>
-            <span className={`fw-light fs-5 text-${pillColor}-50`}>{getGrade(media.grade || media.grade_tv)}</span>
-          </Stack></Modal.Title>
+          <span>
+            <Stack direction="horizontal" gap={3} className="justify-content-center">
+              <span className="fw-light fs-5 text-white-50">{media.rating === "Not Rated" ? "NR" : media.rating}</span>
+              <span className="fw-light fs-5 text-white-50">{time(media.runtime)}</span>
+              <span className={`fw-light fs-5 text-${pillColor}-50`}>{getGrade(media.grade || media.grade_tv)}</span>
+            </Stack>
+          </span>
+        </Modal.Title>
       </Modal.Header>
       <Modal.Body>
         {media.type == "show" &&
           <Row>
             <Col className="justify-content-center">
               <Stack direction="horizontal" gap={2} className="justify-content-center">
-                {media.seasons.map((season, index) => (
-                  <ToggleButton key={index + 1} type="radio" variant="link" checked={index + 1 == currentSeason} onChange={changeSeason(index + 1)}>Season {index + 1}</ToggleButton>
+                {media.seasons.sort((a, b) => (a.season > b.season ? 1 : -1)).map((s, index) => (
+                  <ToggleButton key={index} type="radio" variant="link" checked={index == currentSeason} onChange={changeSeason(index)}>Season {s.season}</ToggleButton>
                 ))}
               </Stack>
             </Col>
@@ -196,7 +199,7 @@ function MediaModal({ show, setShow, media, user, seasonCount, pillColor }) {
         <Row>
           <Col xs={12} md={4} className="text-center mb-4 mb-md-0">
             <img 
-              src={media.type !== "show" ? `posters/${media.poster}_poster.jpg` : `posters/${media.poster}-season-${currentSeason}_poster.jpg`}
+              src={media.type !== "show" ? `posters/${media.poster}_poster.jpg` : `posters/${media.poster}-season-${currentSeason + 1}_poster.jpg`}
               alt={media.title}
               className="img-fluid rounded mb-3 shadow"
               style={{ maxHeight: "300px" }}
