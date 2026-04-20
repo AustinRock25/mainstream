@@ -171,7 +171,7 @@ function MediaModal({ show, setShow, media, user, seasonCount }) {
       <Modal.Header closeButton closeVariant="white">
         <Modal.Title className="w-100">
           <div className="d-flex align-items-center justify-content-between w-100">
-            <div className="d-flex align-items-baseline">
+            <div className="d-flex align-items-baseline flex-wrap" style={{ maxWidth: "50%" }}>
               <i className="me-2">{media.title}</i>
               <span className="fw-light fs-5 text-white-50">{getYear(media)}</span>
             </div>
