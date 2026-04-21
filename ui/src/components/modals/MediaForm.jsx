@@ -65,12 +65,7 @@ function MediaForm({ show, setShow, media, season }) {
       if (!!media.cast_members)
         media.cast_members.sort((a, b) => (a.ordering > b.ordering ? 1 : -1)).forEach(p => addPerson(p, "cast"));
 
-      if (!!media.seasons[season].cast_members)
-        media.seasons[season].cast_members.sort((a, b) => (a.ordering > b.ordering ? 1 : -1  )).forEach(p => addPerson(p, "cast"));
-
-      cast = Array.from(peopleMap.values());
-
-      if (!!media.seasons[season].episodes) {
+      if (media.type == "show") {
         for (let i = 0; i < media.seasons[season].episodes.length; i++) {
           ep[i] = { ...media.seasons[season].episodes[i] };
           const episodePeopleMap = new Map();
@@ -96,10 +91,12 @@ function MediaForm({ show, setShow, media, season }) {
           
           ep[i].creatives = Array.from(episodePeopleMap.values());
         }
+
+        media.grade = media.seasons[season].grade;
+        media.seasons[season].cast_members.sort((a, b) => (a.ordering > b.ordering ? 1 : -1  )).forEach(p => addPerson(p, "cast"));
       }
 
-      if (media.type == "show")
-        media.grade = media.seasons[season].grade;
+      cast = Array.from(peopleMap.values());
 
       if (user.rating_scale == 1) {
         if (media.grade < 6.25)
