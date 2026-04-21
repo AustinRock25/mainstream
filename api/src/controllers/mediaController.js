@@ -486,8 +486,8 @@ export const indexNew = (req, res) => {
         ) se ON TRUE
         WHERE m.id = s.show_id
       ) s ON TRUE
-      WHERE (m.date_added IS NOT NULL AND m.date_added > CURRENT_TIMESTAMP - INTERVAL '1 MONTH') OR (s.date_added IS NOT NULL AND s.date_added > CURRENT_TIMESTAMP - INTERVAL '1 MONTH')
-      ORDER BY COALESCE(m.date_added, s.date_added) DESC;
+      WHERE (m.date_added IS NOT NULL AND m.date_added > CURRENT_TIMESTAMP - INTERVAL '1 MONTH')
+      ORDER BY m.date_added DESC;
     `;
 
   query(sql)
