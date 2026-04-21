@@ -42,6 +42,7 @@ function MediaForm({ show, setShow, media, season }) {
       let ep = [];
       let grade = null;
       const peopleMap = new Map();
+      console.log(season);
 
       const addPerson = (p, role) => {
         if (!p) 

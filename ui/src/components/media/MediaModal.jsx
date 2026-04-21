@@ -201,7 +201,7 @@ function MediaModal({ show, setShow, media, user, seasonCount }) {
               className="img-fluid rounded mb-3 shadow"
               style={{ maxHeight: "300px" }}
             />
-            {media.type == "show" && <span className="fw-bold fs-5 text-white-50">{getGrade(media.seasons[currentSeason].grade)}</span>}
+            {media.type == "show" && <div className="fw-bold fs-5 text-white-50">{getGrade(media.seasons[currentSeason].grade)}</div>}
           </Col>
           <Col xs={12} md={8}>
             <div className="mb-4">
@@ -272,7 +272,7 @@ function MediaModal({ show, setShow, media, user, seasonCount }) {
           <Button variant="outline-light" size="sm" onClick={handleEditMediaClick}>Edit</Button>
         </div>
       )}
-      {!!user && <MediaForm show={showMediaForm} setShow={setShowMediaForm} media={media} season={currentSeason}/>}
+      {!!user && <MediaForm show={showMediaForm} setShow={setShowMediaForm} media={media} season={currentSeason} />}
     </Modal>
   );
 }
