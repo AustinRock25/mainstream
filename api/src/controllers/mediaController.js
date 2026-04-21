@@ -447,8 +447,7 @@ export const indexShows = (req, res) => {
 
 export const indexNew = (req, res) => {
   query("UPDATE media SET date_added = NULL WHERE date_added <= CURRENT_TIMESTAMP - INTERVAL '1 MONTH'");
-  query("UPDATE seasons SET date_added = NULL WHERE date_added <= CURRENT_TIMESTAMP - INTERVAL '1 MONTH'");
-  
+
   const sql = 
     `
       SELECT m.id, m.title, m.grade, (SELECT AVG(grade) FROM seasons WHERE show_id = m.id) AS grade_tv, m.release_date, (SELECT MIN(release_date) FROM seasons_episodes WHERE show_id = m.id) AS start_date, (SELECT MAX(release_date) FROM seasons_episodes WHERE show_id = m.id) AS end_date, m.rating, m.poster, m.runtime, (SELECT COUNT(*) FROM seasons_episodes WHERE show_id = m.id) AS episode_count, m.completed, m.type, seasons, directors, cast_members, writers
@@ -859,7 +858,7 @@ async function updateShow(media, og, { castMembers }) {
   if (media.rating !== og.rating)
     await query(`UPDATE media SET rating = $1 WHERE id = $2;`, [media.rating, media.id]);
 
-  if (media.grade !== og.seasons[media.season].grade)
+  if (media.grade !== og.seasons[media.season - 1].grade)
     await query(`UPDATE seasons SET grade = $1 WHERE show_id = $2 AND season = $3;`, [media.grade, media.id, media.season]);
 
   const ogCast = og.seasons[media.season - 1].cast_members?.map(cm => cm.actor_id) || [];
