@@ -40,7 +40,7 @@ function MediaModal({ show, setShow, media, user, seasonCount }) {
   };
 
   const getYear = (media) => {
-    if (media.type !== "show" || seasonCount == 1) 
+    if (media.type !== "show" || (seasonCount == 1 && media.completed)) 
       return new Date(media.release_date || media.start_date).getUTCFullYear();
     else if (seasonCount > 1 && media.completed)
       return `${new Date(media.start_date).getUTCFullYear()}-${new Date(media.end_date).getUTCFullYear()}`;
