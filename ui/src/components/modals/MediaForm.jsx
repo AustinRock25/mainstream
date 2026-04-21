@@ -194,7 +194,7 @@ function MediaForm({ show, setShow, media, season }) {
       setSelected([]);
       setEpisodes([]);
     }
-  }, [media, season, user.rating_scale]);
+  }, [media, season]);
 
   useEffect(() => {
     loadExistingData();
