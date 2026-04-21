@@ -66,6 +66,8 @@ function MediaForm({ show, setShow, media, season }) {
         media.cast_members.sort((a, b) => (a.ordering > b.ordering ? 1 : -1)).forEach(p => addPerson(p, "cast"));
 
       if (media.type == "show") {
+        media.seasons.sort((a, b) => a.season > b.season ? 1 : -1);
+
         for (let i = 0; i < media.seasons[season].episodes.length; i++) {
           ep[i] = { ...media.seasons[season].episodes[i] };
           const episodePeopleMap = new Map();
