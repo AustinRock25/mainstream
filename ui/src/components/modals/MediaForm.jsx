@@ -42,7 +42,6 @@ function MediaForm({ show, setShow, media, season }) {
       let ep = [];
       let grade = null;
       const peopleMap = new Map();
-      console.log(season);
 
       const addPerson = (p, role) => {
         if (!p) 
@@ -175,7 +174,7 @@ function MediaForm({ show, setShow, media, season }) {
       setFormData({
         id: media.id || "",
         title: media.title || "",
-        season: season || "",
+        season: season ?? "",
         grade: grade || 0,
         rating: media.rating || "Not Rated",
         release_date: media.release_date ? new Date(media.release_date).toISOString().split("T")[0] : "",
