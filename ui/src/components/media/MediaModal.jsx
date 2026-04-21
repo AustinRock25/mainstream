@@ -18,7 +18,6 @@ function MediaModal({ show, setShow, media, user, seasonCount }) {
 
   const changeSeason = (season) => {
     setCurrentSeason(season);
-    console.log(currentSeason);
   }
 
   const getNames = (people) => {
@@ -273,7 +272,7 @@ function MediaModal({ show, setShow, media, user, seasonCount }) {
           <Button variant="outline-light" size="sm" onClick={handleEditMediaClick}>Edit</Button>
         </div>
       )}
-      {!!user && <MediaForm show={showMediaForm} setShow={setShowMediaForm} media={media} season={currentSeason} />}
+      {!!user && <MediaForm show={showMediaForm} setShow={setShowMediaForm} media={media} season={media.seasons[currentSeason].season} />}
     </Modal>
   );
 }

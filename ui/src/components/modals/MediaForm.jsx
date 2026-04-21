@@ -68,8 +68,8 @@ function MediaForm({ show, setShow, media, season }) {
       if (media.type == "show") {
         media.seasons.sort((a, b) => a.season > b.season ? 1 : -1);
 
-        for (let i = 0; i < media.seasons[season].episodes.length; i++) {
-          ep[i] = { ...media.seasons[season].episodes[i] };
+        for (let i = 0; i < media.seasons[season - 1].episodes.length; i++) {
+          ep[i] = { ...media.seasons[season - 1].episodes[i] };
           const episodePeopleMap = new Map();
 
           const episodeAddPerson = (p, role) => {
@@ -85,17 +85,17 @@ function MediaForm({ show, setShow, media, season }) {
               episodePeopleMap.get(personId)[role] = true;
           };
 
-          if (!!media.seasons[season].episodes[i].directors)
-            media.seasons[season].episodes[i].directors.sort((a, b) => (a.ordering > b.ordering ? 1 : -1)).forEach(p => episodeAddPerson(p, "director"));
+          if (!!media.seasons[season - 1].episodes[i].directors)
+            media.seasons[season - 1].episodes[i].directors.sort((a, b) => (a.ordering > b.ordering ? 1 : -1)).forEach(p => episodeAddPerson(p, "director"));
 
-          if (!!media.seasons[season].episodes[i].writers)
-            media.seasons[season].episodes[i].writers.sort((a, b) => (a.ordering > b.ordering ? 1 : -1)).forEach(p => episodeAddPerson(p, "writer"));
+          if (!!media.seasons[season - 1].episodes[i].writers)
+            media.seasons[season - 1].episodes[i].writers.sort((a, b) => (a.ordering > b.ordering ? 1 : -1)).forEach(p => episodeAddPerson(p, "writer"));
           
           ep[i].creatives = Array.from(episodePeopleMap.values());
         }
 
-        media.grade = media.seasons[season].grade;
-        media.seasons[season].cast_members.sort((a, b) => (a.ordering > b.ordering ? 1 : -1  )).forEach(p => addPerson(p, "cast"));
+        media.grade = media.seasons[season - 1].grade;
+        media.seasons[season - 1].cast_members.sort((a, b) => (a.ordering > b.ordering ? 1 : -1  )).forEach(p => addPerson(p, "cast"));
       }
 
       cast = Array.from(peopleMap.values());
@@ -358,7 +358,7 @@ function MediaForm({ show, setShow, media, season }) {
   return (
     <Modal show={show} onHide={handleHide} backdrop="static" size="lg" centered style={{overflowY: "auto"}}>
       <Modal.Header>
-        <Modal.Title>{media?.id ? `Edit ${media.title} ${(media.type == "show" && season != 0) ? `season ${season + 1}` : ""}` : "Add Film/Show"}</Modal.Title>
+        <Modal.Title>{media?.id ? `Edit ${media.title} ${(media.type == "show" && season != 1) ? `season ${season}` : ""}` : "Add Film/Show"}</Modal.Title>
       </Modal.Header>
       <Modal.Body>
         {alert.message && 
