@@ -18,6 +18,7 @@ function MediaModal({ show, setShow, media, user, seasonCount }) {
 
   const changeSeason = (season) => {
     setCurrentSeason(season);
+    console.log(currentSeason);
   }
 
   const getNames = (people) => {

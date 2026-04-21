@@ -22,7 +22,7 @@ function MediaForm({ show, setShow, media, season }) {
   const initialFormData = {
     id: "",
     title: "",
-    season: "",
+    season: season ?? "",
     grade: 0,
     rating: "Not Rated",
     release_date: "",
