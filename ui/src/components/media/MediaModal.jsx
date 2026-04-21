@@ -6,7 +6,7 @@ import { useState } from "react";
 function MediaModal({ show, setShow, media, user, seasonCount }) {
   const { isAdmin } = useSelector(state => state.auth);
   const [showMediaForm, setShowMediaForm] = useState(false);
-  const [currentSeason, setCurrentSeason] = useState(1);
+  const [currentSeason, setCurrentSeason] = useState(0);
   
   const handleClose = () => {
     setShow(false);
