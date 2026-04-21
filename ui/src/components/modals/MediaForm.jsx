@@ -22,7 +22,7 @@ function MediaForm({ show, setShow, media, season }) {
   const initialFormData = {
     id: "",
     title: "",
-    season: season ?? "",
+    season: "",
     grade: 0,
     rating: "Not Rated",
     release_date: "",
@@ -176,7 +176,7 @@ function MediaForm({ show, setShow, media, season }) {
       setFormData({
         id: media.id || "",
         title: media.title || "",
-        season: season ?? "",
+        season: season || "",
         grade: grade || 0,
         rating: media.rating || "Not Rated",
         release_date: media.release_date ? new Date(media.release_date).toISOString().split("T")[0] : "",
@@ -194,7 +194,7 @@ function MediaForm({ show, setShow, media, season }) {
       setSelected([]);
       setEpisodes([]);
     }
-  }, [media]);
+  }, [media, season, user.rating_scale]);
 
   useEffect(() => {
     loadExistingData();
