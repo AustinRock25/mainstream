@@ -220,14 +220,16 @@ function MediaForm({ show, setShow, media, season }) {
     setIsLoading(true);
     api.get("/people/select", { params: { searchTerm } })
       .then(response => {
-        const selectedIds = new Set(selected.map(s => s.id));
-
+        
         if (activeEpisodeIndex !== null && episodes[activeEpisodeIndex]?.creatives) {
+          const selectedIds = new Set(episodes[activeEpisodeIndex].creatives.map(e => e.id));
           episodes[activeEpisodeIndex].creatives.forEach(c => selectedIds.add(c.id));
           setCastAndCrewEp(response.data.filter(p => !selectedIds.has(p.id)));
         }
-        else
+        else {
+          const selectedIds = new Set(selected.map(s => s.id));
           setCastAndCrew(response.data.filter(p => !selectedIds.has(p.id)));
+        }
       })
       .finally(() => 
         setIsLoading(false));
