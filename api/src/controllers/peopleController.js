@@ -182,7 +182,7 @@ export const indexSelect = (req, res) => {
   let searchSystem = "";
   let params = [];
 
-  if (req.query.searchTerm != undefined && req.query.searchTerm != "") {
+  if (req.query.st != undefined && req.query.st != "") {
     searchSystem = 
       `
         With Records AS (
@@ -194,8 +194,8 @@ export const indexSelect = (req, res) => {
       `;
 
     params = [
-      `${req.query.searchTerm}%`,
-      `% ${req.query.searchTerm}%`
+      `${req.query.st}%`,
+      `% ${req.query.st}%`
     ];
   }
 
