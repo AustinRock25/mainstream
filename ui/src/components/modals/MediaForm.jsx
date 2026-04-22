@@ -213,13 +213,11 @@ function MediaForm({ show, setShow, media, season }) {
 
   const fetchPeople = useCallback(() => {
     if (!searchTerm) { 
-      setCastAndCrew([]); 
-      return; 
+      setCastAndCrew([]);
     }
 
     if (!searchTermEp) {
-      setCastAndCrewEp([]); 
-      return; 
+      setCastAndCrewEp([]);
     }
 
     if (activeEpisodeIndex !== null) {
