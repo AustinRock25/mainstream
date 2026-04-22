@@ -14,6 +14,7 @@ function MediaForm({ show, setShow, media, season }) {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const navigate = useNavigate();
   const [searchTerm, setSearchTerm] = useState("");
+  const [searchTermEp, setSearchTermEp] = useState("");
   const [activeEpisodeIndex, setActiveEpisodeIndex] = useState(null); 
   const [selected, setSelected] = useState([]);
   const [shows, setShows] = useState([]);
@@ -213,14 +214,22 @@ function MediaForm({ show, setShow, media, season }) {
   const fetchPeople = useCallback(() => {
     if (!searchTerm) { 
       setCastAndCrew([]); 
+      return; 
+    }
+
+    if (!searchTermEp) {
       setCastAndCrewEp([]); 
       return; 
     }
 
+    if (activeEpisodeIndex !== null) {
+      setSearchTerm(searchTermEp);
+      setSearchTermEp("");
+    }
+    
     setIsLoading(true);
     api.get("/people/select", { params: { searchTerm } })
       .then(response => {
-        
         if (activeEpisodeIndex !== null && episodes[activeEpisodeIndex]?.creatives) {
           const selectedIds = new Set(episodes[activeEpisodeIndex].creatives.map(e => e.id));
           episodes[activeEpisodeIndex].creatives.forEach(c => selectedIds.add(c.id));
@@ -231,9 +240,11 @@ function MediaForm({ show, setShow, media, season }) {
           setCastAndCrew(response.data.filter(p => !selectedIds.has(p.id)));
         }
       })
-      .finally(() => 
-        setIsLoading(false));
-  }, [searchTerm, selected, episodes, activeEpisodeIndex]);
+      .finally(() => {
+        setSearchTerm("");
+        setIsLoading(false);
+      });
+  }, [searchTerm, searchTermEp, selected, episodes, activeEpisodeIndex]);
 
   const handleChange = (e, key) => {
     const { value, type, checked } = e.target;
@@ -424,7 +435,7 @@ function MediaForm({ show, setShow, media, season }) {
                             <Form.Control 
                               type="text" 
                               placeholder="Search..." 
-                              onChange={e => { setSearchTerm(e.target.value); setActiveEpisodeIndex(index); }} 
+                              onChange={e => { setSearchTermEp(e.target.value); setActiveEpisodeIndex(index); }} 
                             />
                             <Button size="sm" variant="primary" onClick={fetchPeople} className="ms-2">Search</Button>
                           </div>
