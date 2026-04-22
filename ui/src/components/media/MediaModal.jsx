@@ -65,97 +65,100 @@ function MediaModal({ show, setShow, media, user, seasonCount }) {
     return timeStr.trim();
   }
 
-  const getGrade = (grade) => {
+  const getGrade = (media) => {
+    if (media.type == "show")
+      media.grade = media.grade_tv;
+
     if (!user) {
-      if (grade < 5.56)
+      if (media.grade < 5.56)
         return "1/10";
-      else if (grade < 16.67)
+      else if (media.grade < 16.67)
         return "2/10";
-      else if (grade < 27.78)
+      else if (media.grade < 27.78)
         return "3/10";
-      else if (grade < 38.89)
+      else if (media.grade < 38.89)
         return "4/10";
-      else if (grade < 50)
+      else if (media.grade < 50)
         return "5/10";
-      else if (grade < 61.11)
+      else if (media.grade < 61.11)
         return "6/10";
-      else if (grade < 72.22)
+      else if (media.grade < 72.22)
         return "7/10";
-      else if (grade < 83.33)
+      else if (media.grade < 83.33)
         return "8/10";
-      else if (grade < 94.44)
+      else if (media.grade < 94.44)
         return "9/10";
       else
         return "10/10";
     }
     else if (user.rating_scale == 1) {
-      if (grade < 6.25)
+      if (media.grade < 6.25)
         return "0/4";
-      else if (grade < 18.75)
+      else if (media.grade < 18.75)
         return "0.5/4";
-      else if (grade < 31.25)
+      else if (media.grade < 31.25)
         return "1/4";
-      else if (grade < 43.75)
+      else if (media.grade < 43.75)
         return "1.5/4";
-      else if (grade < 56.25)
+      else if (media.grade < 56.25)
         return "2/4";
-      else if (grade < 68.75)
+      else if (media.grade < 68.75)
         return "2.5/4";
-      else if (grade < 81.25)
+      else if (media.grade < 81.25)
         return "3/4";
-      else if (grade < 93.75)
+      else if (media.grade < 93.75)
         return "3.5/4";
       else
         return "4/4";
     }
     else if (user.rating_scale == 2) {
-      if (grade < 5)
+      if (media.grade < 5)
         return "0/5";
-      else if (grade < 15)
+      else if (media.grade < 15)
         return "0.5/5";
-      else if (grade < 25)
+      else if (media.grade < 25)
         return "1/5";
-      else if (grade < 35)
+      else if (media.grade < 35)
         return "1.5/5";
-      else if (grade < 45)
+      else if (media.grade < 45)
         return "2/5";
-      else if (grade < 55)
+      else if (media.grade < 55)
         return "2.5/5";
-      else if (grade < 65)
+      else if (media.grade < 65)
         return "3/5";
-      else if (grade < 75)
+      else if (media.grade < 75)
         return "3.5/5";
-      else if (grade < 85)
+      else if (media.grade < 85)
         return "4/5";
-      else if (grade < 95)
+      else if (media.grade < 95)
         return "4.5/5";
       else
         return "5/5";
     }
     else {
-      if (grade < 4.17)
+      if (media.grade < 4.17)
         return "F";
-      else if (grade < 12.5)
+      else if (media.grade < 12.5)
         return "D-";
-      else if (grade < 20.83)
+      else if (media.grade < 20.83)
         return "D";
-      else if (grade < 29.17)
+      else if (media.grade < 29.17)
         return "D+";
-      else if (grade < 37.5)
+      else if (media.grade < 37.5)
         return "C-";
-      else if (grade < 45.83)
+      else if (media.grade < 45.83)
         return "C";
-      else if (grade < 54.17)
+      else if (media.grade < 54.17)
         return "C+";
-      else if (grade < 62.5)
+      else if (media.grade < 62.5)
         return "B-";
-      else if (grade < 70.83)
+      else if (media.grade < 70.83)
         return "B";
-      else if (grade < 79.17)
+      else if (media.grade < 79.17)
         return "B+";
-      else if (grade < 87.5)
+      else if (media.grade < 87.5)
         return "A-";
-      else if (grade < 95.83)
+      else if (media.grade < 95.83)
         return "A";
       else
         return "A+";
@@ -167,15 +170,15 @@ function MediaModal({ show, setShow, media, user, seasonCount }) {
       <Modal.Header closeButton closeVariant="white">
         <Modal.Title className="w-100">
           <div className="d-flex align-items-center justify-content-between w-100">
-            <div className="d-flex align-items-baseline flex-wrap" style={{ maxWidth: "50%" }}>
-              <span>
+            <div className="d-flex align-items-baseline flex-wrap">
+              <span style={{ maxWidth: "50%" }}>
                 <i className="me-2">{media.title}</i>
                 <span className="fw-light fs-5 text-white-50">{getYear(media)}</span>
               </span>
             </div>
             <span className="fw-light fs-5 text-white-50">{media.rating === "Not Rated" ? "NR" : media.rating}</span>
             <span className="fw-light fs-5 text-white-50">{time(media.runtime)}</span>
-            <span className="fw-bold fs-5 text-white-50">{getGrade(media.grade || media.grade_tv)}</span>
+            <span className="fw-bold fs-5 text-white-50">{getGrade(media)}</span>
           </div>
         </Modal.Title>
       </Modal.Header>
