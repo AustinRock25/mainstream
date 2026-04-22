@@ -159,7 +159,7 @@ export const index = (req, res) => {
     }
   }
   else
-    filterClauses.push(`(EXTRACT(MONTH FROM release_date) = EXTRACT(MONTH FROM CURRENT_DATE) AND EXTRACT(DAY FROM release_date) = EXTRACT(DAY FROM CURRENT_DATE)) OR EXISTS (SELECT 1 FROM json_array_elements(seasons) AS s, json_array_elements(s.value->'episodes') AS ep WHERE EXTRACT(MONTH FROM (ep.value->>'release_date')::date) = EXTRACT(MONTH FROM CURRENT_DATE) AND EXTRACT(DAY FROM (ep.value->>'release_date')::date) = EXTRACT(DAY FROM CURRENT_DATE))`);
+    filterClauses.push(`(EXTRACT(MONTH FROM release_date) = EXTRACT(MONTH FROM CURRENT_DATE) AND EXTRACT(DAY FROM release_date) = EXTRACT(DAY FROM CURRENT_DATE)) OR (EXTRACT(MONTH FROM start_date) = EXTRACT(MONTH FROM CURRENT_DATE) AND EXTRACT(DAY FROM start_date) = EXTRACT(DAY FROM CURRENT_DATE))`);
 
   const whereClause = filterClauses.length > 0 ? `WHERE ${filterClauses.join(" AND ")}` : "";
   let orderByClause = "";
@@ -397,7 +397,7 @@ export const indexLength = (req, res) => {
     }
   }
   else 
-    filterClauses.push(`(EXTRACT(MONTH FROM release_date) = EXTRACT(MONTH FROM CURRENT_DATE) AND EXTRACT(DAY FROM release_date) = EXTRACT(DAY FROM CURRENT_DATE)) OR EXISTS (SELECT 1 FROM json_array_elements(seasons) AS s, json_array_elements(s.value->'episodes') AS ep WHERE EXTRACT(MONTH FROM (ep.value->>'release_date')::date) = EXTRACT(MONTH FROM CURRENT_DATE) AND EXTRACT(DAY FROM (ep.value->>'release_date')::date) = EXTRACT(DAY FROM CURRENT_DATE))`);
+    filterClauses.push(`(EXTRACT(MONTH FROM release_date) = EXTRACT(MONTH FROM CURRENT_DATE) AND EXTRACT(DAY FROM release_date) = EXTRACT(DAY FROM CURRENT_DATE)) OR (EXTRACT(MONTH FROM (SELECT MIN(release_date) FROM seasons_episodes WHERE show_id = m.id))) = EXTRACT(MONTH FROM CURRENT_DATE) AND EXTRACT(DAY FROM (SELECT MIN(release_date) FROM seasons_episodes WHERE show_id = m.id))) = EXTRACT(DAY FROM CURRENT_DATE))`);
 
   const whereClause = filterClauses.length > 0 ? `WHERE ${filterClauses.join(" AND ")}` : "";
 
@@ -515,44 +515,6 @@ export const seasonCount = (req, res) => {
   .catch((error) => {
     res.status(500).json({ error: `Error: ${error}.` });
   });
-}
-
-export const show = (req, res) => {
-  const sql = 
-    `
-      SELECT id, title, grade, release_date, rating, poster, runtime, type, completed, directors, cast_members, writers
-      FROM media m
-      LEFT JOIN LATERAL (
-        SELECT json_agg(json_build_object('ordering', md.ordering, 'media_id', md.media_id, 'director_id', md.director_id, 'name', p.name, 'birth_date', p.birth_date, 'death_date', p.death_date)) AS directors
-        FROM media_directors md
-        LEFT JOIN people p ON md.director_id = p.id
-        WHERE m.id = md.media_id
-      ) md ON TRUE
-      LEFT JOIN LATERAL (
-        SELECT json_agg(json_build_object('ordering', mc.ordering, 'media_id', mc.media_id, 'actor_id', mc.actor_id, 'name', p.name, 'birth_date', p.birth_date, 'death_date', p.death_date)) AS cast_members
-        FROM media_cast mc
-        LEFT JOIN people p ON mc.actor_id = p.id
-        WHERE m.id = mc.media_id
-      ) mc ON TRUE
-      LEFT JOIN LATERAL (
-        SELECT json_agg(json_build_object('ordering', mw.ordering, 'media_id', mw.media_id, 'writer_id', mw.writer_id, 'name', p.name, 'birth_date', p.birth_date, 'death_date', p.death_date)) AS writers
-        FROM media_writers mw
-        LEFT JOIN people p ON mw.writer_id = p.id
-        WHERE m.id = mw.media_id
-      ) mw ON TRUE
-      WHERE id = $1;
-    `;
-
-  query(sql, [req.params.id])
-    .then(results => {
-      if (results.rowCount > 0)
-        res.json(results.rows[0]);
-      else
-        res.status(404).json({ error: `Title not found for id ${req.params.id}.` });
-    })
-    .catch((error) => {
-      res.status(500).json({ error: `Error: ${error}.` });
-    });
 }
 
 export const create = async (req, res) => {

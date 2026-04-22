@@ -210,26 +210,6 @@ export const indexSelect = (req, res) => {
   });
 }
 
-export const show = (req, res) => {
-  const sql = 
-    `
-      SELECT id, name, birth_date, death_date
-      FROM people
-      WHERE id = $1;
-    `;
-
-  query(sql, [req.params.id])
-    .then(results => {
-      if (results.rowCount > 0)
-        res.json(results.rows[0]);
-      else
-        res.status(404).json({ error: `Person not found for id ${req.params.id}.` });
-    })
-    .catch((error) => {
-      res.status(500).json({ error: `Error: ${error}.` });
-    });
-}
-
 export const create = async (req, res) => {
   const person = req.body;
 

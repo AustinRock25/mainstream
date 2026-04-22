@@ -162,10 +162,6 @@ function MediaModal({ show, setShow, media, user, seasonCount }) {
     }
   };
 
-  function matchDates(d1, d2) {
-    return !!(d1.getUTCMonth() === d2.getUTCMonth() && d1.getUTCDate() === d2.getUTCDate());
-  }
-
   return (
     <Modal show={show} onHide={handleClose} size="lg" centered contentClassName="bg-dark text-white">
       <Modal.Header closeButton closeVariant="white">
@@ -239,7 +235,7 @@ function MediaModal({ show, setShow, media, user, seasonCount }) {
                   {media.seasons[currentSeason].episodes.sort((a, b) => (a.episode > b.episode ? 1 : -1)).map((ep, index) => (
                     <Accordion.Item eventKey={index.toString()} key={index} className="border-0">
                       <Accordion.Header>
-                        <span className="fs-5 fw-bold">{ep.episode}. {ep.title} <small className="ms-auto me-3 small opacity-50">{new Date(ep.release_date).getUTCFullYear()}</small>{matchDates(new Date(ep.release_date), new Date()) && <span className="badge bg-white text-dark ms-2">Anniversary</span>}</span>
+                        <span className="fs-5 fw-bold">{ep.episode}. {ep.title} <small className="ms-auto me-3 small opacity-50">{new Date(ep.release_date).getUTCFullYear()}</small></span>
                       </Accordion.Header>
                       <Accordion.Body className="bg-dark text-white-50">
                         {combineDirectorsAndWriters(ep) && (
