@@ -596,7 +596,7 @@ async function createMovie(media, { directors, writers, castMembers }) {
     `
       WITH new_media AS (
         INSERT INTO media (id, title, grade, release_date, rating, poster, runtime, type, date_added)
-        SELECT COALESCE(MAX(id), 0) + 1, $1, $2, $3, $4, $5, $6, 'movie', $7
+        SELECT COALESCE(MAX(id), 0) + 1, $1, $2, $3, $4, $5, $6, 'movie', CURRENT_TIMESTAMP
         FROM media
         RETURNING id
       )
@@ -609,8 +609,7 @@ async function createMovie(media, { directors, writers, castMembers }) {
     media.release_date, 
     media.rating,
     media.poster, 
-    media.runtime,
-    new Date()
+    media.runtime
   ];
 
   const result = await query(sql, params);
@@ -635,18 +634,18 @@ async function createNewShow(media, { castMembers }) {
     `
       WITH new_media AS (
         INSERT INTO media (id, title, poster, rating, completed, type, date_added)
-        SELECT COALESCE(MAX(id), 0) + 1, $1, $2, $3, $4, 'show', $7
+        SELECT COALESCE(MAX(id), 0) + 1, $1, $2, $3, $4, 'show', CURRENT_TIMESTAMP
         FROM media
         RETURNING id
       ),
       insert_season AS (
-        INSERT INTO seasons (season, show_id, grade, runtime)
-        VALUES (1, (SELECT id FROM new_media), $5, $6)
+        INSERT INTO seasons (season, show_id, grade)
+        VALUES (1, (SELECT id FROM new_media), $5)
       ),
       insert_episodes AS (
         INSERT INTO seasons_episodes (show_id, season, episode, title, release_date)
         SELECT (SELECT id FROM new_media), 1, ep.n, (ep.obj->>'title'), NULLIF(ep.obj->>'release_date', '')::date
-        FROM json_array_elements($8::json) WITH ORDINALITY AS ep(obj, n)
+        FROM json_array_elements($6::json) WITH ORDINALITY AS ep(obj, n)
       )
       SELECT id FROM new_media;
     `;
@@ -657,8 +656,6 @@ async function createNewShow(media, { castMembers }) {
     media.rating, 
     media.completed || false,
     media.grade, 
-    media.runtime,
-    new Date(),
     JSON.stringify(media.episodes)
   ];
   
@@ -690,7 +687,7 @@ async function createNewShow(media, { castMembers }) {
 }
 
 async function addSeasonToShow(media, { castMembers }) {
-  await query(`UPDATE media SET completed = $1 AND date_added = $3 WHERE id = $2;`, [media.completed || false, media.id, new Date()]);
+  await query(`UPDATE media SET completed = $1 AND date_added = CURRENT_TIMESTAMP WHERE id = $2;`, [media.completed || false, media.id]);
 
   const seasonResult = await query(`SELECT COALESCE(MAX(season), 0) + 1 AS next_season FROM seasons WHERE show_id = $1`, [media.id]);
   const seasonNum = seasonResult.rows[0].next_season;
