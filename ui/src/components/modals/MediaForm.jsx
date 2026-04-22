@@ -231,6 +231,8 @@ function MediaForm({ show, setShow, media, season }) {
       })
       .finally(() => {
         setIsLoading(false);
+        setSearchTerm("");
+        setSearchTermEp("");
       });
   }, [searchTerm, searchTermEp, selected, episodes, activeEpisodeIndex]);
 
