@@ -15,8 +15,26 @@ function MediaCard ({media}) {
       .then(response => {
         setSeasonCount(response.data[0].count);
       });
+
+      const findMaxSeason = async () => {
+        let currentSearch = 1;
+
+        while (true) {
+          const testPath = `posters/${media.poster}-season-${currentSearch}_poster.jpg`;
+          const response = await fetch(testPath, { method: "HEAD" });
+          
+          if (response.ok)
+            currentSearch++;
+          else
+            break;
+        }
+        
+        setSeasonCount(currentSearch - 1);
+      };
+
+      findMaxSeason();
     }
-  }, [media.id, media.type]);
+  }, [media.id, media.type, media.poster]);
 
   const handleOpenModal = () => {
     setShowMediaModal(true);
