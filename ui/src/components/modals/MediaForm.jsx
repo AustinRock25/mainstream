@@ -212,21 +212,15 @@ function MediaForm({ show, setShow, media, season }) {
   }, [media, show, loadExistingData]);
 
   const fetchPeople = useCallback(() => {
-    if (!searchTerm) { 
-      setCastAndCrew([]);
-    }
+    let st = "";
 
-    if (!searchTermEp) {
-      setCastAndCrewEp([]);
-    }
-
-    if (activeEpisodeIndex !== null) {
-      setSearchTerm(searchTermEp);
-      setSearchTermEp("");
-    }
+    if (activeEpisodeIndex !== null)
+      st = searchTermEp;
+    else
+      st = searchTerm;
     
     setIsLoading(true);
-    api.get("/people/select", { params: { searchTerm } })
+    api.get("/people/select", { params: { st } })
       .then(response => {
         if (activeEpisodeIndex !== null && episodes[activeEpisodeIndex]?.creatives) {
           const selectedIds = new Set(episodes[activeEpisodeIndex].creatives.map(e => e.id));
@@ -240,6 +234,7 @@ function MediaForm({ show, setShow, media, season }) {
       })
       .finally(() => {
         setIsLoading(false);
+        setSearchTerm("");
       });
   }, [searchTerm, searchTermEp, selected, episodes, activeEpisodeIndex]);
 
