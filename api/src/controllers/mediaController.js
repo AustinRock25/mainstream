@@ -159,7 +159,7 @@ export const index = (req, res) => {
     }
   }
   else
-    filterClauses.push(`(EXTRACT(MONTH FROM release_date) = EXTRACT(MONTH FROM CURRENT_DATE) AND EXTRACT(DAY FROM release_date) = EXTRACT(DAY FROM CURRENT_DATE)) OR (EXTRACT(MONTH FROM start_date) = EXTRACT(MONTH FROM CURRENT_DATE) AND EXTRACT(DAY FROM start_date) = EXTRACT(DAY FROM CURRENT_DATE))`);
+    filterClauses.push(`(EXTRACT(MONTH FROM COALESCE(release_date, start_date)) = EXTRACT(MONTH FROM CURRENT_DATE)) AND EXTRACT(DAY FROM COALESCE(release_date, start_date)) = EXTRACT(DAY FROM CURRENT_DATE)`);
 
   const whereClause = filterClauses.length > 0 ? `WHERE ${filterClauses.join(" AND ")}` : "";
   let orderByClause = "";
@@ -397,7 +397,7 @@ export const indexLength = (req, res) => {
     }
   }
   else 
-    filterClauses.push(`(EXTRACT(MONTH FROM release_date) = EXTRACT(MONTH FROM CURRENT_DATE) AND EXTRACT(DAY FROM release_date) = EXTRACT(DAY FROM CURRENT_DATE)) OR (EXTRACT(MONTH FROM (SELECT MIN(release_date) FROM seasons_episodes WHERE show_id = m.id))) = EXTRACT(MONTH FROM CURRENT_DATE) AND EXTRACT(DAY FROM (SELECT MIN(release_date) FROM seasons_episodes WHERE show_id = m.id))) = EXTRACT(DAY FROM CURRENT_DATE))`);
+    filterClauses.push(`(EXTRACT(MONTH FROM COALESCE(release_date, (SELECT MIN(release_date) FROM seasons_episodes WHERE show_id = m.id))) = EXTRACT(MONTH FROM CURRENT_DATE)) AND EXTRACT(DAY FROM COALESCE(release_date, (SELECT MIN(release_date) FROM seasons_episodes WHERE show_id = m.id))) = EXTRACT(DAY FROM CURRENT_DATE)`);
 
   const whereClause = filterClauses.length > 0 ? `WHERE ${filterClauses.join(" AND ")}` : "";
 
