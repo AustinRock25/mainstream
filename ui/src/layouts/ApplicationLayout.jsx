@@ -2,7 +2,7 @@ import AuthModal from "../components/modals/AuthModal";
 import api from "../api";
 import { Container, Image, Nav, Navbar } from "react-bootstrap";
 import MediaForm from "../components/modals/MediaForm";
-import { NavLink, Outlet, useLocation, useNavigate } from "react-router-dom";
+import { NavLink, Outlet, useLocation } from "react-router-dom";
 import PersonForm from "../components/modals/PersonForm";
 import { unauthenticated } from "../slices/authSlice";
 import { useDispatch, useSelector } from "react-redux";
