@@ -212,29 +212,33 @@ function MediaForm({ show, setShow, media, season }) {
   }, [media, show, loadExistingData]);
 
   const fetchPeople = useCallback(() => {
-    let st = "";
-
-    if (activeEpisodeIndex !== null)
-      st = searchTermEp;
-    else
-      st = searchTerm;
+    let st = searchTerm;
     
     setIsLoading(true);
     api.get("/people/select", { params: { st } })
       .then(response => {
-        if (activeEpisodeIndex !== null) {
-          episodes[activeEpisodeIndex].creatives.forEach(c => new Set(episodes[activeEpisodeIndex].creatives.map(e => e.id)).add(c.id));
-          setCastAndCrewEp(response.data.filter(p => !new Set(episodes[activeEpisodeIndex].creatives.map(e => e.id)).has(p.id)));
-        }
-        else
-          setCastAndCrew(response.data.filter(p => !new Set(selected.map(s => s.id)).has(p.id)));
+        setCastAndCrew(response.data.filter(p => !new Set(selected.map(s => s.id)).has(p.id)));
       })
       .finally(() => {
         setIsLoading(false);
         setSearchTerm("");
+      });
+  }, [searchTerm, selected]);
+
+  const fetchPeopleEp = useCallback(() => {
+    let st = searchTermEp;
+    
+    setIsLoading(true);
+    api.get("/people/select", { params: { st } })
+      .then(response => {
+        episodes[activeEpisodeIndex].creatives.forEach(c => new Set(episodes[activeEpisodeIndex].creatives.map(e => e.id)).add(c.id));
+        setCastAndCrewEp(response.data.filter(p => !new Set(episodes[activeEpisodeIndex].creatives.map(e => e.id)).has(p.id)));
+      })
+      .finally(() => {
+        setIsLoading(false);
         setSearchTermEp("");
       });
-  }, [searchTerm, searchTermEp, selected, episodes, activeEpisodeIndex]);
+  }, [searchTermEp, episodes, activeEpisodeIndex]);
 
   const handleChange = (e, key) => {
     const { value, type, checked } = e.target;
@@ -427,7 +431,7 @@ function MediaForm({ show, setShow, media, season }) {
                               placeholder="Search..." 
                               onChange={e => { setSearchTermEp(e.target.value); setActiveEpisodeIndex(index); }} 
                             />
-                            <Button size="sm" variant="primary" onClick={fetchPeople} className="ms-2">Search</Button>
+                            <Button size="sm" variant="primary" onClick={fetchPeopleEp} className="ms-2">Search</Button>
                           </div>
                           <ListGroup style={{maxHeight: "100px", overflowY: "auto"}}>
                             {activeEpisodeIndex === index && isLoading ? <Spinner size="sm"/> : activeEpisodeIndex === index && castAndCrewEp.map(p => (
