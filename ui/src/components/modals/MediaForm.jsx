@@ -102,76 +102,48 @@ function MediaForm({ show, setShow, media, season }) {
       cast = Array.from(peopleMap.values());
 
       if (user.rating_scale == 1) {
-        if (media.grade < 6.25)
+        if (media.grade <= (100/9))
           grade = 0;
-        else if (media.grade < 18.75)
+        else if (media.grade <= (200/9))
           grade = 0.5;
-        else if (media.grade < 31.25)
+        else if (media.grade <= (100/3))
           grade = 1;
-        else if (media.grade < 43.75)
+        else if (media.grade <= (400/9))
           grade = 1.5;
-        else if (media.grade < 56.25)
+        else if (media.grade <= (500/9))
           grade = 2;
-        else if (media.grade < 68.75)
+        else if (media.grade <= (200/3))
           grade = 2.5;
-        else if (media.grade < 81.25)
+        else if (media.grade <= (700/9))
           grade = 3;
-        else if (media.grade < 93.75)
+        else if (media.grade <= (800/9))
           grade = 3.5;
         else
           grade = 4;
       }
-      else if (user.rating_scale == 2) {
-        if (media.grade < 5)
+      else {
+        if (media.grade <= (100/11))
           grade = 0;
-        else if (media.grade < 15)
+        else if (media.grade <= (200/11))
           grade = 0.5;
-        else if (media.grade < 25)
+        else if (media.grade <= (300/11))
           grade = 1;
-        else if (media.grade < 35)
+        else if (media.grade <= (400/11))
           grade = 1.5;
-        else if (media.grade < 45)
+        else if (media.grade <= (500/11))
           grade = 2;
-        else if (media.grade < 55)
+        else if (media.grade <= (600/11))
           grade = 2.5;
-        else if (media.grade < 65)
+        else if (media.grade <= (700/11))
           grade = 3;
-        else if (media.grade < 75)
+        else if (media.grade <= (800/11))
           grade = 3.5;
-        else if (media.grade < 85)
+        else if (media.grade <= (900/11))
           grade = 4;
-        else if (media.grade < 95)
+        else if (media.grade <= (1000/11))
           grade = 4.5;
         else
           grade = 5;
-      }
-      else {
-        if (media.grade < 4.17)
-          grade = 0;
-        else if (media.grade < 12.5)
-          grade = 1;
-        else if (media.grade < 20.83)
-          grade = 2;
-        else if (media.grade < 29.17)
-          grade = 3;
-        else if (media.grade < 37.5)
-          grade = 4;
-        else if (media.grade < 45.83)
-          grade = 5;
-        else if (media.grade < 54.17)
-          grade = 6;
-        else if (media.grade < 62.5)
-          grade = 7;
-        else if (media.grade < 70.83)
-          grade = 8;
-        else if (media.grade < 79.17)
-          grade = 9;
-        else if (media.grade < 87.5)
-          grade = 10;
-        else if (media.grade < 95.83)
-          grade = 11;
-        else
-          grade = 12;
       }
 
       setFormData({
@@ -299,36 +271,8 @@ function MediaForm({ show, setShow, media, season }) {
   const getGrade = (grade) => {
     if (user.rating_scale == 1)
       return grade + "/4";
-    else if (user.rating_scale == 2)
+    else
       return grade + "/5";
-    else {
-      if (grade == 0)
-        return "F";
-      else if (grade == 1)
-        return "D-";
-      else if (grade == 2)
-        return "D";
-      else if (grade == 3)
-        return "D+";
-      else if (grade == 4)
-        return "C-";
-      else if (grade == 5)
-        return "C";
-      else if (grade == 6)
-        return "C+";
-      else if (grade == 7)
-        return "B-";
-      else if (grade == 8)
-        return "B";
-      else if (grade == 9)
-        return "B+";
-      else if (grade == 10)
-        return "A-";
-      else if (grade == 11)
-        return "A";
-      else
-        return "A+";
-    }
   }
 
   function handleSubmit(e) {
@@ -337,10 +281,8 @@ function MediaForm({ show, setShow, media, season }) {
 
     if (user.rating_scale == 1)
       formData.grade = (parseFloat(formData.grade) * 100) / 4;
-    else if (user.rating_scale == 2)
-      formData.grade = (parseFloat(formData.grade) * 100) / 5;
     else
-      formData.grade = (parseFloat(formData.grade) * 100) / 12;
+      formData.grade = (parseFloat(formData.grade) * 100) / 5;
 
     const payload = { ...formData, castAndCrew: selected, episodes: episodes };
     const apiCall = media?.id ? api.put(`/media/${media.id}`, [payload, media]) : api.post("/media", payload);

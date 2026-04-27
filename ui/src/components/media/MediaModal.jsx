@@ -77,96 +77,74 @@ function MediaModal({ show, setShow, media, user, seasonCount }) {
   };
 
   function grade(g) {
-    if (!user) {
-      if (g < 5.56)
-        return "1/10";
-      else if (g < 16.67)
-        return "2/10";
-      else if (g < 27.78)
-        return "3/10";
-      else if (g < 38.89)
-        return "4/10";
-      else if (g < 50)
-        return "5/10";
-      else if (g < 61.11)
-        return "6/10";
-      else if (g < 72.22)
-        return "7/10";
-      else if (g < 83.33)
-        return "8/10";
-      else if (g < 94.44)
-        return "9/10";
-      else
-        return "10/10";
-    }
-    else if (user.rating_scale == 1) {
-      if (g < 6.25)
+    if (user.rating_scale == 1) {
+      if (g <= (100/9))
         return "0/4";
-      else if (g < 18.75)
+      else if (g <= (200/9))
         return "0.5/4";
-      else if (g < 31.25)
+      else if (g <= (100/3))
         return "1/4";
-      else if (g < 43.75)
+      else if (g <= (400/9))
         return "1.5/4";
-      else if (g < 56.25)
+      else if (g <= (500/9))
         return "2/4";
-      else if (g < 68.75)
+      else if (g <= (200/3))
         return "2.5/4";
-      else if (g < 81.25)
+      else if (g <= (700/9))
         return "3/4";
-      else if (g < 93.75)
+      else if (g <= (800/9))
         return "3.5/4";
       else
         return "4/4";
     }
     else if (user.rating_scale == 2) {
-      if (g < 5)
+      if (g <= (100/11))
         return "0/5";
-      else if (g < 15)
+      else if (g <= (200/11))
         return "0.5/5";
-      else if (g < 25)
+      else if (g <= (300/11))
         return "1/5";
-      else if (g < 35)
+      else if (g <= (400/11))
         return "1.5/5";
-      else if (g < 45)
+      else if (g <= (500/11))
         return "2/5";
-      else if (g < 55)
+      else if (g <= (600/11))
         return "2.5/5";
-      else if (g < 65)
+      else if (g <= (700/11))
         return "3/5";
-      else if (g < 75)
+      else if (g <= (800/11))
         return "3.5/5";
-      else if (g < 85)
+      else if (g <= (900/11))
         return "4/5";
-      else if (g < 95)
+      else if (g <= (1000/11))
         return "4.5/5";
       else
         return "5/5";
     }
     else {
-      if (g < 4.17)
+      if (g <= 19.98)
         return "F";
-      else if (g < 12.5)
+      else if (g <= 24.98)
         return "D-";
-      else if (g < 20.83)
+      else if (g <= 32.98)
         return "D";
-      else if (g < 29.17)
+      else if (g <= 38.98)
         return "D+";
-      else if (g < 37.5)
+      else if (g <= 44.98)
         return "C-";
-      else if (g < 45.83)
+      else if (g <= 52.98)
         return "C";
-      else if (g < 54.17)
+      else if (g <= 58.98)
         return "C+";
-      else if (g < 62.5)
+      else if (g <= 64.98)
         return "B-";
-      else if (g < 70.83)
+      else if (g <= 72.98)
         return "B";
-      else if (g < 79.17)
+      else if (g <= 78.92)
         return "B+";
-      else if (g < 87.5)
+      else if (g <= 84.98)
         return "A-";
-      else if (g < 95.83)
+      else if (g <= 92.98)
         return "A";
       else
         return "A+";
@@ -220,19 +198,19 @@ function MediaModal({ show, setShow, media, user, seasonCount }) {
                   <p>{getNames(media.directors).join(", ")}</p>
                 </div>
               )}
-              {!combineDirectorsAndWriters(media) && getNames(media.directors).length > 0 && (
+              {!combineDirectorsAndWriters(media) && getNames(media.directors || "").length > 0 && (
                 <div className="mb-2">
                   <h6 className="text-uppercase text-secondary small fw-bold">Directed by</h6>
                   <p>{getNames(media.directors).join(", ")}</p>
                 </div>
               )}
-              {!combineDirectorsAndWriters(media) && getNames(media.writers).length > 0 && (
+              {!combineDirectorsAndWriters(media) && getNames(media.writers || "").length > 0 && (
                 <div className="mb-2">
                   <h6 className="text-uppercase text-secondary small fw-bold">Written by</h6>
                   <p>{getNames(media.writers).join(", ")}</p>
                 </div>
               )}
-              {getNames(media.cast_members || media.seasons[currentSeason].cast_members).length > 0 && (
+              {getNames(media.cast_members || media.seasons[currentSeason].cast_members || "").length > 0 && (
                 <div className="mb-2">
                   <h6 className="text-uppercase text-secondary small fw-bold">Starring</h6>
                   <p>{getNames(media.cast_members || media.seasons[currentSeason].cast_members).join(", ")}</p>
