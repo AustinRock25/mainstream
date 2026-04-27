@@ -198,19 +198,19 @@ function MediaModal({ show, setShow, media, user, seasonCount }) {
                   <p>{getNames(media.directors).join(", ")}</p>
                 </div>
               )}
-              {!combineDirectorsAndWriters(media) && getNames(media.directors || "").length > 0 && (
+              {!combineDirectorsAndWriters(media) && getNames(media.directors).length > 0 && (
                 <div className="mb-2">
                   <h6 className="text-uppercase text-secondary small fw-bold">Directed by</h6>
                   <p>{getNames(media.directors).join(", ")}</p>
                 </div>
               )}
-              {!combineDirectorsAndWriters(media) && getNames(media.writers || "").length > 0 && (
+              {!combineDirectorsAndWriters(media) && getNames(media.writers).length > 0 && (
                 <div className="mb-2">
                   <h6 className="text-uppercase text-secondary small fw-bold">Written by</h6>
                   <p>{getNames(media.writers).join(", ")}</p>
                 </div>
               )}
-              {getNames(media.cast_members || media.seasons[currentSeason].cast_members || "").length > 0 && (
+              {media.cast_members && media.seasons[currentSeason].cast_members && getNames(media.cast_members || media.seasons[currentSeason].cast_members).length > 0 && (
                 <div className="mb-2">
                   <h6 className="text-uppercase text-secondary small fw-bold">Starring</h6>
                   <p>{getNames(media.cast_members || media.seasons[currentSeason].cast_members).join(", ")}</p>
