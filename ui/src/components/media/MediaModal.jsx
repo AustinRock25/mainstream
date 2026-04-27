@@ -77,51 +77,7 @@ function MediaModal({ show, setShow, media, user, seasonCount }) {
   };
 
   function grade(g) {
-    if (user.rating_scale == 1) {
-      if (g <= (100/9))
-        return "0/4";
-      else if (g <= (200/9))
-        return "0.5/4";
-      else if (g <= (100/3))
-        return "1/4";
-      else if (g <= (400/9))
-        return "1.5/4";
-      else if (g <= (500/9))
-        return "2/4";
-      else if (g <= (200/3))
-        return "2.5/4";
-      else if (g <= (700/9))
-        return "3/4";
-      else if (g <= (800/9))
-        return "3.5/4";
-      else
-        return "4/4";
-    }
-    else if (user.rating_scale == 2) {
-      if (g <= (100/11))
-        return "0/5";
-      else if (g <= (200/11))
-        return "0.5/5";
-      else if (g <= (300/11))
-        return "1/5";
-      else if (g <= (400/11))
-        return "1.5/5";
-      else if (g <= (500/11))
-        return "2/5";
-      else if (g <= (600/11))
-        return "2.5/5";
-      else if (g <= (700/11))
-        return "3/5";
-      else if (g <= (800/11))
-        return "3.5/5";
-      else if (g <= (900/11))
-        return "4/5";
-      else if (g <= (1000/11))
-        return "4.5/5";
-      else
-        return "5/5";
-    }
-    else {
+    if (!user) {
       if (g <= 19.98)
         return "F";
       else if (g <= 24.98)
@@ -148,6 +104,50 @@ function MediaModal({ show, setShow, media, user, seasonCount }) {
         return "A";
       else
         return "A+";
+    }
+    if (user.rating_scale == 1) {
+      if (g <= (100/9))
+        return "0/4";
+      else if (g <= (200/9))
+        return "0.5/4";
+      else if (g <= (100/3))
+        return "1/4";
+      else if (g <= (400/9))
+        return "1.5/4";
+      else if (g <= (500/9))
+        return "2/4";
+      else if (g <= (200/3))
+        return "2.5/4";
+      else if (g <= (700/9))
+        return "3/4";
+      else if (g <= (800/9))
+        return "3.5/4";
+      else
+        return "4/4";
+    }
+    else {
+      if (g <= (100/11))
+        return "0/5";
+      else if (g <= (200/11))
+        return "0.5/5";
+      else if (g <= (300/11))
+        return "1/5";
+      else if (g <= (400/11))
+        return "1.5/5";
+      else if (g <= (500/11))
+        return "2/5";
+      else if (g <= (600/11))
+        return "2.5/5";
+      else if (g <= (700/11))
+        return "3/5";
+      else if (g <= (800/11))
+        return "3.5/5";
+      else if (g <= (900/11))
+        return "4/5";
+      else if (g <= (1000/11))
+        return "4.5/5";
+      else
+        return "5/5";
     }
   }
 

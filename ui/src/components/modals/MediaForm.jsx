@@ -100,52 +100,50 @@ function MediaForm({ show, setShow, media, season }) {
       }
 
       cast = Array.from(peopleMap.values());
-
-      if (user) {
-        if (user.rating_scale == 1) {
-          if (media.grade <= (100/9))
-            grade = 0;
-          else if (media.grade <= (200/9))
-            grade = 0.5;
-          else if (media.grade <= (100/3))
-            grade = 1;
-          else if (media.grade <= (400/9))
-            grade = 1.5;
-          else if (media.grade <= (500/9))
-            grade = 2;
-          else if (media.grade <= (200/3))
-            grade = 2.5;
-          else if (media.grade <= (700/9))
-            grade = 3;
-          else if (media.grade <= (800/9))
-            grade = 3.5;
-          else
-            grade = 4;
-        }
-        else {
-          if (media.grade <= (100/11))
-            grade = 0;
-          else if (media.grade <= (200/11))
-            grade = 0.5;
-          else if (media.grade <= (300/11))
-            grade = 1;
-          else if (media.grade <= (400/11))
-            grade = 1.5;
-          else if (media.grade <= (500/11))
-            grade = 2;
-          else if (media.grade <= (600/11))
-            grade = 2.5;
-          else if (media.grade <= (700/11))
-            grade = 3;
-          else if (media.grade <= (800/11))
-            grade = 3.5;
-          else if (media.grade <= (900/11))
-            grade = 4;
-          else if (media.grade <= (1000/11))
-            grade = 4.5;
-          else
-            grade = 5;
-        }
+      
+      if (user.rating_scale == 1) {
+        if (media.grade <= (100/9))
+          grade = 0;
+        else if (media.grade <= (200/9))
+          grade = 0.5;
+        else if (media.grade <= (100/3))
+          grade = 1;
+        else if (media.grade <= (400/9))
+          grade = 1.5;
+        else if (media.grade <= (500/9))
+          grade = 2;
+        else if (media.grade <= (200/3))
+          grade = 2.5;
+        else if (media.grade <= (700/9))
+          grade = 3;
+        else if (media.grade <= (800/9))
+          grade = 3.5;
+        else
+          grade = 4;
+      }
+      else {
+        if (media.grade <= (100/11))
+          grade = 0;
+        else if (media.grade <= (200/11))
+          grade = 0.5;
+        else if (media.grade <= (300/11))
+          grade = 1;
+        else if (media.grade <= (400/11))
+          grade = 1.5;
+        else if (media.grade <= (500/11))
+          grade = 2;
+        else if (media.grade <= (600/11))
+          grade = 2.5;
+        else if (media.grade <= (700/11))
+          grade = 3;
+        else if (media.grade <= (800/11))
+          grade = 3.5;
+        else if (media.grade <= (900/11))
+          grade = 4;
+        else if (media.grade <= (1000/11))
+          grade = 4.5;
+        else
+          grade = 5;
       }
 
       setFormData({
