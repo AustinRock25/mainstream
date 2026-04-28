@@ -102,48 +102,76 @@ function MediaForm({ show, setShow, media, season }) {
       cast = Array.from(peopleMap.values());
       
       if (user.rating_scale == 1) {
-        if (media.grade <= (100/9))
+        if (media.grade <= 11)
           grade = 0;
-        else if (media.grade <= (200/9))
+        else if (media.grade <= 22)
           grade = 0.5;
-        else if (media.grade <= (100/3))
+        else if (media.grade <= 33)
           grade = 1;
-        else if (media.grade <= (400/9))
+        else if (media.grade <= 44)
           grade = 1.5;
-        else if (media.grade <= (500/9))
+        else if (media.grade <= 54)
           grade = 2;
-        else if (media.grade <= (200/3))
+        else if (media.grade <= 66)
           grade = 2.5;
-        else if (media.grade <= (700/9))
+        else if (media.grade <= 77)
           grade = 3;
-        else if (media.grade <= (800/9))
+        else if (media.grade <= 88)
           grade = 3.5;
         else
           grade = 4;
       }
-      else {
-        if (media.grade <= (100/11))
+      else if (user.rating_scale == 2) {
+        if (media.grade <= 9)
           grade = 0;
-        else if (media.grade <= (200/11))
+        else if (media.grade <= 18)
           grade = 0.5;
-        else if (media.grade <= (300/11))
+        else if (media.grade <= 27)
           grade = 1;
-        else if (media.grade <= (400/11))
+        else if (media.grade <= 36)
           grade = 1.5;
-        else if (media.grade <= (500/11))
+        else if (media.grade <= 45)
           grade = 2;
-        else if (media.grade <= (600/11))
+        else if (media.grade <= 54)
           grade = 2.5;
-        else if (media.grade <= (700/11))
+        else if (media.grade <= 63)
           grade = 3;
-        else if (media.grade <= (800/11))
+        else if (media.grade <= 72)
           grade = 3.5;
-        else if (media.grade <= (900/11))
+        else if (media.grade <= 81)
           grade = 4;
-        else if (media.grade <= (1000/11))
+        else if (media.grade <= 90)
           grade = 4.5;
         else
           grade = 5;
+      }
+      else {
+        if (media.grade <= 19)
+          grade = 0;
+        else if (media.grade <= 26)
+          grade = 1;
+        else if (media.grade <= 32)
+          grade = 2;
+        else if (media.grade <= 39)
+          grade = 3;
+        else if (media.grade <= 46)
+          grade = 4;
+        else if (media.grade <= 52)
+          grade = 5;
+        else if (media.grade <= 59)
+          grade = 6;
+        else if (media.grade <= 66)
+          grade = 7;
+        else if (media.grade <= 72)
+          grade = 8;
+        else if (media.grade <= 79)
+          grade = 9;
+        else if (media.grade <= 86)
+          grade = 10;
+        else if (media.grade <= 92)
+          grade = 11;
+        else
+          grade = 12;
       }
 
       setFormData({
@@ -271,18 +299,115 @@ function MediaForm({ show, setShow, media, season }) {
   const getGrade = (grade) => {
     if (user.rating_scale == 1)
       return grade + "/4";
-    else
+    else if (user.rating_scale == 2)
       return grade + "/5";
+    else {
+      if (grade == 0)
+        return "F";
+      else if (grade == 1)
+        return "D-";
+      else if (grade == 2)
+        return "D";
+      else if (grade == 3)
+        return "D+";
+      else if (grade == 4)
+        return "C-";
+      else if (grade == 5)
+        return "C";
+      else if (grade == 6)
+        return "C+";
+      else if (grade == 7)
+        return "B-";
+      else if (grade == 8)
+        return "B";
+      else if (grade == 9)
+        return "B+";
+      else if (grade == 10)
+        return "A-";
+      else if (grade == 11)
+        return "A";
+      else
+        return "A+";
+    }
   }
 
   function handleSubmit(e) {
     e.preventDefault();
     setIsSubmitting(true);
 
-    if (user.rating_scale == 1)
-      formData.grade = (parseFloat(formData.grade) * 100) / 4;
-    else
-      formData.grade = (parseFloat(formData.grade) * 100) / 5;
+    if (user.rating_scale == 1) {
+      if (formData.grade == 0)
+        formData.grade = 6;
+      else if (formData.grade == 0.5)
+        formData.grade = 17;
+      else if (formData.grade == 1)
+        formData.grade = 28;
+      else if (formData.grade == 1.5)
+        formData.grade = 39;
+      else if (formData.grade == 2)
+        formData.grade = 50;
+      else if (formData.grade == 2.5)
+        formData.grade = 61;
+      else if (formData.grade == 3)
+        formData.grade = 72;
+      else if (formData.grade == 3.5)
+        formData.grade = 83;
+      else
+        formData.grade = 94;
+    }
+    else if (user.rating_scale == 2) {
+      if (formData.grade == 0)
+        formData.grade = 5;
+      else if (formData.grade == 0.5)
+        formData.grade = 14;
+      else if (formData.grade == 1)
+        formData.grade = 23;
+      else if (formData.grade == 1.5)
+        formData.grade = 32;
+      else if (formData.grade == 2)
+        formData.grade = 41;
+      else if (formData.grade == 2.5)
+        formData.grade = 50;
+      else if (formData.grade == 3)
+        formData.grade = 59;
+      else if (formData.grade == 3.5)
+        formData.grade = 68;
+      else if (formData.grade == 4)
+        formData.grade = 77;
+      else if (formData.grade == 4.5)
+        formData.grade = 86;
+      else
+        formData.grade = 95;
+    }
+    else {
+      if (formData.grade == 0)
+        formData.grade = 10;
+      else if (formData.grade == 1)
+        formData.grade = 23;
+      else if (formData.grade == 2)
+        formData.grade = 30;
+      else if (formData.grade == 3)
+        formData.grade = 36;
+      else if (formData.grade == 4)
+        formData.grade = 43;
+      else if (formData.grade == 5)
+        formData.grade = 50;
+      else if (formData.grade == 6)
+        formData.grade = 56;
+      else if (formData.grade == 7)
+        formData.grade = 63;
+      else if (formData.grade == 8)
+        formData.grade = 70;
+      else if (formData.grade == 9)
+        formData.grade = 76;
+      else if (formData.grade == 10)
+        formData.grade = 83;
+      else if (formData.grade == 11)
+        formData.grade = 90;
+      else
+        formData.grade = 96;
+    }
+
 
     const payload = { ...formData, castAndCrew: selected, episodes: episodes };
     const apiCall = media?.id ? api.put(`/media/${media.id}`, [payload, media]) : api.post("/media", payload);
@@ -431,7 +556,7 @@ function MediaForm({ show, setShow, media, season }) {
                   <Form.Label column sm={3}>Grade: <span className="fw-light fs-3 text-white-50">{getGrade(formData.grade)}</span></Form.Label>
                   {user.rating_scale == 1 && <Col sm={9}><Form.Range min="0" max="4" step="0.5" value={formData.grade} onChange={(e) => handleChange(e, "grade")} /></Col>}
                   {user.rating_scale == 2 && <Col sm={9}><Form.Range min="0" max="5" step="0.5" value={formData.grade} onChange={(e) => handleChange(e, "grade")} /></Col>}
-                  {user.rating_scale == 3 && <Col sm={9}><Form.Range min="0" max="12" step="1" value={formData.grade} onChange={(e) => handleChange(e, "grade")} /></Col>}
+                  {user.rating_scale == 3 && <Col sm={9}><Form.Range min="1" max="10" step="1" value={formData.grade} onChange={(e) => handleChange(e, "grade")} /></Col>}
                   <Form.Control.Feedback type="invalid">{errors.grade}</Form.Control.Feedback>
                 </Form.Group>
                 {(formData.type === "movie" || formData.id == "na" || media?.id) && (

@@ -78,76 +78,88 @@ function MediaModal({ show, setShow, media, user, seasonCount }) {
 
   function grade(g) {
     if (!user) {
-      if (g <= 19.98)
-        return "F";
-      else if (g <= 24.98)
-        return "D-";
-      else if (g <= 32.98)
-        return "D";
-      else if (g <= 38.98)
-        return "D+";
-      else if (g <= 44.98)
-        return "C-";
-      else if (g <= 52.98)
-        return "C";
-      else if (g <= 58.98)
-        return "C+";
-      else if (g <= 64.98)
-        return "B-";
-      else if (g <= 72.98)
-        return "B";
-      else if (g <= 78.92)
-        return "B+";
-      else if (g <= 84.98)
-        return "A-";
-      else if (g <= 92.98)
-        return "A";
+      if (g <= 19)
+        return "1/5";
+      else if (g <= 39)
+        return "2/5";
+      else if (g <= 59)
+        return "3/5";
+      else if (g <= 79)
+        return "4/5";
       else
-        return "A+";
+        return "5/5";
     }
-    if (user.rating_scale == 1) {
-      if (g <= (100/9))
+    else if (user.rating_scale == 1) {
+      if (g <= 11)
         return "0/4";
-      else if (g <= (200/9))
+      else if (g <= 22)
         return "0.5/4";
-      else if (g <= (100/3))
+      else if (g <= 33)
         return "1/4";
-      else if (g <= (400/9))
+      else if (g <= 44)
         return "1.5/4";
-      else if (g <= (500/9))
+      else if (g <= 54)
         return "2/4";
-      else if (g <= (200/3))
+      else if (g <= 66)
         return "2.5/4";
-      else if (g <= (700/9))
+      else if (g <= 77)
         return "3/4";
-      else if (g <= (800/9))
+      else if (g <= 88)
         return "3.5/4";
       else
         return "4/4";
     }
-    else {
-      if (g <= (100/11))
+    else if (user.rating_scale == 2) {
+      if (g <= 9)
         return "0/5";
-      else if (g <= (200/11))
+      else if (g <= 18)
         return "0.5/5";
-      else if (g <= (300/11))
+      else if (g <= 27)
         return "1/5";
-      else if (g <= (400/11))
+      else if (g <= 36)
         return "1.5/5";
-      else if (g <= (500/11))
+      else if (g <= 45)
         return "2/5";
-      else if (g <= (600/11))
+      else if (g <= 54)
         return "2.5/5";
-      else if (g <= (700/11))
+      else if (g <= 63)
         return "3/5";
-      else if (g <= (800/11))
+      else if (g <= 72)
         return "3.5/5";
-      else if (g <= (900/11))
+      else if (g <= 81)
         return "4/5";
-      else if (g <= (1000/11))
+      else if (g <= 90)
         return "4.5/5";
       else
         return "5/5";
+    }
+    else {
+      if (g <= 19)
+        return "F";
+      else if (g <= 26)
+        return "D-";
+      else if (g <= 32)
+        return "D";
+      else if (g <= 39)
+        return "D+";
+      else if (g <= 46)
+        return "C-";
+      else if (g <= 52)
+        return "C";
+      else if (g <= 59)
+        return "C+";
+      else if (g <= 66)
+        return "B-";
+      else if (g <= 72)
+        return "B";
+      else if (g <= 79)
+        return "B+";
+      else if (g <= 86)
+        return "A-";
+      else if (g <= 92)
+        return "A";
+      else
+        return "A+";
     }
   }
 
@@ -210,7 +222,7 @@ function MediaModal({ show, setShow, media, user, seasonCount }) {
                   <p>{getNames(media.writers).join(", ")}</p>
                 </div>
               )}
-              {getNames(media.cast_members).length > 0 && (media.seasons && getNames(media.seasons[currentSeason].cast_members).length > 0) && (
+              {getNames(media.cast_members).length > 0 || (media.seasons && getNames(media.seasons[currentSeason].cast_members).length > 0) && (
                 <div className="mb-2">
                   <h6 className="text-uppercase text-secondary small fw-bold">Starring</h6>
                   <p>{getNames(media.cast_members || media.seasons[currentSeason].cast_members).join(", ")}</p>
