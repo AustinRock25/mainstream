@@ -553,10 +553,10 @@ function MediaForm({ show, setShow, media, season }) {
             <>
               <hr/>
                 <Form.Group as={Row} className="mb-3">
-                  <Form.Label column sm={3}>Grade: <span className="fw-light fs-3 text-white-50">{getGrade(formData.grade)}</span></Form.Label>
+                  <Form.Label column sm={3}>Grade: <span className="fw-light text-white-50">{getGrade(formData.grade)}</span></Form.Label>
                   {user.rating_scale == 1 && <Col sm={9}><Form.Range min="0" max="4" step="0.5" value={formData.grade} onChange={(e) => handleChange(e, "grade")} /></Col>}
                   {user.rating_scale == 2 && <Col sm={9}><Form.Range min="0" max="5" step="0.5" value={formData.grade} onChange={(e) => handleChange(e, "grade")} /></Col>}
-                  {user.rating_scale == 3 && <Col sm={9}><Form.Range min="1" max="10" step="1" value={formData.grade} onChange={(e) => handleChange(e, "grade")} /></Col>}
+                  {user.rating_scale == 3 && <Col sm={9}><Form.Range min="0" max="12" step="1" value={formData.grade} onChange={(e) => handleChange(e, "grade")} /></Col>}
                   <Form.Control.Feedback type="invalid">{errors.grade}</Form.Control.Feedback>
                 </Form.Group>
                 {(formData.type === "movie" || formData.id == "na" || media?.id) && (
