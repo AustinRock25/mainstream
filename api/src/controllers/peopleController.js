@@ -86,16 +86,8 @@ export const index = (req, res) => {
         SELECT ROW_NUMBER() OVER (${orderByClause}) AS RowNum, p.id, p.name, p.birth_date, p.death_date, c.credits
         FROM people p
         LEFT JOIN LATERAL (
-          WITH person_dates AS (
-            SELECT MIN(se.release_date) AS start_date, MAX(se.release_date) AS end_date
-            FROM seasons_episodes se
-            WHERE EXISTS (
-              SELECT 1 FROM seasons_directors sd WHERE sd.director_id = p.id AND sd.show_id = se.show_id AND sd.season = se.season AND sd.episode = se.episode UNION ALL SELECT 1 FROM seasons_writers sw WHERE sw.writer_id = p.id AND sw.show_id = se.show_id AND sw.season = se.season AND sw.episode = se.episode UNION ALL SELECT 1 FROM seasons_cast sc WHERE sc.actor_id = p.id AND sc.show_id = se.show_id AND sc.season = se.season
-            )
-          )
-          SELECT json_agg(json_build_object('media_id', m.id, 'title', m.title, 'release_date', CASE WHEN m.type = 'show' THEN NULL ELSE m.release_date END, 'start_date', CASE WHEN m.type = 'movie' THEN NULL ELSE pd.start_date END, 'end_date', CASE WHEN m.type = 'movie' THEN NULL ELSE pd.end_date END)) AS credits
+          SELECT json_agg(json_build_object('media_id', m.id, 'title', m.title, 'release_date', CASE WHEN m.type = 'movie' THEN m.release_date ELSE NULL END, 'start_date', CASE WHEN m.type = 'show' THEN (SELECT MIN(se.release_date) FROM seasons_episodes se WHERE se.show_id = m.id AND EXISTS (SELECT 1 FROM seasons_directors sd WHERE sd.director_id = p.id AND sd.show_id = se.show_id AND sd.season = se.season AND sd.episode = se.episode UNION ALL SELECT 1 FROM seasons_writers sw WHERE sw.writer_id = p.id AND sw.show_id = se.show_id AND sw.season = se.season AND sw.episode = se.episode UNION ALL SELECT 1 FROM seasons_cast sc WHERE sc.actor_id = p.id AND sc.show_id = se.show_id AND sc.season = se.season)) ELSE NULL END, 'end_date', CASE WHEN m.type = 'show' THEN (SELECT MAX(se.release_date) FROM seasons_episodes se WHERE se.show_id = m.id AND EXISTS (SELECT 1 FROM seasons_directors sd WHERE sd.director_id = p.id AND sd.show_id = se.show_id AND sd.season = se.season AND sd.episode = se.episode UNION ALL SELECT 1 FROM seasons_writers sw WHERE sw.writer_id = p.id AND sw.show_id = se.show_id AND sw.season = se.season AND sw.episode = se.episode UNION ALL SELECT 1 FROM seasons_cast sc WHERE sc.actor_id = p.id AND sc.show_id = se.show_id AND sc.season = se.season)) ELSE NULL END)) AS credits
           FROM media m
-          CROSS JOIN person_dates pd
           WHERE EXISTS (SELECT 1 FROM media_directors md WHERE md.director_id = p.id AND md.media_id = m.id) OR EXISTS (SELECT 1 FROM media_writers mw WHERE mw.writer_id = p.id AND mw.media_id = m.id) OR EXISTS (SELECT 1 FROM media_cast mc WHERE mc.actor_id = p.id AND mc.media_id = m.id) OR EXISTS (SELECT 1 FROM seasons_cast sc WHERE sc.actor_id = p.id AND sc.show_id = m.id) OR EXISTS (SELECT 1 FROM seasons_directors sd WHERE sd.director_id = p.id AND sd.show_id = m.id) OR EXISTS (SELECT 1 FROM seasons_writers sw WHERE sw.writer_id = p.id AND sw.show_id = m.id)
         ) c ON TRUE
         ${whereClause}
