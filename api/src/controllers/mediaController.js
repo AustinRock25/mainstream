@@ -79,7 +79,7 @@ export const index = (req, res) => {
       else if (grade == "Good")
         filterClauses.push("(COALESCE(grade, grade_tv) >= 60 AND COALESCE(grade, grade_tv) <= 79)");
       else if (grade == "Excellent")
-        filterClauses.push("(COALESCE(grade, grade_tv) >= 80");
+        filterClauses.push("(COALESCE(grade, grade_tv) >= 80)");
       else if (grade == "0/4")
         filterClauses.push("(COALESCE(grade, grade_tv) <= 11)");
       else if (grade == "0.5/4")
@@ -307,7 +307,7 @@ export const indexLength = (req, res) => {
       else if (grade == "Good")
         filterClauses.push("(COALESCE(m.grade, (SELECT AVG(grade) FROM seasons WHERE show_id = m.id)) >= 60 AND COALESCE(m.grade, (SELECT AVG(grade) FROM seasons WHERE show_id = m.id)) <= 79)");
       else if (grade == "Excellent")
-        filterClauses.push("(COALESCE(m.grade, (SELECT AVG(grade) FROM seasons WHERE show_id = m.id)) >= 80");
+        filterClauses.push("(COALESCE(m.grade, (SELECT AVG(grade) FROM seasons WHERE show_id = m.id)) >= 80)");
       else if (grade == "0/4")
         filterClauses.push("(COALESCE(m.grade, (SELECT AVG(grade) FROM seasons WHERE show_id = m.id)) <= 11)");
       else if (grade == "0.5/4")

@@ -71,21 +71,33 @@ export const index = (req, res) => {
     case "name":
       orderByClause = `ORDER BY name ${sanitizedSortOrder}`;
       break;
-    case "birth_date":
-      orderByClause = `ORDER BY birth_date ${sanitizedSortOrder} NULLS LAST`;
-      break;
     case "death_date":
       orderByClause = `ORDER BY death_date ${sanitizedSortOrder} NULLS LAST`;
       break;
+    case "birth_date":
     default:
       orderByClause = `ORDER BY birth_date ${sanitizedSortOrder} NULLS LAST`;
+      break;
   }
 
   const sql = 
     `
       WITH NumberedRecords AS (
-        SELECT ROW_NUMBER() OVER (${orderByClause}) AS RowNum, p.id, p.name, p.birth_date, p.death_date
+        SELECT ROW_NUMBER() OVER (${orderByClause}) AS RowNum, p.id, p.name, p.birth_date, p.death_date, c.credits
         FROM people p
+        LEFT JOIN LATERAL (
+          WITH person_dates AS (
+            SELECT MIN(se.release_date) AS start_date, MAX(se.release_date) AS end_date
+            FROM seasons_episodes se
+            WHERE EXISTS (
+              SELECT 1 FROM seasons_directors sd WHERE sd.director_id = p.id AND sd.show_id = se.show_id AND sd.season = se.season AND sd.episode = se.episode UNION ALL SELECT 1 FROM seasons_writers sw WHERE sw.writer_id = p.id AND sw.show_id = se.show_id AND sw.season = se.season AND sw.episode = se.episode UNION ALL SELECT 1 FROM seasons_cast sc WHERE sc.actor_id = p.id AND sc.show_id = se.show_id AND sc.season = se.season
+            )
+          )
+          SELECT json_agg(json_build_object('media_id', m.id, 'title', m.title, 'release_date', CASE WHEN m.type = 'show' THEN NULL ELSE m.release_date END, 'start_date', CASE WHEN m.type = 'movie' THEN NULL ELSE pd.start_date END, 'end_date', CASE WHEN m.type = 'movie' THEN NULL ELSE pd.end_date END)) AS credits
+          FROM media m
+          CROSS JOIN person_dates pd
+          WHERE EXISTS (SELECT 1 FROM media_directors md WHERE md.director_id = p.id AND md.media_id = m.id) OR EXISTS (SELECT 1 FROM media_writers mw WHERE mw.writer_id = p.id AND mw.media_id = m.id) OR EXISTS (SELECT 1 FROM media_cast mc WHERE mc.actor_id = p.id AND mc.media_id = m.id) OR EXISTS (SELECT 1 FROM seasons_cast sc WHERE sc.actor_id = p.id AND sc.show_id = m.id) OR EXISTS (SELECT 1 FROM seasons_directors sd WHERE sd.director_id = p.id AND sd.show_id = m.id) OR EXISTS (SELECT 1 FROM seasons_writers sw WHERE sw.writer_id = p.id AND sw.show_id = m.id)
+        ) c ON TRUE
         ${whereClause}
       )
       SELECT * FROM NumberedRecords
@@ -188,14 +200,30 @@ export const indexSelect = (req, res) => {
         With Records AS (
           SELECT p.id, p.name, p.birth_date, p.death_date
           FROM people p
-          WHERE regexp_replace(regexp_replace(regexp_replace(regexp_replace(regexp_replace(regexp_replace(regexp_replace(regexp_replace(regexp_replace(regexp_replace(REPLACE(REPLACE(regexp_replace(regexp_replace(REPLACE(REPLACE(regexp_replace(regexp_replace(regexp_replace(regexp_replace(regexp_replace(regexp_replace(REPLACE(REPLACE(regexp_replace(regexp_replace(regexp_replace(regexp_replace(regexp_replace(regexp_replace(REPLACE(REPLACE(regexp_replace(regexp_replace(regexp_replace(regexp_replace(name, '[ŽŹŻ]+', 'Z'), '[žźż]+', 'z'), '[ŸŶÝ]+', 'Y'), '[ÿŷý]+', 'y'), 'Ŵ', 'W'), 'ŵ', 'w'), '[ŪÚÙÜÛŲŮŰŨǓ]+', 'U'), '[ūúùüûųůűũǔ]+', 'u'), '[ȚŤÞ]+', 'T'), '[țťþ]+', 't'), '[ŚŠẞŞȘ]+', 'S'), '[ßśšşș]+', 's'), 'Ř', 'R'), 'ř', 'r'), '[ÕŌØŒÓÒÖÔŐǑ]+', 'O'), '[õōøœóòöôőǒ]+', 'o'), '[ŃÑŇŅ]+', 'N'), '[ńñňņ]+', 'n'), '[ŁĽĻ]+', 'L'), '[łľļ]+', 'l'), 'Ķ', 'K'), 'ķ', 'k'), '[ÌĮĪÍÏÎİĨǏ]+', 'I'), '[ìįīíïîıĩǐ]+', 'i'), 'Ħ', 'H'), 'ħ', 'h'), '[ĞĠ]+', 'G'), '[ğġ]+', 'g'), '[ÈÉÊËĒĖĘĚẼ]+', 'E'), '[èéêëēėęěẽ]+', 'e'), '[ĎÐ]+', 'D'), '[ďð]+', 'd'), '[ÇĆČĊ]+', 'C'), '[çćčċ]+', 'c'), '[ÀÁÂÄÆÃÅĀǍĂĄ]+', 'A'), '[àáâäæãåāǎăą]+', 'a') ILIKE $1 OR regexp_replace(regexp_replace(regexp_replace(regexp_replace(regexp_replace(regexp_replace(regexp_replace(regexp_replace(regexp_replace(regexp_replace(REPLACE(REPLACE(regexp_replace(regexp_replace(REPLACE(REPLACE(regexp_replace(regexp_replace(regexp_replace(regexp_replace(regexp_replace(regexp_replace(REPLACE(REPLACE(regexp_replace(regexp_replace(regexp_replace(regexp_replace(regexp_replace(regexp_replace(REPLACE(REPLACE(regexp_replace(regexp_replace(regexp_replace(regexp_replace(name, '[ŽŹŻ]+', 'Z'), '[žźż]+', 'z'), '[ŸŶÝ]+', 'Y'), '[ÿŷý]+', 'y'), 'Ŵ', 'W'), 'ŵ', 'w'), '[ŪÚÙÜÛŲŮŰŨǓ]+', 'U'), '[ūúùüûųůűũǔ]+', 'u'), '[ȚŤÞ]+', 'T'), '[țťþ]+', 't'), '[ŚŠẞŞȘ]+', 'S'), '[ßśšşș]+', 's'), 'Ř', 'R'), 'ř', 'r'), '[ÕŌØŒÓÒÖÔŐǑ]+', 'O'), '[õōøœóòöôőǒ]+', 'o'), '[ŃÑŇŅ]+', 'N'), '[ńñňņ]+', 'n'), '[ŁĽĻ]+', 'L'), '[łľļ]+', 'l'), 'Ķ', 'K'), 'ķ', 'k'), '[ÌĮĪÍÏÎİĨǏ]+', 'I'), '[ìįīíïîıĩǐ]+', 'i'), 'Ħ', 'H'), 'ħ', 'h'), '[ĞĠ]+', 'G'), '[ğġ]+', 'g'), '[ÈÉÊËĒĖĘĚẼ]+', 'E'), '[èéêëēėęěẽ]+', 'e'), '[ĎÐ]+', 'D'), '[ďð]+', 'd'), '[ÇĆČĊ]+', 'C'), '[çćčċ]+', 'c'), '[ÀÁÂÄÆÃÅĀǍĂĄ]+', 'A'), '[àáâäæãåāǎăą]+', 'a') ILIKE $2 OR name ILIKE $1 OR name ILIKE $2 ORDER BY birth_date ASC, name ASC
-        )
+		      LEFT JOIN LATERAL (
+            WITH person_dates AS (
+              SELECT MIN(se.release_date) AS min_date
+              FROM seasons_episodes se
+              WHERE EXISTS (
+                SELECT 1 FROM seasons_directors sd WHERE sd.director_id = p.id AND sd.show_id = se.show_id AND sd.season = se.season AND sd.episode = se.episode UNION ALL SELECT 1 FROM seasons_writers sw WHERE sw.writer_id = p.id AND sw.show_id = se.show_id AND sw.season = se.season AND sw.episode = se.episode UNION ALL SELECT 1 FROM seasons_cast sc WHERE sc.actor_id = p.id AND sc.show_id = se.show_id AND sc.season = se.season
+              )
+            )
+            SELECT min_date AS mdtv, MIN(release_date) AS mdm
+            FROM media m
+            CROSS JOIN person_dates pd
+            WHERE EXISTS (SELECT 1 FROM media_directors md WHERE md.director_id = p.id AND md.media_id = m.id) OR EXISTS (SELECT 1 FROM media_writers mw WHERE mw.writer_id = p.id AND mw.media_id = m.id) OR EXISTS (SELECT 1 FROM media_cast mc WHERE mc.actor_id = p.id AND mc.media_id = m.id) OR EXISTS (SELECT 1 FROM seasons_cast sc WHERE sc.actor_id = p.id AND sc.show_id = m.id) OR EXISTS (SELECT 1 FROM seasons_directors sd WHERE sd.director_id = p.id AND sd.show_id = m.id) OR EXISTS (SELECT 1 FROM seasons_writers sw WHERE sw.writer_id = p.id AND sw.show_id = m.id)
+          	GROUP BY pd.min_date
+		      ) c ON TRUE
+		      WHERE (regexp_replace(regexp_replace(regexp_replace(regexp_replace(regexp_replace(regexp_replace(regexp_replace(regexp_replace(regexp_replace(regexp_replace(REPLACE(REPLACE(regexp_replace(regexp_replace(REPLACE(REPLACE(regexp_replace(regexp_replace(regexp_replace(regexp_replace(regexp_replace(regexp_replace(REPLACE(REPLACE(regexp_replace(regexp_replace(regexp_replace(regexp_replace(regexp_replace(regexp_replace(REPLACE(REPLACE(regexp_replace(regexp_replace(regexp_replace(regexp_replace(name, '[ŽŹŻ]+', 'Z'), '[žźż]+', 'z'), '[ŸŶÝ]+', 'Y'), '[ÿŷý]+', 'y'), 'Ŵ', 'W'), 'ŵ', 'w'), '[ŪÚÙÜÛŲŮŰŨǓ]+', 'U'), '[ūúùüûųůűũǔ]+', 'u'), '[ȚŤÞ]+', 'T'), '[țťþ]+', 't'), '[ŚŠẞŞȘ]+', 'S'), '[ßśšşș]+', 's'), 'Ř', 'R'), 'ř', 'r'), '[ÕŌØŒÓÒÖÔŐǑ]+', 'O'), '[õōøœóòöôőǒ]+', 'o'), '[ŃÑŇŅ]+', 'N'), '[ńñňņ]+', 'n'), '[ŁĽĻ]+', 'L'), '[łľļ]+', 'l'), 'Ķ', 'K'), 'ķ', 'k'), '[ÌĮĪÍÏÎİĨǏ]+', 'I'), '[ìįīíïîıĩǐ]+', 'i'), 'Ħ', 'H'), 'ħ', 'h'), '[ĞĠ]+', 'G'), '[ğġ]+', 'g'), '[ÈÉÊËĒĖĘĚẼ]+', 'E'), '[èéêëēėęěẽ]+', 'e'), '[ĎÐ]+', 'D'), '[ďð]+', 'd'), '[ÇĆČĊ]+', 'C'), '[çćčċ]+', 'c'), '[ÀÁÂÄÆÃÅĀǍĂĄ]+', 'A'), '[àáâäæãåāǎăą]+', 'a') ILIKE $1 OR regexp_replace(regexp_replace(regexp_replace(regexp_replace(regexp_replace(regexp_replace(regexp_replace(regexp_replace(regexp_replace(regexp_replace(REPLACE(REPLACE(regexp_replace(regexp_replace(REPLACE(REPLACE(regexp_replace(regexp_replace(regexp_replace(regexp_replace(regexp_replace(regexp_replace(REPLACE(REPLACE(regexp_replace(regexp_replace(regexp_replace(regexp_replace(regexp_replace(regexp_replace(REPLACE(REPLACE(regexp_replace(regexp_replace(regexp_replace(regexp_replace(name, '[ŽŹŻ]+', 'Z'), '[žźż]+', 'z'), '[ŸŶÝ]+', 'Y'), '[ÿŷý]+', 'y'), 'Ŵ', 'W'), 'ŵ', 'w'), '[ŪÚÙÜÛŲŮŰŨǓ]+', 'U'), '[ūúùüûųůűũǔ]+', 'u'), '[ȚŤÞ]+', 'T'), '[țťþ]+', 't'), '[ŚŠẞŞȘ]+', 'S'), '[ßśšşș]+', 's'), 'Ř', 'R'), 'ř', 'r'), '[ÕŌØŒÓÒÖÔŐǑ]+', 'O'), '[õōøœóòöôőǒ]+', 'o'), '[ŃÑŇŅ]+', 'N'), '[ńñňņ]+', 'n'), '[ŁĽĻ]+', 'L'), '[łľļ]+', 'l'), 'Ķ', 'K'), 'ķ', 'k'), '[ÌĮĪÍÏÎİĨǏ]+', 'I'), '[ìįīíïîıĩǐ]+', 'i'), 'Ħ', 'H'), 'ħ', 'h'), '[ĞĠ]+', 'G'), '[ğġ]+', 'g'), '[ÈÉÊËĒĖĘĚẼ]+', 'E'), '[èéêëēėęěẽ]+', 'e'), '[ĎÐ]+', 'D'), '[ďð]+', 'd'), '[ÇĆČĊ]+', 'C'), '[çćčċ]+', 'c'), '[ÀÁÂÄÆÃÅĀǍĂĄ]+', 'A'), '[àáâäæãåāǎăą]+', 'a') ILIKE $2 OR name ILIKE $1 OR name ILIKE $2) AND ((($3 >= (birth_date + (LEAST(mdm, mdtv) - birth_date) / 2)) OR (birth_date IS NULL AND ($3 >= (LEAST(mdm, mdtv) - INTERVAL '3 YEARS')))) AND (death_date IS NULL OR ($3 <= death_date + INTERVAL '3 YEARS'))) 
+          ORDER BY birth_date ASC, name ASC
+		    )
         SELECT * FROM Records;
       `;
 
     params = [
       `${req.query.st}%`,
-      `% ${req.query.st}%`
+      `% ${req.query.st}%`,
+      req.query.date
     ];
   }
 

@@ -213,9 +213,15 @@ function MediaForm({ show, setShow, media, season }) {
 
   const fetchPeople = useCallback(() => {
     let st = searchTerm;
+    let date = "";
+
+    if (!formData.release_date)
+      date = episodes[0].release_date;
+    else
+      date = formData.release_date;
     
     setIsLoading(true);
-    api.get("/people/select", { params: { st } })
+    api.get("/people/select", { params: { st, date } })
       .then(response => {
         setCastAndCrew(response.data.filter(p => !new Set(selected.map(s => s.id)).has(p.id)));
       })
@@ -227,6 +233,7 @@ function MediaForm({ show, setShow, media, season }) {
 
   const fetchPeopleEp = useCallback(() => {
     let st = searchTermEp;
+    let date = episodes[activeEpisodeIndex].release_date;
     
     setIsLoading(true);
     api.get("/people/select", { params: { st } })
