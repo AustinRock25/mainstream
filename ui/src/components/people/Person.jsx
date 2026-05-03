@@ -79,7 +79,7 @@ const Person = ({person}) => {
         <td>{!!person.death_date && formatDate(person.death_date)}</td>
         <td>{getAge(person.birth_date, person.death_date)}</td>
         <td>
-          {getCredits(person.credits).map((credit, index) => (
+          {!!person.credits && getCredits(person.credits).map((credit, index) => (
             <div key={index} style={{fontSize: "0.85rem", whiteSpace: "pre-line"}} className="text-white-50">{credit}</div>
           ))}
         </td>
