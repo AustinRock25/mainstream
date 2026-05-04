@@ -236,7 +236,7 @@ function MediaForm({ show, setShow, media, season }) {
     let date = episodes[activeEpisodeIndex].release_date;
     
     setIsLoading(true);
-    api.get("/people/select", { params: { st } })
+    api.get("/people/select", { params: { st, date } })
       .then(response => {
         episodes[activeEpisodeIndex].creatives.forEach(c => new Set(episodes[activeEpisodeIndex].creatives.map(e => e.id)).add(c.id));
         setCastAndCrewEp(response.data.filter(p => !new Set(episodes[activeEpisodeIndex].creatives.map(e => e.id)).has(p.id)));
