@@ -667,7 +667,7 @@ async function createNewShow(media, { castMembers }) {
 }
 
 async function addSeasonToShow(media, { castMembers }) {
-  await query(`UPDATE media SET completed = $1 AND date_added = CURRENT_TIMESTAMP WHERE id = $2;`, [media.completed, media.id]);
+  await query(`UPDATE media SET completed = $1 AND date_added = CURRENT_TIMESTAMP WHERE id = $2;`, [media.completed || false, media.id]);
 
   const seasonResult = await query(`SELECT COALESCE(MAX(season), 0) + 1 AS next_season FROM seasons WHERE show_id = $1;`, [media.id]);
   const seasonNum = seasonResult.rows[0].next_season;
