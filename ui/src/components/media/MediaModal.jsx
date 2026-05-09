@@ -217,25 +217,25 @@ function MediaModal({ show, setShow, media, user, seasonCount }) {
               {combineDirectorsAndWriters(media) && (
                 <div className="mb-2">
                   <h6 className="text-uppercase text-secondary small fw-bold">Written & Directed by</h6>
-                  <pre className="comma-wrap">{getNames(media.directors).join(`<span class="comma">,</span> `)}</pre>
+                  <p>{getNames(media.directors).join(", ")}</p>
                 </div>
               )}
               {!combineDirectorsAndWriters(media) && getNames(media.directors).length > 0 && (
                 <div className="mb-2">
                   <h6 className="text-uppercase text-secondary small fw-bold">Directed by</h6>
-                  <pre className="comma-wrap">{getNames(media.directors).join(`<span class="comma">,</span> `)}</pre>
+                  <p>{getNames(media.directors).join(", ")}</p>
                 </div>
               )}
               {!combineDirectorsAndWriters(media) && getNames(media.writers).length > 0 && (
                 <div className="mb-2">
                   <h6 className="text-uppercase text-secondary small fw-bold">Written by</h6>
-                  <pre className="comma-wrap">{getNames(media.writers).join(`<span class="comma">,</span> `)}</pre>
+                  <p>{getNames(media.writers).join(", ")}</p>
                 </div>
               )}
               {(getNames(media.cast_members).length > 0 || (!!media.seasons && getNames(media.seasons[currentSeason].cast_members).length > 0)) && (
                 <div className="mb-2">
                   <h6 className="text-uppercase text-secondary small fw-bold">Starring</h6>
-                  <pre className="comma-wrap">{getNames(media.cast_members || media.seasons[currentSeason].cast_members).join(`<span class="comma">,</span> `)}</pre>
+                  <p>{getNames(media.cast_members || media.seasons[currentSeason].cast_members).join(", ")}</p>
                 </div>
               )}
             </div>
@@ -252,19 +252,19 @@ function MediaModal({ show, setShow, media, user, seasonCount }) {
                         {combineDirectorsAndWriters(ep) && (
                           <div className="mb-2">
                             <h6 className="text-uppercase text-secondary small fw-bold">Written & Directed by</h6>
-                            <pre className="comma-wrap">{getNames(ep.directors).join(`<span class="comma">,</span> `)}</pre>
+                            <p>{getNames(ep.directors).join(", ")}</p>
                           </div>
                         )}
                         {!combineDirectorsAndWriters(ep) && getNames(ep.directors).length > 0 && (
                           <div className="mb-2">
                             <h6 className="text-uppercase text-secondary small fw-bold">Directed by</h6>
-                            <pre className="comma-wrap">{getNames(ep.directors).join(`<span class="comma">,</span> `)}</pre>
+                            <p>{getNames(ep.directors).join(", ")}</p>
                           </div>
                         )}
                         {!combineDirectorsAndWriters(ep) && getNames(ep.writers).length > 0 && (
                           <div className="mb-2">
                             <h6 className="text-uppercase text-secondary small fw-bold">Written by</h6>
-                            <pre className="comma-wrap">{getNames(ep.writers).join(`<span class="comma">,</span> `)}</pre>
+                            <p>{getNames(ep.writers).join(", ")}</p>
                           </div>
                         )}
                       </Accordion.Body>

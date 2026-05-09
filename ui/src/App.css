@@ -95,15 +95,15 @@ p, td, li {
 }
 
 .accordion-button {
-  background-color: #000000 !important;
-  color: #ffffff !important;
+  background-color: #000000;
+  color: #ffffff;
   border: 1px solid #333;
 }
 
 .accordion-button:not(.collapsed) {
-  background-color: #000000 !important;
-  color: #ffffff !important;
-  box-shadow: none !important;
+  background-color: #000000;
+  color: #ffffff;
+  box-shadow: none;
 }
 
 .accordion-button::after {
@@ -111,22 +111,9 @@ p, td, li {
 }
 
 .btn-link {
-  color: white !important;
+  color: white;
 }
 
 .btn-link:hover, .btn-link:active {
-  font-weight: bold !important;
-}
-
-.comma-wrap {
-  white-space: pre-wrap;
-  word-break: keep-all;
-}
-
-.comma-wrap span.comma {
-  display: inline;
-}
-
-.comma-wrap span.comma::after {
-  content: "\200B";
+  font-weight: bold;
 }
