@@ -560,8 +560,12 @@ export const update = async (req, res) => {
 
   addIdsToSet(og.directors, 'director_id');
   addIdsToSet(og.writers, 'writer_id');
-  addIdsToSet(og.cast_members, 'actor_id');
-  addIdsToSet(og.seasons[media.season - 1].cast_members, 'actor_id');
+
+  if (og.type == "movie")
+    addIdsToSet(og.cast_members, 'actor_id');
+  else
+    addIdsToSet(og.seasons[media.season - 1].cast_members, 'actor_id');
+  
   const getIdsByRole = (role) => Array.isArray(media.castAndCrew?.filter(person => person[role])) && (media.castAndCrew?.filter(person => person[role]).map(person => person.id) || []);
   const directors = getIdsByRole("director");
   const writers = getIdsByRole("writer");
