@@ -102,71 +102,71 @@ function MediaForm({ show, setShow, media, season }) {
       cast = Array.from(peopleMap.values());
       
       if (user.rating_scale == 1) {
-        if (media.grade <= 11)
+        if (media.grade < (25/4))
           grade = 0;
-        else if (media.grade <= 22)
+        else if (media.grade < (75/4))
           grade = 0.5;
-        else if (media.grade <= 33)
+        else if (media.grade < (125/4))
           grade = 1;
-        else if (media.grade <= 44)
+        else if (media.grade < (175/4))
           grade = 1.5;
-        else if (media.grade <= 54)
+        else if (media.grade < (225/4))
           grade = 2;
-        else if (media.grade <= 66)
+        else if (media.grade < (275/4))
           grade = 2.5;
-        else if (media.grade <= 77)
+        else if (media.grade < (325/4))
           grade = 3;
-        else if (media.grade <= 88)
+        else if (media.grade < (375/4))
           grade = 3.5;
         else
           grade = 4;
       }
       else if (user.rating_scale == 2) {
-        if (media.grade <= 9)
+        if (media.grade < (25/5))
           grade = 0;
-        else if (media.grade <= 18)
+        else if (media.grade < (75/5))
           grade = 0.5;
-        else if (media.grade <= 27)
+        else if (media.grade < (125/5))
           grade = 1;
-        else if (media.grade <= 36)
+        else if (media.grade < (175/5))
           grade = 1.5;
-        else if (media.grade <= 45)
+        else if (media.grade < (225/5))
           grade = 2;
-        else if (media.grade <= 54)
+        else if (media.grade < (275/5))
           grade = 2.5;
-        else if (media.grade <= 63)
+        else if (media.grade < (325/5))
           grade = 3;
-        else if (media.grade <= 72)
+        else if (media.grade < (375/5))
           grade = 3.5;
-        else if (media.grade <= 81)
+        else if (media.grade < (425/5))
           grade = 4;
-        else if (media.grade <= 90)
+        else if (media.grade < (475/5))
           grade = 4.5;
         else
           grade = 5;
       }
       else {
-        if (media.grade <= 19)
+        if (media.grade <= 18)
           grade = 0;
-        else if (media.grade <= 26)
+        else if (media.grade <= 24)
           grade = 1;
         else if (media.grade <= 32)
           grade = 2;
-        else if (media.grade <= 39)
+        else if (media.grade <= 38)
           grade = 3;
-        else if (media.grade <= 46)
+        else if (media.grade <= 44)
           grade = 4;
         else if (media.grade <= 52)
           grade = 5;
-        else if (media.grade <= 59)
+        else if (media.grade <= 58)
           grade = 6;
-        else if (media.grade <= 66)
+        else if (media.grade <= 64)
           grade = 7;
         else if (media.grade <= 72)
           grade = 8;
-        else if (media.grade <= 79)
+        else if (media.grade <= 78)
           grade = 9;
-        else if (media.grade <= 86)
+        else if (media.grade <= 84)
           grade = 10;
         else if (media.grade <= 92)
           grade = 11;
@@ -342,77 +342,37 @@ function MediaForm({ show, setShow, media, season }) {
     e.preventDefault();
     setIsSubmitting(true);
 
-    if (user.rating_scale == 1) {
-      if (formData.grade == 0)
-        formData.grade = 6;
-      else if (formData.grade == 0.5)
-        formData.grade = 17;
-      else if (formData.grade == 1)
-        formData.grade = 28;
-      else if (formData.grade == 1.5)
-        formData.grade = 39;
-      else if (formData.grade == 2)
-        formData.grade = 50;
-      else if (formData.grade == 2.5)
-        formData.grade = 61;
-      else if (formData.grade == 3)
-        formData.grade = 72;
-      else if (formData.grade == 3.5)
-        formData.grade = 83;
-      else
-        formData.grade = 94;
-    }
-    else if (user.rating_scale == 2) {
-      if (formData.grade == 0)
-        formData.grade = 5;
-      else if (formData.grade == 0.5)
-        formData.grade = 14;
-      else if (formData.grade == 1)
-        formData.grade = 23;
-      else if (formData.grade == 1.5)
-        formData.grade = 32;
-      else if (formData.grade == 2)
-        formData.grade = 41;
-      else if (formData.grade == 2.5)
-        formData.grade = 50;
-      else if (formData.grade == 3)
-        formData.grade = 59;
-      else if (formData.grade == 3.5)
-        formData.grade = 68;
-      else if (formData.grade == 4)
-        formData.grade = 77;
-      else if (formData.grade == 4.5)
-        formData.grade = 86;
-      else
-        formData.grade = 95;
-    }
+    if (user.rating_scale == 1)
+      formData.grade = (parseFloat(formData.grade) * 100) / 4;
+    else if (user.rating_scale == 2)
+      formData.grade = (parseFloat(formData.grade) * 100) / 5;
     else {
       if (formData.grade == 0)
-        formData.grade = 10;
+        formData.grade = (parseFloat(0 + (100/14))) / 2;
       else if (formData.grade == 1)
-        formData.grade = 23;
+        formData.grade = (parseFloat(20 + (300/14))) / 2;
       else if (formData.grade == 2)
-        formData.grade = 30;
+        formData.grade = (parseFloat(26 + (400/14))) / 2;
       else if (formData.grade == 3)
-        formData.grade = 36;
+        formData.grade = (parseFloat(34 + (500/14))) / 2;
       else if (formData.grade == 4)
-        formData.grade = 43;
+        formData.grade = (parseFloat(40 + (600/14))) / 2;
       else if (formData.grade == 5)
-        formData.grade = 50;
+        formData.grade = (parseFloat(46 + (700/14))) / 2;
       else if (formData.grade == 6)
-        formData.grade = 56;
+        formData.grade = (parseFloat(54 + (800/14))) / 2;
       else if (formData.grade == 7)
-        formData.grade = 63;
+        formData.grade = (parseFloat(60 + (900/14))) / 2;
       else if (formData.grade == 8)
-        formData.grade = 70;
+        formData.grade = (parseFloat(66 + (1000/14))) / 2;
       else if (formData.grade == 9)
-        formData.grade = 76;
+        formData.grade = (parseFloat(74 + (1100/14))) / 2;
       else if (formData.grade == 10)
-        formData.grade = 83;
+        formData.grade = (parseFloat(80 + (1200/14))) / 2;
       else if (formData.grade == 11)
-        formData.grade = 90;
+        formData.grade = (parseFloat(86 + (1300/14))) / 2;
       else
-        formData.grade = 96;
+        formData.grade = (parseFloat(194)) / 2;
     }
 
 

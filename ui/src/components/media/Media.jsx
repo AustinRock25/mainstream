@@ -10,7 +10,7 @@ const RATINGSTV = ["Not Rated", "TV-Y", "TV-Y7", "TV-Y7 FV", "TV-G", "TV-PG", "T
 const GRADES1 = ["0/4", "0.5/4", "1/4", "1.5/4", "2/4", "2.5/4", "3/4", "3.5/4", "4/4"];
 const GRADES2 = ["0/5", "0.5/5", "1/5", "1.5/5", "2/5", "2.5/5", "3/5", "3.5/5", "4/5", "4.5/5", "5/5"];
 const GRADES3 = ["F", "D-", "D", "D+", "C-", "C", "C+", "B-", "B", "B+", "A-", "A", "A+"];
-const GRADESDEFAULT = ["Poor", "Fair", "OK", "Good", "Excellent"];
+const GRADESDEFAULT = ["1/10", "2/10", "3/10", "4/10", "5/10", "6/10", "7/10", "8/10", "9/10", "10/10"];
 
 const getInitialState = () => {
   const savedState = localStorage.getItem("mediaFilters");

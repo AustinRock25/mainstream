@@ -117,3 +117,16 @@ p, td, li {
 .btn-link:hover, .btn-link:active {
   font-weight: bold !important;
 }
+
+.comma-wrap {
+  white-space: pre-wrap;
+  word-break: keep-all;
+}
+
+.comma-wrap span.comma {
+  display: inline;
+}
+
+.comma-wrap span.comma::after {
+  content: "\200B";
+}

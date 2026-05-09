@@ -78,83 +78,93 @@ function MediaModal({ show, setShow, media, user, seasonCount }) {
 
   function grade(g) {
     if (!user) {
-      if (g <= 19)
-        return "1/5";
-      else if (g <= 39)
-        return "2/5";
-      else if (g <= 59)
-        return "3/5";
-      else if (g <= 79)
-        return "4/5";
+      if (g <= 10)
+        return "1/10";
+      else if (g <= 20)
+        return "2/10";
+      else if (g <= 30)
+        return "3/10";
+      else if (g <= 40)
+        return "4/10";
+      else if (g <= 50)
+        return "5/10";
+      else if (g <= 60)
+        return "6/10";
+      else if (g <= 70)
+        return "7/10";
+      else if (g <= 80)
+        return "8/10";
+      else if (g <= 90)
+        return "9/10";
       else
-        return "5/5";
+        return "10/10";
     }
     else if (user.rating_scale == 1) {
-      if (g <= 11)
+      if (g < (25/4))
         return "0/4";
-      else if (g <= 22)
+      else if (g < (75/4))
         return "0.5/4";
-      else if (g <= 33)
+      else if (g < (125/4))
         return "1/4";
-      else if (g <= 44)
+      else if (g < (175/4))
         return "1.5/4";
-      else if (g <= 54)
+      else if (g < (225/4))
         return "2/4";
-      else if (g <= 66)
+      else if (g < (275/4))
         return "2.5/4";
-      else if (g <= 77)
+      else if (g < (325/4))
         return "3/4";
-      else if (g <= 88)
+      else if (g < (375/4))
         return "3.5/4";
       else
         return "4/4";
     }
     else if (user.rating_scale == 2) {
-      if (g <= 9)
+      if (g < (25/5))
         return "0/5";
-      else if (g <= 18)
+      else if (g < (75/5))
         return "0.5/5";
-      else if (g <= 27)
+      else if (g < (125/5))
         return "1/5";
-      else if (g <= 36)
+      else if (g < (175/5))
         return "1.5/5";
-      else if (g <= 45)
+      else if (g < (225/5))
         return "2/5";
-      else if (g <= 54)
+      else if (g < (275/5))
         return "2.5/5";
-      else if (g <= 63)
+      else if (g < (325/5))
         return "3/5";
-      else if (g <= 72)
+      else if (g < (375/5))
         return "3.5/5";
-      else if (g <= 81)
+      else if (g < (425/5))
         return "4/5";
-      else if (g <= 90)
+      else if (g < (475/5))
         return "4.5/5";
       else
         return "5/5";
     }
     else {
-      if (g <= 19)
+      if (g <= 18)
         return "F";
-      else if (g <= 26)
+      else if (g <= 24)
         return "D-";
       else if (g <= 32)
         return "D";
-      else if (g <= 39)
+      else if (g <= 38)
         return "D+";
-      else if (g <= 46)
+      else if (g <= 44)
         return "C-";
       else if (g <= 52)
         return "C";
-      else if (g <= 59)
+      else if (g <= 58)
         return "C+";
-      else if (g <= 66)
+      else if (g <= 64)
         return "B-";
       else if (g <= 72)
         return "B";
-      else if (g <= 79)
+      else if (g <= 78)
         return "B+";
-      else if (g <= 86)
+      else if (g <= 84)
         return "A-";
       else if (g <= 92)
         return "A";
@@ -207,25 +217,25 @@ function MediaModal({ show, setShow, media, user, seasonCount }) {
               {combineDirectorsAndWriters(media) && (
                 <div className="mb-2">
                   <h6 className="text-uppercase text-secondary small fw-bold">Written & Directed by</h6>
-                  <p>{getNames(media.directors).join(", ")}</p>
+                  <p className="comma-wrap">{getNames(media.directors).join(`<span class="comma">,</span> `)}</p>
                 </div>
               )}
               {!combineDirectorsAndWriters(media) && getNames(media.directors).length > 0 && (
                 <div className="mb-2">
                   <h6 className="text-uppercase text-secondary small fw-bold">Directed by</h6>
-                  <p>{getNames(media.directors).join(", ")}</p>
+                  <p className="comma-wrap">{getNames(media.directors).join(`<span class="comma">,</span> `)}</p>
                 </div>
               )}
               {!combineDirectorsAndWriters(media) && getNames(media.writers).length > 0 && (
                 <div className="mb-2">
                   <h6 className="text-uppercase text-secondary small fw-bold">Written by</h6>
-                  <p>{getNames(media.writers).join(", ")}</p>
+                  <p className="comma-wrap">{getNames(media.writers).join(`<span class="comma">,</span> `)}</p>
                 </div>
               )}
               {(getNames(media.cast_members).length > 0 || (!!media.seasons && getNames(media.seasons[currentSeason].cast_members).length > 0)) && (
                 <div className="mb-2">
                   <h6 className="text-uppercase text-secondary small fw-bold">Starring</h6>
-                  <p>{getNames(media.cast_members || media.seasons[currentSeason].cast_members).join(", ")}</p>
+                  <p className="comma-wrap">{getNames(media.cast_members || media.seasons[currentSeason].cast_members).join(`<span class="comma">,</span> `)}</p>
                 </div>
               )}
             </div>
@@ -242,19 +252,19 @@ function MediaModal({ show, setShow, media, user, seasonCount }) {
                         {combineDirectorsAndWriters(ep) && (
                           <div className="mb-2">
                             <h6 className="text-uppercase text-secondary small fw-bold">Written & Directed by</h6>
-                            <p>{getNames(ep.directors).join(", ")}</p>
+                            <p className="comma-wrap">{getNames(ep.directors).join(`<span class="comma">,</span> `)}</p>
                           </div>
                         )}
                         {!combineDirectorsAndWriters(ep) && getNames(ep.directors).length > 0 && (
                           <div className="mb-2">
                             <h6 className="text-uppercase text-secondary small fw-bold">Directed by</h6>
-                            <p>{getNames(ep.directors).join(", ")}</p>
+                            <p className="comma-wrap">{getNames(ep.directors).join(`<span class="comma">,</span> `)}</p>
                           </div>
                         )}
                         {!combineDirectorsAndWriters(ep) && getNames(ep.writers).length > 0 && (
                           <div className="mb-2">
                             <h6 className="text-uppercase text-secondary small fw-bold">Written by</h6>
-                            <p>{getNames(ep.writers).join(", ")}</p>
+                            <p className="comma-wrap">{getNames(ep.writers).join(`<span class="comma">,</span> `)}</p>
                           </div>
                         )}
                       </Accordion.Body>
