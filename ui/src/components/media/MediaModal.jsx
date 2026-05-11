@@ -7,7 +7,6 @@ function MediaModal({ show, setShow, media, user, seasonCount }) {
   const { isAdmin } = useSelector(state => state.auth);
   const [showMediaForm, setShowMediaForm] = useState(false);
   const [currentSeason, setCurrentSeason] = useState(0);
-  const [textColor, setTextColor] = useState("danger");
   
   const handleClose = () => {
     setShow(false);
@@ -78,8 +77,6 @@ function MediaModal({ show, setShow, media, user, seasonCount }) {
   };
 
   function grade(g) {
-    gradeColor(g);
-
     if (!user) {
       if (g <= 10)
         return "1/10";
@@ -176,41 +173,6 @@ function MediaModal({ show, setShow, media, user, seasonCount }) {
     }
   }
 
-  function gradeColor(g) {
-    if (!user) {
-      if (g <= 40)
-        setTextColor("danger");
-      else if (g <= 60)
-        setTextColor("warning");
-      else
-        setTextColor("success");
-    }
-    else if (user.rating_scale == 1) {
-      if (g < (175/4))
-        setTextColor("danger");
-      else if (g < (225/4))
-        setTextColor("warning");
-      else
-        setTextColor("success");
-    }
-    else if (user.rating_scale == 2) {
-      if (g < (175/5))
-        setTextColor("danger");
-      else if (g < (325/5))
-        setTextColor("warning");
-      else
-        setTextColor("success");
-    }
-    else {
-      if (g <= 38)
-        setTextColor("danger");
-      else if (g <= 58)
-        setTextColor("warning");
-      else
-        setTextColor("success");
-    }
-  }
-
   return (
     <Modal show={show} onHide={handleClose} size="lg" centered className="bg-dark text-white">
       <Modal.Header closeButton closeVariant="white">
@@ -224,7 +186,7 @@ function MediaModal({ show, setShow, media, user, seasonCount }) {
             </div>
             <span className="fw-light fs-5 text-white-50">{media.rating === "Not Rated" ? "NR" : media.rating}</span>
             <span className="fw-light fs-5 text-white-50">{time(media.runtime)}</span>
-            <span className={`fw-bold fs-5 text-${textColor}-50`}>{getGrade(media)}</span>
+            <span className="fw-bold fs-5 text-white-50">{getGrade(media)}</span>
           </div>
         </Modal.Title>
       </Modal.Header>
@@ -248,7 +210,7 @@ function MediaModal({ show, setShow, media, user, seasonCount }) {
               className="img-fluid rounded mb-3 shadow"
               style={{ maxHeight: "300px" }}
             />
-            {media.type == "show" && <div className={`fw-bold fs-5 text-${textColor}-50`}>{getGradeSeason(media.seasons[currentSeason])}</div>}
+            {media.type == "show" && <div className="fw-bold fs-5 text-white-50">{getGradeSeason(media.seasons[currentSeason])}</div>}
           </Col>
           <Col xs={12} md={8}>
             <div className="mb-4">
