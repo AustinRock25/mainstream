@@ -78,14 +78,9 @@ function MediaModal({ show, setShow, media, user, seasonCount }) {
   };
 
   function grade(g) {
-    if (!user) {
-      if (g <= 40)
-        setTextColor("danger");
-      else if (g <= 60)
-        setTextColor("warning");
-      else
-        setTextColor("success");
+    gradeColor(g);
 
+    if (!user) {
       if (g <= 10)
         return "1/10";
       else if (g <= 20)
@@ -108,13 +103,6 @@ function MediaModal({ show, setShow, media, user, seasonCount }) {
         return "10/10";
     }
     else if (user.rating_scale == 1) {
-      if (g < (175/4))
-        setTextColor("danger");
-      else if (g < (225/4))
-        setTextColor("warning");
-      else
-        setTextColor("success");
-
       if (g < (25/4))
         return "0/4";
       else if (g < (75/4))
@@ -135,13 +123,6 @@ function MediaModal({ show, setShow, media, user, seasonCount }) {
         return "4/4";
     }
     else if (user.rating_scale == 2) {
-      if (g < (175/5))
-        setTextColor("danger");
-      else if (g < (325/5))
-        setTextColor("warning");
-      else
-        setTextColor("success");
-
       if (g < (25/5))
         return "0/5";
       else if (g < (75/5))
@@ -166,13 +147,6 @@ function MediaModal({ show, setShow, media, user, seasonCount }) {
         return "5/5";
     }
     else {
-      if (g <= 38)
-        setTextColor("danger");
-      else if (g <= 58)
-        setTextColor("warning");
-      else
-        setTextColor("success");
-
       if (g <= 18)
         return "F";
       else if (g <= 24)
@@ -199,6 +173,41 @@ function MediaModal({ show, setShow, media, user, seasonCount }) {
         return "A";
       else
         return "A+";
+    }
+  }
+
+  function gradeColor(g) {
+    if (!user) {
+      if (g <= 40)
+        setTextColor("danger");
+      else if (g <= 60)
+        setTextColor("warning");
+      else
+        setTextColor("success");
+    }
+    else if (user.rating_scale == 1) {
+      if (g < (175/4))
+        setTextColor("danger");
+      else if (g < (225/4))
+        setTextColor("warning");
+      else
+        setTextColor("success");
+    }
+    else if (user.rating_scale == 2) {
+      if (g < (175/5))
+        setTextColor("danger");
+      else if (g < (325/5))
+        setTextColor("warning");
+      else
+        setTextColor("success");
+    }
+    else {
+      if (g <= 38)
+        setTextColor("danger");
+      else if (g <= 58)
+        setTextColor("warning");
+      else
+        setTextColor("success");
     }
   }
 
