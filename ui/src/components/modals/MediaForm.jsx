@@ -18,6 +18,7 @@ function MediaForm({ show, setShow, media, season }) {
   const [activeEpisodeIndex, setActiveEpisodeIndex] = useState(null); 
   const [selected, setSelected] = useState([]);
   const [shows, setShows] = useState([]);
+  const [textColor, setTextColor] = useState("danger");
   const { user } = useSelector(state => state.auth);
 
   const initialFormData = {
@@ -102,6 +103,13 @@ function MediaForm({ show, setShow, media, season }) {
       cast = Array.from(peopleMap.values());
       
       if (user.rating_scale == 1) {
+        if (media.grade < (175/4))
+          setTextColor("danger");
+        else if (media.grade < (225/4))
+          setTextColor("warning");
+        else
+          setTextColor("success");
+
         if (media.grade < (25/4))
           grade = 0;
         else if (media.grade < (75/4))
@@ -122,6 +130,13 @@ function MediaForm({ show, setShow, media, season }) {
           grade = 4;
       }
       else if (user.rating_scale == 2) {
+        if (media.grade < (175/5))
+          setTextColor("danger");
+        else if (media.grade < (325/5))
+          setTextColor("warning");
+        else
+          setTextColor("success");
+      
         if (media.grade < (25/5))
           grade = 0;
         else if (media.grade < (75/5))
@@ -146,6 +161,13 @@ function MediaForm({ show, setShow, media, season }) {
           grade = 5;
       }
       else {
+        if (media.grade <= 38)
+          setTextColor("danger");
+        else if (media.grade <= 58)
+          setTextColor("warning");
+        else
+          setTextColor("success");
+
         if (media.grade <= 18)
           grade = 0;
         else if (media.grade <= 24)
@@ -255,6 +277,33 @@ function MediaForm({ show, setShow, media, season }) {
       setFormData({ ...initialFormData, type: value });
       setSelected([]);
       setEpisodes([]);
+    }
+
+    if (key === "grade") {
+      if (user.rating_scale == 1) {
+        if (value <= 1.5)
+          setTextColor("danger");
+        else if (value == 2)
+          setTextColor("warning");
+        else
+          setTextColor("success");
+      }
+      else if (user.rating_scale == 2) {
+        if (value <= 1.5)
+          setTextColor("danger");
+        else if (value <= 3)
+          setTextColor("warning");
+        else
+          setTextColor("success");
+      }
+      else {
+        if (value <= 3)
+          setTextColor("danger");
+        else if (value <= 6)
+          setTextColor("warning");
+        else
+          setTextColor("success");
+      }
     }
   };
 
@@ -520,7 +569,7 @@ function MediaForm({ show, setShow, media, season }) {
             <>
               <hr/>
                 <Form.Group as={Row} className="mb-3">
-                  <Form.Label column sm={3}>Grade: <span className="fw-light text-white-50">{getGrade(formData.grade)}</span></Form.Label>
+                  <Form.Label column sm={3}>Grade: <span className={`fw-light text-${textColor}-50`}>{getGrade(formData.grade)}</span></Form.Label>
                   {user.rating_scale == 1 && <Col sm={9}><Form.Range min="0" max="4" step="0.5" value={formData.grade} onChange={(e) => handleChange(e, "grade")} /></Col>}
                   {user.rating_scale == 2 && <Col sm={9}><Form.Range min="0" max="5" step="0.5" value={formData.grade} onChange={(e) => handleChange(e, "grade")} /></Col>}
                   {user.rating_scale == 3 && <Col sm={9}><Form.Range min="0" max="12" step="1" value={formData.grade} onChange={(e) => handleChange(e, "grade")} /></Col>}
