@@ -186,10 +186,10 @@ function MediaModal({ show, setShow, media, user, seasonCount }) {
             </div>
             <span className="fw-light fs-5 text-white-50">{media.rating === "Not Rated" ? "NR" : media.rating}</span>
             <span className="fw-light fs-5 text-white-50">{time(media.runtime)}</span>
-            {!user && <span className={`fw-bold fs-5 text-${(media.grade || media.grade_tv) <= 40 ? "danger" : (media.grade || media.grade_tv) <= 60 ? "warning" : "success"}-50`}>{getGrade(media)}</span>}
-            {user.rating_scale == 1 && <span className={`fw-bold fs-5 text-${(media.grade || media.grade_tv) < (175/4) ? "danger" : (media.grade || media.grade_tv) < (225/4) ? "warning" : "success"}-50`}>{getGrade(media)}</span>}
-            {user.rating_scale == 2 && <span className={`fw-bold fs-5 text-${(media.grade || media.grade_tv) < (175/5) ? "danger" : (media.grade || media.grade_tv) < (325/5) ? "warning" : "success"}-50`}>{getGrade(media)}</span>}
-            {user.rating_scale == 3 && <span className={`fw-bold fs-5 text-${(media.grade || media.grade_tv) <= 38 ? "danger" : (media.grade || media.grade_tv) <= 58 ? "warning" : "success"}-50`}>{getGrade(media)}</span>}
+            {!user && <span className={`fw-bold fs-5 text-${(media.grade || media.grade_tv) <= 40 ? "danger" : (media.grade || media.grade_tv) <= 60 ? "warning" : "success"}`}>{getGrade(media)}</span>}
+            {!!user && user.rating_scale == 1 && <span className={`fw-bold fs-5 text-${(media.grade || media.grade_tv) < (175/4) ? "danger" : (media.grade || media.grade_tv) < (225/4) ? "warning" : "success"}`}>{getGrade(media)}</span>}
+            {!!user && user.rating_scale == 2 && <span className={`fw-bold fs-5 text-${(media.grade || media.grade_tv) < (175/5) ? "danger" : (media.grade || media.grade_tv) < (325/5) ? "warning" : "success"}`}>{getGrade(media)}</span>}
+            {!!user && user.rating_scale == 3 && <span className={`fw-bold fs-5 text-${(media.grade || media.grade_tv) <= 38 ? "danger" : (media.grade || media.grade_tv) <= 58 ? "warning" : "success"}`}>{getGrade(media)}</span>}
           </div>
         </Modal.Title>
       </Modal.Header>
