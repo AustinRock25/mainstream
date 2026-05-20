@@ -187,7 +187,7 @@ function Media() {
               placeholder="Enter title..."
               className="me-2"
             />
-            <Button variant="success" type="submit" className="me-2 flex-shrink-0"disabled={isLoading}>Search</Button>
+            <Button variant="success" type="submit" className="me-2 flex-shrink-0" disabled={isLoading}>Search</Button>
             <Button onClick={() => setOpen(!open)} aria-controls="filters-collapse" aria-expanded={open} variant="secondary" className="me-2 flex-shrink-0">Filters & Sort</Button>
           </Col>
         </Row>

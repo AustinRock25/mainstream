@@ -467,7 +467,7 @@ function MediaForm({ show, setShow, media, season }) {
                               placeholder="Search..." 
                               onChange={e => { setSearchTermEp(e.target.value); setActiveEpisodeIndex(index); }} 
                             />
-                            <Button size="sm" variant="primary" onClick={fetchPeopleEp} className="ms-2">Search</Button>
+                            <Button size="sm" variant="primary" onClick={fetchPeopleEp} className="ms-2" disabled={isLoading}>Search</Button>
                           </div>
                           <ListGroup style={{maxHeight: "100px", overflowY: "auto"}}>
                             {activeEpisodeIndex === index && isLoading ? <Spinner size="sm"/> : activeEpisodeIndex === index && castAndCrewEp.map(p => (
@@ -571,7 +571,7 @@ function MediaForm({ show, setShow, media, season }) {
                   <h6>Available</h6>
                   <Form.Group className="mb-2 d-flex">
                     <Form.Control type="text" value={searchTerm} onChange={e => setSearchTerm(e.target.value)} placeholder="Search for person..." />
-                    <Button variant="primary" onClick={fetchPeople} className="ms-2">Search</Button>
+                    <Button variant="primary" onClick={fetchPeople} className="ms-2" disabled={isLoading}>Search</Button>
                   </Form.Group>
                   <ListGroup style={{maxHeight: "200px", overflowY: "auto"}}>
                     {isLoading ? <Spinner /> : Array.isArray(castAndCrew) && castAndCrew.map(p => (
