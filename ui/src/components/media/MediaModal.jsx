@@ -247,6 +247,7 @@ function MediaModal({ show, setShow, media, user, seasonCount }) {
             </div>
           </Col>
         </Row>
+        <hr className="my-3" />
         <Row>
           <Col xs={12} md={12}>
             {media.type === "show" && media.seasons[currentSeason].episodes ? (
