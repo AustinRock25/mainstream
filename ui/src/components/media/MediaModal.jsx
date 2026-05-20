@@ -245,7 +245,11 @@ function MediaModal({ show, setShow, media, user, seasonCount }) {
                 </div>
               )}
             </div>
-            {media.type === "show" && media.seasons[currentSeason].episodes && (
+          </Col>
+        </Row>
+        <Row>
+          <Col xs={12} md={8}>
+            {media.type === "show" && media.seasons[currentSeason].episodes ? (
               <div className="mt-4">
                 <h5 className="mb-3 border-bottom border-secondary pb-2">Episodes</h5>
                 <Accordion flush>
@@ -278,7 +282,8 @@ function MediaModal({ show, setShow, media, user, seasonCount }) {
                   ))}
                 </Accordion>
               </div>
-            )}
+            ) : 
+            <p className="text-center">{media.synopsis}</p>}
           </Col>
         </Row>
       </Modal.Body>

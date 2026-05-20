@@ -15,7 +15,8 @@ export const index = (req, res) => {
     ratings,
     grade,
     startDate,
-    endDate
+    endDate,
+    synopsis
   } = req.query;
 
   let params = [beginRecord, endRecord];
@@ -187,7 +188,7 @@ export const index = (req, res) => {
   const sql = 
     `
       WITH FilteredData AS (
-        SELECT m.id, m.title, m.grade, (SELECT AVG(grade) FROM seasons WHERE show_id = m.id) AS grade_tv, m.release_date, (SELECT MIN(release_date) FROM seasons_episodes WHERE show_id = m.id) AS start_date, (SELECT MAX(release_date) FROM seasons_episodes WHERE show_id = m.id) AS end_date, m.rating, m.poster, m.runtime, (SELECT COUNT(*) FROM seasons_episodes WHERE show_id = m.id) AS episode_count, m.completed, m.type, seasons, directors, cast_members, writers
+        SELECT m.id, m.title, m.synopsis, m.grade, (SELECT AVG(grade) FROM seasons WHERE show_id = m.id) AS grade_tv, m.release_date, (SELECT MIN(release_date) FROM seasons_episodes WHERE show_id = m.id) AS start_date, (SELECT MAX(release_date) FROM seasons_episodes WHERE show_id = m.id) AS end_date, m.rating, m.poster, m.runtime, (SELECT COUNT(*) FROM seasons_episodes WHERE show_id = m.id) AS episode_count, m.completed, m.type, seasons, directors, cast_members, writers
         FROM media m
         LEFT JOIN LATERAL (
           SELECT json_agg(json_build_object('ordering', md.ordering, 'media_id', md.media_id, 'director_id', md.director_id, 'name', p.name, 'birth_date', p.birth_date, 'death_date', p.death_date)) AS directors
@@ -450,7 +451,7 @@ export const indexNew = (req, res) => {
 
   const sql = 
     `
-      SELECT m.id, m.title, m.grade, (SELECT AVG(grade) FROM seasons WHERE show_id = m.id) AS grade_tv, m.release_date, (SELECT MIN(release_date) FROM seasons_episodes WHERE show_id = m.id) AS start_date, (SELECT MAX(release_date) FROM seasons_episodes WHERE show_id = m.id) AS end_date, m.rating, m.poster, m.runtime, (SELECT COUNT(*) FROM seasons_episodes WHERE show_id = m.id) AS episode_count, m.completed, m.type, seasons, directors, cast_members, writers
+      SELECT m.id, m.title, m.synopsis, m.grade, (SELECT AVG(grade) FROM seasons WHERE show_id = m.id) AS grade_tv, m.release_date, (SELECT MIN(release_date) FROM seasons_episodes WHERE show_id = m.id) AS start_date, (SELECT MAX(release_date) FROM seasons_episodes WHERE show_id = m.id) AS end_date, m.rating, m.poster, m.runtime, (SELECT COUNT(*) FROM seasons_episodes WHERE show_id = m.id) AS episode_count, m.completed, m.type, seasons, directors, cast_members, writers
       FROM media m
       LEFT JOIN LATERAL (
         SELECT json_agg(json_build_object('ordering', md.ordering, 'media_id', md.media_id, 'director_id', md.director_id, 'name', p.name, 'birth_date', p.birth_date, 'death_date', p.death_date)) AS directors
@@ -581,7 +582,6 @@ export const update = async (req, res) => {
     else
       return res.status(400).json({ error: "Invalid media type specified." });
     
-    await deleteOrphanedPeople(Array.from(originalPersonIds));
     await client.query("COMMIT");
     res.status(200).json({ message: "Title updated successfully." });
   } 
@@ -599,8 +599,8 @@ async function createMovie(media, { directors, writers, castMembers }) {
   const sql = 
     `
       WITH new_media AS (
-        INSERT INTO media (id, title, grade, release_date, rating, poster, runtime, type, date_added)
-        SELECT COALESCE(MAX(id), 0) + 1, $1, $2, $3, $4, $5, $6, 'movie', CURRENT_TIMESTAMP
+        INSERT INTO media (id, title, grade, release_date, rating, poster, runtime, type, date_added, synopsis)
+        SELECT COALESCE(MAX(id), 0) + 1, $1, $2, $3, $4, $5, $6, 'movie', CURRENT_TIMESTAMP, $7
         FROM media
         RETURNING id
       )
@@ -613,7 +613,8 @@ async function createMovie(media, { directors, writers, castMembers }) {
     media.release_date, 
     media.rating,
     media.poster, 
-    media.runtime
+    media.runtime,
+    media.synopsis
   ];
 
   const result = await query(sql, params);
@@ -734,6 +735,11 @@ async function updateMovie(media, og, { directors, writers, castMembers }) {
   if (media.title != og.title) {
     sql = `UPDATE media SET title = $1 WHERE id = $2;`;
     await query(sql, [media.title, media.id]);
+  }
+
+  if (media.synopsis != og.synopsis) {
+    sql = `UPDATE media SET synopsis = $1 WHERE id = $2;`;
+    await query(sql, [media.synopsis, media.id]);
   }
 
   if (media.grade != og.grade) {
@@ -857,72 +863,5 @@ async function updateShow(media, og, { castMembers }) {
           await query(`INSERT INTO seasons_writers (ordering, show_id, season, episode, writer_id) VALUES ((SELECT COALESCE(MAX(ordering), 0) + 1 FROM seasons_writers WHERE show_id = $1 AND season = $2 AND episode = $3), $1, $2, $3, $4)`, [media.id, media.season, epNum, creative.id]);
       }
     }
-  }
-}
-
-async function deleteOrphanedPeople(personIds) {
-  let subtractor = 0;
-
-  if (!personIds || personIds.length === 0)
-    return;
-
-  const uniquePersonIds = [...new Set(personIds)];
-
-  for (let personId of uniquePersonIds) {
-    personId = personId - subtractor;
-
-    const checkSql = 
-      `
-        SELECT SUM(total) as reference_count
-        FROM (
-          SELECT COUNT(*) as total FROM media_directors WHERE director_id = $1
-          UNION ALL
-          SELECT COUNT(*) as total FROM seasons_directors WHERE director_id = $1
-          UNION ALL
-          SELECT COUNT(*) as total FROM media_writers WHERE writer_id = $1
-          UNION ALL
-          SELECT COUNT(*) as total FROM seasons_writers WHERE writer_id = $1
-          UNION ALL
-          SELECT COUNT(*) as total FROM media_cast WHERE actor_id = $1
-          UNION ALL
-          SELECT COUNT(*) as total FROM seasons_cast WHERE actor_id = $1
-        ) as counts;
-      `;
-
-    const result = await query(checkSql, [personId]);
-    const referenceCount = parseInt(result.rows[0].reference_count, 10);
-
-    if (referenceCount === 0) {
-      const deleteSql = `DELETE FROM people WHERE id = $1;`;
-      await query(deleteSql, [personId]);
-      await shiftIdsAfterDeletion(personId);
-      subtractor++;
-    }
-  }
-}
-
-async function shiftIdsAfterDeletion(deletedPersonId) {
-  const client = await connect();
-  try {
-    await client.query("BEGIN");
-    const peopleToUpdate = await client.query("SELECT id FROM people WHERE id > $1 ORDER BY id ASC", [deletedPersonId]);
-    const idsToShift = Array.isArray(peopleToUpdate.rows) && peopleToUpdate.rows.map(p => p.id);
-
-    for (const oldId of idsToShift) {
-      const newId = oldId - 1;
-      await client.query("UPDATE people SET id = $1 WHERE id = $2", [newId, oldId]);
-    }
-
-    const maxIdResult = await client.query("SELECT COALESCE(MAX(id), 0) as max_id FROM people");
-    await client.query(`ALTER SEQUENCE people_id_seq RESTART WITH ${maxIdResult.rows[0].max_id + 1}`);
-    await client.query("COMMIT");
-  } 
-  catch (error) {
-    await client.query("ROLLBACK");
-    console.error("Failed to shift IDs due to an error. Transaction was rolled back.", error);
-    throw error;
-  } 
-  finally {
-    client.release();
   }
 }

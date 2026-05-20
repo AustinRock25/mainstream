@@ -13,6 +13,9 @@ export const validateMedia = async (req, res, next) => {
   if ((!media.release_date || media.release_date.length === 0) && media.type == "movie")
     errors.release_date = "Required";
 
+  if ((!media.synopsis || media.synopsis.length === 0) && media.type == "movie")
+    errors.synopsis = "Required";
+
   if ((!media.poster || media.poster.length === 0) && (media.type == "movie" || media.id == "na"))
     errors.poster = "Required";
 

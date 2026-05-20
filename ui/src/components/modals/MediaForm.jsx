@@ -23,6 +23,7 @@ function MediaForm({ show, setShow, media, season }) {
   const initialFormData = {
     id: "",
     title: "",
+    synopsis: "",
     season: "",
     grade: 0,
     rating: "Not Rated",
@@ -177,6 +178,7 @@ function MediaForm({ show, setShow, media, season }) {
       setFormData({
         id: media.id || "",
         title: media.title || "",
+        synopsis: media.synopsis || "",
         season: season || "",
         grade: grade || 0,
         rating: media.rating || "Not Rated",
@@ -513,6 +515,11 @@ function MediaForm({ show, setShow, media, season }) {
                 <Form.Label column sm={3}>Runtime (mins)</Form.Label>
                 <Col sm={9}><Form.Control type="number" value={formData.runtime} isInvalid={errors.runtime} placeholder="e.g., 120" onChange={e => handleChange(e, "runtime")} /></Col>
                 <Form.Control.Feedback type="invalid">{errors.runtime}</Form.Control.Feedback>
+              </Form.Group>
+              <Form.Group as={Row} className="mb-3">
+                <Form.Label column sm={3}>Synopsis</Form.Label>
+                <Col sm={9}><Form.Control as="textarea" rows={9} value={formData.synopsis} onChange={e => handleChange(e, "synopsis")} /></Col>
+                <Form.Control.Feedback type="invalid">{errors.synopsis}</Form.Control.Feedback>
               </Form.Group>
             </>
           )}
