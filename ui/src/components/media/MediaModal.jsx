@@ -213,10 +213,10 @@ function MediaModal({ show, setShow, media, user, seasonCount }) {
               className="img-fluid rounded mb-3 shadow"
               style={{ maxHeight: "300px" }}
             />
-            {media.type == "show" && !user && <span className={`fw-bold fs-5 text-${media.seasons[currentSeason].grade <= 40 ? "danger" : media.seasons[currentSeason].grade <= 60 ? "warning" : "success"}`}>{getGradeSeason(media.seasons[currentSeason])}</span>}
-            {media.type == "show" && !!user && user.rating_scale == 1 && <span className={`fw-bold fs-5 text-${media.seasons[currentSeason].grade < (175/4) ? "danger" : media.seasons[currentSeason].grade < (225/4) ? "warning" : "success"}`}>{getGradeSeason(media.seasons[currentSeason])}</span>}
-            {media.type == "show" && !!user && user.rating_scale == 2 && <span className={`fw-bold fs-5 text-${media.seasons[currentSeason].grade < (175/5) ? "danger" : media.seasons[currentSeason].grade < (325/5) ? "warning" : "success"}`}>{getGradeSeason(media.seasons[currentSeason])}</span>}
-            {media.type == "show" && !!user && user.rating_scale == 3 && <span className={`fw-bold fs-5 text-${media.seasons[currentSeason].grade <= 38 ? "danger" : media.seasons[currentSeason].grade <= 58 ? "warning" : "success"}`}>{getGradeSeason(media.seasons[currentSeason])}</span>}
+            {media.type == "show" && !user && <p className={`fw-bold fs-5 text-${media.seasons[currentSeason].grade <= 40 ? "danger" : media.seasons[currentSeason].grade <= 60 ? "warning" : "success"}`}>{getGradeSeason(media.seasons[currentSeason])}</p>}
+            {media.type == "show" && !!user && user.rating_scale == 1 && <p className={`fw-bold fs-5 text-${media.seasons[currentSeason].grade < (175/4) ? "danger" : media.seasons[currentSeason].grade < (225/4) ? "warning" : "success"}`}>{getGradeSeason(media.seasons[currentSeason])}</p>}
+            {media.type == "show" && !!user && user.rating_scale == 2 && <p className={`fw-bold fs-5 text-${media.seasons[currentSeason].grade < (175/5) ? "danger" : media.seasons[currentSeason].grade < (325/5) ? "warning" : "success"}`}>{getGradeSeason(media.seasons[currentSeason])}</p>}
+            {media.type == "show" && !!user && user.rating_scale == 3 && <p className={`fw-bold fs-5 text-${media.seasons[currentSeason].grade <= 38 ? "danger" : media.seasons[currentSeason].grade <= 58 ? "warning" : "success"}`}>{getGradeSeason(media.seasons[currentSeason])}</p>}
           </Col>
           <Col xs={12} md={8}>
             <div className="mb-4">

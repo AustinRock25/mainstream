@@ -534,7 +534,7 @@ export const create = async (req, res) => {
       if (media.id === "na")
         result = await createNewShow(media, { castMembers });
       else
-        result = await addSeasonToShow(media, { castMembers });
+        await addSeasonToShow(media, { castMembers });
     } 
     else
       return res.status(400).json({ error: "Invalid media type specified." });
