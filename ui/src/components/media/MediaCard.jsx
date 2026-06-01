@@ -20,7 +20,7 @@ function MediaCard ({media}) {
         let currentSearch = 1;
 
         while (true) {
-          const testPath = `posters/${media.poster}-season-${currentSearch}_poster.jpg`;
+          const testPath = `posters/${getPoster(media)}_s${currentSearch}.jpg`;
           const response = await fetch(testPath, { method: "HEAD" });
           
           if (response.ok)
