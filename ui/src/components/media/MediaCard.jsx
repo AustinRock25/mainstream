@@ -57,7 +57,7 @@ function MediaCard ({media}) {
     let finalTitleStr = processedWords.join(' ').replace(/&/g, 'and');
     let cleanTitle = finalTitleStr.trim().toLowerCase().replace(/[^a-z0-9½⅓àáâãäåæçèéêëìíîïðñòóôõöøùúûüýþÿæœ]/g, '_').replace(/_+/g, '_').replace(/^_+|_+$/g, '');
     
-    return `${new Date(media.release_date || media.start_date).getUTCFullYear()}_${cleanTitle}.jpg`;
+    return `${new Date(media.release_date || media.start_date).getUTCFullYear()}_${cleanTitle}`;
   }
 
   return (
