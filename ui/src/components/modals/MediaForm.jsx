@@ -28,7 +28,6 @@ function MediaForm({ show, setShow, media, season }) {
     grade: 0,
     rating: "Not Rated",
     release_date: "",
-    poster: "",
     runtime: "",
     type: "",
     completed: false,
@@ -183,7 +182,6 @@ function MediaForm({ show, setShow, media, season }) {
         grade: grade || 0,
         rating: media.rating || "Not Rated",
         release_date: media.release_date ? new Date(media.release_date).toISOString().split("T")[0] : "",
-        poster: media.poster || "",
         runtime: media.runtime || "",
         completed: media.completed || false,
         type: media.type || ""
@@ -548,21 +546,14 @@ function MediaForm({ show, setShow, media, season }) {
                   <Form.Control.Feedback type="invalid">{errors.grade}</Form.Control.Feedback>
                 </Form.Group>
                 {(formData.type === "movie" || formData.id == "na" || media?.id) && (
-                  <>
-                    <Form.Group as={Row} className="mb-3">
-                      <Form.Label column sm={3}>Poster File</Form.Label>
-                      <Col sm={9}><Form.Control type="text" value={formData.poster} placeholder="e.g., tenet_2020" onChange={e => handleChange(e, "poster")} /></Col>
-                      <Form.Control.Feedback type="invalid">{errors.poster}</Form.Control.Feedback>
-                    </Form.Group>
-                    <Form.Group as={Row} className="mb-3">
-                      <Form.Label column sm={3}>Rating</Form.Label>
-                      <Col sm={9}>
-                        <Form.Select value={formData.rating} onChange={(e) => handleChange(e, "rating")}>
-                          {formData.type !== "movie" ? Array.isArray(["Not Rated", "TV-Y", "TV-Y7", "TV-Y7 FV", "TV-G", "TV-PG", "TV-14", "TV-MA"]) && ["Not Rated", "TV-Y", "TV-Y7", "TV-Y7 FV", "TV-G", "TV-PG", "TV-14", "TV-MA"].map(r => <option key={r} value={r}>{r}</option>) : Array.isArray(["Not Rated", "G", "PG", "PG-13", "R", "NC-17", "TV-Y", "TV-Y7", "TV-Y7 FV", "TV-G", "TV-PG", "TV-14", "TV-MA"]) && ["Not Rated", "G", "PG", "PG-13", "R", "NC-17", "TV-Y", "TV-Y7", "TV-Y7 FV", "TV-G", "TV-PG", "TV-14", "TV-MA"].map(r => <option key={r} value={r}>{r}</option>)}
-                        </Form.Select>
-                      </Col>
-                    </Form.Group>
-                  </>
+                  <Form.Group as={Row} className="mb-3">
+                    <Form.Label column sm={3}>Rating</Form.Label>
+                    <Col sm={9}>
+                      <Form.Select value={formData.rating} onChange={(e) => handleChange(e, "rating")}>
+                        {formData.type !== "movie" ? Array.isArray(["Not Rated", "TV-Y", "TV-Y7", "TV-Y7 FV", "TV-G", "TV-PG", "TV-14", "TV-MA"]) && ["Not Rated", "TV-Y", "TV-Y7", "TV-Y7 FV", "TV-G", "TV-PG", "TV-14", "TV-MA"].map(r => <option key={r} value={r}>{r}</option>) : Array.isArray(["Not Rated", "G", "PG", "PG-13", "R", "NC-17", "TV-Y", "TV-Y7", "TV-Y7 FV", "TV-G", "TV-PG", "TV-14", "TV-MA"]) && ["Not Rated", "G", "PG", "PG-13", "R", "NC-17", "TV-Y", "TV-Y7", "TV-Y7 FV", "TV-G", "TV-PG", "TV-14", "TV-MA"].map(r => <option key={r} value={r}>{r}</option>)}
+                      </Form.Select>
+                    </Col>
+                  </Form.Group>
                 )}
               <hr />
               <h5 className="mb-3">Cast & Crew</h5>

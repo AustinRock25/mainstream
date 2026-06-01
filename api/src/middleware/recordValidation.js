@@ -16,9 +16,6 @@ export const validateMedia = async (req, res, next) => {
   if ((!media.synopsis || media.synopsis.length === 0) && media.type == "movie")
     errors.synopsis = "Required";
 
-  if ((!media.poster || media.poster.length === 0) && (media.type == "movie" || media.id == "na"))
-    errors.poster = "Required";
-
   if ((!media.runtime || media.runtime.length === 0) && media.type == "movie")
     errors.runtime = "Required";
 

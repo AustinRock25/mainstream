@@ -48,6 +48,26 @@ function MediaModal({ show, setShow, media, user, seasonCount }) {
       return `${new Date(media.start_date).getUTCFullYear()}-`;
   };
 
+  const getPoster = (media) => {
+    const wordsList = String(media.title).split(' ');
+    const processedWords = [];
+    const strictArticles = new Set(['The', 'A', 'An']);
+    
+    wordsList.forEach(word => {
+      const wordCleaned = word.replace(/['’.]/g, '').replace(/[^a-zA-Z0-9½⅓àáâãäåæçèéêëìíîïðñòóôõöøùúûüýþÿÆŒ]/g, '');
+      
+      if (strictArticles.has(coreWord))
+        return;
+      
+      processedWords.push(wordCleaned);
+    });
+    
+    let finalTitleStr = processedWords.join(' ').replace(/&/g, 'and');
+    let cleanTitle = finalTitleStr.trim().toLowerCase().replace(/[^a-z0-9½⅓àáâãäåæçèéêëìíîïðñòóôõöøùúûüýþÿæœ]/g, '_').replace(/_+/g, '_').replace(/^_+|_+$/g, '');
+    
+    return `${new Date(media.release_date || media.start_date).getUTCFullYear()}_${cleanTitle}.jpg`;
+  }
+
   const time = (runtime) => {
     if (!runtime) 
       return "";
@@ -208,7 +228,7 @@ function MediaModal({ show, setShow, media, user, seasonCount }) {
         <Row>
           <Col xs={12} md={4} className="text-center mb-4 mb-md-0">
             <img 
-              src={media.type !== "show" ? `posters/${media.poster}_poster.jpg` : `posters/${media.poster}-season-${currentSeason + 1}_poster.jpg`}
+              src={media.type !== "show" ? `posters/${getPoster(media)}.jpg` : `posters/${getPoster(media)}_s${currentSeason + 1}.jpg`}
               alt={media.title}
               className="img-fluid rounded mb-3 shadow"
               style={{ maxHeight: "300px" }}
