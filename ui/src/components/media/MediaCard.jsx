@@ -48,7 +48,7 @@ function MediaCard ({media}) {
     wordsList.forEach(word => {
       const wordCleaned = word.replace(/['’.]/g, '').replace(/[^a-zA-Z0-9½⅓àáâãäåæçèéêëìíîïðñòóôõöøùúûüýþÿÆŒ]/g, '');
       
-      if (strictArticles.has(coreWord))
+      if (strictArticles.has(wordCleaned))
         return;
       
       processedWords.push(wordCleaned);
