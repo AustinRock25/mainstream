@@ -49,12 +49,12 @@ function MediaModal({ show, setShow, media, user, seasonCount }) {
   };
 
   const getPoster = (media) => {
-    const wordsList = String(media.title).split(' ');
+    const wordsList = String(media.title).replace(/&/g, "and").split(" ");
     const processedWords = [];
-    const strictArticles = new Set(['The', 'A', 'An']);
+    const strictArticles = new Set(["The", "A", "An"]);
     
     wordsList.forEach(word => {
-      const wordCleaned = word.replace(/['’.]/g, '').replace(/[^a-zA-Z0-9½⅓àáâãäåæçèéêëìíîïðñòóôõöøùúûüýþÿÆŒ]/g, '');
+      const wordCleaned = word.replace(/['’.]/g, "").replace(/[^a-zA-Z0-9½⅓àáâãäåæçèéêëìíîïðñòóôõöøùúûüýþÿÆŒ]/g, "_");
       
       if (strictArticles.has(wordCleaned))
         return;
@@ -62,8 +62,8 @@ function MediaModal({ show, setShow, media, user, seasonCount }) {
       processedWords.push(wordCleaned);
     });
     
-    let finalTitleStr = processedWords.join(' ').replace(/&/g, 'and');
-    let cleanTitle = finalTitleStr.trim().toLowerCase().replace(/[^a-z0-9½⅓àáâãäåæçèéêëìíîïðñòóôõöøùúûüýþÿæœ]/g, '_').replace(/_+/g, '_').replace(/^_+|_+$/g, '');
+    let finalTitleStr = processedWords.join("_");
+    let cleanTitle = finalTitleStr.trim().toLowerCase().replace(/[^a-z0-9½⅓àáâãäåæçèéêëìíîïðñòóôõöøùúûüýþÿæœ]/g, "_").replace(/_+/g, "_").replace(/^_+|_+$/g, "");
     
     return `${new Date(media.release_date || media.start_date).getUTCFullYear()}_${cleanTitle}`;
   }
