@@ -648,7 +648,7 @@ async function createNewShow(media, { castMembers }) {
       ),
       insert_episodes AS (
         INSERT INTO seasons_episodes (show_id, season, episode, title, release_date, runtime, synopsis)
-        SELECT (SELECT id FROM new_media), 1, ep.n, (ep.obj->>'title'), NULLIF(ep.obj->>'release_date', '')::date, (ep.obj->>'runtime'), (ep.obj->>'synopsis')
+        SELECT (SELECT id FROM new_media), 1, ep.n, (ep.obj->>'title'), NULLIF(ep.obj->>'release_date', '')::date, (ep.obj->>'runtime')::integer, (ep.obj->>'synopsis')
         FROM json_array_elements($5::json) WITH ORDINALITY AS ep(obj, n)
       )
       SELECT id FROM new_media;
@@ -700,7 +700,7 @@ async function addSeasonToShow(media, { castMembers }) {
 
   await query(
     `INSERT INTO seasons_episodes (show_id, season, episode, title, release_date, runtime, synopsis) 
-    SELECT $1, $2, ep.n, (ep.obj->>'title'), NULLIF(ep.obj->>'release_date', '')::date, (ep.obj->>'runtime'), (ep.obj->>'synopsis')
+    SELECT $1, $2, ep.n, (ep.obj->>'title'), NULLIF(ep.obj->>'release_date', '')::date, (ep.obj->>'runtime')::integer, (ep.obj->>'synopsis')
     FROM json_array_elements($3::json) WITH ORDINALITY AS ep(obj, n);`, 
     [media.id, seasonNum, JSON.stringify(media.episodes)]
   );
@@ -836,7 +836,7 @@ async function updateShow(media, og, { castMembers }) {
 
     await query(
       `INSERT INTO seasons_episodes (show_id, season, episode, title, release_date, runtime, synopsis)
-       SELECT $1, $2, ep.n, (ep.obj->>'title'), NULLIF(ep.obj->>'release_date', '')::date, (ep.obj->>'runtime'), (ep.obj->>'synopsis')
+       SELECT $1, $2, ep.n, (ep.obj->>'title'), NULLIF(ep.obj->>'release_date', '')::date, (ep.obj->>'runtime')::integer, (ep.obj->>'synopsis')
        FROM json_array_elements($3::json) WITH ORDINALITY AS ep(obj, n);`,
       [media.id, media.season, JSON.stringify(media.episodes)]
     );
