@@ -210,7 +210,7 @@ export const index = (req, res) => {
             FROM seasons_cast sc LEFT JOIN people p ON sc.actor_id = p.id WHERE m.id = sc.show_id AND s.season = sc.season
           ) sc ON TRUE
           LEFT JOIN LATERAL (
-            SELECT json_agg(json_build_object('show_id', se.show_id, 'season', se.season, 'episode', se.episode, 'release_date', se.release_date, 'title', se.title, 'directors', sd.directors, 'writers', sw.writers)) AS episodes
+            SELECT json_agg(json_build_object('show_id', se.show_id, 'season', se.season, 'episode', se.episode, 'release_date', se.release_date, 'title', se.title, 'runtime', se.runtime, 'synopsis', se.synopsis, 'directors', sd.directors, 'writers', sw.writers)) AS episodes
             FROM seasons_episodes se 
             LEFT JOIN LATERAL (
               SELECT json_agg(json_build_object('ordering', sd.ordering, 'show_id', sd.show_id, 'season', sd.season, 'episode', sd.episode, 'director_id', sd.director_id, 'name', p.name, 'birth_date', p.birth_date, 'death_date', p.death_date)) AS directors
@@ -473,7 +473,7 @@ export const indexNew = (req, res) => {
           FROM seasons_cast sc LEFT JOIN people p ON sc.actor_id = p.id WHERE m.id = sc.show_id AND s.season = sc.season
         ) sc ON TRUE
         LEFT JOIN LATERAL (
-          SELECT json_agg(json_build_object('show_id', se.show_id, 'season', se.season, 'episode', se.episode, 'release_date', se.release_date, 'title', se.title, 'directors', sd.directors, 'writers', sw.writers)) AS episodes
+          SELECT json_agg(json_build_object('show_id', se.show_id, 'season', se.season, 'episode', se.episode, 'release_date', se.release_date, 'title', se.title, 'runtime', se.runtime, 'synopsis', se.synopsis, 'directors', sd.directors, 'writers', sw.writers)) AS episodes
           FROM seasons_episodes se 
           LEFT JOIN LATERAL (
             SELECT json_agg(json_build_object('ordering', sd.ordering, 'show_id', sd.show_id, 'season', sd.season, 'episode', sd.episode, 'director_id', sd.director_id, 'name', p.name, 'birth_date', p.birth_date, 'death_date', p.death_date)) AS directors
@@ -647,8 +647,8 @@ async function createNewShow(media, { castMembers }) {
         VALUES (1, (SELECT id FROM new_media), $4)
       ),
       insert_episodes AS (
-        INSERT INTO seasons_episodes (show_id, season, episode, title, release_date)
-        SELECT (SELECT id FROM new_media), 1, ep.n, (ep.obj->>'title'), NULLIF(ep.obj->>'release_date', '')::date
+        INSERT INTO seasons_episodes (show_id, season, episode, title, release_date, runtime, synopsis)
+        SELECT (SELECT id FROM new_media), 1, ep.n, (ep.obj->>'title'), NULLIF(ep.obj->>'release_date', '')::date, (ep.obj->>'runtime'), (ep.obj->>'synopsis')
         FROM json_array_elements($5::json) WITH ORDINALITY AS ep(obj, n)
       )
       SELECT id FROM new_media;
@@ -699,8 +699,8 @@ async function addSeasonToShow(media, { castMembers }) {
   await query(`INSERT INTO seasons (season, show_id, grade) VALUES ($1, $2, $3);`, [seasonNum, media.id, media.grade]);
 
   await query(
-    `INSERT INTO seasons_episodes (show_id, season, episode, title, release_date) 
-    SELECT $1, $2, ep.n, (ep.obj->>'title'), NULLIF(ep.obj->>'release_date', '')::date 
+    `INSERT INTO seasons_episodes (show_id, season, episode, title, release_date, runtime, synopsis) 
+    SELECT $1, $2, ep.n, (ep.obj->>'title'), NULLIF(ep.obj->>'release_date', '')::date, (ep.obj->>'runtime'), (ep.obj->>'synopsis')
     FROM json_array_elements($3::json) WITH ORDINALITY AS ep(obj, n);`, 
     [media.id, seasonNum, JSON.stringify(media.episodes)]
   );
@@ -835,8 +835,8 @@ async function updateShow(media, og, { castMembers }) {
     await query(`DELETE FROM seasons_writers WHERE show_id = $1 AND season = $2;`, [media.id, media.season]);
 
     await query(
-      `INSERT INTO seasons_episodes (show_id, season, episode, title, release_date)
-       SELECT $1, $2, ep.n, (ep.obj->>'title'), NULLIF(ep.obj->>'release_date', '')::date
+      `INSERT INTO seasons_episodes (show_id, season, episode, title, release_date, runtime, synopsis)
+       SELECT $1, $2, ep.n, (ep.obj->>'title'), NULLIF(ep.obj->>'release_date', '')::date, (ep.obj->>'runtime'), (ep.obj->>'synopsis')
        FROM json_array_elements($3::json) WITH ORDINALITY AS ep(obj, n);`,
       [media.id, media.season, JSON.stringify(media.episodes)]
     );

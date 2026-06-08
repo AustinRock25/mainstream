@@ -454,9 +454,13 @@ function MediaForm({ show, setShow, media, season }) {
                         <Badge bg="dark" className="me-2 align-self-center">Ep {index + 1}</Badge>
                         <Form.Control className="me-2" type="text" value={episode.title} placeholder="Title" onChange={e => handleEpisode(e, "title", index)} />
                         <Form.Control type="date" value={episode.release_date || ""} onChange={(e) => handleEpisode(e, "release_date", index)} />
+                        <Form.Control type="number" value={episode.runtime || ""} onChange={(e) => handleEpisode(e, "runtime", index)} />
                         <Button variant="outline-danger" className="ms-2" onClick={() => handleRemoveEpisode(index)}>X</Button>
                       </div>
                       <Row className="mt-3">
+                        <Col md={6}>
+                          <Form.Control as="textarea" rows={9} value={episode.synopsis || ""} onChange={(e) => handleEpisode(e, "synopsis", index)} />
+                        </Col>
                         <Col md={6}>
                           <h6>Available</h6>
                           <div className="d-flex mb-2">
