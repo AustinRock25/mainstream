@@ -276,7 +276,7 @@ function MediaModal({ show, setShow, media, user, seasonCount }) {
                 <Accordion flush>
                   {media.seasons[currentSeason].episodes.sort((a, b) => (a.episode > b.episode ? 1 : -1)).map((ep, index) => (
                     <Accordion.Item eventKey={index.toString()} key={index} className="border-0">
-                      <Accordion.Header>
+                      <Accordion.Header className="d-flex align-items-center justify-content-between">
                         <div className="flex-wrap" style={{ maxWidth: "50%" }}>
                           <span className="fs-5 fw-bold">{ep.episode}. {ep.title} <small className="ms-auto me-3 small opacity-50">{new Date(ep.release_date).getUTCFullYear()}</small></span>
                         </div>
