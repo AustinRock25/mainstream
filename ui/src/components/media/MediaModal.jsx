@@ -204,12 +204,14 @@ function MediaModal({ show, setShow, media, user, seasonCount }) {
                 <span className="fw-light fs-5 text-white-50">{getYear(media)}</span>
               </span>
             </div>
-            <span className="fw-light fs-5 text-white-50">{media.rating === "Not Rated" ? "NR" : media.rating}</span>
-            <span className="fw-light fs-5 text-white-50">{time(media.runtime)}</span>
-            {!user && <span className={`fw-bold fs-5 text-${(media.grade || media.grade_tv) <= 40 ? "danger" : (media.grade || media.grade_tv) <= 60 ? "warning" : "success"}`}>{getGrade(media)}</span>}
-            {!!user && user.rating_scale == 1 && <span className={`fw-bold fs-5 text-${(media.grade || media.grade_tv) < (175/4) ? "danger" : (media.grade || media.grade_tv) < (225/4) ? "warning" : "success"}`}>{getGrade(media)}</span>}
-            {!!user && user.rating_scale == 2 && <span className={`fw-bold fs-5 text-${(media.grade || media.grade_tv) < (175/5) ? "danger" : (media.grade || media.grade_tv) < (325/5) ? "warning" : "success"}`}>{getGrade(media)}</span>}
-            {!!user && user.rating_scale == 3 && <span className={`fw-bold fs-5 text-${(media.grade || media.grade_tv) <= 38 ? "danger" : (media.grade || media.grade_tv) <= 58 ? "warning" : "success"}`}>{getGrade(media)}</span>}
+            <div className="text-end">
+              <span className="fw-light fs-5 text-white-50">{media.rating === "Not Rated" ? "NR" : media.rating}</span>
+              <span className="fw-light fs-5 text-white-50">{time(media.runtime)}</span>
+              {!user && <span className={`fw-bold fs-5 text-${(media.grade || media.grade_tv) <= 40 ? "danger" : (media.grade || media.grade_tv) <= 60 ? "warning" : "success"}`}>{getGrade(media)}</span>}
+              {!!user && user.rating_scale == 1 && <span className={`fw-bold fs-5 text-${(media.grade || media.grade_tv) < (175/4) ? "danger" : (media.grade || media.grade_tv) < (225/4) ? "warning" : "success"}`}>{getGrade(media)}</span>}
+              {!!user && user.rating_scale == 2 && <span className={`fw-bold fs-5 text-${(media.grade || media.grade_tv) < (175/5) ? "danger" : (media.grade || media.grade_tv) < (325/5) ? "warning" : "success"}`}>{getGrade(media)}</span>}
+              {!!user && user.rating_scale == 3 && <span className={`fw-bold fs-5 text-${(media.grade || media.grade_tv) <= 38 ? "danger" : (media.grade || media.grade_tv) <= 58 ? "warning" : "success"}`}>{getGrade(media)}</span>}
+            </div>
           </div>
         </Modal.Title>
       </Modal.Header>
@@ -277,8 +279,8 @@ function MediaModal({ show, setShow, media, user, seasonCount }) {
                   {media.seasons[currentSeason].episodes.sort((a, b) => (a.episode > b.episode ? 1 : -1)).map((ep, index) => (
                     <Accordion.Item eventKey={index.toString()} key={index} className="border-0">
                       <Accordion.Header className="d-flex align-items-center justify-content-between">
-                        <span className="flex-wrap fs-5 fw-bold" style={{ maxWidth: "75%" }}>{ep.episode}. {ep.title} <small className="ms-auto me-3 small opacity-50">{new Date(ep.release_date).getUTCFullYear()}</small></span>
-                        <span className="fs-5 fw-bold opacity-50">{time(ep.runtime)}</span>
+                        <span className="flex-wrap fs-5 fw-bold" style={{ maxWidth: "50%" }}>{ep.episode}. {ep.title} <small className="ms-auto me-3 small opacity-50">{new Date(ep.release_date).getUTCFullYear()}</small></span>
+                        <span className="fs-5 fw-bold opacity-50 text-end">{time(ep.runtime)}</span>
                       </Accordion.Header>
                       <Accordion.Body className="bg-dark text-white-50">
                         {combineDirectorsAndWriters(ep) && (
