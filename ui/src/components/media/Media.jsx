@@ -21,7 +21,6 @@ const getInitialState = () => {
     sortOrder: "ASC",
     filterType: "all",
     runtime: { min: "", max: "" },
-    episodes: { min: "", max: "" },
     selectedRatings: [],
     selectedGrade: "",
     dateRange: { start: "", end: "" },
@@ -36,7 +35,6 @@ const getDefaultState = () => ({
   sortOrder: "ASC",
   filterType: "all",
   runtime: { min: "", max: "" },
-  episodes: { min: "", max: "" },
   selectedRatings: [],
   selectedGrade: "",
   dateRange: { start: "", end: "" },
@@ -70,8 +68,6 @@ function Media() {
       filterType: currentFilters.filterType,
       minRuntime: currentFilters.runtime.min,
       maxRuntime: currentFilters.runtime.max,
-      minEpisodes: currentFilters.episodes.min,
-      maxEpisodes: currentFilters.episodes.max,
       ratings: currentFilters.selectedRatings.join(","),
       grade: currentFilters.selectedGrade,
       startDate: currentFilters.dateRange.start,
@@ -111,7 +107,6 @@ function Media() {
         ...prev,
         filterType: value,
         runtime: { min: "", max: "" },
-        episodes: { min: "", max: "" },
       }));
 
       return;
@@ -238,32 +233,17 @@ function Media() {
                   <Form.Control type="date" name="dateRange.end" value={filters.dateRange.end} onChange={handleFilterChange} />
                 </Form.Group>
               </Col>
-              {filters.filterType === "movie" && (
-                <Col md={12}>
-                  <Form.Label>Runtime (minutes)</Form.Label>
-                  <Row>
-                    <Col>
-                      <Form.Control type="number" name="runtime.min" value={filters.runtime.min} placeholder="Min" onChange={handleFilterChange} />
-                    </Col>
-                    <Col>
-                      <Form.Control type="number" name="runtime.max" value={filters.runtime.max} placeholder="Max" onChange={handleFilterChange} />
-                    </Col>
-                  </Row>
-                </Col>
-              )}
-              {filters.filterType === "show" && (
-                <Col md={12}>
-                  <Form.Label>Episode Count</Form.Label>
-                  <Row>
-                    <Col>
-                      <Form.Control type="number" name="episodes.min" value={filters.episodes.min} placeholder="Min" onChange={handleFilterChange} />
-                    </Col>
-                    <Col>
-                      <Form.Control type="number" name="episodes.max" value={filters.episodes.max} placeholder="Max" onChange={handleFilterChange} />
-                    </Col>
-                  </Row>
-                </Col>
-              )}
+              <Col md={12}>
+                <Form.Label>Runtime (minutes)</Form.Label>
+                <Row>
+                  <Col>
+                    <Form.Control type="number" name="runtime.min" value={filters.runtime.min} placeholder="Min" onChange={handleFilterChange} />
+                  </Col>
+                  <Col>
+                    <Form.Control type="number" name="runtime.max" value={filters.runtime.max} placeholder="Max" onChange={handleFilterChange} />
+                  </Col>
+                </Row>
+              </Col>
               <Col md={12}>
                 <Form.Label>Ratings</Form.Label>
                 <div className="d-flex flex-wrap" style={{ maxHeight: "150px", overflowY: "auto" }}>
