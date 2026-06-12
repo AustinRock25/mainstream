@@ -196,8 +196,7 @@ function Media() {
                     <option value="title">Title</option>
                     <option value="release_date">Release Date</option>
                     <option value="grade">Grade</option>
-                    {filters.filterType === "movie" && <option value="runtime">Runtime</option>}
-                    {filters.filterType === "show" && <option value="episodes">Episode Count</option>}
+                    <option value="runtime">Runtime</option>
                   </Form.Select>
                 </Form.Group>
               </Col>
