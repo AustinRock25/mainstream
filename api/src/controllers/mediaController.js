@@ -10,8 +10,6 @@ export const index = (req, res) => {
     filterType,
     minRuntime,
     maxRuntime,
-    minEpisodes,
-    maxEpisodes,
     ratings,
     grade,
     startDate,
@@ -36,23 +34,13 @@ export const index = (req, res) => {
     }
 
     if (minRuntime) {
-      filterClauses.push(`runtime >= $${paramIndex++}`);
+      filterClauses.push(`COALESCE(runtime, runtime_tv) >= $${paramIndex++}`);
       params.push(minRuntime);
     }
 
     if (maxRuntime) {
-      filterClauses.push(`runtime <= $${paramIndex++}`);
+      filterClauses.push(`COALESCE(runtime, runtime_tv) <= $${paramIndex++}`);
       params.push(maxRuntime);
-    }
-
-    if (minEpisodes) {
-      filterClauses.push(`episode_count >= $${paramIndex++}`);
-      params.push(minEpisodes);
-    }
-
-    if (maxEpisodes) {
-      filterClauses.push(`episode_count <= $${paramIndex++}`);
-      params.push(maxEpisodes);
     }
 
     if (ratings) {
@@ -173,9 +161,6 @@ export const index = (req, res) => {
     case "runtime":
       orderByClause = `ORDER BY runtime ${sanitizedSortOrder}`;
       break;
-    case "episodes":
-      orderByClause = `ORDER BY episode_count ${sanitizedSortOrder}`;
-      break;
     case "grade":
       orderByClause = `ORDER BY COALESCE(grade, grade_tv) ${sanitizedSortOrder}`;
       break;
@@ -188,7 +173,7 @@ export const index = (req, res) => {
   const sql = 
     `
       WITH FilteredData AS (
-        SELECT m.id, m.title, m.synopsis, m.grade, (SELECT AVG(grade) FROM seasons WHERE show_id = m.id) AS grade_tv, m.release_date, (SELECT MIN(release_date) FROM seasons_episodes WHERE show_id = m.id) AS start_date, (SELECT MAX(release_date) FROM seasons_episodes WHERE show_id = m.id) AS end_date, m.rating, m.runtime, (SELECT COUNT(*) FROM seasons_episodes WHERE show_id = m.id) AS episode_count, m.completed, m.type, seasons, directors, cast_members, writers
+        SELECT m.id, m.title, m.synopsis, m.grade, (SELECT AVG(grade) FROM seasons WHERE show_id = m.id) AS grade_tv, m.release_date, (SELECT MIN(release_date) FROM seasons_episodes WHERE show_id = m.id) AS start_date, (SELECT MAX(release_date) FROM seasons_episodes WHERE show_id = m.id) AS end_date, m.rating, m.runtime, (SELECT SUM(runtime) FROM seasons_episodes WHERE show_id = m.id) AS runtime_tv, m.completed, m.type, seasons, directors, cast_members, writers
         FROM media m
         LEFT JOIN LATERAL (
           SELECT json_agg(json_build_object('ordering', md.ordering, 'media_id', md.media_id, 'director_id', md.director_id, 'name', p.name, 'birth_date', p.birth_date, 'death_date', p.death_date)) AS directors
@@ -249,8 +234,6 @@ export const indexLength = (req, res) => {
     filterType,
     minRuntime,
     maxRuntime,
-    minEpisodes,
-    maxEpisodes,
     ratings,
     grade,
     startDate,
@@ -274,23 +257,13 @@ export const indexLength = (req, res) => {
     }
 
     if (minRuntime) {
-      filterClauses.push(`m.runtime >= $${paramIndex++}`);
+      filterClauses.push(`COALESCE(m.runtime, m.runtime_tv) >= $${paramIndex++}`);
       params.push(minRuntime);
     }
 
     if (maxRuntime) {
-      filterClauses.push(`m.runtime <= $${paramIndex++}`);
+      filterClauses.push(`COALESCE(m.runtime, m.runtime_tv) <= $${paramIndex++}`);
       params.push(maxRuntime);
-    }
-
-    if (minEpisodes) {
-      filterClauses.push(`(SELECT COUNT(*) FROM seasons_episodes WHERE show_id = m.id) >= $${paramIndex++}`);
-      params.push(minEpisodes);
-    }
-
-    if (maxEpisodes) {
-      filterClauses.push(`(SELECT COUNT(*) FROM seasons_episodes WHERE show_id = m.id) <= $${paramIndex++}`);
-      params.push(maxEpisodes);
     }
 
     if (ratings) {
@@ -451,7 +424,7 @@ export const indexNew = (req, res) => {
 
   const sql = 
     `
-      SELECT m.id, m.title, m.synopsis, m.grade, (SELECT AVG(grade) FROM seasons WHERE show_id = m.id) AS grade_tv, m.release_date, (SELECT MIN(release_date) FROM seasons_episodes WHERE show_id = m.id) AS start_date, (SELECT MAX(release_date) FROM seasons_episodes WHERE show_id = m.id) AS end_date, m.rating, m.runtime, (SELECT COUNT(*) FROM seasons_episodes WHERE show_id = m.id) AS episode_count, m.completed, m.type, seasons, directors, cast_members, writers
+      SELECT m.id, m.title, m.synopsis, m.grade, (SELECT AVG(grade) FROM seasons WHERE show_id = m.id) AS grade_tv, m.release_date, (SELECT MIN(release_date) FROM seasons_episodes WHERE show_id = m.id) AS start_date, (SELECT MAX(release_date) FROM seasons_episodes WHERE show_id = m.id) AS end_date, m.rating, m.runtime, (SELECT SUM(runtime) FROM seasons_episodes WHERE show_id = m.id) AS runtime_tv, m.completed, m.type, seasons, directors, cast_members, writers
       FROM media m
       LEFT JOIN LATERAL (
         SELECT json_agg(json_build_object('ordering', md.ordering, 'media_id', md.media_id, 'director_id', md.director_id, 'name', p.name, 'birth_date', p.birth_date, 'death_date', p.death_date)) AS directors
