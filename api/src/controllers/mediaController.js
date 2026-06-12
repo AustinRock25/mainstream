@@ -257,12 +257,12 @@ export const indexLength = (req, res) => {
     }
 
     if (minRuntime) {
-      filterClauses.push(`COALESCE(m.runtime, m.runtime_tv) >= $${paramIndex++}`);
+      filterClauses.push(`COALESCE(m.runtime, (SELECT SUM(runtime) FROM seasons_episodes WHERE show_id = m.id)) >= $${paramIndex++}`);
       params.push(minRuntime);
     }
 
     if (maxRuntime) {
-      filterClauses.push(`COALESCE(m.runtime, m.runtime_tv) <= $${paramIndex++}`);
+      filterClauses.push(`COALESCE(m.runtime, (SELECT SUM(runtime) FROM seasons_episodes WHERE show_id = m.id)) <= $${paramIndex++}`);
       params.push(maxRuntime);
     }
 
