@@ -91,7 +91,7 @@ function MediaModal({ show, setShow, media, user, seasonCount }) {
       timeStr += `${months}mo `;
     
     if (weeks > 0) 
-      timeStr += `${weeks}d `;
+      timeStr += `${weeks}w `;
     
     if (days > 0) 
       timeStr += `${days}d `;
