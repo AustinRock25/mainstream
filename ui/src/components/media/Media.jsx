@@ -277,7 +277,7 @@ function Media() {
                 <Form.Label>Grades</Form.Label>
                 <div className="d-flex flex-wrap" style={{ maxHeight: "150px", overflowY: "auto" }}>
                 {
-                  (user.rating_scale == 1) ? (Array.isArray(GRADES1) && GRADES1.map(grade => (
+                  (!user || user.rating_scale == 2) ? (Array.isArray(GRADES2) && GRADES2.map(grade => (
                     <Form.Check 
                       key={grade} 
                       type="radio" 
@@ -289,7 +289,7 @@ function Media() {
                       className="me-3"
                     />
                   ))) :
-                  (user.rating_scale == 2 || !user) ? (Array.isArray(GRADES2) && GRADES2.map(grade => (
+                  (user.rating_scale == 1) ? (Array.isArray(GRADES1) && GRADES1.map(grade => (
                     <Form.Check 
                       key={grade} 
                       type="radio" 
