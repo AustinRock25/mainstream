@@ -146,32 +146,44 @@ function MediaForm({ show, setShow, media, season }) {
           grade = 5;
       }
       else {
-        if (media.grade <= 18)
-          grade = 0;
-        else if (media.grade <= 24)
+        if (media.grade < (125/10))
           grade = 1;
-        else if (media.grade <= 32)
+        else if (media.grade < (175/10))
+          grade = 1.5;
+        else if (media.grade < (225/10))
           grade = 2;
-        else if (media.grade <= 38)
+        else if (media.grade < (275/10))
+          grade = 2.5;
+        else if (media.grade < (325/10))
           grade = 3;
-        else if (media.grade <= 44)
+        else if (media.grade < (375/10))
+          grade = 3.5;
+        else if (media.grade < (425/10))
           grade = 4;
-        else if (media.grade <= 52)
+        else if (media.grade < (475/10))
+          grade = 4.5;
+        else if (media.grade < (525/10))
           grade = 5;
-        else if (media.grade <= 58)
+        else if (media.grade < (575/10))
+          grade = 5.5;
+        else if (media.grade < (625/10))
           grade = 6;
-        else if (media.grade <= 64)
+        else if (media.grade < (675/10))
+          grade = 6.5;
+        else if (media.grade < (725/10))
           grade = 7;
-        else if (media.grade <= 72)
+        else if (media.grade < (775/10))
+          grade = 7.5;
+        else if (media.grade < (825/10))
           grade = 8;
-        else if (media.grade <= 78)
+        else if (media.grade < (875/10))
+          grade = 8.5;
+        else if (media.grade < (925/10))
           grade = 9;
-        else if (media.grade <= 84)
-          grade = 10;
-        else if (media.grade <= 92)
-          grade = 11;
+        else if (media.grade < (975/10))
+          grade = 9.5;
         else
-          grade = 12;
+          grade = 10;
       }
 
       setFormData({
@@ -308,34 +320,8 @@ function MediaForm({ show, setShow, media, season }) {
       return grade + "/4";
     else if (user.rating_scale == 2)
       return grade + "/5";
-    else {
-      if (grade == 0)
-        return "F";
-      else if (grade == 1)
-        return "D-";
-      else if (grade == 2)
-        return "D";
-      else if (grade == 3)
-        return "D+";
-      else if (grade == 4)
-        return "C-";
-      else if (grade == 5)
-        return "C";
-      else if (grade == 6)
-        return "C+";
-      else if (grade == 7)
-        return "B-";
-      else if (grade == 8)
-        return "B";
-      else if (grade == 9)
-        return "B+";
-      else if (grade == 10)
-        return "A-";
-      else if (grade == 11)
-        return "A";
-      else
-        return "A+";
-    }
+    else
+      return grade + "/10";
   }
 
   function handleSubmit(e) {
@@ -346,35 +332,8 @@ function MediaForm({ show, setShow, media, season }) {
       formData.grade = (parseFloat(formData.grade) * 100) / 4;
     else if (user.rating_scale == 2)
       formData.grade = (parseFloat(formData.grade) * 100) / 5;
-    else {
-      if (formData.grade == 0)
-        formData.grade = (parseFloat(0 + (100/14))) / 2;
-      else if (formData.grade == 1)
-        formData.grade = (parseFloat(20 + (300/14))) / 2;
-      else if (formData.grade == 2)
-        formData.grade = (parseFloat(26 + (400/14))) / 2;
-      else if (formData.grade == 3)
-        formData.grade = (parseFloat(34 + (500/14))) / 2;
-      else if (formData.grade == 4)
-        formData.grade = (parseFloat(40 + (600/14))) / 2;
-      else if (formData.grade == 5)
-        formData.grade = (parseFloat(46 + (700/14))) / 2;
-      else if (formData.grade == 6)
-        formData.grade = (parseFloat(54 + (800/14))) / 2;
-      else if (formData.grade == 7)
-        formData.grade = (parseFloat(60 + (900/14))) / 2;
-      else if (formData.grade == 8)
-        formData.grade = (parseFloat(66 + (1000/14))) / 2;
-      else if (formData.grade == 9)
-        formData.grade = (parseFloat(74 + (1100/14))) / 2;
-      else if (formData.grade == 10)
-        formData.grade = (parseFloat(80 + (1200/14))) / 2;
-      else if (formData.grade == 11)
-        formData.grade = (parseFloat(86 + (1300/14))) / 2;
-      else
-        formData.grade = (parseFloat(194)) / 2;
-    }
-
+    else 
+      formData.grade = (parseFloat(formData.grade) * 100) / 10;
 
     const payload = { ...formData, castAndCrew: selected, episodes: episodes };
     const apiCall = media?.id ? api.put(`/media/${media.id}`, [payload, media]) : api.post("/media", payload);
@@ -543,8 +502,8 @@ function MediaForm({ show, setShow, media, season }) {
                   }
                   {user.rating_scale == 3 && 
                     <>
-                      <Form.Label column sm={3}>Grade: <span className={`fw-light text-${formData.grade <= 3 ? "danger" : formData.grade <= 6 ? "warning" : "success"}`}>{getGrade(formData.grade)}</span></Form.Label>
-                      <Col sm={9}><Form.Range min="0" max="12" step="1" value={formData.grade} onChange={(e) => handleChange(e, "grade")} /></Col>
+                      <Form.Label column sm={3}>Grade: <span className={`fw-light text-${formData.grade <= 3.5 ? "danger" : formData.grade <= 6 ? "warning" : "success"}`}>{getGrade(formData.grade)}</span></Form.Label>
+                      <Col sm={9}><Form.Range min="1" max="10" step="0.5" value={formData.grade} onChange={(e) => handleChange(e, "grade")} /></Col>
                     </>
                   }
                   <Form.Control.Feedback type="invalid">{errors.grade}</Form.Control.Feedback>

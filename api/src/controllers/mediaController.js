@@ -13,8 +13,7 @@ export const index = (req, res) => {
     ratings,
     grade,
     startDate,
-    endDate,
-    synopsis
+    endDate
   } = req.query;
 
   let params = [beginRecord, endRecord];
@@ -99,52 +98,44 @@ export const index = (req, res) => {
         filterClauses.push("(COALESCE(grade, grade_tv) >= (425/5) AND COALESCE(grade, grade_tv) < (475/5))");
       else if (grade == "5/5")
         filterClauses.push("(COALESCE(grade, grade_tv) >= (475/5))");
-      else if (grade == "F")
-        filterClauses.push("(COALESCE(grade, grade_tv) <= 18)");
-      else if (grade == "D-")
-        filterClauses.push("(COALESCE(grade, grade_tv) > 18 AND COALESCE(grade, grade_tv) <= 24)");
-      else if (grade == "D")
-        filterClauses.push("(COALESCE(grade, grade_tv) > 24 AND COALESCE(grade, grade_tv) <= 32)");
-      else if (grade == "D+")
-        filterClauses.push("(COALESCE(grade, grade_tv) > 32 AND COALESCE(grade, grade_tv) <= 38)");
-      else if (grade == "C-")
-        filterClauses.push("(COALESCE(grade, grade_tv) > 38 AND COALESCE(grade, grade_tv) <= 44)");
-      else if (grade == "C")
-        filterClauses.push("(COALESCE(grade, grade_tv) > 44 AND COALESCE(grade, grade_tv) <= 52)");
-      else if (grade == "C+")
-        filterClauses.push("(COALESCE(grade, grade_tv) > 52 AND COALESCE(grade, grade_tv) <= 58)");
-      else if (grade == "B-")
-        filterClauses.push("(COALESCE(grade, grade_tv) > 58 AND COALESCE(grade, grade_tv) <= 64)");
-      else if (grade == "B")
-        filterClauses.push("(COALESCE(grade, grade_tv) > 64 AND COALESCE(grade, grade_tv) <= 72)");
-      else if (grade == "B+")
-        filterClauses.push("(COALESCE(grade, grade_tv) > 72 AND COALESCE(grade, grade_tv) <= 78)");
-      else if (grade == "A-")
-        filterClauses.push("(COALESCE(grade, grade_tv) > 78 AND COALESCE(grade, grade_tv) <= 84)");
-      else if (grade == "A")
-        filterClauses.push("(COALESCE(grade, grade_tv) > 84 AND COALESCE(grade, grade_tv) <= 92)");
-      else if (grade == "A+")
-        filterClauses.push("(COALESCE(grade, grade_tv) > 92)");
       else if (grade == "1/10")
-        filterClauses.push("(COALESCE(grade, grade_tv) <= 10)");
+        filterClauses.push("(COALESCE(grade, grade_tv) < (125/10))");
+      else if (grade == "1.5/10")
+        filterClauses.push("(COALESCE(grade, grade_tv) >= (125/10) AND COALESCE(grade, grade_tv) < (175/10))");
       else if (grade == "2/10")
-        filterClauses.push("(COALESCE(grade, grade_tv) > 10 AND COALESCE(grade, grade_tv) <= 20)");
+        filterClauses.push("(COALESCE(grade, grade_tv) >= (175/10) AND COALESCE(grade, grade_tv) < (225/10))");
+      else if (grade == "2.5/10")
+        filterClauses.push("(COALESCE(grade, grade_tv) >= (225/10) AND COALESCE(grade, grade_tv) < (275/10))");
       else if (grade == "3/10")
-        filterClauses.push("(COALESCE(grade, grade_tv) > 20 AND COALESCE(grade, grade_tv) <= 30)");
+        filterClauses.push("(COALESCE(grade, grade_tv) >= (275/10) AND COALESCE(grade, grade_tv) < (325/10))");
+      else if (grade == "3.5/10")
+        filterClauses.push("(COALESCE(grade, grade_tv) >= (325/10) AND COALESCE(grade, grade_tv) < (375/10))");
       else if (grade == "4/10")
-        filterClauses.push("(COALESCE(grade, grade_tv) > 30 AND COALESCE(grade, grade_tv) <= 40)");
+        filterClauses.push("(COALESCE(grade, grade_tv) >= (375/10) AND COALESCE(grade, grade_tv) < (425/10))");
+      else if (grade == "4.5/10")
+        filterClauses.push("(COALESCE(grade, grade_tv) >= (425/10) AND COALESCE(grade, grade_tv) < (475/10))");
       else if (grade == "5/10")
-        filterClauses.push("(COALESCE(grade, grade_tv) > 40 AND COALESCE(grade, grade_tv) <= 50)");
+        filterClauses.push("(COALESCE(grade, grade_tv) >= (475/10) AND COALESCE(grade, grade_tv) < (525/10))");
+      else if (grade == "5.5/10")
+        filterClauses.push("(COALESCE(grade, grade_tv) >= (525/10) AND COALESCE(grade, grade_tv) < (575/10))");
       else if (grade == "6/10")
-        filterClauses.push("(COALESCE(grade, grade_tv) > 50 AND COALESCE(grade, grade_tv) <= 60)");
+        filterClauses.push("(COALESCE(grade, grade_tv) >= (575/10) AND COALESCE(grade, grade_tv) < (625/10))");
+      else if (grade == "6.5/10")
+        filterClauses.push("(COALESCE(grade, grade_tv) >= (625/10) AND COALESCE(grade, grade_tv) < (675/10))");
       else if (grade == "7/10")
-        filterClauses.push("(COALESCE(grade, grade_tv) > 60 AND COALESCE(grade, grade_tv) <= 70)");
+        filterClauses.push("(COALESCE(grade, grade_tv) >= (675/10) AND COALESCE(grade, grade_tv) < (725/10))");
+      else if (grade == "7.5/10")
+        filterClauses.push("(COALESCE(grade, grade_tv) >= (725/10) AND COALESCE(grade, grade_tv) < (775/10))");
       else if (grade == "8/10")
-        filterClauses.push("(COALESCE(grade, grade_tv) > 70 AND COALESCE(grade, grade_tv) <= 80)");
+        filterClauses.push("(COALESCE(grade, grade_tv) >= (775/10) AND COALESCE(grade, grade_tv) < (825/10))");
+      else if (grade == "8.5/10")
+        filterClauses.push("(COALESCE(grade, grade_tv) >= (825/10) AND COALESCE(grade, grade_tv) < (875/10))");
       else if (grade == "9/10")
-        filterClauses.push("(COALESCE(grade, grade_tv) > 80 AND COALESCE(grade, grade_tv) <= 90)");
+        filterClauses.push("(COALESCE(grade, grade_tv) >= (875/10) AND COALESCE(grade, grade_tv) < (925/10))");
+      else if (grade == "9.5/10")
+        filterClauses.push("(COALESCE(grade, grade_tv) >= (925/10) AND COALESCE(grade, grade_tv) < (975/10))");
       else
-        filterClauses.push("(COALESCE(grade, grade_tv) > 90");
+        filterClauses.push("(COALESCE(grade, grade_tv) >= (975/10)");
     }
   }
   else
@@ -322,52 +313,44 @@ export const indexLength = (req, res) => {
         filterClauses.push("(COALESCE(m.grade, (SELECT AVG(grade) FROM seasons WHERE show_id = m.id)) >= (425/5) AND COALESCE(m.grade, (SELECT AVG(grade) FROM seasons WHERE show_id = m.id)) < (475/5))");
       else if (grade == "5/5")
         filterClauses.push("(COALESCE(m.grade, (SELECT AVG(grade) FROM seasons WHERE show_id = m.id)) >= (475/5))");
-      else if (grade == "F")
-        filterClauses.push("(COALESCE(m.grade, (SELECT AVG(grade) FROM seasons WHERE show_id = m.id)) <= 18)");
-      else if (grade == "D-")
-        filterClauses.push("(COALESCE(m.grade, (SELECT AVG(grade) FROM seasons WHERE show_id = m.id)) > 18 AND COALESCE(m.grade, (SELECT AVG(grade) FROM seasons WHERE show_id = m.id)) <= 24)");
-      else if (grade == "D")
-        filterClauses.push("(COALESCE(m.grade, (SELECT AVG(grade) FROM seasons WHERE show_id = m.id)) > 24 AND COALESCE(m.grade, (SELECT AVG(grade) FROM seasons WHERE show_id = m.id)) <= 32)");
-      else if (grade == "D+")
-        filterClauses.push("(COALESCE(m.grade, (SELECT AVG(grade) FROM seasons WHERE show_id = m.id)) > 32 AND COALESCE(m.grade, (SELECT AVG(grade) FROM seasons WHERE show_id = m.id)) <= 38)");
-      else if (grade == "C-")
-        filterClauses.push("(COALESCE(m.grade, (SELECT AVG(grade) FROM seasons WHERE show_id = m.id)) > 38 AND COALESCE(m.grade, (SELECT AVG(grade) FROM seasons WHERE show_id = m.id)) <= 44)");
-      else if (grade == "C")
-        filterClauses.push("(COALESCE(m.grade, (SELECT AVG(grade) FROM seasons WHERE show_id = m.id)) > 44 AND COALESCE(m.grade, (SELECT AVG(grade) FROM seasons WHERE show_id = m.id)) <= 52)");
-      else if (grade == "C+")
-        filterClauses.push("(COALESCE(m.grade, (SELECT AVG(grade) FROM seasons WHERE show_id = m.id)) > 52 AND COALESCE(m.grade, (SELECT AVG(grade) FROM seasons WHERE show_id = m.id)) <= 58)");
-      else if (grade == "B-")
-        filterClauses.push("(COALESCE(m.grade, (SELECT AVG(grade) FROM seasons WHERE show_id = m.id)) > 58 AND COALESCE(m.grade, (SELECT AVG(grade) FROM seasons WHERE show_id = m.id)) <= 64)");
-      else if (grade == "B")
-        filterClauses.push("(COALESCE(m.grade, (SELECT AVG(grade) FROM seasons WHERE show_id = m.id)) > 64 AND COALESCE(m.grade, (SELECT AVG(grade) FROM seasons WHERE show_id = m.id)) <= 72)");
-      else if (grade == "B+")
-        filterClauses.push("(COALESCE(m.grade, (SELECT AVG(grade) FROM seasons WHERE show_id = m.id)) > 72 AND COALESCE(m.grade, (SELECT AVG(grade) FROM seasons WHERE show_id = m.id)) <= 78)");
-      else if (grade == "A-")
-        filterClauses.push("(COALESCE(m.grade, (SELECT AVG(grade) FROM seasons WHERE show_id = m.id)) > 78 AND COALESCE(m.grade, (SELECT AVG(grade) FROM seasons WHERE show_id = m.id)) <= 84)");
-      else if (grade == "A")
-        filterClauses.push("(COALESCE(m.grade, (SELECT AVG(grade) FROM seasons WHERE show_id = m.id)) > 84 AND COALESCE(m.grade, (SELECT AVG(grade) FROM seasons WHERE show_id = m.id)) <= 92)");
-      else if (grade == "A+")
-        filterClauses.push("(COALESCE(m.grade, (SELECT AVG(grade) FROM seasons WHERE show_id = m.id)) > 92)");
       else if (grade == "1/10")
-        filterClauses.push("(COALESCE(m.grade, (SELECT AVG(grade) FROM seasons WHERE show_id = m.id)) <= 10)");
+        filterClauses.push("(COALESCE(m.grade, (SELECT AVG(grade) FROM seasons WHERE show_id = m.id)) < (125/10))");
+      else if (grade == "1.5/10")
+        filterClauses.push("(COALESCE(m.grade, (SELECT AVG(grade) FROM seasons WHERE show_id = m.id)) >= (125/10) AND COALESCE(m.grade, (SELECT AVG(grade) FROM seasons WHERE show_id = m.id)) < (175/10))");
       else if (grade == "2/10")
-        filterClauses.push("(COALESCE(m.grade, (SELECT AVG(grade) FROM seasons WHERE show_id = m.id)) > 10 AND COALESCE(m.grade, (SELECT AVG(grade) FROM seasons WHERE show_id = m.id)) <= 20)");
+        filterClauses.push("(COALESCE(m.grade, (SELECT AVG(grade) FROM seasons WHERE show_id = m.id)) >= (175/10) AND COALESCE(m.grade, (SELECT AVG(grade) FROM seasons WHERE show_id = m.id)) < (225/10))");
+      else if (grade == "2.5/10")
+        filterClauses.push("(COALESCE(m.grade, (SELECT AVG(grade) FROM seasons WHERE show_id = m.id)) >= (225/10) AND COALESCE(m.grade, (SELECT AVG(grade) FROM seasons WHERE show_id = m.id)) < (275/10))");
       else if (grade == "3/10")
-        filterClauses.push("(COALESCE(m.grade, (SELECT AVG(grade) FROM seasons WHERE show_id = m.id)) > 20 AND COALESCE(m.grade, (SELECT AVG(grade) FROM seasons WHERE show_id = m.id)) <= 30)");
+        filterClauses.push("(COALESCE(m.grade, (SELECT AVG(grade) FROM seasons WHERE show_id = m.id)) >= (275/10) AND COALESCE(m.grade, (SELECT AVG(grade) FROM seasons WHERE show_id = m.id)) < (325/10))");
+      else if (grade == "3.5/10")
+        filterClauses.push("(COALESCE(m.grade, (SELECT AVG(grade) FROM seasons WHERE show_id = m.id)) >= (325/10) AND COALESCE(m.grade, (SELECT AVG(grade) FROM seasons WHERE show_id = m.id)) < (375/10))");
       else if (grade == "4/10")
-        filterClauses.push("(COALESCE(m.grade, (SELECT AVG(grade) FROM seasons WHERE show_id = m.id)) > 30 AND COALESCE(m.grade, (SELECT AVG(grade) FROM seasons WHERE show_id = m.id)) <= 40)");
+        filterClauses.push("(COALESCE(m.grade, (SELECT AVG(grade) FROM seasons WHERE show_id = m.id)) >= (375/10) AND COALESCE(m.grade, (SELECT AVG(grade) FROM seasons WHERE show_id = m.id)) < (425/10))");
+      else if (grade == "4.5/10")
+        filterClauses.push("(COALESCE(m.grade, (SELECT AVG(grade) FROM seasons WHERE show_id = m.id)) >= (425/10) AND COALESCE(m.grade, (SELECT AVG(grade) FROM seasons WHERE show_id = m.id)) < (475/10))");
       else if (grade == "5/10")
-        filterClauses.push("(COALESCE(m.grade, (SELECT AVG(grade) FROM seasons WHERE show_id = m.id)) > 40 AND COALESCE(m.grade, (SELECT AVG(grade) FROM seasons WHERE show_id = m.id)) <= 50)");
+        filterClauses.push("(COALESCE(m.grade, (SELECT AVG(grade) FROM seasons WHERE show_id = m.id)) >= (475/10) AND COALESCE(m.grade, (SELECT AVG(grade) FROM seasons WHERE show_id = m.id)) < (525/10))");
+      else if (grade == "5.5/10")
+        filterClauses.push("(COALESCE(m.grade, (SELECT AVG(grade) FROM seasons WHERE show_id = m.id)) >= (525/10) AND COALESCE(m.grade, (SELECT AVG(grade) FROM seasons WHERE show_id = m.id)) < (575/10))");
       else if (grade == "6/10")
-        filterClauses.push("(COALESCE(m.grade, (SELECT AVG(grade) FROM seasons WHERE show_id = m.id)) > 50 AND COALESCE(m.grade, (SELECT AVG(grade) FROM seasons WHERE show_id = m.id)) <= 60)");
+        filterClauses.push("(COALESCE(m.grade, (SELECT AVG(grade) FROM seasons WHERE show_id = m.id)) >= (575/10) AND COALESCE(m.grade, (SELECT AVG(grade) FROM seasons WHERE show_id = m.id)) < (625/10))");
+      else if (grade == "6.5/10")
+        filterClauses.push("(COALESCE(m.grade, (SELECT AVG(grade) FROM seasons WHERE show_id = m.id)) >= (625/10) AND COALESCE(m.grade, (SELECT AVG(grade) FROM seasons WHERE show_id = m.id)) < (675/10))");
       else if (grade == "7/10")
-        filterClauses.push("(COALESCE(m.grade, (SELECT AVG(grade) FROM seasons WHERE show_id = m.id)) > 60 AND COALESCE(m.grade, (SELECT AVG(grade) FROM seasons WHERE show_id = m.id)) <= 70)");
+        filterClauses.push("(COALESCE(m.grade, (SELECT AVG(grade) FROM seasons WHERE show_id = m.id)) >= (675/10) AND COALESCE(m.grade, (SELECT AVG(grade) FROM seasons WHERE show_id = m.id)) < (725/10))");
+      else if (grade == "7.5/10")
+        filterClauses.push("(COALESCE(m.grade, (SELECT AVG(grade) FROM seasons WHERE show_id = m.id)) >= (725/10) AND COALESCE(m.grade, (SELECT AVG(grade) FROM seasons WHERE show_id = m.id)) < (775/10))");
       else if (grade == "8/10")
-        filterClauses.push("(COALESCE(m.grade, (SELECT AVG(grade) FROM seasons WHERE show_id = m.id)) > 70 AND COALESCE(m.grade, (SELECT AVG(grade) FROM seasons WHERE show_id = m.id)) <= 80)");
+        filterClauses.push("(COALESCE(m.grade, (SELECT AVG(grade) FROM seasons WHERE show_id = m.id)) >= (775/10) AND COALESCE(m.grade, (SELECT AVG(grade) FROM seasons WHERE show_id = m.id)) < (825/10))");
+      else if (grade == "8.5/10")
+        filterClauses.push("(COALESCE(m.grade, (SELECT AVG(grade) FROM seasons WHERE show_id = m.id)) >= (825/10) AND COALESCE(m.grade, (SELECT AVG(grade) FROM seasons WHERE show_id = m.id)) < (875/10))");
       else if (grade == "9/10")
-        filterClauses.push("(COALESCE(m.grade, (SELECT AVG(grade) FROM seasons WHERE show_id = m.id)) > 80 AND COALESCE(m.grade, (SELECT AVG(grade) FROM seasons WHERE show_id = m.id)) <= 90)");
+        filterClauses.push("(COALESCE(m.grade, (SELECT AVG(grade) FROM seasons WHERE show_id = m.id)) >= (875/10) AND COALESCE(m.grade, (SELECT AVG(grade) FROM seasons WHERE show_id = m.id)) < (925/10))");
+      else if (grade == "9.5/10")
+        filterClauses.push("(COALESCE(m.grade, (SELECT AVG(grade) FROM seasons WHERE show_id = m.id)) >= (925/10) AND COALESCE(m.grade, (SELECT AVG(grade) FROM seasons WHERE show_id = m.id)) < (975/10))");
       else
-        filterClauses.push("(COALESCE(m.grade, (SELECT AVG(grade) FROM seasons WHERE show_id = m.id)) > 90)");
+        filterClauses.push("(COALESCE(m.grade, (SELECT AVG(grade) FROM seasons WHERE show_id = m.id)) >= (975/10)");
     }
   }
   else 
@@ -463,6 +446,18 @@ export const indexNew = (req, res) => {
       WHERE (m.date_added IS NOT NULL AND m.date_added > CURRENT_TIMESTAMP - INTERVAL '1 MONTH')
       ORDER BY m.date_added DESC;
     `;
+
+  query(sql)
+  .then(results => {
+    res.status(200).json(results.rows);
+  })
+  .catch((error) => {
+    res.status(500).json({ error: `Error: ${error}.` });
+  });
+}
+
+export const getTotals = (req, res) => {
+  const sql = "SELECT COUNT(id) AS total_titles, SUM(runtime) + (SELECT SUM(runtime) FROM seasons_episodes) AS total_runtime FROM media;";
 
   query(sql)
   .then(results => {

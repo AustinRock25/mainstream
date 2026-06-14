@@ -72,11 +72,27 @@ function MediaModal({ show, setShow, media, user, seasonCount }) {
     if (!runtime) 
       return "";
 
-    const days = Math.floor(runtime / 1440);
+    const centuries = Math.floor(runtime / 52560000);
+    const years = Math.floor((runtime % 52560000) / 525960);
+    const months = Math.floor((runtime % 525960) / 43800);
+    const weeks = Math.floor((runtime % 43800) / 10080);
+    const days = Math.floor((runtime % 10080) / 1440);
     const hours = Math.floor((runtime % 1440) / 60);
     const minutes = runtime % 60;
     let timeStr = "";
 
+    if (centuries > 0) 
+      timeStr += `${centuries}c `;
+    
+    if (years > 0) 
+      timeStr += `${years}y `;
+    
+    if (months > 0) 
+      timeStr += `${months}mo `;
+    
+    if (weeks > 0) 
+      timeStr += `${weeks}d `;
+    
     if (days > 0) 
       timeStr += `${days}d `;
     
@@ -84,7 +100,7 @@ function MediaModal({ show, setShow, media, user, seasonCount }) {
       timeStr += `${hours}h `;
 
     if (minutes > 0) 
-      timeStr += `${minutes}m`;
+      timeStr += `${minutes}min`;
 
     return timeStr.trim();
   }
@@ -101,49 +117,7 @@ function MediaModal({ show, setShow, media, user, seasonCount }) {
   };
 
   function grade(g) {
-    if (!user) {
-      if (g <= 10)
-        return "1/10";
-      else if (g <= 20)
-        return "2/10";
-      else if (g <= 30)
-        return "3/10";
-      else if (g <= 40)
-        return "4/10";
-      else if (g <= 50)
-        return "5/10";
-      else if (g <= 60)
-        return "6/10";
-      else if (g <= 70)
-        return "7/10";
-      else if (g <= 80)
-        return "8/10";
-      else if (g <= 90)
-        return "9/10";
-      else
-        return "10/10";
-    }
-    else if (user.rating_scale == 1) {
-      if (g < (25/4))
-        return "0/4";
-      else if (g < (75/4))
-        return "0.5/4";
-      else if (g < (125/4))
-        return "1/4";
-      else if (g < (175/4))
-        return "1.5/4";
-      else if (g < (225/4))
-        return "2/4";
-      else if (g < (275/4))
-        return "2.5/4";
-      else if (g < (325/4))
-        return "3/4";
-      else if (g < (375/4))
-        return "3.5/4";
-      else
-        return "4/4";
-    }
-    else if (user.rating_scale == 2) {
+    if (!user || user.rating_scale == 2) {
       if (g < (25/5))
         return "0/5";
       else if (g < (75/5))
@@ -167,33 +141,65 @@ function MediaModal({ show, setShow, media, user, seasonCount }) {
       else
         return "5/5";
     }
-    else {
-      if (g <= 18)
-        return "F";
-      else if (g <= 24)
-        return "D-";
-      else if (g <= 32)
-        return "D";
-      else if (g <= 38)
-        return "D+";
-      else if (g <= 44)
-        return "C-";
-      else if (g <= 52)
-        return "C";
-      else if (g <= 58)
-        return "C+";
-      else if (g <= 64)
-        return "B-";
-      else if (g <= 72)
-        return "B";
-      else if (g <= 78)
-        return "B+";
-      else if (g <= 84)
-        return "A-";
-      else if (g <= 92)
-        return "A";
+    if (user.rating_scale == 1) {
+      if (g < (25/4))
+        return "0/4";
+      else if (g < (75/4))
+        return "0.5/4";
+      else if (g < (125/4))
+        return "1/4";
+      else if (g < (175/4))
+        return "1.5/4";
+      else if (g < (225/4))
+        return "2/4";
+      else if (g < (275/4))
+        return "2.5/4";
+      else if (g < (325/4))
+        return "3/4";
+      else if (g < (375/4))
+        return "3.5/4";
       else
-        return "A+";
+        return "4/4";
+    }
+    else {
+      if (g < (125/10))
+        return "1/10";
+      else if (g < (175/10))
+        return "1.5/10";
+      else if (g < (225/10))
+        return "2/10";
+      else if (g < (275/10))
+        return "2.5/10";
+      else if (g < (325/10))
+        return "3/10";
+      else if (g < (375/10))
+        return "3.5/10";
+      else if (g < (425/10))
+        return "4/10";
+      else if (g < (475/10))
+        return "4.5/10";
+      else if (g < (525/10))
+        return "5/10";
+      else if (g < (575/10))
+        return "5.5/10";
+      else if (g < (625/10))
+        return "6/10";
+      else if (g < (675/10))
+        return "6.5/10";
+      else if (g < (725/10))
+        return "7/10";
+      else if (g < (775/10))
+        return "7.5/10";
+      else if (g < (825/10))
+        return "8/10";
+      else if (g < (875/10))
+        return "8.5/10";
+      else if (g < (925/10))
+        return "9/10";
+      else if (g < (975/10))
+        return "9.5/10";
+      else
+        return "10/10";
     }
   }
 

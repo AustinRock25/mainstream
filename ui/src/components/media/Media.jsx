@@ -9,8 +9,7 @@ const RATINGS = ["Not Rated", "G", "PG", "PG-13", "R", "NC-17", "TV-Y", "TV-Y7",
 const RATINGSTV = ["Not Rated", "TV-Y", "TV-Y7", "TV-Y7 FV", "TV-G", "TV-PG", "TV-14", "TV-MA"];
 const GRADES1 = ["0/4", "0.5/4", "1/4", "1.5/4", "2/4", "2.5/4", "3/4", "3.5/4", "4/4"];
 const GRADES2 = ["0/5", "0.5/5", "1/5", "1.5/5", "2/5", "2.5/5", "3/5", "3.5/5", "4/5", "4.5/5", "5/5"];
-const GRADES3 = ["F", "D-", "D", "D+", "C-", "C", "C+", "B-", "B", "B+", "A-", "A", "A+"];
-const GRADESDEFAULT = ["1/10", "2/10", "3/10", "4/10", "5/10", "6/10", "7/10", "8/10", "9/10", "10/10"];
+const GRADES3 = ["1/10", "1.5/10", "2/10", "2.5/10", "3/10", "3.5/10", "4/10", "4.5/10", "5/10", "5.5/10", "6/10", "6.5/10", "7/10", "7.5/10", "8/10", "8.5/10", "9/10", "9.5/10", "10/10"];
 
 const getInitialState = () => {
   const savedState = localStorage.getItem("mediaFilters");
@@ -278,18 +277,6 @@ function Media() {
                 <Form.Label>Grades</Form.Label>
                 <div className="d-flex flex-wrap" style={{ maxHeight: "150px", overflowY: "auto" }}>
                 {
-                  (!user) ? (Array.isArray(GRADESDEFAULT) && GRADESDEFAULT.map(grade => (
-                    <Form.Check 
-                      key={grade} 
-                      type="radio" 
-                      name="selectedGrade"
-                      value={grade}
-                      label={grade} 
-                      checked={filters.selectedGrade === grade} 
-                      onChange={handleFilterChange} 
-                      className="me-3"
-                    />
-                  ))) :
                   (user.rating_scale == 1) ? (Array.isArray(GRADES1) && GRADES1.map(grade => (
                     <Form.Check 
                       key={grade} 
@@ -302,7 +289,7 @@ function Media() {
                       className="me-3"
                     />
                   ))) :
-                  (user.rating_scale == 2) ? (Array.isArray(GRADES2) && GRADES2.map(grade => (
+                  (user.rating_scale == 2 || !user) ? (Array.isArray(GRADES2) && GRADES2.map(grade => (
                     <Form.Check 
                       key={grade} 
                       type="radio" 

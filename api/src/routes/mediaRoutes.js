@@ -1,5 +1,5 @@
 import { authorizeAdmin } from "../middleware/auth.js";
-import { index, indexLength, indexShows, seasonCount, indexNew, create, update } from "../controllers/mediaController.js";
+import { index, indexLength, indexShows, seasonCount, indexNew, getTotals, create, update } from "../controllers/mediaController.js";
 import { Router } from "express";
 const router = Router();
 import { validateMedia } from "../middleware/recordValidation.js";
@@ -9,6 +9,7 @@ router.get("/length", indexLength);
 router.get("/shows", indexShows);
 router.get("/seasons", seasonCount);
 router.get("/new", indexNew);
+router.get("/totals", getTotals);
 router.post("/", [authorizeAdmin, validateMedia], create);
 router.put("/:id", [authorizeAdmin, validateMedia], update);
 
