@@ -457,7 +457,7 @@ export const indexNew = (req, res) => {
 }
 
 export const getTotals = (req, res) => {
-  const sql = "SELECT COUNT(id) AS total_titles, SUM(runtime) + (SELECT SUM(runtime) FROM seasons_episodes) AS total_runtime FROM media;";
+  const sql =  `SELECT COUNT(id) AS total_titles, SUM(runtime) + (SELECT SUM(runtime) FROM seasons_episodes) AS total_runtime FROM media;`;
 
   query(sql)
   .then(results => {
