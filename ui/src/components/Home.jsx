@@ -17,7 +17,8 @@ function Home() {
   useEffect(() => {
     api.get("/media/totals")
     .then(response => {
-      setTotals(response.rows[0]);
+      console.log(response);
+      setTotals(response);
     })
   }, [totals]);
 
