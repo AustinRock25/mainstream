@@ -15,6 +15,7 @@ function MediaCard ({media}) {
       api.get("/media/seasons", { params: { id: media.id } })
       .then(response => {
         setSeasonCount(response.data[0].count);
+        console.log(response);
       });
 
       const findMaxSeason = async () => {
@@ -27,8 +28,6 @@ function MediaCard ({media}) {
           for (let d = currentYear; d <= new Date().getUTCFullYear(); d++) {
             const testPath = `posters/${currentYear}_${getPoster(media)}_s${currentSearch}.jpg`;
             const response = await fetch(testPath, { method: "HEAD" });
-            console.log(currentSearch);
-            console.log(d);
 
             if (response.ok) {
               currentYear = d;
