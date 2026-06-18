@@ -28,6 +28,8 @@ function MediaCard ({media}) {
             const testPath = `posters/${currentYear}_${getPoster(media)}_s${currentSearch}.jpg`;
             const response = await fetch(testPath, { method: "HEAD" });
 
+            console.log(testPath);
+
             if (response.ok) {
               currentYear = d;
               found = true;
