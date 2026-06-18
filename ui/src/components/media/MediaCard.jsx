@@ -30,6 +30,7 @@ function MediaCard ({media}) {
 
             if (response.ok) {
               currentYear = d;
+              found = true;
               break;
             }
           }
