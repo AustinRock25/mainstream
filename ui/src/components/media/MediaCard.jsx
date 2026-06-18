@@ -27,8 +27,8 @@ function MediaCard ({media}) {
           for (let d = currentYear; d <= new Date().getUTCFullYear(); d++) {
             const testPath = `posters/${currentYear}_${getPoster(media)}_s${currentSearch}.jpg`;
             const response = await fetch(testPath, { method: "HEAD" });
-
-            console.log(testPath);
+            console.log(currentSearch);
+            console.log(d);
 
             if (response.ok) {
               currentYear = d;
