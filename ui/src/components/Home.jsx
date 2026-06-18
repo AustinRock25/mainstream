@@ -62,7 +62,8 @@ function Home() {
     <Container className="pt-3 text-center">
       <h1 className="display-5 fw-bold">Welcome to The Mainstream</h1>
       <hr className="my-4" />
-      <h3 className="fw-bold">There are currently {totals.total_titles} titles ({time(totals.total_runtime)} worth of content)</h3>
+      <h3 className="fw-bold">{totals.total_titles} titles</h3>
+      <h3 className="fw-bold">{time(totals.total_runtime)} worth of content</h3>
       <hr className="my-4" />
       <p className="lead mt-4 text-white-50">
         Hello and welcome to my database, where I keep a list of all of the movies and TV shows that I have watched and give them a rating that shows what I think about it. For shows, I will be rating individual seasons.

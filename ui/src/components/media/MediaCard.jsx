@@ -17,7 +17,7 @@ function MediaCard ({media}) {
       });
 
       const findMaxSeason = async () => {
-        let currentSearch = 1;
+        let currentSearch = seasonCount;
 
         while (true) {
           const testPath = `posters/${getPoster(media)}_s${currentSearch}.jpg`;
@@ -57,7 +57,7 @@ function MediaCard ({media}) {
     let finalTitleStr = processedWords.join("_");
     let cleanTitle = finalTitleStr.trim().toLowerCase().replace(/[^a-z0-9½⅓àáâãäåæçèéêëìíîïðñòóôõöøùúûüýþÿæœ]/g, "_").replace(/_+/g, "_").replace(/^_+|_+$/g, "");
     
-    return `${new Date(media.release_date || media.start_date).getUTCFullYear()}_${cleanTitle}`;
+    return `${new Date(media.release_date || media.end_date.getUTCFullYear())}_${cleanTitle}`;
   }
 
   return (
