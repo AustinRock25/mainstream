@@ -471,7 +471,7 @@ export const getTotals = (req, res) => {
 export const seasonCount = (req, res) => {
   const sql = 
     `
-      SELECT COUNT(*)
+      SELECT COUNT(*)::integer
       FROM seasons s
       LEFT JOIN media m ON m.id = s.show_id
 	    WHERE m.id = $1;
