@@ -35,7 +35,7 @@ function MediaCard ({media}) {
               break;
             }
           }
-          
+          console.log(currentYear);
           if (found)
             currentSearch++;
           else
