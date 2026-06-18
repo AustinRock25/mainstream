@@ -7,6 +7,7 @@ import { useSelector } from "react-redux";
 function MediaCard ({media}) {
   const { user } = useSelector(state => state.auth);
   const [seasonCount, setSeasonCount] = useState(0);
+  const [maxYear, setMaxYear] = useState(0);
   const [showMediaModal, setShowMediaModal] = useState(false);
 
   useEffect(() => {
@@ -18,18 +19,29 @@ function MediaCard ({media}) {
 
       const findMaxSeason = async () => {
         let currentSearch = seasonCount;
+        let currentYear = new Date(media.start_date).getUTCFullYear();
 
         while (true) {
-          const testPath = `posters/${getPoster(media)}_s${currentSearch}.jpg`;
-          const response = await fetch(testPath, { method: "HEAD" });
+          let found = false;
+
+          for (let d = currentYear; d <= new Date().getUTCFullYear(); d++) {
+            const testPath = `posters/${currentYear}_${getPoster(media)}_s${currentSearch}.jpg`;
+            const response = await fetch(testPath, { method: "HEAD" });
+
+            if (response.ok) {
+              currentYear = d;
+              break;
+            }
+          }
           
-          if (response.ok)
+          if (found)
             currentSearch++;
           else
             break;
         }
         
         setSeasonCount(currentSearch - 1);
+        setMaxYear(currentYear);
       };
 
       findMaxSeason();
@@ -57,7 +69,7 @@ function MediaCard ({media}) {
     let finalTitleStr = processedWords.join("_");
     let cleanTitle = finalTitleStr.trim().toLowerCase().replace(/[^a-z0-9½⅓àáâãäåæçèéêëìíîïðñòóôõöøùúûüýþÿæœ]/g, "_").replace(/_+/g, "_").replace(/^_+|_+$/g, "");
     
-    return `${new Date(media.release_date || media.end_date.getUTCFullYear())}_${cleanTitle}`;
+    return `${cleanTitle}`;
   }
 
   return (
@@ -65,7 +77,7 @@ function MediaCard ({media}) {
       <Card>
         <Card.Img 
           variant="top" 
-          src={media.type !== "show" ? `posters/${getPoster(media)}.jpg` : `posters/${getPoster(media)}_s${seasonCount}.jpg`}
+          src={media.type !== "show" ? `posters/${new Date(media.release_date).getUTCFullYear()}_${getPoster(media)}.jpg` : `posters/${maxYear}_${getPoster(media)}_s${seasonCount}.jpg`}
           className="rounded"
           alt={`Poster for ${media.title}`} 
           onClick={handleOpenModal}
