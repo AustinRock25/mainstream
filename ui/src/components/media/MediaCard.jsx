@@ -11,40 +11,46 @@ function MediaCard ({media}) {
   const [showMediaModal, setShowMediaModal] = useState(false);
 
   useEffect(() => {
-    if (media.type === "show") {
-      api.get("/media/seasons", { params: { id: media.id } })
-      .then(response => {
-        setSeasonCount(response.data[0].count);
-        setMaxYear(media.start_date.getUTCFullYear());
-      });
+    if (media.type !== "show") return;
 
-      const findMaxSeason = async () => {
+    const fetchAndFindMaxSeason = async () => {
+      try {
+        const response = await api.get("/media/seasons", { params: { id: media.id } });
+        const startYear = new Date(media.start_date).getUTCFullYear();
+        const endYear = new Date().getUTCFullYear();
+        let currentSearchSeason = response.data[0].count;
+        let currentMaxYear = startYear;
+
         while (true) {
           let found = false;
 
-          for (let d = maxYear; d <= new Date().getUTCFullYear(); d++) {
-            const testPath = `posters/${d}_${getPoster(media)}_s${seasonCount}.jpg`;
-            const response = await fetch(testPath, { method: "HEAD" });
+          for (let d = currentMaxYear; d <= endYear; d++) {
+            const testPath = `posters/${d}_${getPoster(media)}_s${currentSearchSeason}.jpg`;
+            const checkResponse = await fetch(testPath, { method: "HEAD" });
 
-            if (response.ok) {
-              setMaxYear(d);
+            if (checkResponse.ok) {
+              currentMaxYear = d;
               found = true;
               break;
             }
           }
           
           if (found)
-            setSeasonCount(seasonCount + 1);
+            currentSearchSeason++;
           else
             break;
         }
 
-        setSeasonCount(seasonCount - 1);
-      };
+        setMaxYear(currentMaxYear);
+        setSeasonCount(currentSearchSeason - 1);
+      } 
+      catch (error) {
+        console.error("Error calculating maximum seasons and years:", error);
+      }
+    };
 
-      findMaxSeason();
-    }
-  }, [media.id, media.type, media.poster]);
+    fetchAndFindMaxSeason();
+  }, [media.id, media.type, media.start_date, media.poster]);
 
   const handleOpenModal = () => {
     setShowMediaModal(true);
