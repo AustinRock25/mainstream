@@ -25,13 +25,12 @@ function MediaCard ({media}) {
           let found = false;
 
           for (let d = currentYear; d <= new Date().getUTCFullYear(); d++) {
-            const testPath = `posters/${currentYear}_${getPoster(media)}_s${currentSearch}.jpg`;
+            const testPath = `posters/${d}_${getPoster(media)}_s${currentSearch}.jpg`;
             const response = await fetch(testPath, { method: "HEAD" });
 
             if (response.ok) {
               currentYear = d;
               found = true;
-              setMaxYear(currentYear);
               break;
             }
           }
@@ -42,6 +41,7 @@ function MediaCard ({media}) {
             break;
         }
         
+        setMaxYear(currentYear);
         setSeasonCount(currentSearch - 1);
       };
 
