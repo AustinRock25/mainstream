@@ -7,7 +7,7 @@ import { useSelector } from "react-redux";
 function MediaCard ({media}) {
   const { user } = useSelector(state => state.auth);
   const [seasonCount, setSeasonCount] = useState(0);
-  const [maxYear, setMaxYear] = useState(media.start_date || 0);
+  const [maxYear, setMaxYear] = useState(media.start_date.getUTCFullYear() || 0);
   const [showMediaModal, setShowMediaModal] = useState(false);
 
   useEffect(() => {
@@ -33,12 +33,12 @@ function MediaCard ({media}) {
           }
           
           if (found)
-            setSeasonCount(seasonCount++);
+            setSeasonCount(seasonCount + 1);
           else
             break;
         }
 
-        setSeasonCount(seasonCount--);
+        setSeasonCount(seasonCount - 1);
       };
 
       findMaxSeason();
