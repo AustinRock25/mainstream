@@ -207,19 +207,21 @@ function MediaModal({ show, setShow, media, user, seasonCount }) {
     <Modal show={show} onHide={handleClose} size="lg" centered className="bg-dark text-white">
       <Modal.Header closeButton closeVariant="white">
         <Modal.Title className="w-100">
-          <div className="d-flex align-items-center justify-content-between flex-column flex-md-row">
+          <div className="d-flex align-items-center justify-content-between">
             <div className="flex-wrap" style={{ maxWidth: "50%" }}>
               <span>
                 <i className="me-2">{media.title}</i>
                 <span className="fw-light fs-5 text-white-50">{getYear(media)}</span>
               </span>
             </div>
-            <span className="fw-light fs-5 text-white-50">{media.rating === "Not Rated" ? "NR" : media.rating}</span>
-            <span className="fw-light fs-5 text-white-50">{time(media.runtime || media.runtime_tv)}</span>
-            {!user && <span className={`fw-bold fs-5 text-${(media.grade || media.grade_tv) <= 40 ? "danger" : (media.grade || media.grade_tv) <= 60 ? "warning" : "success"}`}>{getGrade(media)}</span>}
-            {!!user && user.rating_scale == 1 && <span className={`fw-bold fs-5 text-${(media.grade || media.grade_tv) < (175/4) ? "danger" : (media.grade || media.grade_tv) < (225/4) ? "warning" : "success"}`}>{getGrade(media)}</span>}
-            {!!user && user.rating_scale == 2 && <span className={`fw-bold fs-5 text-${(media.grade || media.grade_tv) < (175/5) ? "danger" : (media.grade || media.grade_tv) < (325/5) ? "warning" : "success"}`}>{getGrade(media)}</span>}
-            {!!user && user.rating_scale == 3 && <span className={`fw-bold fs-5 text-${(media.grade || media.grade_tv) <= 38 ? "danger" : (media.grade || media.grade_tv) <= 58 ? "warning" : "success"}`}>{getGrade(media)}</span>}
+            <div className="flex-column flex-md-row">
+              <span className="fw-light fs-5 text-white-50">{media.rating === "Not Rated" ? "NR" : media.rating}</span>
+              <span className="fw-light fs-5 text-white-50">{time(media.runtime || media.runtime_tv)}</span>
+              {!user && <span className={`fw-bold fs-5 text-${(media.grade || media.grade_tv) <= 40 ? "danger" : (media.grade || media.grade_tv) <= 60 ? "warning" : "success"}`}>{getGrade(media)}</span>}
+              {!!user && user.rating_scale == 1 && <span className={`fw-bold fs-5 text-${(media.grade || media.grade_tv) < (175/4) ? "danger" : (media.grade || media.grade_tv) < (225/4) ? "warning" : "success"}`}>{getGrade(media)}</span>}
+              {!!user && user.rating_scale == 2 && <span className={`fw-bold fs-5 text-${(media.grade || media.grade_tv) < (175/5) ? "danger" : (media.grade || media.grade_tv) < (325/5) ? "warning" : "success"}`}>{getGrade(media)}</span>}
+              {!!user && user.rating_scale == 3 && <span className={`fw-bold fs-5 text-${(media.grade || media.grade_tv) <= 38 ? "danger" : (media.grade || media.grade_tv) <= 58 ? "warning" : "success"}`}>{getGrade(media)}</span>}
+            </div>
           </div>
         </Modal.Title>
       </Modal.Header>
