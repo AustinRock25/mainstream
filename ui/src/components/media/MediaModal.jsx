@@ -207,7 +207,7 @@ function MediaModal({ show, setShow, media, user, seasonCount }) {
     <Modal show={show} onHide={handleClose} size="lg" centered className="bg-dark text-white">
       <Modal.Header closeButton closeVariant="white">
         <Modal.Title className="w-100">
-          <div className="d-flex align-items-center justify-content-between">
+          <div className="d-flex align-items-center justify-content-between flex-column flex-md-row">
             <div className="flex-wrap" style={{ maxWidth: "50%" }}>
               <span>
                 <i className="me-2">{media.title}</i>
