@@ -218,7 +218,7 @@ function MediaModal({ show, setShow, media, user, seasonCount }) {
               <span className="fw-light fs-5 text-white-50">{media.rating === "Not Rated" ? "NR" : media.rating}</span>
               <span className="fw-light fs-5 text-white-50">{time(media.runtime || media.runtime_tv)}</span>
               {!!user && user.rating_scale == 1 && <span className={`fw-bold fs-5 text-${(media.grade || media.grade_tv) < (175/4) ? "danger" : (media.grade || media.grade_tv) < (225/4) ? "warning" : "success"}`}>{getGrade(media)}</span>}
-              {!user || (!!user && user.rating_scale == 2) && <span className={`fw-bold fs-5 text-${(media.grade || media.grade_tv) < (175/5) ? "danger" : (media.grade || media.grade_tv) < (325/5) ? "warning" : "success"}`}>{getGrade(media)}</span>}
+              {(!user || (!!user && user.rating_scale == 2)) && <span className={`fw-bold fs-5 text-${(media.grade || media.grade_tv) < (175/5) ? "danger" : (media.grade || media.grade_tv) < (325/5) ? "warning" : "success"}`}>{getGrade(media)}</span>}
               {!!user && user.rating_scale == 3 && <span className={`fw-bold fs-5 text-${(media.grade || media.grade_tv) < (375/10) ? "danger" : (media.grade || media.grade_tv) < (625/10) ? "warning" : "success"}`}>{getGrade(media)}</span>}
             </div>
           </div>
@@ -245,7 +245,7 @@ function MediaModal({ show, setShow, media, user, seasonCount }) {
               style={{ maxHeight: "300px" }}
             />
             {media.type == "show" && media.seasons.length > 1 && !!user && user.rating_scale == 1 && <p className={`fw-bold fs-5 text-${media.seasons[currentSeason].grade < (175/4) ? "danger" : media.seasons[currentSeason].grade < (225/4) ? "warning" : "success"}`}>{getGradeSeason(media.seasons[currentSeason])}</p>}
-            {!user || (media.type == "show" && media.seasons.length > 1 && !!user && user.rating_scale == 2) && <p className={`fw-bold fs-5 text-${media.seasons[currentSeason].grade < (175/5) ? "danger" : media.seasons[currentSeason].grade < (325/5) ? "warning" : "success"}`}>{getGradeSeason(media.seasons[currentSeason])}</p>}
+            {(media.type == "show" && media.seasons.length > 1 && (!!user || (!user && user.rating_scale == 2))) && <p className={`fw-bold fs-5 text-${media.seasons[currentSeason].grade < (175/5) ? "danger" : media.seasons[currentSeason].grade < (325/5) ? "warning" : "success"}`}>{getGradeSeason(media.seasons[currentSeason])}</p>}
             {media.type == "show" && media.seasons.length > 1 && !!user && user.rating_scale == 3 && <p className={`fw-bold fs-5 text-${media.seasons[currentSeason].grade < (375/10) ? "danger" : media.seasons[currentSeason].grade < (625/10) ? "warning" : "success"}`}>{getGradeSeason(media.seasons[currentSeason])}</p>}
             {media.type == "show" && media.runtime_tv != media.seasons[currentSeason].runtime && <p className="fw-bold fs-5 text-white">{time(media.seasons[currentSeason].runtime)}</p>}
           </Col>
