@@ -179,7 +179,7 @@ export const index = (req, res) => {
           FROM media_writers mw LEFT JOIN people p ON mw.writer_id = p.id WHERE m.id = mw.media_id
         ) mw ON TRUE
         LEFT JOIN LATERAL (
-          SELECT json_agg(json_build_object('show_id', s.show_id, 'season', s.season, 'grade', s.grade, 'cast_members', sc.cast_members, 'episodes', se.episodes)) AS seasons
+          SELECT json_agg(json_build_object('show_id', s.show_id, 'season', s.season, 'grade', s.grade, 'runtime', (SELECT SUM(runtime) FROM seasons_episodes WHERE show_id = m.id AND season = s.season), 'cast_members', sc.cast_members, 'episodes', se.episodes)) AS seasons
           FROM seasons s
           LEFT JOIN LATERAL (
             SELECT json_agg(json_build_object('ordering', sc.ordering, 'show_id', sc.show_id, 'season', sc.season, 'actor_id', sc.actor_id, 'name', p.name, 'birth_date', p.birth_date, 'death_date', p.death_date)) AS cast_members
@@ -422,7 +422,7 @@ export const indexNew = (req, res) => {
         FROM media_writers mw LEFT JOIN people p ON mw.writer_id = p.id WHERE m.id = mw.media_id
       ) mw ON TRUE
       LEFT JOIN LATERAL (
-        SELECT json_agg(json_build_object('show_id', s.show_id, 'season', s.season, 'grade', s.grade, 'cast_members', sc.cast_members, 'episodes', se.episodes)) AS seasons
+        SELECT json_agg(json_build_object('show_id', s.show_id, 'season', s.season, 'grade', s.grade, 'runtime', (SELECT SUM(runtime) FROM seasons_episodes WHERE show_id = m.id AND season = s.season), 'cast_members', sc.cast_members, 'episodes', se.episodes)) AS seasons
         FROM seasons s
         LEFT JOIN LATERAL (
           SELECT json_agg(json_build_object('ordering', sc.ordering, 'show_id', sc.show_id, 'season', sc.season, 'actor_id', sc.actor_id, 'name', p.name, 'birth_date', p.birth_date, 'death_date', p.death_date)) AS cast_members
