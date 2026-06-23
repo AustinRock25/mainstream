@@ -244,7 +244,7 @@ function MediaModal({ show, setShow, media, user, seasonCount }) {
               className="img-fluid rounded mb-3 shadow"
               style={{ maxHeight: "300px" }}
             />
-            <Stack direction="horizontal" gap={3} className="align-items-center">
+            <Stack direction="horizontal" gap={3} className="align-items-center mb-4 mb-md-0">
               {media.type == "show" && media.runtime_tv != media.seasons[currentSeason].runtime && <p className="fw-bold fs-5 text-white">{time(media.seasons[currentSeason].runtime)}</p>}
               {media.type == "show" && media.seasons.length > 1 && !!user && user.rating_scale == 1 && <p className={`fw-bold fs-5 text-${media.seasons[currentSeason].grade < (175/4) ? "danger" : media.seasons[currentSeason].grade < (225/4) ? "warning" : "success"}`}>{getGradeSeason(media.seasons[currentSeason])}</p>}
               {(media.type == "show" && media.seasons.length > 1 && (!user || (!!user && user.rating_scale == 2))) && <p className={`fw-bold fs-5 text-${media.seasons[currentSeason].grade < (175/5) ? "danger" : media.seasons[currentSeason].grade < (325/5) ? "warning" : "success"}`}>{getGradeSeason(media.seasons[currentSeason])}</p>}
