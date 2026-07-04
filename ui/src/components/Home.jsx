@@ -70,7 +70,7 @@ function Home() {
       </p>
       <hr className="my-4" />
       <p className="text-white-50 small">
-        If you don't see a certain movie or show in this database, that means I haven't seen/finished it yet and I will watch it soon, or that it doesn't fit my criteria, which are the following: a film has to have a runtime of 60 minutes or more, and each episode in a TV show has to have a runtime of 15 minutes or more with no segments.
+        If you don't see a certain movie or show in this database, that means I haven't seen/finished it yet and I will watch it soon, or that it doesn't fit my criteria, which are the following: a film has to have a runtime of 40 minutes or more, and each episode in a TV show has to have a runtime of 20 minutes or more, and no pornography.
       </p>
       <p className="lead mt-4 text-white fw-bold">
         Recently Added Titles
