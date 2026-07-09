@@ -101,90 +101,14 @@ function MediaForm({ show, setShow, media, season }) {
 
       cast = Array.from(peopleMap.values());
       
-      if (user.rating_scale == 1) {
-        if (media.grade < (25/4))
-          grade = 0;
-        else if (media.grade < (75/4))
-          grade = 0.5;
-        else if (media.grade < (125/4))
-          grade = 1;
-        else if (media.grade < (175/4))
-          grade = 1.5;
-        else if (media.grade < (225/4))
-          grade = 2;
-        else if (media.grade < (275/4))
-          grade = 2.5;
-        else if (media.grade < (325/4))
-          grade = 3;
-        else if (media.grade < (375/4))
-          grade = 3.5;
-        else
-          grade = 4;
-      }
-      else if (user.rating_scale == 2) {
-        if (media.grade < (25/5))
-          grade = 0;
-        else if (media.grade < (75/5))
-          grade = 0.5;
-        else if (media.grade < (125/5))
-          grade = 1;
-        else if (media.grade < (175/5))
-          grade = 1.5;
-        else if (media.grade < (225/5))
-          grade = 2;
-        else if (media.grade < (275/5))
-          grade = 2.5;
-        else if (media.grade < (325/5))
-          grade = 3;
-        else if (media.grade < (375/5))
-          grade = 3.5;
-        else if (media.grade < (425/5))
-          grade = 4;
-        else if (media.grade < (475/5))
-          grade = 4.5;
-        else
-          grade = 5;
-      }
-      else {
-        if (media.grade < (125/10))
-          grade = 1;
-        else if (media.grade < (175/10))
-          grade = 1.5;
-        else if (media.grade < (225/10))
-          grade = 2;
-        else if (media.grade < (275/10))
-          grade = 2.5;
-        else if (media.grade < (325/10))
-          grade = 3;
-        else if (media.grade < (375/10))
-          grade = 3.5;
-        else if (media.grade < (425/10))
-          grade = 4;
-        else if (media.grade < (475/10))
-          grade = 4.5;
-        else if (media.grade < (525/10))
-          grade = 5;
-        else if (media.grade < (575/10))
-          grade = 5.5;
-        else if (media.grade < (625/10))
-          grade = 6;
-        else if (media.grade < (675/10))
-          grade = 6.5;
-        else if (media.grade < (725/10))
-          grade = 7;
-        else if (media.grade < (775/10))
-          grade = 7.5;
-        else if (media.grade < (825/10))
-          grade = 8;
-        else if (media.grade < (875/10))
-          grade = 8.5;
-        else if (media.grade < (925/10))
-          grade = 9;
-        else if (media.grade < (975/10))
-          grade = 9.5;
-        else
-          grade = 10;
-      }
+      if (user.rating_scale == 1)
+        grade = (media.grade / 100) * 4;
+      else if (user.rating_scale == 2)
+        grade = (media.grade / 100) * 5;
+      else
+        grade = (media.grade / 100) * 9;
+
+      grade = Math.round(grade * 2) / 2;
 
       setFormData({
         id: media.id || "",
@@ -321,7 +245,7 @@ function MediaForm({ show, setShow, media, season }) {
     else if (user.rating_scale == 2)
       return grade + "/5";
     else
-      return grade + "/10";
+      return (grade + 1) + "/10";
   }
 
   function handleSubmit(e) {
@@ -502,8 +426,8 @@ function MediaForm({ show, setShow, media, season }) {
                   }
                   {user.rating_scale == 3 && 
                     <>
-                      <Form.Label column sm={3}>Grade: <span className={`fw-light text-${formData.grade <= 3.5 ? "danger" : formData.grade <= 6 ? "warning" : "success"}`}>{getGrade(formData.grade)}</span></Form.Label>
-                      <Col sm={9}><Form.Range min="1" max="10" step="0.5" value={formData.grade} onChange={(e) => handleChange(e, "grade")} /></Col>
+                      <Form.Label column sm={3}>Grade: <span className={`fw-light text-${formData.grade <= 2.5 ? "danger" : formData.grade <= 5 ? "warning" : "success"}`}>{getGrade(formData.grade)}</span></Form.Label>
+                      <Col sm={9}><Form.Range min="0" max="9" step="0.5" value={formData.grade} onChange={(e) => handleChange(e, "grade")} /></Col>
                     </>
                   }
                   <Form.Control.Feedback type="invalid">{errors.grade}</Form.Control.Feedback>
