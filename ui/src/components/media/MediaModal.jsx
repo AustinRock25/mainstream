@@ -127,9 +127,6 @@ function MediaModal({ show, setShow, media, user, seasonCount }) {
       newGrade = ((g / 100) * 9) + 1;
 
     newGrade = Math.round(newGrade * 2) / 2;
-
-    if (Number.isInteger(newGrade))
-        return rounded.toString();
     
     return newGrade.toString();
   }
