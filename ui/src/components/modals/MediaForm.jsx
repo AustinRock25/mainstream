@@ -245,7 +245,7 @@ function MediaForm({ show, setShow, media, season }) {
     else if (user.rating_scale == 2)
       return grade + "/5";
     else
-      return (grade + 1) + "/10";
+      return (parseFloat(grade) + 1) + "/10";
   }
 
   function handleSubmit(e) {
@@ -257,7 +257,7 @@ function MediaForm({ show, setShow, media, season }) {
     else if (user.rating_scale == 2)
       formData.grade = (parseFloat(formData.grade) * 100) / 5;
     else 
-      formData.grade = (parseFloat(formData.grade) * 100) / 10;
+      formData.grade = (parseFloat(formData.grade) * 100) / 9;
 
     const payload = { ...formData, castAndCrew: selected, episodes: episodes };
     const apiCall = media?.id ? api.put(`/media/${media.id}`, [payload, media]) : api.post("/media", payload);
