@@ -251,15 +251,16 @@ function MediaForm({ show, setShow, media, season }) {
   function handleSubmit(e) {
     e.preventDefault();
     setIsSubmitting(true);
+    let grade;
 
     if (user.rating_scale == 1)
-      formData.grade = (parseFloat(formData.grade) * 100) / 4;
+      grade = (parseFloat(formData.grade) * 100) / 4;
     else if (user.rating_scale == 2)
-      formData.grade = (parseFloat(formData.grade) * 100) / 5;
+      grade = (parseFloat(formData.grade) * 100) / 5;
     else 
-      formData.grade = (parseFloat(formData.grade) * 100) / 9;
+      grade = (parseFloat(formData.grade) * 100) / 9;
 
-    const payload = { ...formData, castAndCrew: selected, episodes: episodes };
+    const payload = { ...formData, castAndCrew: selected, episodes: episodes, newGrade: grade };
     const apiCall = media?.id ? api.put(`/media/${media.id}`, [payload, media]) : api.post("/media", payload);
   
     apiCall
@@ -414,7 +415,7 @@ function MediaForm({ show, setShow, media, season }) {
                 <Form.Group as={Row} className="mb-3">
                   {user.rating_scale == 1 && 
                     <>
-                      <Form.Label column sm={3}>Grade: <span className={`fw-light text-${formData.grade <= 1.5 ? "danger" : formData.grade == 2 ? "warning" : "success"}`}>{getGrade(formData.grade)}</span></Form.Label>
+                      <Form.Label column sm={3}>Grade: <span className={`fw-light text-${formData.grade <= 1 ? "danger" : formData.grade <= 2.5 ? "warning" : "success"}`}>{getGrade(formData.grade)}</span></Form.Label>
                       <Col sm={9}><Form.Range min="0" max="4" step="0.5" value={formData.grade} onChange={(e) => handleChange(e, "grade")} /></Col>
                     </>
                   }
@@ -426,7 +427,7 @@ function MediaForm({ show, setShow, media, season }) {
                   }
                   {user.rating_scale == 3 && 
                     <>
-                      <Form.Label column sm={3}>Grade: <span className={`fw-light text-${formData.grade <= 2.5 ? "danger" : formData.grade <= 5 ? "warning" : "success"}`}>{getGrade(formData.grade)}</span></Form.Label>
+                      <Form.Label column sm={3}>Grade: <span className={`fw-light text-${formData.grade <= 3 ? "danger" : formData.grade <= 6 ? "warning" : "success"}`}>{getGrade(formData.grade)}</span></Form.Label>
                       <Col sm={9}><Form.Range min="0" max="9" step="0.5" value={formData.grade} onChange={(e) => handleChange(e, "grade")} /></Col>
                     </>
                   }

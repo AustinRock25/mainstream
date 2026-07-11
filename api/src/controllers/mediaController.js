@@ -577,7 +577,7 @@ async function createMovie(media, { directors, writers, castMembers }) {
   
   const params = [
     media.title, 
-    media.grade, 
+    media.newGrade, 
     media.release_date, 
     media.rating,
     media.runtime,
@@ -626,7 +626,7 @@ async function createNewShow(media, { castMembers }) {
     media.title, 
     media.rating, 
     media.completed || false,
-    media.grade, 
+    media.newGrade, 
     JSON.stringify(media.episodes)
   ];
   
@@ -664,7 +664,7 @@ async function addSeasonToShow(media, { castMembers }) {
   const seasonResult = await query(`SELECT COALESCE(MAX(season), 0) + 1 AS next_season FROM seasons WHERE show_id = $1;`, [media.id]);
   const seasonNum = seasonResult.rows[0].next_season;
 
-  await query(`INSERT INTO seasons (season, show_id, grade) VALUES ($1, $2, $3);`, [seasonNum, media.id, media.grade]);
+  await query(`INSERT INTO seasons (season, show_id, grade) VALUES ($1, $2, $3);`, [seasonNum, media.id, media.newGrade]);
 
   await query(
     `INSERT INTO seasons_episodes (show_id, season, episode, title, release_date, runtime, synopsis) 
@@ -708,9 +708,9 @@ async function updateMovie(media, og, { directors, writers, castMembers }) {
     await query(sql, [media.synopsis, media.id]);
   }
 
-  if (media.grade != og.grade) {
+  if (media.newGrade != og.newGrade) {
     sql = `UPDATE media SET grade = $1 WHERE id = $2;`;
-    await query(sql, [media.grade, media.id]);
+    await query(sql, [media.newGrade, media.id]);
   }
 
   if (media.release_date != new Date(og.release_date).toISOString().split("T")[0]) {
@@ -784,8 +784,8 @@ async function updateShow(media, og, { castMembers }) {
   if (media.rating !== og.rating)
     await query(`UPDATE media SET rating = $1 WHERE id = $2;`, [media.rating, media.id]);
 
-  if (media.grade !== og.seasons[media.season - 1].grade)
-    await query(`UPDATE seasons SET grade = $1 WHERE show_id = $2 AND season = $3;`, [media.grade, media.id, media.season]);
+  if (media.newGrade !== og.seasons[media.season - 1].newGrade)
+    await query(`UPDATE seasons SET grade = $1 WHERE show_id = $2 AND season = $3;`, [media.newGrade, media.id, media.season]);
 
   const ogCast = og.seasons[media.season - 1].cast_members?.map(cm => cm.actor_id) || [];
 

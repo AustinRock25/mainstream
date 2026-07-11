@@ -38,19 +38,19 @@ function Home() {
       timeStr += `${centuries}c `;
     
     if (years > 0) 
-      timeStr += `${years}y `;
+      timeStr += `${years}yr `;
     
     if (months > 0) 
-      timeStr += `${months}mo `;
+      timeStr += `${months}m `;
     
     if (weeks > 0) 
-      timeStr += `${weeks}w `;
+      timeStr += `${weeks}wk `;
     
     if (days > 0) 
       timeStr += `${days}d `;
     
     if (hours > 0) 
-      timeStr += `${hours}h `;
+      timeStr += `${hours}hr `;
 
     if (minutes > 0) 
       timeStr += `${minutes}min`;
