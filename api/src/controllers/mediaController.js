@@ -708,7 +708,7 @@ async function updateMovie(media, og, { directors, writers, castMembers }) {
     await query(sql, [media.synopsis, media.id]);
   }
 
-  if (media.newGrade != og.newGrade) {
+  if (media.newGrade != og.grade) {
     sql = `UPDATE media SET grade = $1 WHERE id = $2;`;
     await query(sql, [media.newGrade, media.id]);
   }
@@ -784,7 +784,7 @@ async function updateShow(media, og, { castMembers }) {
   if (media.rating !== og.rating)
     await query(`UPDATE media SET rating = $1 WHERE id = $2;`, [media.rating, media.id]);
 
-  if (media.newGrade !== og.seasons[media.season - 1].newGrade)
+  if (media.newGrade !== og.seasons[media.season - 1].grade)
     await query(`UPDATE seasons SET grade = $1 WHERE show_id = $2 AND season = $3;`, [media.newGrade, media.id, media.season]);
 
   const ogCast = og.seasons[media.season - 1].cast_members?.map(cm => cm.actor_id) || [];
