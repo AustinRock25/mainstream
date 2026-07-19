@@ -507,8 +507,10 @@ export const create = async (req, res) => {
     else
       return res.status(400).json({ error: "Invalid media type specified." });
     
-    res.location(`/media/${result.id || media.id}`);
-    res.status(201).json({ id: result.id || media.id, message: "Title processed successfully." });
+    if (result) {
+      res.location(`/media/${result.id}`);
+      res.status(201).json({ id: result.id, message: "Title processed successfully." });
+    }
   } 
   catch (error) {
     console.error("Error processing media:", error);
