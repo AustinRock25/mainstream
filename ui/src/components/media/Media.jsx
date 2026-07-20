@@ -5,7 +5,7 @@ import { useCallback, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 
 const safeEncode = (value) => value.replace(/[./-]+/g, "__");
-const RATINGS = ["Not Rated", "G", "PG", "PG-13", "R", "NC-17", "TV-Y", "TV-Y7", "TV-Y7 FV", "TV-G", "TV-PG", "TV-14", "TV-MA"];
+const RATINGS = ["Not Rated", "G", "PG", "PG-13", "R", "NC-17"];
 const RATINGSTV = ["Not Rated", "TV-Y", "TV-Y7", "TV-Y7 FV", "TV-G", "TV-PG", "TV-14", "TV-MA"];
 const GRADES1 = ["0/4", "0.5/4", "1/4", "1.5/4", "2/4", "2.5/4", "3/4", "3.5/4", "4/4"];
 const GRADES2 = ["0/5", "0.5/5", "1/5", "1.5/5", "2/5", "2.5/5", "3/5", "3.5/5", "4/5", "4.5/5", "5/5"];
