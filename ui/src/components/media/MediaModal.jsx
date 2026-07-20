@@ -183,8 +183,8 @@ function MediaModal({ show, setShow, media, user, seasonCount }) {
             <div className="d-flex flex-column flex-md-row gap-xs-1 gap-md-4">
               <span className="fw-light fs-5 text-white-50">{media.rating === "Not Rated" ? "NR" : media.rating}</span>
               <span className="fw-light fs-5 text-white-50">{time(media.runtime || media.runtime_tv)}</span>
-              {media.type == "movie" && <span className={`fw-bold fs-5 text-${(Math.round((media.grade + 100) / 2)) <= 69 ? "danger" : (Math.round((media.grade + 100) / 2)) <= 79 ? "warning" : "success"}`}>{getGrade(media)}</span>}
-              {media.type == "show" && <span className={`fw-bold fs-5 text-${(Math.round((media.grade_tv + 100) / 2)) <= 69 ? "danger" : (Math.round((media.grade_tv + 100) / 2)) <= 79 ? "warning" : "success"}`}>{getGrade(media)}</span>}
+              {media.type == "movie" && <span className={`fw-bold fs-5 text-${(Math.round((media.grade + 100) / 2)) <= 69 ? "danger" : Math.round((media.grade + 100) / 2) <= 79 ? "warning" : "success"}`}>{getGrade(media)}</span>}
+              {media.type == "show" && <span className={`fw-bold fs-5 text-${(Math.round((media.grade_tv + 100) / 2)) <= 69 ? "danger" : Math.round((media.grade_tv + 100) / 2) <= 79 ? "warning" : "success"} mb-0`}>{getGrade(media)}</span>}
             </div>
           </div>
         </Modal.Title>
