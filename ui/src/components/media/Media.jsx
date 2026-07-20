@@ -2,7 +2,6 @@ import { Alert, Button, Container, Row, Spinner, Form, Col, Collapse } from "rea
 import api from "../../api";
 import MediaCard from "./MediaCard";
 import { useCallback, useEffect, useState } from "react";
-import { useSelector } from "react-redux";
 
 const safeEncode = (value) => value.replace(/[./-]+/g, "__");
 const RATINGS = ["Not Rated", "G", "PG", "PG-13", "R", "NC-17"];
@@ -44,7 +43,6 @@ function Media() {
   const [pages, setPages] = useState(0);
   const [filters, setFilters] = useState(getInitialState);
   const [open, setOpen] = useState(false);
-  const { user } = useSelector(state => state.auth);
 
   useEffect(() => {
     localStorage.setItem("mediaFilters", JSON.stringify(filters));
@@ -104,6 +102,7 @@ function Media() {
         ...prev,
         filterType: value,
         runtime: { min: "", max: "" },
+        grade: { min: "", max: "" },
       }));
 
       return;
