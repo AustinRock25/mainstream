@@ -131,7 +131,7 @@ function MediaModal({ show, setShow, media, user, seasonCount }) {
     newGrade = Math.round(newGrade * 2) / 2;
     
     if (!user) {
-      console.log(newGrade);
+      console.log(media.id + ": " + newGrade);
       if (newGrade <= 59)
         return "F";
       else if (newGrade <= 62)
