@@ -9,19 +9,25 @@ const RATINGSTV = ["Not Rated", "TV-Y", "TV-Y7", "TV-Y7 FV", "TV-G", "TV-PG", "T
 
 const getInitialState = () => {
   const savedState = localStorage.getItem("mediaFilters");
+  const defaults = getDefaultState();
 
-  const defaults = {
-    searchTerm: "",
-    sortBy: "title",
-    sortOrder: "ASC",
-    filterType: "all",
-    runtime: { min: "", max: "" },
-    selectedRatings: [],
-    grade: { min: "", max: "" },
-    dateRange: { start: "", end: "" },
-  };
+  if (!savedState) 
+    return defaults;
 
-  return savedState ? JSON.parse(savedState) : defaults;
+  try {
+    const parsed = JSON.parse(savedState);
+
+    return {
+      ...defaults,
+      ...parsed,
+      runtime: { ...defaults.runtime, ...parsed.runtime },
+      grade: { ...defaults.grade, ...parsed.grade },
+      dateRange: { ...defaults.dateRange, ...parsed.dateRange },
+    };
+  } 
+  catch (e) {
+    return defaults;
+  }
 };
 
 const getDefaultState = () => ({
@@ -109,15 +115,18 @@ function Media() {
     }
     
     if (name.includes(".")) {
-      const [parent, child] = name.split(".");
+    const [parent, child] = name.split(".");
 
-      setFilters(prev => ({
-        ...prev,
-        [parent]: { ...prev[parent], [child]: value }
-      }));
-
-      return;
-    }
+    setFilters(prev => ({
+      ...prev,
+      [parent]: {
+        ...(prev[parent] || { min: "", max: "" }),
+        [child]: value
+      }
+    }));
+    
+    return;
+  }
     
     if (type === "checkbox") {
       const delimiterIndex = name.indexOf("__");
