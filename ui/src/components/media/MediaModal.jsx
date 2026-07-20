@@ -119,16 +119,53 @@ function MediaModal({ show, setShow, media, user, seasonCount }) {
   function grade(g) {
     let newGrade;
 
-    if (!user || user.rating_scale == 2)
-      newGrade = (g / 100) * 5;
+    if (!user)
+      newGrade = (g + 100) / 2;
     else if (user.rating_scale == 1)
       newGrade = (g / 100) * 4;
+    else if (user.rating_scale == 2)
+      newGrade = (g / 100) * 5;
     else
       newGrade = ((g / 100) * 9) + 1;
 
     newGrade = Math.round(newGrade * 2) / 2;
     
-    return newGrade;
+    if (!user) {
+      if (newGrade <= 59)
+        return "F";
+      else if (newGrade <= 62)
+        return "D-";
+      else if (newGrade <= 66)
+        return "D";
+      else if (newGrade <= 69)
+        return "D+";
+      else if (newGrade <= 72)
+        return "C-";
+      else if (newGrade <= 76)
+        return "C";
+      else if (newGrade <= 79)
+        return "C+";
+      else if (newGrade <= 82)
+        return "B-";
+      else if (newGrade <= 86)
+        return "B";
+      else if (newGrade <= 89)
+        return "B+";
+      else if (newGrade <= 92)
+        return "A-";
+      else if (newGrade <= 96)
+        return "A";
+      else
+        return "A+";
+    }
+    else {
+      if (user.rating_scale == 1)
+        return newGrade + "/4";
+      else if (user.rating_scale == 2)
+        return newGrade + "/5";
+      else
+        return newGrade + "/10";
+    }
   }
 
   return (
@@ -145,9 +182,7 @@ function MediaModal({ show, setShow, media, user, seasonCount }) {
             <div className="d-flex flex-column flex-md-row gap-xs-1 gap-md-4">
               <span className="fw-light fs-5 text-white-50">{media.rating === "Not Rated" ? "NR" : media.rating}</span>
               <span className="fw-light fs-5 text-white-50">{time(media.runtime || media.runtime_tv)}</span>
-              {!!user && user.rating_scale == 1 && <span className={`fw-bold fs-5 text-${getGrade(media) <= 1 ? "danger" : getGrade(media) <= 2.5 ? "warning" : "success"}`}>{getGrade(media)}/4</span>}
-              {(!user || (!!user && user.rating_scale == 2)) && <span className={`fw-bold fs-5 text-${getGrade(media) <= 1.5 ? "danger" : getGrade(media) <= 3 ? "warning" : "success"}`}>{getGrade(media)}/5</span>}
-              {!!user && user.rating_scale == 3 && <span className={`fw-bold fs-5 text-${getGrade(media) <= 4 ? "danger" : getGrade(media) <= 7 ? "warning" : "success"}`}>{getGrade(media)}/10</span>}
+              <span className={`fw-bold fs-5 text-${(Math.round((media.grade + 100) / 2) || Math.round((media.grade_tv + 100) / 2)) <= 69 ? "danger" : (Math.round((media.grade + 100) / 2) || Math.round((media.grade_tv + 100) / 2)) <= 79 ? "warning" : "success"}`}>{getGrade(media)}</span>
             </div>
           </div>
         </Modal.Title>
@@ -174,9 +209,7 @@ function MediaModal({ show, setShow, media, user, seasonCount }) {
             />
             <Stack direction="horizontal" gap={3} className="justify-content-center align-items-center mb-4 mb-md-0">
               {media.type == "show" && media.runtime_tv != media.seasons[currentSeason].runtime && <p className="fw-bold fs-5 text-white mb-0">{time(media.seasons[currentSeason].runtime)}</p>}
-              {media.type == "show" && media.seasons.length > 1 && !!user && user.rating_scale == 1 && <p className={`fw-bold fs-5 text-${getGradeSeason(media.seasons[currentSeason]) <= 1.5 ? "danger" : getGradeSeason(media.seasons[currentSeason]) == 2 ? "warning" : "success"} mb-0`}>{getGradeSeason(media.seasons[currentSeason])}/4</p>}
-              {(media.type == "show" && media.seasons.length > 1 && (!user || (!!user && user.rating_scale == 2))) && <p className={`fw-bold fs-5 text-${getGradeSeason(media.seasons[currentSeason]) <= 1.5 ? "danger" : getGradeSeason(media.seasons[currentSeason]) <= 3 ? "warning" : "success"} mb-0`}>{getGradeSeason(media.seasons[currentSeason])}/5</p>}
-              {media.type == "show" && media.seasons.length > 1 && !!user && user.rating_scale == 3 && <p className={`fw-bold fs-5 text-${getGradeSeason(media.seasons[currentSeason]) <= 4.5 ? "danger" : getGradeSeason(media.seasons[currentSeason]) <= 6 ? "warning" : "success"} mb-0`}>{getGradeSeason(media.seasons[currentSeason])}/10</p>}
+              {media.type == "show" && media.seasons.length > 1 && <p className={`fw-bold fs-5 text-${(Math.round((media.seasons[currentSeason].grade + 100) / 2)) <= 69 ? "danger" : Math.round((media.seasons[currentSeason].grade + 100) / 2) <= 79 ? "warning" : "success"} mb-0`}>{getGradeSeason(media.seasons[currentSeason])}</p>}
             </Stack>
           </Col>
           <Col xs={12} md={8}>
