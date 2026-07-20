@@ -129,6 +129,7 @@ function MediaModal({ show, setShow, media, user, seasonCount }) {
       newGrade = ((g / 100) * 9) + 1;
 
     newGrade = Math.round(newGrade * 2) / 2;
+    console.log(newGrade);
     
     if (!user) {
       if (newGrade <= 59)
@@ -183,7 +184,7 @@ function MediaModal({ show, setShow, media, user, seasonCount }) {
               <span className="fw-light fs-5 text-white-50">{media.rating === "Not Rated" ? "NR" : media.rating}</span>
               <span className="fw-light fs-5 text-white-50">{time(media.runtime || media.runtime_tv)}</span>
               {media.type == "movie" && <span className={`fw-bold fs-5 text-${(Math.round((media.grade + 100) / 2)) <= 69 ? "danger" : (Math.round((media.grade + 100) / 2)) <= 79 ? "warning" : "success"}`}>{getGrade(media)}</span>}
-              {media.type == "movie" && <span className={`fw-bold fs-5 text-${(Math.round((media.grade_tv + 100) / 2)) <= 69 ? "danger" : (Math.round((media.grade_tv + 100) / 2)) <= 79 ? "warning" : "success"}`}>{getGrade(media)}</span>}
+              {media.type == "show" && <span className={`fw-bold fs-5 text-${(Math.round((media.grade_tv + 100) / 2)) <= 69 ? "danger" : (Math.round((media.grade_tv + 100) / 2)) <= 79 ? "warning" : "success"}`}>{getGrade(media)}</span>}
             </div>
           </div>
         </Modal.Title>

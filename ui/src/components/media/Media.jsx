@@ -240,6 +240,17 @@ function Media() {
                 </Row>
               </Col>
               <Col md={12}>
+                <Form.Label>Grade (0 to 100)</Form.Label>
+                <Row>
+                  <Col>
+                    <Form.Control type="number" name="grade.min" value={filters.grade.min} placeholder="Min" onChange={handleFilterChange} />
+                  </Col>
+                  <Col>
+                    <Form.Control type="number" name="grade.max" value={filters.grade.max} placeholder="Max" onChange={handleFilterChange} />
+                  </Col>
+                </Row>
+              </Col>
+              <Col md={12}>
                 <Form.Label>Ratings</Form.Label>
                 <div className="d-flex flex-wrap" style={{ maxHeight: "150px", overflowY: "auto" }}>
                   {filters.filterType === "show" 
@@ -269,17 +280,6 @@ function Media() {
                       ))
                   }
                 </div>
-              </Col>
-              <Col md={12}>
-                <Form.Label>Grade (0 to 100)</Form.Label>
-                <Row>
-                  <Col>
-                    <Form.Control type="number" name="grade.min" value={filters.grade.min} placeholder="Min" onChange={handleFilterChange} />
-                  </Col>
-                  <Col>
-                    <Form.Control type="number" name="grade.max" value={filters.grade.max} placeholder="Max" onChange={handleFilterChange} />
-                  </Col>
-                </Row>
               </Col>
               <Col md={12} className="text-end mt-3">
                 <Button variant="outline-danger" onClick={handleClearFilters}>Clear Filters and Sort</Button>
