@@ -128,7 +128,7 @@ function MediaModal({ show, setShow, media, user, seasonCount }) {
     else
       newGrade = ((g / 100) * 9) + 1;
 
-    console.log(media.id + ": " + newGrade + ", " + Math.round(newGrade * 2) / 2);
+    console.log(media.id + ": " + g + ", " + newGrade + ", " + Math.round(newGrade * 2) / 2);
 
     newGrade = Math.round(newGrade * 2) / 2;
     
