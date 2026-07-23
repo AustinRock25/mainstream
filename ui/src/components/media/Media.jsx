@@ -276,7 +276,7 @@ function Media() {
                       />)) 
                   }
                   {
-                    filters.filterType === "movies" && Array.isArray(RATINGS) && RATINGS.map(rating => (
+                    filters.filterType === "movie" && Array.isArray(RATINGS) && RATINGS.map(rating => (
                       <Form.Check 
                         key={rating} 
                         type="checkbox" 
