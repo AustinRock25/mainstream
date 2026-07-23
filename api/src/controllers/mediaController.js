@@ -371,6 +371,8 @@ export const create = async (req, res) => {
       res.location(`/media/${result.id}`);
       res.status(201).json({ id: result.id, message: "Title processed successfully." });
     }
+    else 
+      res.status(200).json({ message: "Season processed successfully." });
   } 
   catch (error) {
     console.error("Error processing media:", error);

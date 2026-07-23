@@ -259,37 +259,37 @@ function Media() {
                   </Col>
                 </Row>
               </Col>
-              <Col md={12}>
-                <Form.Label>Ratings</Form.Label>
-                <div className="d-flex flex-wrap" style={{ maxHeight: "150px", overflowY: "auto" }}>
-                  {filters.filterType === "show" 
-                    ? 
-                      Array.isArray(RATINGSTV) && RATINGSTV.map(rating => (
-                        <Form.Check 
-                          key={rating} 
-                          type="checkbox" 
-                          name={`selectedRatings__${safeEncode(rating)}`} 
-                          label={rating} 
-                          checked={filters.selectedRatings.includes(rating)} 
-                          onChange={handleFilterChange} 
-                          className="me-3"
-                        />
-                      )) 
-                    : 
-                      Array.isArray(RATINGS) && RATINGS.map(rating => (
-                        <Form.Check 
-                          key={rating} 
-                          type="checkbox" 
-                          name={`selectedRatings__${safeEncode(rating)}`} 
-                          label={rating} 
-                          checked={filters.selectedRatings.includes(rating)} 
-                          onChange={handleFilterChange} 
-                          className="me-3"
-                        />
-                      ))
+              {filters.filterType === "" && 
+                <Col md={12}>
+                  <Form.Label>Ratings</Form.Label>
+                  <div className="d-flex flex-wrap" style={{ maxHeight: "150px", overflowY: "auto" }}>
+                  {
+                    filters.filterType === "show" && Array.isArray(RATINGSTV) && RATINGSTV.map(rating => (
+                      <Form.Check 
+                        key={rating} 
+                        type="checkbox" 
+                        name={`selectedRatings__${safeEncode(rating)}`} 
+                        label={rating} 
+                        checked={filters.selectedRatings.includes(rating)} 
+                        onChange={handleFilterChange} 
+                        className="me-3"
+                      />)) 
                   }
-                </div>
-              </Col>
+                  {
+                    filters.filterType === "movies" && Array.isArray(RATINGS) && RATINGS.map(rating => (
+                      <Form.Check 
+                        key={rating} 
+                        type="checkbox" 
+                        name={`selectedRatings__${safeEncode(rating)}`} 
+                        label={rating} 
+                        checked={filters.selectedRatings.includes(rating)} 
+                        onChange={handleFilterChange} 
+                        className="me-3"
+                      />))
+                    }
+                  </div>
+                </Col>
+              }
               <Col md={12} className="text-end mt-3">
                 <Button variant="outline-danger" onClick={handleClearFilters}>Clear Filters and Sort</Button>
               </Col>
