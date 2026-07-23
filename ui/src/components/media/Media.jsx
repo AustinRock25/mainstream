@@ -259,7 +259,7 @@ function Media() {
                   </Col>
                 </Row>
               </Col>
-              {filters.filterType === "" && 
+              {filters.filterType !== "" && 
                 <Col md={12}>
                   <Form.Label>Ratings</Form.Label>
                   <div className="d-flex flex-wrap" style={{ maxHeight: "150px", overflowY: "auto" }}>
