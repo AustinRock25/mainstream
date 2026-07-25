@@ -193,7 +193,7 @@ export const indexLength = (req, res) => {
       params.push(minGrade);
     }
 
-    if (maxRuntime) {
+    if (maxGrade) {
       filterClauses.push(`COALESCE(m.grade, (SELECT AVG(grade) FROM seasons WHERE show_id = m.id)) <= $${paramIndex++}`);
       params.push(maxGrade);
     }
