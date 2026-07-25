@@ -127,10 +127,10 @@ function MediaModal({ show, setShow, media, user, seasonCount }) {
       newGrade = (g / 100) * 5;
     else
       newGrade = ((g / 100) * 9) + 1;
-
-    newGrade = Math.round(newGrade * 2) / 2;
     
     if (!user) {
+      newGrade = Math.round(newGrade);
+
       if (newGrade <= 59)
         return "F";
       else if (newGrade <= 62)
@@ -159,6 +159,8 @@ function MediaModal({ show, setShow, media, user, seasonCount }) {
         return "A+";
     }
     else {
+      newGrade = Math.round(newGrade * 2) / 2;
+
       if (user.rating_scale == 1)
         return newGrade + "/4";
       else if (user.rating_scale == 2)
