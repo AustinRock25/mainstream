@@ -188,13 +188,13 @@ function MediaModal({ show, setShow, media, user, seasonCount }) {
                 !user ? <span className={`fw-bold fs-5 text-${Math.round((parseFloat(media.grade) + parseFloat(100)) / 2) <= 69 ? "danger" : Math.round((parseFloat(media.grade) + parseFloat(100)) / 2) <= 79 ? "warning" : "success"}`}>{getGrade(media)}</span> :
                 user.rating_scale == 1 ? <span className={`fw-bold fs-5 text-${Math.round(((media.grade / 100) * 4) * 2) / 2 <= 1.5 ? "danger" : Math.round(((media.grade / 100) * 4) * 2) / 2 == 2 ? "warning" : "success"}`}>{getGrade(media)}</span> :
                 user.rating_scale == 2 ? <span className={`fw-bold fs-5 text-${Math.round(((media.grade / 100) * 5) * 2) / 2 <= 1.5 ? "danger" : Math.round(((media.grade / 100) * 5) * 2) / 2 <= 3 ? "warning" : "success"}`}>{getGrade(media)}</span> :
-                user.rating_scale == 3 && <span className={`fw-bold fs-5 text-${Math.round(((media.grade / 100) * 9) * 2) / 2 <= 3.5 ? "danger" : Math.round(((media.grade / 100) * 9) * 2) / 2 <= 6 ? "warning" : "success"}`}>{getGrade(media)}</span>
+                user.rating_scale == 3 && <span className={`fw-bold fs-5 text-${Math.round(((media.grade / 100) * 9) * 2) / 2 <= 3.5 ? "danger" : Math.round(((media.grade / 100) * 9) * 2) / 2 <= 5 ? "warning" : "success"}`}>{getGrade(media)}</span>
               )}
               {media.type == "show" && (
                 !user ? <span className={`fw-bold fs-5 text-${(Math.round((parseFloat(media.grade_tv) + parseFloat(100)) / 2)) <= 69 ? "danger" : Math.round((parseFloat(media.grade_tv) + parseFloat(100)) / 2) <= 79 ? "warning" : "success"} mb-0`}>{getGrade(media)}</span> :
                 user.rating_scale == 1 ? <span className={`fw-bold fs-5 text-${Math.round(((media.grade_tv / 100) * 4) * 2) / 2 <= 1.5 ? "danger" : Math.round(((media.grade_tv / 100) * 4) * 2) / 2 == 2 ? "warning" : "success"}`}>{getGrade(media)}</span> :
                 user.rating_scale == 2 ? <span className={`fw-bold fs-5 text-${Math.round(((media.grade_tv / 100) * 5) * 2) / 2 <= 1.5 ? "danger" : Math.round(((media.grade_tv / 100) * 5) * 2) / 2 <= 3 ? "warning" : "success"}`}>{getGrade(media)}</span> :
-                user.rating_scale == 3 && <span className={`fw-bold fs-5 text-${Math.round(((media.grade_tv / 100) * 9) * 2) / 2 <= 3.5 ? "danger" : Math.round(((media.grade_tv / 100) * 9) * 2) / 2 <= 6 ? "warning" : "success"}`}>{getGrade(media)}</span>
+                user.rating_scale == 3 && <span className={`fw-bold fs-5 text-${Math.round(((media.grade_tv / 100) * 9) * 2) / 2 <= 3.5 ? "danger" : Math.round(((media.grade_tv / 100) * 9) * 2) / 2 <= 5 ? "warning" : "success"}`}>{getGrade(media)}</span>
               )}
             </div>
           </div>
@@ -226,7 +226,7 @@ function MediaModal({ show, setShow, media, user, seasonCount }) {
                 !user ? <p className={`fw-bold fs-5 text-${(Math.round((parseFloat(media.seasons[currentSeason].grade) + parseFloat(100)) / 2)) <= 69 ? "danger" : Math.round((parseFloat(media.seasons[currentSeason].grade) + parseFloat(100)) / 2) <= 79 ? "warning" : "success"} mb-0`}>{getGradeSeason(media.seasons[currentSeason])}</p> :
                 user.rating_scale == 1 ? <span className={`fw-bold fs-5 text-${Math.round(((media.seasons[currentSeason].grade / 100) * 4) * 2) / 2 <= 1.5 ? "danger" : Math.round(((media.seasons[currentSeason].grade / 100) * 4) * 2) / 2 == 2 ? "warning" : "success"}`}>{getGradeSeason(media.seasons[currentSeason])}</span> :
                 user.rating_scale == 2 ? <span className={`fw-bold fs-5 text-${Math.round(((media.seasons[currentSeason].grade / 100) * 5) * 2) / 2 <= 1.5 ? "danger" : Math.round(((media.seasons[currentSeason].grade / 100) * 5) * 2) / 2 <= 3 ? "warning" : "success"}`}>{getGradeSeason(media.seasons[currentSeason])}</span> :
-                user.rating_scale == 3 && <span className={`fw-bold fs-5 text-${Math.round(((media.seasons[currentSeason].grade / 100) * 9) * 2) / 2 <= 3.5 ? "danger" : Math.round(((media.seasons[currentSeason].grade / 100) * 9) * 2) / 2 <= 6 ? "warning" : "success"}`}>{getGradeSeason(media.seasons[currentSeason])}</span>
+                user.rating_scale == 3 && <span className={`fw-bold fs-5 text-${Math.round(((media.seasons[currentSeason].grade / 100) * 9) * 2) / 2 <= 3.5 ? "danger" : Math.round(((media.seasons[currentSeason].grade / 100) * 9) * 2) / 2 <= 5 ? "warning" : "success"}`}>{getGradeSeason(media.seasons[currentSeason])}</span>
               )}
             </Stack>
           </Col>
