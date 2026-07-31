@@ -56,7 +56,7 @@ export const login = (req, res) => {
     return;
   }
 
-  query("SELECT u.id, email, password, is_admin, rs.id AS rating_scale, rs.min, rs.max FROM users u LEFT JOIN rating_scales rs ON rs.id = u.rating_scale WHERE email = $1", [email])
+  query("SELECT u.id AS id, email, password, is_admin, rs.id AS rating_scale, rs.min AS min, rs.max AS max FROM users u LEFT JOIN rating_scales rs ON rs.id = u.rating_scale WHERE email = $1", [email])
     .then(results => {
       if (results.rowCount > 0) {
         if (compareSync(password, results.rows[0].password)) {

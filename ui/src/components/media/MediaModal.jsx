@@ -157,7 +157,7 @@ function MediaModal({ show, setShow, media, user, seasonCount }) {
     else {
       newGrade = Math.round(newGrade * 2) / 2;
 
-      return newGrade + `${user.rating_scale_max}`;
+      return newGrade + `/${user.rating_scale_max}`;
     }
   }
 
