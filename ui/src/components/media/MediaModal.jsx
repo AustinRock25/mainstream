@@ -129,30 +129,14 @@ function MediaModal({ show, setShow, media, user, seasonCount }) {
 
       if (newGrade <= 59)
         return "F";
-      else if (newGrade <= 62)
-        return "D-";
-      else if (newGrade <= 66)
-        return "D";
       else if (newGrade <= 69)
-        return "D+";
-      else if (newGrade <= 72)
-        return "C-";
-      else if (newGrade <= 76)
-        return "C";
+        return "D";
       else if (newGrade <= 79)
-        return "C+";
-      else if (newGrade <= 82)
-        return "B-";
-      else if (newGrade <= 86)
-        return "B";
+        return "C";
       else if (newGrade <= 89)
-        return "B+";
-      else if (newGrade <= 92)
-        return "A-";
-      else if (newGrade <= 96)
-        return "A";
+        return "B";
       else
-        return "A+";
+        return "A";
     }
     else {
       newGrade = Math.round(newGrade * 2) / 2;

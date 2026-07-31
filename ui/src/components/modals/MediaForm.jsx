@@ -100,7 +100,7 @@ function MediaForm({ show, setShow, media, season }) {
       }
 
       cast = Array.from(peopleMap.values());
-      grade = Number.parseFloat((media.grade / 100) * (user.rating_scale_max - user.rating_scale_min)) + Number.parseFloat(user.rating_scale_min);
+      grade = Number.parseFloat((media.grade / 100) * (user.rating_scale_max - user.rating_scale_min));
       grade = Math.round(grade * 2) / 2;
 
       setFormData({

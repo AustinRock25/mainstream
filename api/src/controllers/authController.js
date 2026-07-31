@@ -122,7 +122,7 @@ export const changeScale = (req, res) => {
 }
 
 export const getScales = (req, res) => {
-  const sql = "SELECT id, min, max FROM rating_scales";
+  const sql = "SELECT id, min, max FROM rating_scales ORDER BY max ASC, min ASC";
 
   query(sql)
   .then(results => {
