@@ -8,7 +8,8 @@ import { useNavigate } from "react-router-dom";
 function AuthModal({ show, setShow, action }) {
   const dispatch = useDispatch();
   const [errors, setErrors] = useState({});
-  const [formData, setFormData] = useState({ email: "", password: "", rating_scale: 1  });
+  const [formData, setFormData] = useState({ email: "", password: "", rating_scale: 1 });
+  const [scales, setScales] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
   const { user } = useSelector(state => state.auth);
@@ -88,6 +89,19 @@ function AuthModal({ show, setShow, action }) {
       });
   }
 
+  function get() {
+    api.put("/auth/get")
+      .then(response => {
+        setScales(response.data);
+      })
+      .catch(error => {
+        if (error.response?.status === 422)
+          setErrors(error.response.data.errors);
+        else
+          setErrors({ form: "An unexpected error occurred. Please try again later." });
+      });
+  }
+
   return (
     <Modal show={show} onHide={handleHide} backdrop="static" centered>
       <Modal.Header>
@@ -124,7 +138,7 @@ function AuthModal({ show, setShow, action }) {
             <Form.Group className="mb-3">
               <Form.Label column sm={3}>Rating Scale</Form.Label>
               <Form.Select value={formData.rating_scale} isInvalid={!!errors.rating_scale} onChange={(e) => setFormData({ ...formData, rating_scale: e.target.value })}>
-                {Array.isArray([1, 2, 3]) && [1, 2, 3].map(r => <option key={r} value={r}>{r == 1 && `0 to 4`}{r == 2 && `0 to 5`}{r == 3 && `1 to 10`}</option>)}
+                {Array.isArray([scales]) && scales.map(r => <option key={r.id} value={r.id}>{r.min} to {r.max}</option>)}
               </Form.Select>
             </Form.Group>
           }

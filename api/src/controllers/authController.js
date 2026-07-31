@@ -56,7 +56,7 @@ export const login = (req, res) => {
     return;
   }
 
-  query("SELECT id, email, password, is_admin, rating_scale FROM users WHERE email = $1", [email])
+  query("SELECT u.id, email, password, is_admin, rs.id AS rating_scale, rs.min, rs.max FROM users u LEFT JOIN rating_scales rs ON rs.id = u.rating_scale WHERE email = $1", [email])
     .then(results => {
       if (results.rowCount > 0) {
         if (compareSync(password, results.rows[0].password)) {
@@ -67,7 +67,9 @@ export const login = (req, res) => {
             email: results.rows[0].email,
             is_admin: results.rows[0].is_admin,
             token: token,
-            rating_scale: results.rows[0].rating_scale
+            rating_scale: results.rows[0].rating_scale,
+            rating_scale_min: results.rows[0].min,
+            rating_scale_max: results.rows[0].max
           };
 
           res.cookie("jwt", token, cookieOptions);
@@ -107,7 +109,7 @@ function generateToken(attributes) {
   return sign(attributes, process.env.JWT_SECRET, { expiresIn: "2 days" });
 }
 
-export const changeScale = (req, res) =>{
+export const changeScale = (req, res) => {
   const user = req.body;
 
   query("UPDATE users SET rating_scale = $1 WHERE id = $2", [user.rating_scale, req.params.id])
@@ -116,5 +118,17 @@ export const changeScale = (req, res) =>{
   })
   .catch(error => {
     res.status(500).json({ error: `${error}` });
+  });
+}
+
+export const getScales = (req, res) => {
+  const sql = "SELECT id, min, max FROM rating_scales";
+
+  query(sql)
+  .then(results => {
+    res.status(200).json(results.rows);
+  })
+  .catch((error) => {
+    res.status(500).json({ error: `Error: ${error}.` });
   });
 }
