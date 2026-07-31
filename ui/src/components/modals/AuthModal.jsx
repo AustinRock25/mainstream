@@ -17,6 +17,17 @@ function AuthModal({ show, setShow, action }) {
   useEffect(() => {
     if (!!user)
       setFormData({ rating_scale: user.rating_scale });
+
+    api.get("/auth/get")
+      .then(response => {
+        setScales(response.data);
+      })
+      .catch(error => {
+        if (error.response?.status === 422)
+          setErrors(error.response.data.errors);
+        else
+          setErrors({ form: "An unexpected error occurred. Please try again later." });
+      });
   }, [user]);
 
   function handleSubmit(e) {
@@ -86,19 +97,6 @@ function AuthModal({ show, setShow, action }) {
       })
       .finally(() => {
         setIsLoading(false);
-      });
-  }
-
-  function get() {
-    api.put("/auth/get")
-      .then(response => {
-        setScales(response.data);
-      })
-      .catch(error => {
-        if (error.response?.status === 422)
-          setErrors(error.response.data.errors);
-        else
-          setErrors({ form: "An unexpected error occurred. Please try again later." });
       });
   }
 
