@@ -233,7 +233,7 @@ function MediaForm({ show, setShow, media, season }) {
   }
 
   const getGrade = (grade) => {
-    return (Number.parseFloat(grade) + Number.parseFloat(user.rating_scale_min)) + `${user.rating_scale_max}`;
+    return (Number.parseFloat(grade) + Number.parseFloat(user.rating_scale_min)) + `/${user.rating_scale_max}`;
   }
 
   function handleSubmit(e) {
@@ -394,7 +394,7 @@ function MediaForm({ show, setShow, media, season }) {
               <hr/>
                 <Form.Group as={Row} className="mb-3">
                   <Form.Label column sm={3}>Grade: <span className={`fw-light text-${Math.round((Number.parseFloat((formData.grade * 100) / (user.rating_scale_max - user.rating_scale_min)) + Number.parseFloat(100)) / 2) <= 69 ? "danger" : Math.round((Number.parseFloat((formData.grade * 100) / (user.rating_scale_max - user.rating_scale_min)) + Number.parseFloat(100)) / 2) <= 79 ? "warning" : "success"}`}>{getGrade(formData.grade)}</span></Form.Label>
-                  <Col sm={9}><Form.Range min={user.rating_scale_min - user.rating_scale_min} max={user.rating_scale_max - user.rating_scale_min} step="0.5" value={formData.grade} onChange={(e) => handleChange(e, "grade")} /></Col>
+                  <Col sm={9}><Form.Range min="0" max={user.rating_scale_max - user.rating_scale_min} step="0.5" value={formData.grade} onChange={(e) => handleChange(e, "grade")} /></Col>
                   <Form.Control.Feedback type="invalid">{errors.grade}</Form.Control.Feedback>
                 </Form.Group>
                 {(formData.type === "movie" || formData.id == "na" || media?.id) && (
