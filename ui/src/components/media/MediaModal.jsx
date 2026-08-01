@@ -120,12 +120,12 @@ function MediaModal({ show, setShow, media, user, seasonCount }) {
     let newGrade;
 
     if (!user)
-      newGrade = Number.parseInt((g / 100) * 9) + Number.parseInt(1);
+      newGrade = Number.parseFloat((g / 100) * 9) + Number.parseFloat(1);
     else
       newGrade = Number.parseFloat((g / 100) * (user.rating_scale_max - user.rating_scale_min)) + Number.parseFloat(user.rating_scale_min);
     
     if (!user)
-      return newGrade + "/10";
+      return Math.round(newGrade) + "/10";
     else {
       newGrade = Math.round(newGrade * 2) / 2;
 
