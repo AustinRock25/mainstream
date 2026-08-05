@@ -56,7 +56,7 @@ export const login = (req, res) => {
     return;
   }
 
-  query("SELECT u.id AS id, email, password, is_admin, rs.id AS rating_scale, rs.min AS min, rs.max AS max FROM users u LEFT JOIN rating_scales rs ON rs.id = u.rating_scale WHERE email = $1", [email])
+  query("SELECT u.id AS id, email, password, is_admin, rs.id AS rating_scale, rs.min AS min, rs.max AS max, rs.step AS step FROM users u LEFT JOIN rating_scales rs ON rs.id = u.rating_scale WHERE email = $1", [email])
     .then(results => {
       if (results.rowCount > 0) {
         if (compareSync(password, results.rows[0].password)) {
@@ -69,7 +69,8 @@ export const login = (req, res) => {
             token: token,
             rating_scale: results.rows[0].rating_scale,
             rating_scale_min: results.rows[0].min,
-            rating_scale_max: results.rows[0].max
+            rating_scale_max: results.rows[0].max,
+            rating_scale_step: results.rows[0].step
           };
 
           res.cookie("jwt", token, cookieOptions);
@@ -122,7 +123,7 @@ export const changeScale = (req, res) => {
 }
 
 export const getScales = (req, res) => {
-  const sql = "SELECT id, min, max FROM rating_scales ORDER BY max ASC, min ASC";
+  const sql = "SELECT id, min, max, step FROM rating_scales ORDER BY max ASC, min ASC";
 
   query(sql)
   .then(results => {

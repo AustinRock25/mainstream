@@ -12,7 +12,7 @@ export const authenticate = (req, res, next) => {
     if (error)
       return res.status(401).json({ error: `Bad token. ${error}` });
     else {
-      query("SELECT u.id AS id, email, password, is_admin, rs.id AS rating_scale, rs.min AS rating_scale_min, rs.max AS rating_scale_max FROM users u LEFT JOIN rating_scales rs ON rs.id = u.rating_scale WHERE u.id = $1", [decoded.id])
+      query("SELECT u.id AS id, email, password, is_admin, rs.id AS rating_scale, rs.min AS rating_scale_min, rs.max AS rating_scale_max, rs.step AS rating_scale_step FROM users u LEFT JOIN rating_scales rs ON rs.id = u.rating_scale WHERE u.id = $1", [decoded.id])
         .then(results => {
           if (results.rowCount > 0) {
             res.locals.user = results.rows[0];
