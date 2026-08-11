@@ -21,9 +21,6 @@ function AuthModal({ show, setShow, action }) {
     api.get("/auth/get")
       .then(response => {
         setScales(response.data);
-
-        if (!user || (!!user && !isAdmin))
-          setScales(scales.filter((scale) => scale.id !== 12));
       })
       .catch(error => {
         if (error.response?.status === 422)
