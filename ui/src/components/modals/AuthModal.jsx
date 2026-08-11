@@ -22,7 +22,7 @@ function AuthModal({ show, setShow, action }) {
       .then(response => {
         if (isAdmin)
           setScales(response.data);
-        else
+        else if (!user || (!!user && !isAdmin))
           setScales(response.data.filter(r => !new Set(response.data.map(s => s.id)).has(12)));
       })
       .catch(error => {
