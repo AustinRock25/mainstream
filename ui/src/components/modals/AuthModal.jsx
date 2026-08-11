@@ -12,7 +12,7 @@ function AuthModal({ show, setShow, action }) {
   const [scales, setScales] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
-  const { user } = useSelector(state => state.auth);
+  const { user, isAdmin } = useSelector(state => state.auth);
 
   useEffect(() => {
     if (!!user)
@@ -20,7 +20,10 @@ function AuthModal({ show, setShow, action }) {
 
     api.get("/auth/get")
       .then(response => {
-        setScales(response.data);
+        if (isAdmin)
+          setScales(response.data);
+        else
+          setScales(response.data.filter(r => !new Set(response.data.map(s => s.id)).has(12)));
       })
       .catch(error => {
         if (error.response?.status === 422)

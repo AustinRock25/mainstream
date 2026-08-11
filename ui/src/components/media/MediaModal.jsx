@@ -152,7 +152,7 @@ function MediaModal({ show, setShow, media, user, seasonCount }) {
       else if (newGrade <= 96)
         return "A";
       else
-        return "A";
+        return "A+";
     }
     else {
       newGrade = Math.round(newGrade * (1 / user.rating_scale_step)) / (1 / user.rating_scale_step);
