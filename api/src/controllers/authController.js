@@ -26,6 +26,7 @@ export const register = (req, res) => {
           const payload = {
             id: results.rows[0].id,
             email: results.rows[0].email,
+            rating_scale: results.rows[0].rating_scale,
             token: token
           };
           
