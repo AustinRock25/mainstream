@@ -27,26 +27,26 @@ function Home() {
     if (!runtime) 
       return "";
 
-    const centuries = Math.floor(runtime / 52560000);
+    const centuries = Math.floor(runtime / 52594920);
 
     if (centuries > 0) 
       timeStr += `${centuries}c `;
 
-    runtime %= 52560000;
+    runtime %= 52594920;
 
-    const years = Math.floor(runtime / 525600);
+    const years = Math.floor(runtime / 525949.2);
 
     if (years > 0) 
       timeStr += `${years}yr `;
 
-    runtime %= 525600;
+    runtime %= 525949.2;
 
-    const months = Math.floor(runtime / 43800);
+    const months = Math.floor(runtime / 43829.1);
 
     if (months > 0) 
       timeStr += `${months}m `;
 
-    runtime %= 43800;
+    runtime %= 43829.1;
 
     const weeks = Math.floor(runtime / 10080);
 
