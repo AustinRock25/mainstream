@@ -74,26 +74,26 @@ function MediaModal({ show, setShow, media, user, seasonCount }) {
     if (!runtime) 
       return "";
 
-    const centuries = Math.floor(runtime / 52594920);
+    const centuries = Math.floor(runtime / 52560000);
 
     if (centuries > 0) 
       timeStr += `${centuries}c `;
 
-    runtime %= 52594920;
+    runtime %= 52560000;
 
-    const years = Math.floor(runtime / 525949.2);
+    const years = Math.floor(runtime / 525600);
 
     if (years > 0) 
       timeStr += `${years}yr `;
 
-    runtime %= 525949.2;
+    runtime %= 525600;
 
-    const months = Math.floor(runtime / 43829.1);
+    const months = Math.floor(runtime / 43200);
 
     if (months > 0) 
       timeStr += `${months}m `;
 
-    runtime %= 43829.1;
+    runtime %= 43200;
 
     const weeks = Math.floor(runtime / 10080);
 
