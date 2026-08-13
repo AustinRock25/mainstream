@@ -22,35 +22,52 @@ function Home() {
   }, [totals]);
 
   const time = (runtime) => {
+    let timeStr = "";
+
     if (!runtime) 
       return "";
 
     const centuries = Math.floor(runtime / 52560000);
-    const years = Math.floor((runtime % 52560000) / 525960);
-    const months = Math.floor(((runtime % 52560000) % 525960) / 43800);
-    const weeks = Math.floor((((runtime % 52560000) % 525960) % 43800) / 10080);
-    const days = Math.floor(((((runtime % 52560000) % 525960) % 43800) % 10080) / 1440);
-    const hours = Math.floor((((((runtime % 52560000) % 525960) % 43800) % 10080) % 1440) / 60);
-    const minutes = runtime % 60;
-    let timeStr = "";
 
     if (centuries > 0) 
       timeStr += `${centuries}c `;
-    
+
+    runtime %= 52560000;
+
+    const years = Math.floor(runtime / 525600);
+
     if (years > 0) 
       timeStr += `${years}yr `;
-    
+
+    runtime %= 525600;
+
+    const months = Math.floor(runtime / 43800);
+
     if (months > 0) 
       timeStr += `${months}m `;
-    
+
+    runtime %= 43800;
+
+    const weeks = Math.floor(runtime / 10080);
+
     if (weeks > 0) 
       timeStr += `${weeks}wk `;
-    
+
+    runtime %= 10080;
+
+    const days = Math.floor(runtime / 1440);
+
     if (days > 0) 
       timeStr += `${days}d `;
     
+    runtime %= 1440;
+
+    const hours = Math.floor(runtime / 60);
+
     if (hours > 0) 
       timeStr += `${hours}hr `;
+
+    const minutes = runtime % 60;
 
     if (minutes > 0) 
       timeStr += `${minutes}min`;
