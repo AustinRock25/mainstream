@@ -26,11 +26,11 @@ function Home() {
       return "";
 
     const centuries = Math.floor(runtime / 52560000);
-    const years = Math.floor(runtime / 525960);
-    const months = Math.floor(runtime / 43800);
-    const weeks = Math.floor(runtime / 10080);
-    const days = Math.floor(runtime / 1440);
-    const hours = Math.floor(runtime / 60);
+    const years = Math.floor((runtime % 52560000) / 525960);
+    const months = Math.floor(((runtime % 52560000) % 525960) / 43800);
+    const weeks = Math.floor((((runtime % 52560000) % 525960) % 43800) / 10080);
+    const days = Math.floor(((((runtime % 52560000) % 525960) % 43800) % 10080) / 1440);
+    const hours = Math.floor((((((runtime % 52560000) % 525960) % 43800) % 10080) % 1440) / 60);
     const minutes = runtime % 60;
     let timeStr = "";
 
