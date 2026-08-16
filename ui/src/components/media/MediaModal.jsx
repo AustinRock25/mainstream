@@ -136,40 +136,22 @@ function MediaModal({ show, setShow, media, user, seasonCount }) {
   function grade(g) {
     let newGrade;
 
-    if (!user)
-      newGrade = (Number.parseFloat(g) + Number.parseFloat(100)) / 2;
-    else
+    if (user)
       newGrade = Number.parseFloat((g / 100) * (user.rating_scale_max - user.rating_scale_min)) + Number.parseFloat(user.rating_scale_min);
     
     if (!user) {
-      newGrade = Math.round(newGrade);
+      newGrade = Math.round(g);
 
-      if (newGrade <= 59)
+      if (newGrade <= 19)
         return "F";
-      else if (newGrade <= 62)
-        return "D-";
-      else if (newGrade <= 66)
+      else if (newGrade <= 39)
         return "D";
-      else if (newGrade <= 69)
-        return "D+";
-      else if (newGrade <= 72)
-        return "C-";
-      else if (newGrade <= 76)
+      else if (newGrade <= 60)
         return "C";
-      else if (newGrade <= 79)
-        return "C+";
-      else if (newGrade <= 82)
-        return "B-";
-      else if (newGrade <= 86)
+      else if (newGrade <= 80)
         return "B";
-      else if (newGrade <= 89)
-        return "B+";
-      else if (newGrade <= 92)
-        return "A-";
-      else if (newGrade <= 96)
-        return "A";
       else
-        return "A+";
+        return "A";
     }
     else {
       newGrade = Math.round(newGrade * (1 / user.rating_scale_step)) / (1 / user.rating_scale_step);
