@@ -101,11 +101,7 @@ function MediaForm({ show, setShow, media, season }) {
 
       cast = Array.from(peopleMap.values());
 
-      if (!isAdmin) {
-        grade = Number.parseFloat((media.grade / 100) * (user.rating_scale_max - user.rating_scale_min));
-        grade = Math.round(grade * (1 / user.rating_scale_step)) / (1 / user.rating_scale_step);
-      }
-      else {
+      if (isAdmin) {
         grade = Math.round((Number.parseFloat(media.grade) + Number.parseFloat(100)) / 2);
         
         if (grade <= 59)
@@ -134,6 +130,10 @@ function MediaForm({ show, setShow, media, season }) {
           grade = 11;
         else
           grade = 12;
+      }
+      else {
+        grade = Number.parseFloat((media.grade / 100) * (user.rating_scale_max - user.rating_scale_min));
+        grade = Math.round(grade * (1 / user.rating_scale_step)) / (1 / user.rating_scale_step);
       }
 
       setFormData({
@@ -304,9 +304,7 @@ function MediaForm({ show, setShow, media, season }) {
     e.preventDefault();
     setIsSubmitting(true);
 
-    if (!isAdmin)
-      grade = (parseFloat(formData.grade) * 100) / (user.rating_scale_max - user.rating_scale_min);
-    else {
+    if (isAdmin) {
       if (grade == 0)
         grade = 9;
       else if (grade == 1)
@@ -334,6 +332,8 @@ function MediaForm({ show, setShow, media, season }) {
       else
         grade = 97;
     }
+    else
+      grade = (parseFloat(formData.grade) * 100) / (user.rating_scale_max - user.rating_scale_min);
 
     const payload = { ...formData, castAndCrew: selected, episodes: episodes, newGrade: grade };
     const apiCall = media?.id ? api.put(`/media/${media.id}`, [payload, media]) : api.post("/media", payload);
@@ -489,7 +489,7 @@ function MediaForm({ show, setShow, media, season }) {
               <hr/>
                 <Form.Group as={Row} className="mb-3">
                   <Form.Label column sm={3}>Grade: <span className={`fw-light text-${Math.round((formData.grade * 100) / (user.rating_scale_max - user.rating_scale_min)) <= 39 ? "danger" : Math.round((formData.grade * 100) / (user.rating_scale_max - user.rating_scale_min)) <= 60 ? "warning" : "success"}`}>{getGrade(formData.grade)}</span></Form.Label>
-                  <Col sm={9}>{!isAdmin ? <Form.Range min="0" max={user.rating_scale_max - user.rating_scale_min} step={user.rating_scale_step} value={formData.grade} onChange={(e) => handleChange(e, "grade")} /> : <Form.Range min="0" max="12" value={formData.grade} onChange={(e) => handleChange(e, "grade")} />}</Col>
+                  <Col sm={9}>{isAdmin ? <Form.Range min="0" max="12" value={formData.grade} onChange={(e) => handleChange(e, "grade")} /> : <Form.Range min="0" max={user.rating_scale_max - user.rating_scale_min} step={user.rating_scale_step} value={formData.grade} onChange={(e) => handleChange(e, "grade")} />}</Col>
                   <Form.Control.Feedback type="invalid">{errors.grade}</Form.Control.Feedback>
                 </Form.Group>
                 {(formData.type === "movie" || formData.id == "na" || media?.id) && (
