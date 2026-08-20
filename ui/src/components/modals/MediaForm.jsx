@@ -488,7 +488,7 @@ function MediaForm({ show, setShow, media, season }) {
             <>
               <hr/>
                 <Form.Group as={Row} className="mb-3">
-                  <Form.Label column sm={3}>Grade: <span className={`fw-light text-${Math.round((formData.grade * 100) / (user.rating_scale_max - user.rating_scale_min)) <= 39 ? "danger" : Math.round((formData.grade * 100) / (user.rating_scale_max - user.rating_scale_min)) <= 60 ? "warning" : "success"}`}>{getGrade(formData.grade)}</span></Form.Label>
+                  <Form.Label column sm={3}>Grade: {isAdmin ? <span className={`fw-light text-${formData.grade <= 39 ? "danger" : formData.grade <= 6 ? "warning" : "success"}`}>{getGrade(formData.grade)}</span> : <span className={`fw-light text-${Math.round((formData.grade * 100) / (user.rating_scale_max - user.rating_scale_min)) <= 39 ? "danger" : Math.round((formData.grade * 100) / (user.rating_scale_max - user.rating_scale_min)) <= 60 ? "warning" : "success"}`}>{getGrade(formData.grade)}</span>}</Form.Label>
                   <Col sm={9}>{isAdmin ? <Form.Range min="0" max="12" value={formData.grade} onChange={(e) => handleChange(e, "grade")} /> : <Form.Range min="0" max={user.rating_scale_max - user.rating_scale_min} step={user.rating_scale_step} value={formData.grade} onChange={(e) => handleChange(e, "grade")} />}</Col>
                   <Form.Control.Feedback type="invalid">{errors.grade}</Form.Control.Feedback>
                 </Form.Group>
