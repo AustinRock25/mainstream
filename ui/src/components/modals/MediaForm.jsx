@@ -18,7 +18,7 @@ function MediaForm({ show, setShow, media, season }) {
   const [activeEpisodeIndex, setActiveEpisodeIndex] = useState(null); 
   const [selected, setSelected] = useState([]);
   const [shows, setShows] = useState([]);
-  const { user } = useSelector(state => state.auth);
+  const { user, isAdmin } = useSelector(state => state.auth);
 
   const initialFormData = {
     id: "",
@@ -100,8 +100,41 @@ function MediaForm({ show, setShow, media, season }) {
       }
 
       cast = Array.from(peopleMap.values());
-      grade = Number.parseFloat((media.grade / 100) * (user.rating_scale_max - user.rating_scale_min));
-      grade = Math.round(grade * (1 / user.rating_scale_step)) / (1 / user.rating_scale_step);
+
+      if (!isAdmin) {
+        grade = Number.parseFloat((media.grade / 100) * (user.rating_scale_max - user.rating_scale_min));
+        grade = Math.round(grade * (1 / user.rating_scale_step)) / (1 / user.rating_scale_step);
+      }
+      else {
+        grade = Math.round((Number.parseFloat(media.grade) + Number.parseFloat(100)) / 2);
+        
+        if (grade <= 59)
+          grade = 0;
+        else if (grade <= 62)
+          grade = 1;
+        else if (grade <= 66)
+          grade = 2;
+        else if (grade <= 69)
+          grade = 3;
+        else if (grade <= 72)
+          grade = 4;
+        else if (grade <= 76)
+          grade = 5;
+        else if (grade <= 79)
+          grade = 6;
+        else if (grade <= 82)
+          grade = 7;
+        else if (grade <= 86)
+          grade = 8;
+        else if (grade <= 89)
+          grade = 9;
+        else if (grade <= 92)
+          grade = 10;
+        else if (grade <= 96)
+          grade = 11;
+        else
+          grade = 12;
+      }
 
       setFormData({
         id: media.id || "",
@@ -233,13 +266,75 @@ function MediaForm({ show, setShow, media, season }) {
   }
 
   const getGrade = (grade) => {
-    return (Number.parseFloat(grade) + Number.parseFloat(user.rating_scale_min)) + `/${user.rating_scale_max}`;
+    if (isAdmin) {
+      if (grade == 0)
+        return "F";
+      else if (grade == 1)
+        return "D-";
+      else if (grade == 2)
+        return "D";
+      else if (grade == 3)
+        return "D+";
+      else if (grade == 4)
+        return "C-";
+      else if (grade == 5)
+        return "C";
+      else if (grade == 6)
+        return "C+";
+      else if (grade == 7)
+        return "B-";
+      else if (grade == 8)
+        return "B";
+      else if (grade == 9)
+        return "B+";
+      else if (grade == 10)
+        return "A-";
+      else if (grade == 11)
+        return "A";
+      else
+        return "A+";
+    }
+    else
+      return (Number.parseFloat(grade) + Number.parseFloat(user.rating_scale_min)) + `/${user.rating_scale_max}`;
   }
 
   function handleSubmit(e) {
+    let grade;
+
     e.preventDefault();
     setIsSubmitting(true);
-    let grade = (parseFloat(formData.grade) * 100) / (user.rating_scale_max - user.rating_scale_min);
+
+    if (!isAdmin)
+      grade = (parseFloat(formData.grade) * 100) / (user.rating_scale_max - user.rating_scale_min);
+    else {
+      if (grade == 0)
+        grade = 9;
+      else if (grade == 1)
+        grade = 22;
+      else if (grade == 2)
+        grade = 29;
+      else if (grade == 3)
+        grade = 36;
+      else if (grade == 4)
+        grade = 42;
+      else if (grade == 5)
+        grade = 49;
+      else if (grade == 6)
+        grade = 56;
+      else if (grade == 7)
+        grade = 62;
+      else if (grade == 8)
+        grade = 69;
+      else if (grade == 9)
+        grade = 76;
+      else if (grade == 10)
+        grade = 82;
+      else if (grade == 11)
+        grade = 89;
+      else
+        grade = 97;
+    }
+
     const payload = { ...formData, castAndCrew: selected, episodes: episodes, newGrade: grade };
     const apiCall = media?.id ? api.put(`/media/${media.id}`, [payload, media]) : api.post("/media", payload);
   
@@ -394,7 +489,7 @@ function MediaForm({ show, setShow, media, season }) {
               <hr/>
                 <Form.Group as={Row} className="mb-3">
                   <Form.Label column sm={3}>Grade: <span className={`fw-light text-${Math.round((formData.grade * 100) / (user.rating_scale_max - user.rating_scale_min)) <= 39 ? "danger" : Math.round((formData.grade * 100) / (user.rating_scale_max - user.rating_scale_min)) <= 60 ? "warning" : "success"}`}>{getGrade(formData.grade)}</span></Form.Label>
-                  <Col sm={9}><Form.Range min="0" max={user.rating_scale_max - user.rating_scale_min} step={user.rating_scale_step} value={formData.grade} onChange={(e) => handleChange(e, "grade")} /></Col>
+                  <Col sm={9}>{!isAdmin ? <Form.Range min="0" max={user.rating_scale_max - user.rating_scale_min} step={user.rating_scale_step} value={formData.grade} onChange={(e) => handleChange(e, "grade")} /> : <Form.Range min="0" max="12" value={formData.grade} onChange={(e) => handleChange(e, "grade")} />}</Col>
                   <Form.Control.Feedback type="invalid">{errors.grade}</Form.Control.Feedback>
                 </Form.Group>
                 {(formData.type === "movie" || formData.id == "na" || media?.id) && (
