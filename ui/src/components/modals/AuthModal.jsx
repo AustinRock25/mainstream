@@ -8,7 +8,7 @@ import { useNavigate } from "react-router-dom";
 function AuthModal({ show, setShow, action }) {
   const dispatch = useDispatch();
   const [errors, setErrors] = useState({});
-  const [formData, setFormData] = useState({ email: "", password: "", rating_scale: 2 });
+  const [formData, setFormData] = useState({ email: "", password: "", rating_scale: 15 });
   const [scales, setScales] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
@@ -49,7 +49,7 @@ function AuthModal({ show, setShow, action }) {
 
   function resetForm() {
     setErrors({});
-    setFormData({ email: "", password: "", rating_scale: 2 });
+    setFormData({ email: "", password: "", rating_scale: 15 });
   }
 
   function login() {
