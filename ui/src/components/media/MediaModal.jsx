@@ -135,17 +135,17 @@ function MediaModal({ show, setShow, media, user, seasonCount }) {
 
   function grade(g) {
     if (!user) {
-      if (grade <= (100/7))
+      if (g <= (100/7))
         return "F-tier";
-      else if (grade <= (200/7))
+      else if (g <= (200/7))
         return "E-tier";
-      else if (grade <= (300/7))
+      else if (g <= (300/7))
         return "D-tier";
-      else if (grade <= (400/7))
+      else if (g <= (400/7))
         return "C-tier";
-      else if (grade <= (500/7))
+      else if (g <= (500/7))
         return "B-tier";
-      else if (grade <= (600/7))
+      else if (g <= (600/7))
         return "A-tier";
       else
         return "S-tier";
