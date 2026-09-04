@@ -268,24 +268,36 @@ function MediaModal({ show, setShow, media, user, seasonCount }) {
                         <span className="fs-5 fw-bold opacity-50 text-nowrap position-absolute" style={{ right: "3.5rem" }}>{time(ep.runtime)}</span>
                       </Accordion.Header>
                       <Accordion.Body className="bg-dark text-white-50">
-                        {combineDirectorsAndWriters(ep) && (
-                          <div className="mb-2">
-                            <h6 className="text-uppercase text-secondary small fw-bold">Written & Directed by</h6>
-                            <p>{getNames(ep.directors).join(", ")}</p>
-                          </div>
-                        )}
-                        {!combineDirectorsAndWriters(ep) && getNames(ep.directors).length > 0 && (
-                          <div className="mb-2">
-                            <h6 className="text-uppercase text-secondary small fw-bold">Directed by</h6>
-                            <p>{getNames(ep.directors).join(", ")}</p>
-                          </div>
-                        )}
-                        {!combineDirectorsAndWriters(ep) && getNames(ep.writers).length > 0 && (
-                          <div className="mb-2">
-                            <h6 className="text-uppercase text-secondary small fw-bold">Written by</h6>
-                            <p>{getNames(ep.writers).join(", ")}</p>
-                          </div>
-                        )}
+                        <Row>
+                          <Col xs={12} md={8}>
+                            {combineDirectorsAndWriters(ep) && (
+                              <div className="mb-2">
+                                <h6 className="text-uppercase text-secondary small fw-bold">Written & Directed by</h6>
+                                <p>{getNames(ep.directors).join(", ")}</p>
+                              </div>
+                            )}
+                            {!combineDirectorsAndWriters(ep) && getNames(ep.directors).length > 0 && (
+                              <div className="mb-2">
+                                <h6 className="text-uppercase text-secondary small fw-bold">Directed by</h6>
+                                <p>{getNames(ep.directors).join(", ")}</p>
+                              </div>
+                            )}
+                            {!combineDirectorsAndWriters(ep) && getNames(ep.writers).length > 0 && (
+                              <div className="mb-2">
+                                <h6 className="text-uppercase text-secondary small fw-bold">Written by</h6>
+                                <p>{getNames(ep.writers).join(", ")}</p>
+                              </div>
+                            )}
+                          </Col>
+                          <Col xs={12} md={4} className="text-center mb-4 mb-md-0">
+                            <img 
+                              src={`posters/${media.title} (${new Date(media.seasons[0].episodes[0].release_date).getUTCFullYear()})/${currentSeason + 1}x${ep.episode}.jpg`}
+                              alt={media.title}
+                              className="img-fluid rounded mb-3 shadow"
+                              style={{ maxWidth: "150px" }}
+                            />
+                          </Col>
+                        </Row>
                         <hr className="my-3" />
                         <p className="text-center">{ep.synopsis}</p>
                       </Accordion.Body>
