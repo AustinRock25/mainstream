@@ -294,7 +294,6 @@ function MediaModal({ show, setShow, media, user, seasonCount }) {
                               src={`posters/${media.title} (${new Date(media.seasons[0].episodes[0].release_date).getUTCFullYear()})/${currentSeason + 1}x${ep.episode}.jpg`}
                               alt={media.title}
                               className="img-fluid rounded mb-3 shadow"
-                              style={{ maxWidth: "300px" }}
                             />
                           </Col>
                         </Row>
