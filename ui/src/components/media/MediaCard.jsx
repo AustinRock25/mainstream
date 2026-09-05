@@ -34,7 +34,7 @@ function MediaCard ({media}) {
             break;
         }
 
-        setSeasonCount(currentSearchSeason - 1);
+        setSeasonCount(currentSearchSeason);
       } 
       catch (error) {
         console.error("Error calculating maximum seasons and years:", error);
