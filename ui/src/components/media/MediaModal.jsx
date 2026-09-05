@@ -291,7 +291,7 @@ function MediaModal({ show, setShow, media, user, seasonCount }) {
                           </Col>
                           <Col xs={12} md={4} className="text-center mb-1 mb-md-0">
                             <img 
-                              src={`posters/${media.title} (${new Date(media.seasons[0].episodes[0].release_date).getUTCFullYear()})/${currentSeason + 1}x${ep.episode}.jpg`}
+                              src={`posters/${new Date(media.seasons[0].episodes[0].release_date).getUTCFullYear()}_${getPoster(media)}/${currentSeason + 1}x${ep.episode}.jpg`}
                               alt={media.title}
                               className="img-fluid rounded mb-1 shadow"
                             />
