@@ -17,9 +17,9 @@ function MediaCard ({media}) {
       try {
         const response = await api.get("/media/seasons", { params: { id: media.id } });
         let currentSearchSeason = response.data[0].count;
+        let found = true;
 
-        while (true) {
-          let found = false;
+        while (found == true) {
           const testPath = `posters/${new Date(media.start_date).getUTCFullYear()}_${getPoster(media)}/${currentSearchSeason}.jpg`;
           const checkResponse = await fetch(testPath, { method: "HEAD" });
 
@@ -28,7 +28,7 @@ function MediaCard ({media}) {
             currentSearchSeason++;
           }
           else
-            break;
+            found = false;
         }
 
         setSeasonCount(currentSearchSeason--);
