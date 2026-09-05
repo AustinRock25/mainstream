@@ -25,11 +25,8 @@ function MediaCard ({media}) {
 
           if (checkResponse.ok) {
             found = true;
-            break;
-          }
-        
-          if (found)
             currentSearchSeason++;
+          }
           else
             break;
         }
