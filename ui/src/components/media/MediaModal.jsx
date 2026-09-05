@@ -213,7 +213,7 @@ function MediaModal({ show, setShow, media, user, seasonCount }) {
         <Row>
           <Col xs={12} md={4} className="text-center mb-4 mb-md-0">
             <img 
-              src={media.type !== "show" ? `posters/${new Date(media.release_date).getUTCFullYear()}_${getPoster(media)}.jpg` : `posters/${new Date(media.seasons[currentSeason].episodes[0].release_date).getUTCFullYear()}_${getPoster(media)}_s${currentSeason + 1}.jpg`}
+              src={media.type !== "show" ? `posters/${new Date(media.release_date).getUTCFullYear()}_${getPoster(media)}.jpg` : `posters/${new Date(media.seasons[0].episodes[0].release_date).getUTCFullYear()}_${getPoster(media)}/${currentSeason + 1}.jpg`}
               alt={media.title}
               className="img-fluid rounded mb-3 shadow"
               style={{ maxHeight: "300px" }}

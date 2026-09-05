@@ -7,41 +7,33 @@ import { useSelector } from "react-redux";
 function MediaCard ({media}) {
   const { user } = useSelector(state => state.auth);
   const [seasonCount, setSeasonCount] = useState(0);
-  const [maxYear, setMaxYear] = useState(0);
   const [showMediaModal, setShowMediaModal] = useState(false);
 
   useEffect(() => {
-    if (media.type !== "show") return;
+    if (media.type !== "show")
+      return;
 
     const fetchAndFindMaxSeason = async () => {
       try {
         const response = await api.get("/media/seasons", { params: { id: media.id } });
-        const startYear = new Date(media.start_date).getUTCFullYear();
-        const endYear = new Date().getUTCFullYear();
         let currentSearchSeason = response.data[0].count;
-        let currentMaxYear = startYear;
 
         while (true) {
           let found = false;
+          const testPath = `posters/${new Date(media.start_date).getUTCFullYear()}_${getPoster(media)}/${currentSearchSeason}.jpg`;
+          const checkResponse = await fetch(testPath, { method: "HEAD" });
 
-          for (let d = currentMaxYear; d <= endYear; d++) {
-            const testPath = `posters/${d}_${getPoster(media)}_s${currentSearchSeason}.jpg`;
-            const checkResponse = await fetch(testPath, { method: "HEAD" });
-
-            if (checkResponse.ok) {
-              currentMaxYear = d;
-              found = true;
-              break;
-            }
+          if (checkResponse.ok) {
+            found = true;
+            break;
           }
-          
+        
           if (found)
             currentSearchSeason++;
           else
             break;
         }
 
-        setMaxYear(currentMaxYear);
         setSeasonCount(currentSearchSeason - 1);
       } 
       catch (error) {
@@ -81,7 +73,7 @@ function MediaCard ({media}) {
       <Card>
         <Card.Img 
           variant="top" 
-          src={media.type !== "show" ? `posters/${new Date(media.release_date).getUTCFullYear()}_${getPoster(media)}.jpg` : `posters/${maxYear}_${getPoster(media)}_s${seasonCount}.jpg`}
+          src={media.type !== "show" ? `posters/${new Date(media.release_date).getUTCFullYear()}_${getPoster(media)}.jpg` : `posters/${new Date(media.start_date).getUTCFullYear()}_${getPoster(media)}/${seasonCount}.jpg`}
           className="rounded"
           alt={`Poster for ${media.title}`} 
           onClick={handleOpenModal}
