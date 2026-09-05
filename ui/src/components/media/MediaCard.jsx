@@ -19,19 +19,17 @@ function MediaCard ({media}) {
         let currentSearchSeason = response.data[0].count;
         let found = true;
 
-        while (found == true) {
+        while (found) {
           const testPath = `posters/${new Date(media.start_date).getUTCFullYear()}_${getPoster(media)}/${currentSearchSeason}.jpg`;
           const checkResponse = await fetch(testPath, { method: "HEAD" });
 
-          if (checkResponse.ok) {
-            found = true;
+          if (checkResponse.ok)
             currentSearchSeason++;
-          }
           else
             found = false;
         }
 
-        setSeasonCount(currentSearchSeason--);
+        setSeasonCount(currentSearchSeason - 1);
       } 
       catch (error) {
         console.error("Error calculating maximum seasons and years:", error);
