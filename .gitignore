@@ -17,6 +17,7 @@ data
 logfile
 package-lock.json
 /.github
+.git
 
 .vscode/*
 !.vscode/extensions.json
