@@ -247,7 +247,7 @@ export const create = async (req, res) => {
   const sql = 
     `
       WITH new_id_cte AS (
-        SELECT COUNT(*) + 1 AS id FROM people
+        SELECT MAX(id) + 1 AS id FROM people
       )
       INSERT INTO people (id, name, birth_date, death_date)
       SELECT id, $1, $2, $3
