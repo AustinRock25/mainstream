@@ -60,14 +60,7 @@ const Person = ({person}) => {
       else
         year = new Date(credit.release_date).getFullYear();
 
-      if (person.name == "Rose McGowan" && credit.id == 1597)
-        return `Planet Terror (${year})\nDeath Proof (${year})`;
-      else if ((person.name == "Freddy Rodriguez" || person.name == "Michael Biehn" || person.name == "Jeff Fahey" || person.name == "Josh Brolin" || person.name == "Marley Shelton" || person.name == "Robert Rodriguez") && credit.id == 1597)
-        return `Planet Terror (${year})`;
-      else if ((person.name == "Kurt Russell" || person.name == "Rosario Dawson" || person.name == "Vanessa Ferlito" || person.name == "Jordan Ladd" || person.name == "Sydney Tamiia Poitier" || person.name == "Tracie Thoms" || person.name == "Mary Elizabeth Winstead" || person.name == "Zoë Bell" || person.name == "Quentin Tarantino") && credit.id == 1597)
-        return `Death Proof (${year})`;
-      else
-        return `${credit.title} (${year})`;
+      return `${credit.title} (${year})`;
     });
   };
 
