@@ -230,14 +230,10 @@ function MediaForm({ show, setShow, media, season }) {
   }
 
   function handleSubmit(e) {
-    let grade;
-
     e.preventDefault();
-    setIsSubmitting(true);
+    setIsSubmitting(true);;
 
-    grade = (parseFloat(formData.grade) * 100) / (user.rating_scale_max - user.rating_scale_min);
-
-    const payload = { ...formData, castAndCrew: selected, episodes: episodes, newGrade: grade };
+    const payload = { ...formData, castAndCrew: selected, episodes: episodes, newGrade: formData.grade };
     const apiCall = media?.id ? api.put(`/media/${media.id}`, [payload, media]) : api.post("/media", payload);
   
     apiCall
@@ -389,7 +385,7 @@ function MediaForm({ show, setShow, media, season }) {
           {formData.type && (
             <>
               <hr/>
-                <Form.Group as={Row} className="mb-3"> 
+                <Form.Group as={Row} className="mb-3">
                   <Form.Label column sm={3}>Grade: <span className={`fw-light text-${Math.round(formData.grade) <= 39 ? "danger" : Math.round(formData.grade) <= 60 ? "warning" : "success"}`}>{formData.grade}%</span></Form.Label>
                   <Col sm={9}><Form.Range min="0" max="100" step="1" value={formData.grade} onChange={(e) => handleChange(e, "grade")} /></Col>
                   <Form.Control.Feedback type="invalid">{errors.grade}</Form.Control.Feedback>
