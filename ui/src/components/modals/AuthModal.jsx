@@ -136,7 +136,7 @@ function AuthModal({ show, setShow, action }) {
             <Form.Group className="mb-3">
               <Form.Label column sm={3}>Rating Scale</Form.Label>
               <Form.Select value={formData.rating_scale} isInvalid={!!errors.rating_scale} onChange={(e) => setFormData({ ...formData, rating_scale: e.target.value })}>
-                {Array.isArray([scales]) && scales.map(r => <option key={r.id} value={r.id}>{r.id == 20 ? "F" : r.min} to {r.id == 20 ? "A+" : r.max} {(r.step != 1 || r.step != 0) && `(${r.step} increments)`}</option>)}
+                {Array.isArray([scales]) && scales.map(r => <option key={r.id} value={r.id}>{r.id == 20 ? `F` : r.min} to {r.id == 20 ? `A+` : r.max} {(r.step != 1 || r.step != 0) && `(${r.step} increments)`}</option>)}
               </Form.Select>
             </Form.Group>
           }
