@@ -11,7 +11,7 @@ function MediaCard ({media}) {
 
   useEffect(() => {
     if (media.type !== "show")
-      return; 
+      return;
 
     const fetchAndFindMaxSeason = async () => {
       try {
