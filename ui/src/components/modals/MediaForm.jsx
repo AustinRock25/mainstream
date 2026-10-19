@@ -41,7 +41,6 @@ function MediaForm({ show, setShow, media, season }) {
     if (media?.id) {
       let cast = [];
       let ep = [];
-      let grade = null;
       const peopleMap = new Map();
 
       const addPerson = (p, role) => {
@@ -100,15 +99,13 @@ function MediaForm({ show, setShow, media, season }) {
       }
 
       cast = Array.from(peopleMap.values());
-      grade = Number.parseFloat((media.grade / 100) * (user.rating_scale_max - user.rating_scale_min));
-      grade = Math.round(grade * (1 / user.rating_scale_step)) / (1 / user.rating_scale_step);
 
       setFormData({
         id: media.id || "",
         title: media.title || "",
         synopsis: media.synopsis || "",
         season: season || "",
-        grade: grade || 0,
+        grade: media.grade || 0,
         rating: media.rating || "Not Rated",
         release_date: media.release_date ? new Date(media.release_date).toISOString().split("T")[0] : "",
         runtime: media.runtime || "",
@@ -230,10 +227,6 @@ function MediaForm({ show, setShow, media, season }) {
     setSearchTerm("");
     setActiveEpisodeIndex(null);
     setAlert({ message: "", variant: "" });
-  }
-
-  const getGrade = (grade) => {
-    return (Number.parseFloat(grade) + Number.parseFloat(user.rating_scale_min)) + `/${user.rating_scale_max}`;
   }
 
   function handleSubmit(e) {
@@ -397,8 +390,8 @@ function MediaForm({ show, setShow, media, season }) {
             <>
               <hr/>
                 <Form.Group as={Row} className="mb-3">
-                  <Form.Label column sm={3}>Grade: <span className={`fw-light text-${Math.round((formData.grade * 100) / (user.rating_scale_max - user.rating_scale_min)) <= 39 ? "danger" : Math.round((formData.grade * 100) / (user.rating_scale_max - user.rating_scale_min)) <= 60 ? "warning" : "success"}`}>{getGrade(formData.grade)}</span></Form.Label>
-                  <Col sm={9}><Form.Range min="0" max={user.rating_scale_max - user.rating_scale_min} step={user.rating_scale_step} value={formData.grade} onChange={(e) => handleChange(e, "grade")} /></Col>
+                  <Form.Label column sm={3}>Grade: <span className={`fw-light text-${Math.round(formData.grade) <= 39 ? "danger" : Math.round(formData.grade) <= 60 ? "warning" : "success"}`}>{formData.grade}/100</span></Form.Label>
+                  <Col sm={9}><Form.Range min="0" max="100" step="0.01" value={formData.grade} onChange={(e) => handleChange(e, "grade")} /></Col>
                   <Form.Control.Feedback type="invalid">{errors.grade}</Form.Control.Feedback>
                 </Form.Group>
                 {(formData.type === "movie" || formData.id == "na" || media?.id) && (
