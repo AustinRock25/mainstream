@@ -308,7 +308,7 @@ function MediaModal({ show, setShow, media, user, seasonCount }) {
           }
           </Col>
         </Row>
-        {(((new Date().getUTCFullYear() - new Date(media.release_date || media.start_date).getUTCFullYear()) % 5 == 0) && (new Date().getUTCFullYear() != new Date(media.release_date || media.start_date).getUTCFullYear())) && <div className="flex-wrap">
+        {(((new Date().getUTCFullYear() - new Date(media.release_date || media.start_date).getUTCFullYear()) % 5 == 0) && (new Date().getUTCFullYear() - new Date(media.release_date || media.start_date).getUTCFullYear()) >= 10) && <div className="flex-wrap">
           <p className="text-center fs-6"><b>{(new Date().getUTCFullYear() - new Date(media.release_date || media.start_date).getUTCFullYear())}th Anniversary</b></p>
         </div>}
       </Modal.Body>

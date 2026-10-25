@@ -69,7 +69,7 @@ export const index = (req, res) => {
     }
   }
   else
-    filterClauses.push(`(EXTRACT(MONTH FROM COALESCE(release_date, start_date)) = EXTRACT(MONTH FROM CURRENT_DATE)) AND (EXTRACT(YEAR FROM CURRENT_DATE) != EXTRACT(YEAR FROM COALESCE(release_date, start_date))) AND ((EXTRACT(YEAR FROM CURRENT_DATE) - EXTRACT(YEAR FROM COALESCE(release_date, start_date))) % 5) = 0`);
+    filterClauses.push(`(EXTRACT(MONTH FROM COALESCE(release_date, start_date)) = EXTRACT(MONTH FROM CURRENT_DATE)) AND (EXTRACT(YEAR FROM CURRENT_DATE) - EXTRACT(YEAR FROM COALESCE(release_date, start_date)) >= 10) AND ((EXTRACT(YEAR FROM CURRENT_DATE) - EXTRACT(YEAR FROM COALESCE(release_date, start_date))) % 5) = 0`);
 
   const whereClause = filterClauses.length > 0 ? `WHERE ${filterClauses.join(" AND ")}` : "";
   let orderByClause = "";
