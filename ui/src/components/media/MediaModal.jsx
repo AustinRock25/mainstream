@@ -189,7 +189,7 @@ function MediaModal({ show, setShow, media, user, seasonCount }) {
               </span>
             </div>
             {(((new Date().getUTCFullYear() - new Date(media.release_date || media.start_date).getUTCFullYear()) % 5 == 0) && (new Date().getUTCFullYear() != new Date(media.release_date || media.start_date).getUTCFullYear())) && <div className="flex-wrap" style={{ maxWidth: "25%"}}>
-              <span className="text-center"><b>{(new Date().getUTCFullYear() - new Date(media.release_date || media.start_date).getUTCFullYear())}th Anniversary</b></span>
+              <p className="text-center"><b>{(new Date().getUTCFullYear() - new Date(media.release_date || media.start_date).getUTCFullYear())}th Anniversary</b></p>
             </div>}
             <div className="d-flex flex-column flex-md-row gap-xs-1 gap-md-4">
               <span className="fw-light fs-5 text-white-50">{media.rating === "Not Rated" ? "NR" : media.rating}</span>
