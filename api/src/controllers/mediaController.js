@@ -6,7 +6,7 @@ export const index = (req, res) => {
     beginRecord,
     endRecord,
     sortBy,
-    sortOrder = "ASC",
+    sortOrder = "DESC",
     filterType,
     minRuntime,
     maxRuntime,
@@ -73,7 +73,7 @@ export const index = (req, res) => {
 
   const whereClause = filterClauses.length > 0 ? `WHERE ${filterClauses.join(" AND ")}` : "";
   let orderByClause = "";
-  const sanitizedSortOrder = ["ASC", "DESC"].includes(sortOrder.toUpperCase()) ? sortOrder.toUpperCase() : "ASC";
+  const sanitizedSortOrder = ["ASC", "DESC"].includes(sortOrder.toUpperCase()) ? sortOrder.toUpperCase() : "DESC";
 
   switch (sortBy) {
     case "release_date":

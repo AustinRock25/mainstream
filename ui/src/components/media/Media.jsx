@@ -32,8 +32,8 @@ const getInitialState = () => {
 
 const getDefaultState = () => ({
   searchTerm: "",
-  sortBy: "title",
-  sortOrder: "ASC",
+  sortBy: "grade",
+  sortOrder: "DESC",
   filterType: "all",
   runtime: { min: "", max: "" },
   selectedRatings: [],
