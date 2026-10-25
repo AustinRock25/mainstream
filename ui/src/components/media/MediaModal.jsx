@@ -188,9 +188,6 @@ function MediaModal({ show, setShow, media, user, seasonCount }) {
                 <span className="fw-light fs-5 text-white-50">{getYear(media)}</span>
               </span>
             </div>
-            {(((new Date().getUTCFullYear() - new Date(media.release_date || media.start_date).getUTCFullYear()) % 5 == 0) && (new Date().getUTCFullYear() != new Date(media.release_date || media.start_date).getUTCFullYear())) && <div className="flex-wrap">
-              <p className="text-center fs-6"><b>{(new Date().getUTCFullYear() - new Date(media.release_date || media.start_date).getUTCFullYear())}th Anniversary</b></p>
-            </div>}
             <div className="d-flex flex-column flex-md-row gap-xs-1 gap-md-4">
               <span className="fw-light fs-5 text-white-50">{media.rating === "Not Rated" ? "NR" : media.rating}</span>
               <span className="fw-light fs-5 text-white-50">{time(media.runtime || media.runtime_tv)}</span>
@@ -311,6 +308,9 @@ function MediaModal({ show, setShow, media, user, seasonCount }) {
           }
           </Col>
         </Row>
+        {(((new Date().getUTCFullYear() - new Date(media.release_date || media.start_date).getUTCFullYear()) % 5 == 0) && (new Date().getUTCFullYear() != new Date(media.release_date || media.start_date).getUTCFullYear())) && <div className="flex-wrap">
+          <p className="text-center fs-6"><b>{(new Date().getUTCFullYear() - new Date(media.release_date || media.start_date).getUTCFullYear())}th Anniversary</b></p>
+        </div>}
       </Modal.Body>
       {isAdmin && (
         <div className="d-flex justify-content-end m-4">
