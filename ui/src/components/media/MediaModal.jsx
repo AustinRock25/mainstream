@@ -24,7 +24,7 @@ function MediaModal({ show, setShow, media, user, seasonCount }) {
     if (!people || people.length === 0) 
       return [];
 
-    return [...people].sort((a, b) => (a.ordering > b.ordering ? 1 : -1)).map(p => p.death_date ? <i key={p.id}>{p.name}</i> : p.name);
+    return [...people].sort((a, b) => (a.ordering > b.ordering ? 1 : -1)).map(p => p.death_date ? <i key={p.id}>{p.name}</i> : p.name).join(", ");
   };
 
   const combineDirectorsAndWriters = (media) => {
@@ -241,25 +241,25 @@ function MediaModal({ show, setShow, media, user, seasonCount }) {
               {combineDirectorsAndWriters(media) && (
                 <div className="mb-2">
                   <h6 className="text-uppercase text-secondary small fw-bold">Written & Directed by</h6>
-                  <p>{getNames(media.directors).join(", ")}</p>
+                  <p dangerouslySetInnerHTML={{ __html: getNames(media.directors) }} />
                 </div>
               )}
               {!combineDirectorsAndWriters(media) && getNames(media.directors).length > 0 && (
                 <div className="mb-2">
                   <h6 className="text-uppercase text-secondary small fw-bold">Directed by</h6>
-                  <p>{getNames(media.directors).join(", ")}</p>
+                  <p dangerouslySetInnerHTML={{ __html: getNames(media.directors) }} />
                 </div>
               )}
               {!combineDirectorsAndWriters(media) && getNames(media.writers).length > 0 && (
                 <div className="mb-2">
                   <h6 className="text-uppercase text-secondary small fw-bold">Written by</h6>
-                  <p>{getNames(media.writers).join(", ")}</p>
+                  <p dangerouslySetInnerHTML={{ __html: getNames(media.writers) }} />
                 </div>
               )}
               {(getNames(media.cast_members).length > 0 || (!!media.seasons && getNames(media.seasons[currentSeason].cast_members).length > 0)) && (
                 <div className="mb-2">
                   <h6 className="text-uppercase text-secondary small fw-bold">Starring</h6>
-                  <p>{getNames(media.cast_members || media.seasons[currentSeason].cast_members).join(", ")}</p>
+                  <p dangerouslySetInnerHTML={{ __html: getNames(media.cast_members || media.seasons[currentSeason].cast_members) }} />)
                 </div>
               )}
             </div>
@@ -286,19 +286,19 @@ function MediaModal({ show, setShow, media, user, seasonCount }) {
                             {combineDirectorsAndWriters(ep) && (
                               <div className="mb-2">
                                 <h6 className="text-uppercase text-secondary small fw-bold">Written & Directed by</h6>
-                                <p>{getNames(ep.directors).join(", ")}</p>
+                                <p dangerouslySetInnerHTML={{ __html: getNames(ep.directors) }} />
                               </div>
                             )}
                             {!combineDirectorsAndWriters(ep) && getNames(ep.directors).length > 0 && (
                               <div className="mb-2">
                                 <h6 className="text-uppercase text-secondary small fw-bold">Directed by</h6>
-                                <p>{getNames(ep.directors).join(", ")}</p>
+                                <p dangerouslySetInnerHTML={{ __html: getNames(ep.directors) }} />
                               </div>
                             )}
                             {!combineDirectorsAndWriters(ep) && getNames(ep.writers).length > 0 && (
                               <div className="mb-2">
                                 <h6 className="text-uppercase text-secondary small fw-bold">Written by</h6>
-                                <p>{getNames(ep.writers).join(", ")}</p>
+                                <p dangerouslySetInnerHTML={{ __html: getNames(ep.writers) }} />
                               </div>
                             )}
                           </Col>
