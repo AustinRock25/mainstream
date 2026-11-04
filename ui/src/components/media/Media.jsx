@@ -32,7 +32,7 @@ const getInitialState = () => {
 
 const getDefaultState = () => ({
   searchTerm: "",
-  sortBy: "grade",
+  sortBy: "release_date",
   sortOrder: "DESC",
   filterType: "all",
   runtime: { min: "", max: "" },

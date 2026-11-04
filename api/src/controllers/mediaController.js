@@ -76,8 +76,8 @@ export const index = (req, res) => {
   const sanitizedSortOrder = ["ASC", "DESC"].includes(sortOrder.toUpperCase()) ? sortOrder.toUpperCase() : "DESC";
 
   switch (sortBy) {
-    case "release_date":
-      orderByClause = `ORDER BY COALESCE(release_date, start_date) ${sanitizedSortOrder}, title ASC`;
+    case "grade":
+      orderByClause = `ORDER BY COALESCE(grade, grade_tv) ${sanitizedSortOrder}`;
       break;
     case "runtime":
       orderByClause = `ORDER BY COALESCE(runtime, runtime_tv) ${sanitizedSortOrder}`;
@@ -85,9 +85,9 @@ export const index = (req, res) => {
     case "title":
       orderByClause = `ORDER BY title ${sanitizedSortOrder}`;
       break;
-    case "grade":
+    case "release_date":
     default:
-      orderByClause = `ORDER BY COALESCE(grade, grade_tv) ${sanitizedSortOrder}`;
+      orderByClause = `ORDER BY COALESCE(release_date, start_date) ${sanitizedSortOrder}, title ASC`;
       break;
   }
 
