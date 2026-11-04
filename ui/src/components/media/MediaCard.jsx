@@ -75,7 +75,7 @@ function MediaCard ({media}) {
           fluid
         />
       </Card>
-      <MediaModal show={showMediaModal} setShow={setShowMediaModal} media={media} user={user} seasonCount={seasonCount} />
+      <MediaModal show={showMediaModal} setShow={setShowMediaModal} media={media} user={user} />
     </Col>
   );
 }
