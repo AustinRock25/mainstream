@@ -1,7 +1,7 @@
 import MediaForm from "../modals/MediaForm";
 import { Modal, Row, Col, ToggleButton, Stack, Accordion, Button } from "react-bootstrap";
 import { useSelector } from "react-redux";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import api from "../../api";
 
 function MediaModal({ show, setShow, media, user }) {
