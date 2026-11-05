@@ -182,7 +182,7 @@ function AuthModal({ show, setShow, action }) {
                         ? 
                           "Register" 
                         : 
-                          action === "scale" 
+                          (action === "scale"  || action === "change")
                             ? 
                               "Save" 
                             : 
