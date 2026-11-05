@@ -1,5 +1,6 @@
+// components/AuthModal.jsx
 import { Alert, Button, Form, Modal, Spinner } from "react-bootstrap";
-import { authenticated, unauthenticated } from "../../slices/authSlice.js";
+import { authenticated, unauthenticated, setRatingScale } from "../../slices/authSlice.js";
 import api from "../../api";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
@@ -8,15 +9,22 @@ import { useNavigate } from "react-router-dom";
 function AuthModal({ show, setShow, action }) {
   const dispatch = useDispatch();
   const [errors, setErrors] = useState({});
-  const [formData, setFormData] = useState({ email: "", password: "", rating_scale: 15 });
   const [scales, setScales] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
-  const { user } = useSelector(state => state.auth);
+  const { user, ratingScale } = useSelector(state => state.auth);
+  
+  const [formData, setFormData] = useState({ 
+    email: "", 
+    password: "", 
+    rating_scale: user ? user.rating_scale : ratingScale 
+  });
 
   useEffect(() => {
-    if (!!user)
-      setFormData({ rating_scale: user.rating_scale });
+    if (user)
+      setFormData(prev => ({ ...prev, rating_scale: user.rating_scale }));
+    else
+      setFormData(prev => ({ ...prev, rating_scale: ratingScale }));
 
     api.get("/auth/get")
       .then(response => {
@@ -28,7 +36,7 @@ function AuthModal({ show, setShow, action }) {
         else
           setErrors({ form: "An unexpected error occurred. Please try again later." });
       });
-  }, [user]);
+  }, [user, ratingScale]);
 
   function handleSubmit(e) {
     e.preventDefault();
@@ -40,6 +48,8 @@ function AuthModal({ show, setShow, action }) {
       register();
     else if (action === "change")
       change();
+    else if (action === "scale")
+      updateGuestScale();
   }
 
   function handleHide() {
@@ -49,7 +59,7 @@ function AuthModal({ show, setShow, action }) {
 
   function resetForm() {
     setErrors({});
-    setFormData({ email: "", password: "", rating_scale: 15 });
+    setFormData({ email: "", password: "", rating_scale: user ? user.rating_scale : ratingScale });
   }
 
   function login() {
@@ -90,6 +100,7 @@ function AuthModal({ show, setShow, action }) {
       })
       .catch(error => {
         dispatch(unauthenticated());
+
         if (error.response?.status === 422)
           setErrors(error.response.data.errors);
         else
@@ -100,25 +111,34 @@ function AuthModal({ show, setShow, action }) {
       });
   }
 
+  function updateGuestScale() {
+    dispatch(setRatingScale(formData.rating_scale));
+    setIsLoading(false);
+    handleHide();
+    window.location.reload();
+  }
+
   return (
     <Modal show={show} onHide={handleHide} backdrop="static" centered>
       <Modal.Header>
-        <Modal.Title>{action === "login" ? "Log In" : action === "register" ? "Register" : "Update"}</Modal.Title>
+        <Modal.Title>
+          {action === "login" ? "Log In" : action === "register" ? "Register" : action === "scale" ? "Change Rating Scale" : "Update"}
+        </Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <Form onSubmit={handleSubmit}>
           {errors.form && <Alert variant="danger">{errors.form}</Alert>}
-          {action !== "change" &&
+          {action !== "login" && action !== "scale" &&
             <>
               <Form.Group className="mb-3" controlId="formBasicEmail">
-              <Form.Label>Email address</Form.Label>
-              <Form.Control
-                type="email"
-                value={formData.email}
-                onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                placeholder="Enter email"
-              />
-              <Form.Control.Feedback type="invalid">{errors.email}</Form.Control.Feedback>
+                <Form.Label>Email address</Form.Label>
+                <Form.Control
+                  type="email"
+                  value={formData.email}
+                  onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                  placeholder="Enter email"
+                />
+                <Form.Control.Feedback type="invalid">{errors.email}</Form.Control.Feedback>
               </Form.Group>
               <Form.Group className="mb-3" controlId="formBasicPassword">
                 <Form.Label>Password</Form.Label>
@@ -135,11 +155,20 @@ function AuthModal({ show, setShow, action }) {
           {action !== "login" && 
             <Form.Group className="mb-3">
               <Form.Label column sm={3}>Rating Scale</Form.Label>
-              <Form.Select value={formData.rating_scale} isInvalid={!!errors.rating_scale} onChange={(e) => setFormData({ ...formData, rating_scale: e.target.value })}>
-                {Array.isArray([scales]) && scales.map(r => <option key={r.id} value={r.id}>{r.id == 20 ? `F` : r.min} to {r.id == 20 ? `A+` : r.max}</option>)}
+              <Form.Select 
+                value={formData.rating_scale} 
+                isInvalid={!!errors.rating_scale} 
+                onChange={(e) => setFormData({ ...formData, rating_scale: e.target.value })}
+              >
+                {Array.isArray(scales) && scales.map(r => (
+                  <option key={r.id} value={r.id}>
+                    {Number(r.id) === 20 ? `F to A+` : `${r.min} to ${r.max}`}
+                  </option>
+                ))}
               </Form.Select>
             </Form.Group>
           }
+
           <div className="d-grid gap-2 mt-4">
             <Button variant="success" type="submit" disabled={isLoading}>
               {isLoading 
@@ -151,10 +180,14 @@ function AuthModal({ show, setShow, action }) {
                       "Log In" 
                     : 
                       action === "register" 
-                        ?
+                        ? 
                           "Register" 
                         : 
-                          "Update"
+                          action === "scale" 
+                            ? 
+                              "Save" 
+                            : 
+                              "Update"
                   )
               }
             </Button>

@@ -78,12 +78,10 @@ function ApplicationLayout() {
                 <Nav>
                   {isAdmin && <Nav.Link onClick={handleAddMediaClick}>Add Media</Nav.Link>}
                   {isAdmin && <Nav.Link onClick={handleAddPersonClick}>Add Person</Nav.Link>}
+                  <Nav.Link onClick={handleChangeScaleClick}>Change Rating Scale</Nav.Link>
                   {isAuthenticated 
                     ?
-                      <>
-                        <Nav.Link onClick={handleChangeScaleClick}>Change Rating Scale</Nav.Link>
-                        <Nav.Link onClick={handleLogoutClick}>Log Out</Nav.Link>
-                      </>
+                      <Nav.Link onClick={handleLogoutClick}>Log Out</Nav.Link>
                     :
                       <>
                         <Nav.Link onClick={handleLoginClick}>Log In</Nav.Link>
