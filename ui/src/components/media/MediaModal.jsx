@@ -146,10 +146,10 @@ function MediaModal({ show, setShow, media, user }) {
   function grade(g) {
     const scaleId = user ? user.rating_scale : ratingScale;
     const activeScale = scales.find(s => Number(s.id) === Number(scaleId));
-
     const scaleMin = user ? user.rating_scale_min : activeScale?.min;
     const scaleMax = user ? user.rating_scale_max : activeScale?.max;
     const scaleStep = user ? user.rating_scale_step : activeScale?.step;
+    let newGrade;
     
     if (Number(scaleId) == 20) {
       if (g <= 19)
