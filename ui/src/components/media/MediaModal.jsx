@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import api from "../../api";
 
 function MediaModal({ show, setShow, media, user }) {
-  const { isAdmin } = useSelector(state => state.auth);
+  const { isAdmin, ratingScale } = useSelector(state => state.auth);
   const [showMediaForm, setShowMediaForm] = useState(false);
   const [currentSeason, setCurrentSeason] = useState(0);
   const [scales, setScales] = useState([]);
