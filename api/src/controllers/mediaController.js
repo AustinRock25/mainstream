@@ -90,7 +90,7 @@ export const index = (req, res) => {
       break;
     case "default":
     default:
-      orderByClause = `ORDER BY COALESCE(EXTRACT(DAY FROM release_date), EXTRACT(DAY FROM start_date)) ${sanitizedSortOrder}, COALESCE(EXTRACT(MONTH FROM release_date), EXTRACT(MONTH FROM start_date)) ${sanitizedSortOrder}, COALESCE(EXTRACT(YEAR FROM release_date), EXTRACT(YEAR FROM start_date)) ${sanitizedSortOrder}`;
+      orderByClause = `ORDER BY COALESCE(EXTRACT(DAY FROM release_date), EXTRACT(DAY FROM start_date)) ${sanitizedSortOrder}, COALESCE(EXTRACT(MONTH FROM release_date), EXTRACT(MONTH FROM start_date)) ${sanitizedSortOrder}, COALESCE(EXTRACT(YEAR FROM release_date), EXTRACT(YEAR FROM start_date)) ${sanitizedSortOrder}, title ${sanitizedSortOrder}`;
       break;
   }
 
