@@ -2,11 +2,21 @@ import MediaForm from "../modals/MediaForm";
 import { Modal, Row, Col, ToggleButton, Stack, Accordion, Button } from "react-bootstrap";
 import { useSelector } from "react-redux";
 import { useState } from "react";
+import api from "../api";
 
 function MediaModal({ show, setShow, media, user }) {
   const { isAdmin } = useSelector(state => state.auth);
   const [showMediaForm, setShowMediaForm] = useState(false);
   const [currentSeason, setCurrentSeason] = useState(0);
+  const [scales, setScales] = useState([]);
+
+  useEffect(() => {
+    api.get("/auth/get")
+      .then(response => {
+        setScales(response.data);
+      })
+      .catch(error => console.error("Failed to fetch rating scales", error));
+  }, []);
   
   const handleClose = () => {
     setShow(false);
@@ -134,60 +144,61 @@ function MediaModal({ show, setShow, media, user }) {
   };
 
   function grade(g) {
-    if (!user)
-      return Math.round(g) + "%";
-    else {
-      let newGrade;
+    const scaleId = user ? user.rating_scale : ratingScale;
+    const activeScale = scales.find(s => Number(s.id) === Number(scaleId));
 
-      if (user.rating_scale == 20) {
-        if (g <= 19)
-          return "F";
-        else if (g <= 39) {
-          newGrade = Math.round(parseFloat((9/19) * g) + parseFloat(960/19));
+    const scaleMin = user ? user.rating_scale_min : activeScale?.min;
+    const scaleMax = user ? user.rating_scale_max : activeScale?.max;
+    const scaleStep = user ? user.rating_scale_step : activeScale?.step;
+    
+    if (Number(scaleId) == 20) {
+      if (g <= 19)
+        return "F";
+      else if (g <= 39) {
+        newGrade = Math.round(parseFloat((9/19) * g) + parseFloat(960/19));
 
-          if (newGrade <= 62)
-            return "D-";
-          else if (newGrade <= 66)
-            return "D";
-          else
-            return "D+";
-        }
-        else if (g <= 60) {
-          newGrade = Math.round(parseFloat((9/20) * g) + parseFloat(52));
+        if (newGrade <= 62)
+          return "D-";
+        else if (newGrade <= 66)
+          return "D";
+        else
+          return "D+";
+      }
+      else if (g <= 60) {
+        newGrade = Math.round(parseFloat((9/20) * g) + parseFloat(52));
 
-          if (newGrade <= 72)
-            return "C-";
-          else if (newGrade <= 76)
-            return "C";
-          else
-            return "C+";
-        }
-        else if (g <= 80) {
-          newGrade = Math.round(parseFloat((9/19) * g) + parseFloat(971/19));
+        if (newGrade <= 72)
+          return "C-";
+        else if (newGrade <= 76)
+          return "C";
+        else
+          return "C+";
+      }
+      else if (g <= 80) {
+        newGrade = Math.round(parseFloat((9/19) * g) + parseFloat(971/19));
 
-          if (newGrade <= 82)
-            return "B-";
-          else if (newGrade <= 86)
-            return "B";
-          else
-            return "B+";
-        }
-        else {
-          newGrade = Math.round(parseFloat((10/19) * g) + parseFloat(900/19));
-
-          if (newGrade <= 92)
-            return "A-";
-          else if (newGrade <= 96)
-            return "A";
-          else
-            return "A+";
-        }
+        if (newGrade <= 82)
+          return "B-";
+        else if (newGrade <= 86)
+          return "B";
+        else
+          return "B+";
       }
       else {
-        newGrade = Math.round((Number.parseFloat((g / 100) * (user.rating_scale_max - user.rating_scale_min)) + Number.parseFloat(user.rating_scale_min)) * (1 / user.rating_scale_step)) / (1 / user.rating_scale_step);
+        newGrade = Math.round(parseFloat((10/19) * g) + parseFloat(900/19));
 
-        return newGrade + `/${user.rating_scale_max}`;
+        if (newGrade <= 92)
+          return "A-";
+        else if (newGrade <= 96)
+          return "A";
+        else
+          return "A+";
       }
+    }
+    else {
+      newGrade = Math.round((Number.parseFloat((g / 100) * (scaleMax - scaleMin)) + Number.parseFloat(scaleMin)) * (1 / scaleStep)) / (1 / scaleStep);
+
+      return newGrade + `/${scaleMax}`;
     }
   }
 

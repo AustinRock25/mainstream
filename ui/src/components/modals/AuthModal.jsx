@@ -1,4 +1,3 @@
-// components/AuthModal.jsx
 import { Alert, Button, Form, Modal, Spinner } from "react-bootstrap";
 import { authenticated, unauthenticated, setRatingScale } from "../../slices/authSlice.js";
 import api from "../../api";
@@ -128,7 +127,7 @@ function AuthModal({ show, setShow, action }) {
       <Modal.Body>
         <Form onSubmit={handleSubmit}>
           {errors.form && <Alert variant="danger">{errors.form}</Alert>}
-          {action !== "login" && action !== "scale" &&
+          {(action === "login" || action === "register") &&
             <>
               <Form.Group className="mb-3" controlId="formBasicEmail">
                 <Form.Label>Email address</Form.Label>
@@ -152,7 +151,7 @@ function AuthModal({ show, setShow, action }) {
               </Form.Group>
             </>
           }
-          {action !== "login" && 
+          {(action === "scale" || action === "register") && 
             <Form.Group className="mb-3">
               <Form.Label column sm={3}>Rating Scale</Form.Label>
               <Form.Select 
