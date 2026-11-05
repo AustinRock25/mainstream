@@ -32,8 +32,8 @@ const getInitialState = () => {
 
 const getDefaultState = () => ({
   searchTerm: "",
-  sortBy: "release_date",
-  sortOrder: "DESC",
+  sortBy: "default",
+  sortOrder: "ASC",
   filterType: "all",
   runtime: { min: "", max: "" },
   selectedRatings: [],
@@ -198,10 +198,11 @@ function Media() {
                 <Form.Group>
                   <Form.Label>Sort By</Form.Label>
                   <Form.Select name="sortBy" value={filters.sortBy} onChange={handleFilterChange}>
-                    <option value="title">Title</option>
-                    <option value="release_date">Release Date</option>
+                    <option value="default">Default</option>
                     <option value="grade">Grade</option>
+                    <option value="release_date">Release Date</option>
                     <option value="runtime">Runtime</option>
+                    <option value="title">Title</option>
                   </Form.Select>
                 </Form.Group>
               </Col>
@@ -209,8 +210,8 @@ function Media() {
                 <Form.Group>
                   <Form.Label>Order</Form.Label>
                   <Form.Select name="sortOrder" value={filters.sortOrder} onChange={handleFilterChange}>
-                    <option value="DESC">Descending</option>
                     <option value="ASC">Ascending</option>
+                    <option value="DESC">Descending</option>
                   </Form.Select>
                 </Form.Group>
               </Col>

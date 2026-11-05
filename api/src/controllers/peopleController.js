@@ -72,11 +72,11 @@ export const index = (req, res) => {
       orderByClause = `ORDER BY name ${sanitizedSortOrder}`;
       break;
     case "death_date":
-      orderByClause = `ORDER BY death_date ${sanitizedSortOrder} NULLS LAST`;
+      orderByClause = `ORDER BY death_date ${sanitizedSortOrder} NULLS LAST, name ${sanitizedSortOrder}`;
       break;
     case "birth_date":
     default:
-      orderByClause = `ORDER BY birth_date ${sanitizedSortOrder} NULLS LAST`;
+      orderByClause = `ORDER BY birth_date ${sanitizedSortOrder} NULLS LAST, name ${sanitizedSortOrder}`;
       break;
   }
 

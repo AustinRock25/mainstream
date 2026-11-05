@@ -6,7 +6,7 @@ export const index = (req, res) => {
     beginRecord,
     endRecord,
     sortBy,
-    sortOrder = "DESC",
+    sortOrder = "ASC",
     filterType,
     minRuntime,
     maxRuntime,
@@ -77,17 +77,20 @@ export const index = (req, res) => {
 
   switch (sortBy) {
     case "grade":
-      orderByClause = `ORDER BY COALESCE(grade, grade_tv) ${sanitizedSortOrder}`;
-      break;
-    case "runtime":
-      orderByClause = `ORDER BY COALESCE(runtime, runtime_tv) ${sanitizedSortOrder}`;
-      break;
-    case "title":
-      orderByClause = `ORDER BY title ${sanitizedSortOrder}`;
+      orderByClause = `ORDER BY COALESCE(grade, grade_tv) ${sanitizedSortOrder}, title ${sanitizedSortOrder}`;
       break;
     case "release_date":
+      orderByClause = `ORDER BY COALESCE(release_date, start_date) ${sanitizedSortOrder}, title ${sanitizedSortOrder}`;
+      break;
+    case "runtime":
+      orderByClause = `ORDER BY COALESCE(runtime, runtime_tv) ${sanitizedSortOrder}, title ${sanitizedSortOrder}`;
+      break;
+    case "title":
+      orderByClause = `ORDER BY title ${sanitizedSortOrder}, COALESCE(release_date, start_date) ${sanitizedSortOrder}`;
+      break;
+    case "default":
     default:
-      orderByClause = `ORDER BY COALESCE(release_date, start_date) ${sanitizedSortOrder}, title ASC`;
+      orderByClause = `ORDER BY COALESCE(EXTRACT(DAY FROM release_date), EXTRACT(DAY FROM start_date)) ${sanitizedSortOrder}, COALESCE(EXTRACT(MONTH FROM release_date), EXTRACT(MONTH FROM start_date)) ${sanitizedSortOrder}, COALESCE(EXTRACT(YEAR FROM release_date), EXTRACT(YEAR FROM start_date)) ${sanitizedSortOrder}`;
       break;
   }
 
