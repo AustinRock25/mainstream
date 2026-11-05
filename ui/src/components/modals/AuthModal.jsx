@@ -151,7 +151,7 @@ function AuthModal({ show, setShow, action }) {
               </Form.Group>
             </>
           }
-          {(action === "scale" || action === "register") && 
+          {(action === "change" || action === "scale" || action === "register") && 
             <Form.Group className="mb-3">
               <Form.Label column sm={3}>Rating Scale</Form.Label>
               <Form.Select 
