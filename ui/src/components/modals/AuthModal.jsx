@@ -11,8 +11,8 @@ function AuthModal({ show, setShow, action }) {
   const [scales, setScales] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
-  const { user, ratingScale } = useSelector(state => state.auth);
-  
+  const { user, isAuthenticated, ratingScale } = useSelector(state => state.auth);
+
   const [formData, setFormData] = useState({ 
     email: "", 
     password: "", 
@@ -45,10 +45,12 @@ function AuthModal({ show, setShow, action }) {
       login();
     else if (action === "register")
       register();
-    else if (action === "change")
-      change();
-    else if (action === "scale")
-      updateGuestScale();
+    else if (action === "change") {
+      if (isAuthenticated && user)
+        change();
+      else
+        updateGuestScale();
+    }
   }
 
   function handleHide() {
@@ -99,7 +101,6 @@ function AuthModal({ show, setShow, action }) {
       })
       .catch(error => {
         dispatch(unauthenticated());
-
         if (error.response?.status === 422)
           setErrors(error.response.data.errors);
         else
@@ -111,23 +112,20 @@ function AuthModal({ show, setShow, action }) {
   }
 
   function updateGuestScale() {
-    dispatch(setRatingScale(formData.rating_scale));
+    dispatch(setRatingScale(Number(formData.rating_scale)));
     setIsLoading(false);
     handleHide();
-    window.location.reload();
   }
 
   return (
     <Modal show={show} onHide={handleHide} backdrop="static" centered>
       <Modal.Header>
-        <Modal.Title>
-          {action === "login" ? "Log In" : action === "register" ? "Register" : action === "scale" ? "Change Rating Scale" : "Update"}
-        </Modal.Title>
+        <Modal.Title>{action === "login" ? "Log In" : action === "register" ? "Register" : "Update"}</Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <Form onSubmit={handleSubmit}>
           {errors.form && <Alert variant="danger">{errors.form}</Alert>}
-          {(action === "login" || action === "register") &&
+          {action !== "change" &&
             <>
               <Form.Group className="mb-3" controlId="formBasicEmail">
                 <Form.Label>Email address</Form.Label>
@@ -151,7 +149,7 @@ function AuthModal({ show, setShow, action }) {
               </Form.Group>
             </>
           }
-          {(action === "change" || action === "scale" || action === "register") && 
+          {action !== "login" && 
             <Form.Group className="mb-3">
               <Form.Label column sm={3}>Rating Scale</Form.Label>
               <Form.Select 
@@ -167,7 +165,6 @@ function AuthModal({ show, setShow, action }) {
               </Form.Select>
             </Form.Group>
           }
-
           <div className="d-grid gap-2 mt-4">
             <Button variant="success" type="submit" disabled={isLoading}>
               {isLoading 
@@ -182,11 +179,7 @@ function AuthModal({ show, setShow, action }) {
                         ? 
                           "Register" 
                         : 
-                          (action === "scale"  || action === "change")
-                            ? 
-                              "Save" 
-                            : 
-                              "Update"
+                          "Update"
                   )
               }
             </Button>
