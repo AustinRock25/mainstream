@@ -227,31 +227,6 @@ function MediaForm({ show, setShow, media, season }) {
     setAlert({ message: "", variant: "" });
   }
 
-  function gradeMeaning(g) {
-    if (g <= 9)
-      return "Extremely Poor"
-    else if (g <= 19)
-      return "Very Poor";
-    else if (g <= 29)
-      return "Poor";
-    else if (g <= 39)
-      return "Somewhat Poor";
-    else if (g <= 46)
-      return "Slightly Poor"
-    else if (g <= 53)
-      return "Acceptable";
-    else if (g <= 60)
-      return "Slightly Good";
-    else if (g <= 70)
-      return "Somewhat Good";
-    else if (g <= 80)
-      return "Good";
-    else if (g <= 90)
-      return "Very Good";
-    else
-      return "Excellent"
-  }
-
   function handleSubmit(e) {
     e.preventDefault();
     setIsSubmitting(true);;
@@ -409,7 +384,7 @@ function MediaForm({ show, setShow, media, season }) {
             <>
               <hr/>
                 <Form.Group as={Row} className="mb-3">
-                  <Form.Label column sm={3}>Grade: <span>{formData.grade}% - {gradeMeaning(formData.grade)}</span></Form.Label>
+                  <Form.Label column sm={3}>Grade: <span>{formData.grade}%</span></Form.Label>
                   <Col sm={9}><Form.Range min="0" max="100" step="1" value={formData.grade} onChange={(e) => handleChange(e, "grade")} /></Col>
                   <Form.Control.Feedback type="invalid">{errors.grade}</Form.Control.Feedback>
                 </Form.Group>
