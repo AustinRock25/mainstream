@@ -2,6 +2,7 @@ import { Alert, Button, Form, Modal, Spinner, Col, Row, ListGroup, Badge } from 
 import api from "../../api";
 import { useCallback, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 function MediaForm({ show, setShow, media, season }) {
   const [alert, setAlert] = useState({ message: "", variant: "" });
@@ -17,6 +18,7 @@ function MediaForm({ show, setShow, media, season }) {
   const [activeEpisodeIndex, setActiveEpisodeIndex] = useState(null); 
   const [selected, setSelected] = useState([]);
   const [shows, setShows] = useState([]);
+  const { user } = useSelector(state => state.auth);
 
   const initialFormData = {
     id: "",
