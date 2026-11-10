@@ -102,6 +102,9 @@ function MediaForm({ show, setShow, media, season }) {
       let grade = Number.parseFloat((media.grade / 100) * (user.rating_scale_max - user.rating_scale_min));
       grade = Math.round(grade * (1 / user.rating_scale_step)) / (1 / user.rating_scale_step);
 
+      if (user.rating_scale == 20 && (grade == 1 || grade == 2))
+        grade = 0;
+
       setFormData({
         id: media.id || "",
         title: media.title || "",
@@ -225,7 +228,36 @@ function MediaForm({ show, setShow, media, season }) {
   };
 
   const getGrade = (grade) => {
-    return (Number.parseFloat(grade) + Number.parseFloat(user.rating_scale_min)) + `/${user.rating_scale_max}`;
+    if (user.rating_scale != 20)
+      return (Number.parseFloat(grade) + Number.parseFloat(user.rating_scale_min)) + `/${user.rating_scale_max}`;
+    else {
+      if (grade <= 2)
+        return "F";
+      else if (grade == 3)
+        return "D-";
+      else if (grade == 4)
+        return "D";
+      else if (grade == 5)
+        return "D+";
+      else if (grade == 6)
+        return "C-";
+      else if (grade == 7)
+        return "C";
+      else if (grade == 8)
+        return "C+";
+      else if (grade == 9)
+        return "B-";
+      else if (grade == 10)
+        return "B";
+      else if (grade == 11)
+        return "B+";
+      else if (grade == 12)
+        return "A-";
+      else if (grade == 13)
+        return "A";
+      else
+        return "A+";
+    }
   }
 
   function handleHide() {
@@ -238,6 +270,9 @@ function MediaForm({ show, setShow, media, season }) {
   function handleSubmit(e) {
     e.preventDefault();
     setIsSubmitting(true);
+
+    if (user.rating_scale == 20 && (formData.grade == 1 || formData.grade == 2))
+      formData.grade = 0;
 
     let grade = (parseFloat(formData.grade) * 100) / (user.rating_scale_max - user.rating_scale_min);
     const payload = { ...formData, castAndCrew: selected, episodes: episodes, newGrade: grade };

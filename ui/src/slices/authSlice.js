@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-const initialRatingScale = localStorage.getItem("rating_scale") ? JSON.parse(localStorage.getItem("rating_scale")) : 16;
+const initialRatingScale = localStorage.getItem("rating_scale") ? JSON.parse(localStorage.getItem("rating_scale")) : 21;
 
 const authSlice = createSlice({
   initialState: {
@@ -17,7 +17,7 @@ const authSlice = createSlice({
       state.user = action.payload;
       state.ratingScale = action.payload.rating_scale;
     },
-    unauthenticated: (state, action) => {
+    unauthenticated: (state) => {
       state.isAuthenticated = false;
       state.isAdmin = false;
       state.user = null;

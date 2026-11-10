@@ -149,57 +149,38 @@ function MediaModal({ show, setShow, media, user }) {
     const scaleMin = user ? user.rating_scale_min : activeScale?.min;
     const scaleMax = user ? user.rating_scale_max : activeScale?.max;
     const scaleStep = user ? user.rating_scale_step : activeScale?.step;
-    let newGrade;
+    let newGrade = Math.round((Number.parseFloat((g / 100) * (scaleMax - scaleMin)) + Number.parseFloat(scaleMin)) * (1 / scaleStep)) / (1 / scaleStep);;
     
     if (Number(scaleId) == 20) {
-      if (g <= 19)
+      if (newGrade <= 2)
         return "F";
-      else if (g <= 39) {
-        newGrade = Math.round(parseFloat((9/19) * g) + parseFloat(960/19));
-
-        if (newGrade <= 62)
-          return "D-";
-        else if (newGrade <= 66)
-          return "D";
-        else
-          return "D+";
-      }
-      else if (g <= 60) {
-        newGrade = Math.round(parseFloat((9/20) * g) + parseFloat(52));
-
-        if (newGrade <= 72)
-          return "C-";
-        else if (newGrade <= 76)
-          return "C";
-        else
-          return "C+";
-      }
-      else if (g <= 80) {
-        newGrade = Math.round(parseFloat((9/19) * g) + parseFloat(971/19));
-
-        if (newGrade <= 82)
-          return "B-";
-        else if (newGrade <= 86)
-          return "B";
-        else
-          return "B+";
-      }
-      else {
-        newGrade = Math.round(parseFloat((10/19) * g) + parseFloat(900/19));
-
-        if (newGrade <= 92)
-          return "A-";
-        else if (newGrade <= 96)
-          return "A";
-        else
-          return "A+";
-      }
+      else if (newGrade == 3)
+        return "D-";
+      else if (newGrade == 4)
+        return "D";
+      else if (newGrade == 5)
+        return "D+";
+      else if (newGrade == 6)
+        return "C-";
+      else if (newGrade == 7)
+        return "C";
+      else if (newGrade == 8)
+        return "C+";
+      else if (newGrade == 9)
+        return "B-";
+      else if (newGrade == 10)
+        return "B";
+      else if (newGrade == 11)
+        return "B+";
+      else if (newGrade == 12)
+        return "A-";
+      else if (newGrade == 13)
+        return "A";
+      else
+        return "A+";
     }
-    else {
-      newGrade = Math.round((Number.parseFloat((g / 100) * (scaleMax - scaleMin)) + Number.parseFloat(scaleMin)) * (1 / scaleStep)) / (1 / scaleStep);
-
+    else
       return newGrade + `/${scaleMax}`;
-    }
   }
 
   return (
