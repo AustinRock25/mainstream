@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-const initialRatingScale = localStorage.getItem("rating_scale") ? JSON.parse(localStorage.getItem("rating_scale")) : 21;
+const initialRatingScale = localStorage.getItem("rating_scale") ? JSON.parse(localStorage.getItem("rating_scale")) : 22;
 
 const authSlice = createSlice({
   initialState: {
