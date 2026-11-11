@@ -149,7 +149,10 @@ function MediaModal({ show, setShow, media, user }) {
     const scaleMin = user ? user.rating_scale_min : activeScale?.min;
     const scaleMax = user ? user.rating_scale_max : activeScale?.max;
     const scaleStep = user ? user.rating_scale_step : activeScale?.step;
-    let newGrade = Math.round((Number.parseFloat((g / 100) * (scaleMax - scaleMin)) + Number.parseFloat(scaleMin)) * (1 / scaleStep)) / (1 / scaleStep);;
+    let newGrade = Math.round((Number.parseFloat((g / 100) * scaleMax)) * (1 / scaleStep)) / (1 / scaleStep);
+
+    if (newGrade < scaleMin)
+      newGrade = scaleMin;
     
     if (Number(scaleId) == 20) {
       if (newGrade <= 2)

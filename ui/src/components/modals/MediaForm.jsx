@@ -99,8 +99,10 @@ function MediaForm({ show, setShow, media, season }) {
       }
 
       cast = Array.from(peopleMap.values());
-      let grade = Number.parseFloat((media.grade / 100) * (user.rating_scale_max - user.rating_scale_min));
-      grade = Math.round(grade * (1 / user.rating_scale_step)) / (1 / user.rating_scale_step);
+      let grade = Math.round(Number.parseFloat((media.grade / 100) * user.rating_scale_max) * (1 / user.rating_scale_step)) / (1 / user.rating_scale_step);
+
+      if (grade < user.rating_scale_min)
+        grade = user.rating_scale_min;
 
       if (user.rating_scale == 20 && (grade == 1 || grade == 2))
         grade = 0;
@@ -229,7 +231,7 @@ function MediaForm({ show, setShow, media, season }) {
 
   const getGrade = (grade) => {
     if (user.rating_scale != 20)
-      return (Number.parseFloat(grade) + Number.parseFloat(user.rating_scale_min)) + `/${user.rating_scale_max}`;
+      return Number.parseFloat(grade) + `/${user.rating_scale_max}`;
     else {
       if (grade <= 2)
         return "F";
@@ -274,7 +276,7 @@ function MediaForm({ show, setShow, media, season }) {
     if (user.rating_scale == 20 && (formData.grade == 1 || formData.grade == 2))
       formData.grade = 0;
 
-    let grade = (parseFloat(formData.grade) * 100) / (user.rating_scale_max - user.rating_scale_min);
+    let grade = (parseFloat(formData.grade) / user.rating_scale_max) * 100;
     const payload = { ...formData, castAndCrew: selected, episodes: episodes, newGrade: grade };
     const apiCall = media?.id ? api.put(`/media/${media.id}`, [payload, media]) : api.post("/media", payload);
   
@@ -429,7 +431,7 @@ function MediaForm({ show, setShow, media, season }) {
               <hr/>
                 <Form.Group as={Row} className="mb-3">
                   <Form.Label column sm={3}>Grade: <span>{getGrade(formData.grade)}</span></Form.Label>
-                  <Col sm={9}><Form.Range min="0" max={user.rating_scale_max - user.rating_scale_min} step={user.rating_scale_step} value={formData.grade} onChange={(e) => handleChange(e, "grade")} /></Col>
+                  <Col sm={9}><Form.Range min={user.rating_scale_min} max={user.rating_scale_max} step={user.rating_scale_step} value={formData.grade} onChange={(e) => handleChange(e, "grade")} /></Col>
                   <Form.Control.Feedback type="invalid">{errors.grade}</Form.Control.Feedback>
                 </Form.Group>
                 {(formData.type === "movie" || formData.id == "na" || media?.id) && (
