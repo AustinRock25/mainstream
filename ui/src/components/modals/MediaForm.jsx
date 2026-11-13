@@ -112,7 +112,7 @@ function MediaForm({ show, setShow, media, season }) {
         title: media.title || "",
         synopsis: media.synopsis || "",
         season: season || "",
-        grade: grade || 0,
+        grade: grade || user.rating_scale_min,
         rating: media.rating || "Not Rated",
         release_date: media.release_date ? new Date(media.release_date).toISOString().split("T")[0] : "",
         runtime: media.runtime || "",
