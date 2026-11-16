@@ -18,14 +18,14 @@ function MediaForm({ show, setShow, media, season }) {
   const [activeEpisodeIndex, setActiveEpisodeIndex] = useState(null); 
   const [selected, setSelected] = useState([]);
   const [shows, setShows] = useState([]);
-  const { user, ratingScale } = useSelector(state => state.auth);
+  const { user } = useSelector(state => state.auth);
 
   const initialFormData = {
     id: "",
     title: "",
     synopsis: "",
     season: "",
-    grade: user.rating_scale_min || 0,
+    grade: 0 || user.rating_scale_min,
     rating: "Not Rated",
     release_date: "",
     runtime: "",
