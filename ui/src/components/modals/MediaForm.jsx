@@ -25,7 +25,7 @@ function MediaForm({ show, setShow, media, season }) {
     title: "",
     synopsis: "",
     season: "",
-    grade: 0,
+    grade: user.rating_scale_min,
     rating: "Not Rated",
     release_date: "",
     runtime: "",
