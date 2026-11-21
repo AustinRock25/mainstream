@@ -80,16 +80,14 @@ function MediaCard ({media}) {
 
   return (
     <Col>
-      <Card>
-        <div className={anniversary ? `anniversary-frame border-${anniversary}` : "anniversary-frame"}>
-          <Card.Img 
-            variant="top" 
-            src={media.type !== "show" ? `posters/${new Date(media.release_date).getUTCFullYear()}_${getPoster(media)}.jpg` : `posters/${new Date(media.start_date).getUTCFullYear()}_${getPoster(media)}/${seasonCount}.jpg`}
-            className="rounded"
-            onClick={handleOpenModal}
-            fluid
-          />
-        </div>
+      <Card className={anniversary ? `border-${anniversary}` : ""}>
+        <Card.Img 
+          variant="top" 
+          src={media.type !== "show" ? `posters/${new Date(media.release_date).getUTCFullYear()}_${getPoster(media)}.jpg` : `posters/${new Date(media.start_date).getUTCFullYear()}_${getPoster(media)}/${seasonCount}.jpg`}
+          className="rounded"
+          onClick={handleOpenModal}
+          fluid
+        />
       </Card>
       <MediaModal show={showMediaModal} setShow={setShowMediaModal} media={media} user={user} />
     </Col>
