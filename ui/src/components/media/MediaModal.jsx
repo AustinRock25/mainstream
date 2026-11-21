@@ -4,11 +4,31 @@ import { useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import api from "../../api";
 
+const fac = new FastAverageColor();
+
+function getContrastingTextColor(r, g, b) {
+  const linearize = (c) => {
+    const norm = c / 255;
+    return norm <= 0.04045 ? norm / 12.92 : Math.pow((norm + 0.055) / 1.055, 2.4);
+  };
+
+  const luminance =
+    0.2126 * linearize(r) +
+    0.7152 * linearize(g) +
+    0.0722 * linearize(b);
+
+  return luminance > 0.1791 ? "#000000" : "#FFFFFF";
+}
+
 function MediaModal({ show, setShow, media, user }) {
   const { isAdmin, ratingScale } = useSelector(state => state.auth);
   const [showMediaForm, setShowMediaForm] = useState(false);
   const [currentSeason, setCurrentSeason] = useState(0);
   const [scales, setScales] = useState([]);
+  const [theme, setTheme] = useState({
+    backgroundColor: "#212529",
+    textColor: "#FFFFFF",
+  });
 
   useEffect(() => {
     api.get("/auth/get")
@@ -77,6 +97,43 @@ function MediaModal({ show, setShow, media, user }) {
     
     return `${cleanTitle}`;
   }
+
+  const getPosterSrc = (mediaItem, seasonIndex) => {
+    if (!mediaItem) 
+      return "";
+
+    if (mediaItem.type !== "show")
+      return `posters/${new Date(mediaItem.release_date).getUTCFullYear()}_${getPoster(mediaItem)}.jpg`;
+
+    const baseYear = new Date(mediaItem.seasons?.[0]?.episodes?.[0]?.release_date || mediaItem.start_date).getUTCFullYear();
+    return `posters/${baseYear}_${getPoster(mediaItem)}/${seasonIndex + 1}.jpg`;
+  };
+
+  useEffect(() => {
+    let cancelled = false;
+    const posterSrc = getPosterSrc(media, currentSeason);
+
+    if (!show || !posterSrc)
+      return;
+
+    fac.getColorAsync(posterSrc, { crossOrigin: "anonymous" })
+      .then((color) => {
+        if (cancelled) 
+          return;
+
+        const [r, g, b] = color.value;
+
+        setTheme({ backgroundColor: color.hex, textColor: getContrastingTextColor(r, g, b) });
+      })
+      .catch(() => {
+        if (cancelled) 
+          return;
+
+        setTheme({ backgroundColor: "#212529", textColor: "#FFFFFF" });
+      });
+
+    return () => { cancelled = true; };
+  }, [show, media, currentSeason]);
 
   const time = (runtime) => {
     let timeStr = "";
@@ -186,33 +243,36 @@ function MediaModal({ show, setShow, media, user }) {
       return newGrade + `/${scaleMax}`;
   }
 
+  const isLightBg = theme.textColor === "#000000";
+  const mutedTextColor = isLightBg ? "rgba(0, 0, 0, 0.65)" : "rgba(255, 255, 255, 0.65)";
+
   return (
-    <Modal show={show} onHide={handleClose} size="lg" centered className="bg-dark text-white">
-      <Modal.Header closeButton closeVariant="white">
+    <Modal show={show} onHide={handleClose} size="lg" centered contentClassName="border-0" style={{ "--bs-modal-bg": theme.backgroundColor, "--bs-modal-color": theme.textColor, backgroundColor: theme.backgroundColor, color: theme.textColor }}>
+      <Modal.Header closeButton closeVariant={isLightBg ? "dark" : "white"} style={{ backgroundColor: theme.backgroundColor, color: theme.textColor }}>
         <Modal.Title className="w-100">
           <div className="d-flex align-items-center justify-content-between">
             <div className="flex-wrap" style={{ maxWidth: "50%" }}>
               <span>
                 <i className="me-2">{media.title}</i>
-                <span className="fw-light fs-5 text-white-50">{getYear(media)}</span>
+                <span className="fw-light fs-5" style={{ color: mutedTextColor }}>{getYear(media)}</span>
               </span>
             </div>
             <div className="d-flex flex-column flex-md-row gap-xs-1 gap-md-4">
-              <span className="fw-light fs-5 text-white-50">{media.rating === "Not Rated" ? "NR" : media.rating}</span>
-              <span className="fw-light fs-5 text-white-50">{time(media.runtime || media.runtime_tv)}</span>
-              {media.type == "movie" && <span className="fw-bold fs-5 text-white-50">{getGrade(media)}</span>}
-              {media.type == "show" && <span className="fw-bold fs-5 text-white-50">{getGrade(media)}</span>}
+              <span className="fw-light fs-5" style={{ color: mutedTextColor }}>{media.rating === "Not Rated" ? "NR" : media.rating}</span>
+              <span className="fw-light fs-5" style={{ color: mutedTextColor }}>{time(media.runtime || media.runtime_tv)}</span>
+              {media.type == "movie" && <span className="fw-bold fs-5" style={{ color: mutedTextColor }}>{getGrade(media)}</span>}
+              {media.type == "show" && <span className="fw-bold fs-5" style={{ color: mutedTextColor }}>{getGrade(media)}</span>}
             </div>
           </div>
         </Modal.Title>
       </Modal.Header>
-      <Modal.Body>
+      <Modal.Body style={{ backgroundColor: theme.backgroundColor, color: theme.textColor }}>
         {media.type == "show" &&
           <Row>
             <Col className="justify-content-center">
               <Stack direction="horizontal" gap={2} className="justify-content-center">
                 {media.seasons.sort((a, b) => (a.season > b.season ? 1 : -1)).map((s, index) => (
-                  <ToggleButton type="radio" variant="link" style={{ color: "white", fontWeight: (index === currentSeason) ? "bold" : "normal" }} onClick={() => changeSeason(index)}>{s.season}</ToggleButton>
+                  <ToggleButton key={s.season ?? index} type="radio" variant="link" style={{ color: theme.textColor, fontWeight: (index === currentSeason) ? "bold" : "normal" }} onClick={() => changeSeason(index)}>{s.season}</ToggleButton>
                 ))}
               </Stack>
             </Col>
@@ -228,32 +288,32 @@ function MediaModal({ show, setShow, media, user }) {
             />
             <Stack direction="horizontal" gap={3} className="justify-content-center align-items-center mb-4 mb-md-0">
               {(media.type == "show" && media.runtime_tv != media.seasons[currentSeason].runtime) && <p className="fw-bold fs-5 text-white mb-0">{time(media.seasons[currentSeason].runtime)}</p>}
-              {(media.type == "show" && media.seasons.length > 1) && <p className="fw-bold fs-5 text-white-50 mb-0">{getGradeSeason(media.seasons[currentSeason])}</p>}
+              {(media.type == "show" && media.seasons.length > 1) && <p className="fw-bold fs-5 text-white-50 mb-0" style={{ color: mutedTextColor }}>{getGradeSeason(media.seasons[currentSeason])}</p>}
             </Stack>
           </Col>
           <Col xs={12} md={8}>
             <div className="mb-4">
               {combineDirectorsAndWriters(media) && (
                 <div className="mb-2">
-                  <h6 className="text-uppercase text-secondary small fw-bold">Written & Directed by</h6>
+                  <h6 className="text-uppercase small fw-bold" style={{ color: mutedTextColor }}>Written & Directed by</h6>
                   <p>{getNames(media.directors)}</p>
                 </div>
               )}
               {!combineDirectorsAndWriters(media) && getNames(media.directors).length > 0 && (
                 <div className="mb-2">
-                  <h6 className="text-uppercase text-secondary small fw-bold">Directed by</h6>
+                  <h6 className="text-uppercase small fw-bold" style={{ color: mutedTextColor }}>Directed by</h6>
                   <p>{getNames(media.directors)}</p>
                 </div>
               )}
               {!combineDirectorsAndWriters(media) && getNames(media.writers).length > 0 && (
                 <div className="mb-2">
-                  <h6 className="text-uppercase text-secondary small fw-bold">Written by</h6>
+                  <h6 className="text-uppercase small fw-bold" style={{ color: mutedTextColor }}>Written by</h6>
                   <p>{getNames(media.writers)}</p>
                 </div>
               )}
               {(getNames(media.cast_members).length > 0 || (!!media.seasons && getNames(media.seasons[currentSeason].cast_members).length > 0)) && (
                 <div className="mb-2">
-                  <h6 className="text-uppercase text-secondary small fw-bold">Starring</h6>
+                  <h6 className="text-uppercase small fw-bold" style={{ color: mutedTextColor }}>Starring</h6>
                   <p>{getNames(media.cast_members || media.seasons[currentSeason].cast_members)}</p>
                 </div>
               )}
@@ -268,31 +328,31 @@ function MediaModal({ show, setShow, media, user }) {
                 <h5 className="mb-3 border-bottom border-secondary pb-2">Episodes</h5>
                 <Accordion flush>
                   {media.seasons[currentSeason].episodes.sort((a, b) => (a.episode > b.episode ? 1 : -1)).map((ep, index) => (
-                    <Accordion.Item eventKey={index.toString()} key={index} className="border-0">
+                    <Accordion.Item eventKey={index.toString()} key={index} className="border-0" style={{ backgroundColor: theme.backgroundColor, color: theme.textColor }}>
                       <Accordion.Header className="w-100 d-flex align-items-center position-relative">
                         <div style={{ maxWidth: "50%" }}>
                           <span className="fs-5 fw-bold">{ep.episode}. {ep.title}<small className="ms-2 small opacity-50">{new Date(ep.release_date).getUTCFullYear()}</small></span>
                         </div>
                         <span className="fs-5 fw-bold opacity-50 text-nowrap position-absolute" style={{ right: "3.5rem" }}>{time(ep.runtime)}</span>
                       </Accordion.Header>
-                      <Accordion.Body className="bg-dark text-white-50">
+                      <Accordion.Body style={{ backgroundColor: theme.backgroundColor, color: mutedTextColor }}>
                         <Row>
                           <Col xs={12} md={8}>
                             {combineDirectorsAndWriters(ep) && (
                               <div className="mb-2">
-                                <h6 className="text-uppercase text-secondary small fw-bold">Written & Directed by</h6>
+                                <h6 className="text-uppercase small fw-bold" style={{ color: mutedTextColor }}>Written & Directed by</h6>
                                 <p>{getNames(ep.directors)}</p>
                               </div>
                             )}
                             {!combineDirectorsAndWriters(ep) && getNames(ep.directors).length > 0 && (
                               <div className="mb-2">
-                                <h6 className="text-uppercase text-secondary small fw-bold">Directed by</h6>
+                                <h6 className="text-uppercase small fw-bold" style={{ color: mutedTextColor }}>Directed by</h6>
                                 <p>{getNames(ep.directors)}</p>
                               </div>
                             )}
                             {!combineDirectorsAndWriters(ep) && getNames(ep.writers).length > 0 && (
                               <div className="mb-2">
-                                <h6 className="text-uppercase text-secondary small fw-bold">Written by</h6>
+                                <h6 className="text-uppercase small fw-bold" style={{ color: mutedTextColor }}>Written by</h6>
                                 <p>{getNames(ep.writers)}</p>
                               </div>
                             )}
@@ -323,7 +383,7 @@ function MediaModal({ show, setShow, media, user }) {
       </Modal.Body>
       {isAdmin && (
         <div className="d-flex justify-content-end m-4">
-          <Button variant="outline-light" size="sm" onClick={handleEditMediaClick}>Edit</Button>
+          <Button variant={isLightBg ? "outline-dark" : "outline-light"} size="sm" onClick={handleEditMediaClick}>Edit</Button>
         </div>
       )}
       {!!user && <MediaForm show={showMediaForm} setShow={setShowMediaForm} media={media} season={media.seasons?.[currentSeason]?.season || 0} />}
