@@ -118,91 +118,68 @@ p, td, li {
   font-weight: bold;
 }
 
-.border-silver {
-  border: 3px solid transparent;
-  border-image: linear-gradient(
-    135deg,
-    #f8fafc 0%,
-    #cbd5e1 25%,
-    #94a3b8 50%,
-    #e2e8f0 75%,
-    #64748b 100%
-  ) 1;
-  box-shadow:
-    inset 0 1px 1px rgba(255, 255, 255, 0.8),
-    0 4px 12px rgba(100, 116, 139, 0.25);
+.anniversary-frame {
+  position: relative;
+  display: block;
+  border-radius: var(--bs-border-radius, 0.375rem);
+  overflow: hidden;
+  cursor: pointer;
 }
 
-.border-ruby {
-  border: 3px solid transparent;
-  border-image: linear-gradient(
-    135deg,
-    #ff758f 0%,
-    #e0115f 35%,
-    #9b111e 70%,
-    #ff4d6d 100%
-  ) 1;
-  box-shadow:
-    inset 0 0 8px rgba(255, 77, 109, 0.35),
-    0 4px 16px rgba(155, 17, 30, 0.35);
+.anniversary-frame img {
+  display: block;
+  width: 100%;
+  border-radius: inherit;
 }
 
-.border-sapphire {
-  border: 3px solid transparent;
-  border-image: linear-gradient(
-    135deg,
-    #7dd3fc 0%,
-    #0f52ba 35%,
-    #172554 75%,
-    #38bdf8 100%
-  ) 1;
-  box-shadow:
-    inset 0 0 8px rgba(125, 211, 252, 0.3),
-    0 4px 16px rgba(15, 82, 186, 0.35);
+.anniversary-frame::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 3px;
+  pointer-events: none;
+  mask-composite: exclude;
 }
 
-.border-golden {
-  border: 3px solid transparent;
-  border-image: linear-gradient(
-    135deg,
-    #fef08a 0%,
-    #eab308 30%,
-    #a16207 65%,
-    #fde047 85%,
-    #854d0e 100%
-  ) 1;
-  box-shadow:
-    inset 0 1px 2px rgba(254, 240, 138, 0.7),
-    0 4px 14px rgba(161, 98, 7, 0.3);
+.anniversary-frame.border-silver::after {
+  background: linear-gradient(135deg, #f8fafc 0%, #cbd5e1 25%, #94a3b8 50%, #e2e8f0 75%, #64748b 100%);
+}
+.anniversary-frame.border-silver {
+  box-shadow: 0 4px 12px rgba(148, 163, 184, 0.35);
 }
 
-.border-diamond {
-  border: 2px solid transparent;
-  border-image: linear-gradient(
-    120deg,
-    #ffffff 0%,
-    #e0f2fe 22%,
-    #f5d0fe 44%,
-    #ffffff 65%,
-    #bae6fd 85%,
-    #ffffff 100%
-  ) 1;
-  box-shadow:
-    0 0 12px rgba(224, 242, 254, 0.65),
-    0 0 24px rgba(186, 230, 253, 0.3);
+.anniversary-frame.border-ruby::after {
+  background: linear-gradient(135deg, #ff758f 0%, #e0115f 35%, #9b111e 70%, #ff4d6d 100%);
+}
+.anniversary-frame.border-ruby {
+  box-shadow: 0 4px 16px rgba(224, 17, 95, 0.4);
 }
 
-.border-platinum {
-  border: 3px solid transparent;
-  border-image: linear-gradient(
-    135deg,
-    #e5e7eb 0%,
-    #9ca3af 30%,
-    #4b5563 65%,
-    #d1d5db 88%,
-    #6b7280 100%
-  ) 1;
-  box-shadow:
-    inset 0 1px 1px rgba(255, 255, 255, 0.6),
-    0 4px 14px rgba(55, 65, 81, 0.3);
+.anniversary-frame.border-golden::after {
+  background: linear-gradient(135deg, #fef08a 0%, #eab308 30%, #a16207 65%, #fde047 85%, #854d0e 100%);
+}
+.anniversary-frame.border-golden {
+  box-shadow: 0 4px 16px rgba(234, 179, 8, 0.38);
+}
+
+.anniversary-frame.border-diamond::after {
+  background: linear-gradient(120deg, #ffffff 0%, #e0f2fe 22%, #f5d0fe 44%, #ffffff 65%, #bae6fd 85%, #ffffff 100%);
+}
+.anniversary-frame.border-diamond {
+  box-shadow: 0 0 14px rgba(224, 242, 254, 0.65);
+}
+
+.anniversary-frame.border-sapphire::after {
+  background: linear-gradient(135deg, #7dd3fc 0%, #0f52ba 35%, #172554 75%, #38bdf8 100%);
+}
+.anniversary-frame.border-sapphire {
+  box-shadow: 0 4px 16px rgba(15, 82, 186, 0.42);
+}
+
+.anniversary-frame.border-platinum::after {
+  background: linear-gradient(135deg, #e5e7eb 0%, #9ca3af 30%, #4b5563 65%, #d1d5db 88%, #6b7280 100%);
+}
+.anniversary-frame.border-platinum {
+  box-shadow: 0 4px 14px rgba(75, 85, 99, 0.38);
 }
