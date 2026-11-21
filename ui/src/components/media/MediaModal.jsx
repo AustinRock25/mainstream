@@ -2,6 +2,7 @@ import MediaForm from "../modals/MediaForm";
 import { Modal, Row, Col, ToggleButton, Stack, Accordion, Button } from "react-bootstrap";
 import { useSelector } from "react-redux";
 import { useEffect, useState } from "react";
+import { FastAverageColor } from "fast-average-color";
 import api from "../../api";
 
 const fac = new FastAverageColor();
