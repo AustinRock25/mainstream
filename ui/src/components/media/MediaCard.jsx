@@ -11,30 +11,30 @@ function MediaCard ({media}) {
   const [anniversary, setAnniversary] = useState("");
 
   useEffect(() => {
-    if (new Date().getUTCFullYear() - new Date(media.release_date || media.start_date).getUTCFullYear() >= 25)
-      setAnniversary("silver");
-    else if (new Date().getUTCFullYear() - new Date(media.release_date || media.start_date).getUTCFullYear() >= 30)
-      setAnniversary("pearl");
-    else if (new Date().getUTCFullYear() - new Date(media.release_date || media.start_date).getUTCFullYear() >= 35)
-      setAnniversary("coral");
-    else if (new Date().getUTCFullYear() - new Date(media.release_date || media.start_date).getUTCFullYear() >= 40)
-      setAnniversary("ruby");
-    else if (new Date().getUTCFullYear() - new Date(media.release_date || media.start_date).getUTCFullYear() >= 50)
-      setAnniversary("golden");
-    else if (new Date().getUTCFullYear() - new Date(media.release_date || media.start_date).getUTCFullYear() >= 55)
-      setAnniversary("emerald");
-    else if (new Date().getUTCFullYear() - new Date(media.release_date || media.start_date).getUTCFullYear() >= 60)
-      setAnniversary("diamond");
-    else if (new Date().getUTCFullYear() - new Date(media.release_date || media.start_date).getUTCFullYear() >= 65)
-      setAnniversary("sapphire");
-    else if (new Date().getUTCFullYear() - new Date(media.release_date || media.start_date).getUTCFullYear() >= 70)
-      setAnniversary("platinum");
-    else if (new Date().getUTCFullYear() - new Date(media.release_date || media.start_date).getUTCFullYear() >= 80)
-      setAnniversary("oak");
+    if (new Date().getUTCFullYear() - new Date(media.release_date || media.start_date).getUTCFullYear() >= 100)
+      setAnniversary("obisidian");
     else if (new Date().getUTCFullYear() - new Date(media.release_date || media.start_date).getUTCFullYear() >= 90)
       setAnniversary("granite");
-    else if (new Date().getUTCFullYear() - new Date(media.release_date || media.start_date).getUTCFullYear() >= 100)
-      setAnniversary("obisidian");
+    else if (new Date().getUTCFullYear() - new Date(media.release_date || media.start_date).getUTCFullYear() >= 80)
+      setAnniversary("oak");
+    else if (new Date().getUTCFullYear() - new Date(media.release_date || media.start_date).getUTCFullYear() >= 70)
+      setAnniversary("platinum");
+    else if (new Date().getUTCFullYear() - new Date(media.release_date || media.start_date).getUTCFullYear() >= 65)
+      setAnniversary("sapphire");
+    else if (new Date().getUTCFullYear() - new Date(media.release_date || media.start_date).getUTCFullYear() >= 60)
+      setAnniversary("diamond");
+    else if (new Date().getUTCFullYear() - new Date(media.release_date || media.start_date).getUTCFullYear() >= 55)
+      setAnniversary("emerald");
+    else if (new Date().getUTCFullYear() - new Date(media.release_date || media.start_date).getUTCFullYear() >= 50)
+      setAnniversary("golden");
+    else if (new Date().getUTCFullYear() - new Date(media.release_date || media.start_date).getUTCFullYear() >= 40)
+      setAnniversary("ruby");
+    else if (new Date().getUTCFullYear() - new Date(media.release_date || media.start_date).getUTCFullYear() >= 35)
+      setAnniversary("coral");
+    else if (new Date().getUTCFullYear() - new Date(media.release_date || media.start_date).getUTCFullYear() >= 30)
+      setAnniversary("pearl");
+    else if (new Date().getUTCFullYear() - new Date(media.release_date || media.start_date).getUTCFullYear() >= 25)
+      setAnniversary("silver");
     else
       setAnniversary("");
 
