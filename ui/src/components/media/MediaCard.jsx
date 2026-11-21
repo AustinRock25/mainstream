@@ -11,6 +11,21 @@ function MediaCard ({media}) {
   const [anniversary, setAnniversary] = useState("");
 
   useEffect(() => {
+    if (new Date().getUTCFullYear() - new Date(media.release_date || media.start_date).getUTCFullYear() == 25)
+      setAnniversary("silver");
+    else if (new Date().getUTCFullYear() - new Date(media.release_date || media.start_date).getUTCFullYear() == 40)
+      setAnniversary("ruby");
+    else if (new Date().getUTCFullYear() - new Date(media.release_date || media.start_date).getUTCFullYear() == 50)
+      setAnniversary("golden");
+    else if (new Date().getUTCFullYear() - new Date(media.release_date || media.start_date).getUTCFullYear() == 60)
+      setAnniversary("diamond");
+    else if (new Date().getUTCFullYear() - new Date(media.release_date || media.start_date).getUTCFullYear() == 65)
+      setAnniversary("sapphire");
+    else if (new Date().getUTCFullYear() - new Date(media.release_date || media.start_date).getUTCFullYear() == 70)
+      setAnniversary("platinum");
+    else
+      setAnniversary("");
+
     if (media.type !== "show")
       return;
 
@@ -39,20 +54,7 @@ function MediaCard ({media}) {
 
     fetchAndFindMaxSeason();
 
-    if (new Date().getUTCFullYear() - new Date(media.release_date || media.start_date).getUTCFullYear() == 25)
-      setAnniversary("silver");
-    else if (new Date().getUTCFullYear() - new Date(media.release_date || media.start_date).getUTCFullYear() == 40)
-      setAnniversary("ruby");
-    else if (new Date().getUTCFullYear() - new Date(media.release_date || media.start_date).getUTCFullYear() == 50)
-      setAnniversary("golden");
-    else if (new Date().getUTCFullYear() - new Date(media.release_date || media.start_date).getUTCFullYear() == 60)
-      setAnniversary("diamond");
-    else if (new Date().getUTCFullYear() - new Date(media.release_date || media.start_date).getUTCFullYear() == 65)
-      setAnniversary("sapphire");
-    else if (new Date().getUTCFullYear() - new Date(media.release_date || media.start_date).getUTCFullYear() == 70)
-      setAnniversary("platinum");
-
-  }, [media.id, media.type, media.start_date, media.poster]);
+  }, [media.id, media.type, media.start_date, media.release_date, media.poster]);
 
   const handleOpenModal = () => {
     setShowMediaModal(true);
