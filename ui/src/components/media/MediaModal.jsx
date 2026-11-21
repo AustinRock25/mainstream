@@ -248,7 +248,7 @@ function MediaModal({ show, setShow, media, user }) {
   const mutedTextColor = isLightBg ? "rgba(0, 0, 0, 0.65)" : "rgba(255, 255, 255, 0.65)";
 
   return (
-    <Modal show={show} onHide={handleClose} size="lg" centered contentClassName="border-0" style={{ "--bs-modal-bg": theme.backgroundColor, "--bs-modal-color": theme.textColor, backgroundColor: theme.backgroundColor, color: theme.textColor }}>
+    <Modal show={show} onHide={handleClose} size="lg" centered contentClassName="border-0">
       <Modal.Header closeButton closeVariant={isLightBg ? "dark" : "white"} style={{ backgroundColor: theme.backgroundColor, color: theme.textColor }}>
         <Modal.Title className="w-100">
           <div className="d-flex align-items-center justify-content-between">
