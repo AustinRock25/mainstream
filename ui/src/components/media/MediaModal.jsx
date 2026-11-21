@@ -378,9 +378,6 @@ function MediaModal({ show, setShow, media, user }) {
           }
           </Col>
         </Row>
-        {(((new Date().getUTCFullYear() - new Date(media.release_date || media.start_date).getUTCFullYear()) % 5 == 0) && (new Date().getUTCFullYear() - new Date(media.release_date || media.start_date).getUTCFullYear()) >= 10) && <div className="flex-wrap">
-          <p className="text-center fs-6"><b>{(new Date().getUTCFullYear() - new Date(media.release_date || media.start_date).getUTCFullYear())}th Anniversary</b></p>
-        </div>}
       </Modal.Body>
       {isAdmin && (
         <div className="d-flex justify-content-end m-4" style={{ backgroundColor: theme.backgroundColor, color: theme.textColor }}>
