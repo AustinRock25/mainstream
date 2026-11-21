@@ -8,6 +8,7 @@ function MediaCard ({media}) {
   const { user } = useSelector(state => state.auth);
   const [seasonCount, setSeasonCount] = useState(0);
   const [showMediaModal, setShowMediaModal] = useState(false);
+  const [anniversary, setAnniversary] = useState("");
 
   useEffect(() => {
     if (media.type !== "show")
@@ -37,6 +38,20 @@ function MediaCard ({media}) {
     };
 
     fetchAndFindMaxSeason();
+
+    if (new Date().getUTCFullYear() - new Date(media.release_date || media.start_date).getUTCFullYear() == 25)
+      setAnniversary("silver");
+    else if (new Date().getUTCFullYear() - new Date(media.release_date || media.start_date).getUTCFullYear() == 40)
+      setAnniversary("ruby");
+    else if (new Date().getUTCFullYear() - new Date(media.release_date || media.start_date).getUTCFullYear() == 50)
+      setAnniversary("golden");
+    else if (new Date().getUTCFullYear() - new Date(media.release_date || media.start_date).getUTCFullYear() == 60)
+      setAnniversary("diamond");
+    else if (new Date().getUTCFullYear() - new Date(media.release_date || media.start_date).getUTCFullYear() == 65)
+      setAnniversary("sapphire");
+    else if (new Date().getUTCFullYear() - new Date(media.release_date || media.start_date).getUTCFullYear() == 70)
+      setAnniversary("platinum");
+
   }, [media.id, media.type, media.start_date, media.poster]);
 
   const handleOpenModal = () => {
@@ -69,7 +84,7 @@ function MediaCard ({media}) {
         <Card.Img 
           variant="top" 
           src={media.type !== "show" ? `posters/${new Date(media.release_date).getUTCFullYear()}_${getPoster(media)}.jpg` : `posters/${new Date(media.start_date).getUTCFullYear()}_${getPoster(media)}/${seasonCount}.jpg`}
-          className="rounded"
+          className={anniversary == "" ? `rounded` : `rounded border-${anniversary}`}
           alt={`Poster for ${media.title}`} 
           onClick={handleOpenModal}
           fluid

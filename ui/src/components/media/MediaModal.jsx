@@ -383,7 +383,7 @@ function MediaModal({ show, setShow, media, user }) {
         </div>}
       </Modal.Body>
       {isAdmin && (
-        <div className="d-flex justify-content-end m-4">
+        <div className="d-flex justify-content-end m-4" style={{ backgroundColor: theme.backgroundColor, color: theme.textColor }}>
           <Button variant={isLightBg ? "outline-dark" : "outline-light"} size="sm" onClick={handleEditMediaClick}>Edit</Button>
         </div>
       )}
