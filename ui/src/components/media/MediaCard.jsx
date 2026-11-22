@@ -121,7 +121,10 @@ function MediaCard ({media}) {
 
   return (
     <Col>
-      <Card className={anniversary ? `border-${anniversary}` : ""} data-anniversary={years ? `${years}th` : undefined}>
+      <Card className={anniversary ? `border-${anniversary}` : ""}>
+        {years && (
+          <span className="anniversary-label">{years}th</span>
+        )}
         <Card.Img 
           variant="top" 
           src={media.type !== "show" ? `posters/${new Date(media.release_date).getUTCFullYear()}_${getPoster(media)}.jpg` : `posters/${new Date(media.start_date).getUTCFullYear()}_${getPoster(media)}/${seasonCount}.jpg`}
