@@ -52,11 +52,11 @@ function MediaCard ({media}) {
       setAnniversary("coral");
       setYears("35");
     }
-    else if (new Date().getUTCFullYear() - new Date(media.release_date || media.start_date).getUTCFullYear() >= 30) {
+    else if (new Date().getUTCFullYear() - new Date(media.release_date || media.start_date).getUTCFullYear() == 30) {
       setAnniversary("pearl");
       setYears("30");
     }
-    else if (new Date().getUTCFullYear() - new Date(media.release_date || media.start_date).getUTCFullYear() >= 25) {
+    else if (new Date().getUTCFullYear() - new Date(media.release_date || media.start_date).getUTCFullYear() == 25) {
       setAnniversary("silver");
       setYears("25");
     }
