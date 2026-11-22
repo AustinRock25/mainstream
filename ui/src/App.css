@@ -120,17 +120,23 @@ p, td, li {
 
 .card[class*="border-"] {
   position: relative;
+  border: 3px solid transparent;
+  border-radius: var(--bs-card-border-radius, 0.375rem);
+  background:
+    linear-gradient(var(--surface-color), var(--surface-color)) padding-box,
+    var(--anniversary-gradient) border-box;
+  background-clip: padding-box, border-box;
 }
 
 .card[class*="border-"][data-anniversary]::before {
   content: attr(data-anniversary);
   position: absolute;
-  top: -10px;
+  top: 0;
   left: 50%;
   transform: translate(-50%, -50%);
   background-color: var(--background-color);
   color: var(--on-surface-color);
-  padding: 0 0.55rem;
+  padding: 0 0.5rem;
   border-radius: 4px;
   font-size: 0.72rem;
   font-weight: 700;
