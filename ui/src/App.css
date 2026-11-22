@@ -122,9 +122,7 @@ p, td, li {
   position: relative;
   border: 10px solid transparent;
   border-radius: var(--bs-card-border-radius, 0.375rem);
-  background:
-    linear-gradient(var(--surface-color), var(--surface-color)) padding-box,
-    var(--anniversary-gradient) border-box;
+  background: linear-gradient(var(--surface-color), var(--surface-color)) padding-box, var(--anniversary-gradient) border-box;
   background-clip: padding-box, border-box;
 }
 
@@ -135,7 +133,7 @@ p, td, li {
   left: 50%;
   transform: translate(-50%, -50%);
   background-color: var(--background-color);
-  color: var(--anniversary-gradient);
+  color: linear-gradient(var(--surface-color), var(--surface-color)) padding-box, var(--anniversary-gradient) border-box;
   padding: 0 0.5rem;
   border-radius: 4px;
   font-size: 0.72rem;
