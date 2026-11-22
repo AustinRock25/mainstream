@@ -1,7 +1,7 @@
 :root {
   --primary-color: #2E8B57;
   --primary-hover-color: #257046;
-  --background-color: #212529;
+  --background-color: #121212;
   --surface-color: #1E1E1E;
   --on-surface-color: #FFFFFF;
   --subtle-text-color: #B0B0B0;
@@ -122,29 +122,42 @@ p, td, li {
   position: relative;
   border: 10px solid transparent;
   border-radius: var(--bs-card-border-radius, 0.375rem);
-  background: linear-gradient(var(--surface-color), var(--surface-color)) padding-box, var(--anniversary-gradient) border-box;
+  background:
+    linear-gradient(var(--surface-color), var(--surface-color)) padding-box,
+    var(--anniversary-gradient) border-box;
   background-clip: padding-box, border-box;
 }
 
-.card[class*="border-"][data-anniversary]::before {
-  content: attr(data-anniversary);
+.card[class*="border-"]::before {
+  content: "";
   position: absolute;
   top: -5px;
   left: 50%;
   transform: translate(-50%, -50%);
+  width: 4.2rem;
+  height: 1.15rem;
   background-color: var(--background-color);
+  border-radius: 4px;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.card[class*="border-"] .anniversary-label {
+  position: absolute;
+  top: -5px;
+  left: 50%;
+  transform: translate(-50%, -50%);
   background-image: var(--anniversary-gradient);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
-  padding: 0 0.55rem;
-  border-radius: 4px;
+  padding: 0 0.4rem;
   font-size: 0.75rem;
   font-weight: 800;
   letter-spacing: 0.08em;
   line-height: 1.2;
   white-space: nowrap;
-  z-index: 2;
+  z-index: 3;
   pointer-events: none;
 }
 
