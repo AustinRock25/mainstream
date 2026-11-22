@@ -9,34 +9,61 @@ function MediaCard ({media}) {
   const [seasonCount, setSeasonCount] = useState(0);
   const [showMediaModal, setShowMediaModal] = useState(false);
   const [anniversary, setAnniversary] = useState("");
+  const [years, setYears] = useState("");
 
   useEffect(() => {
-    if (new Date().getUTCFullYear() - new Date(media.release_date || media.start_date).getUTCFullYear() >= 100)
+    if (new Date().getUTCFullYear() - new Date(media.release_date || media.start_date).getUTCFullYear() == 100) {
       setAnniversary("obisidian");
-    else if (new Date().getUTCFullYear() - new Date(media.release_date || media.start_date).getUTCFullYear() >= 90)
+      setYears("100");
+    }
+    else if (new Date().getUTCFullYear() - new Date(media.release_date || media.start_date).getUTCFullYear() == 90) {
       setAnniversary("granite");
-    else if (new Date().getUTCFullYear() - new Date(media.release_date || media.start_date).getUTCFullYear() >= 80)
+      setYears("90");
+    }
+    else if (new Date().getUTCFullYear() - new Date(media.release_date || media.start_date).getUTCFullYear() == 80) {
       setAnniversary("oak");
-    else if (new Date().getUTCFullYear() - new Date(media.release_date || media.start_date).getUTCFullYear() >= 70)
+      setYears("80");
+    }
+    else if (new Date().getUTCFullYear() - new Date(media.release_date || media.start_date).getUTCFullYear() == 70) {
       setAnniversary("platinum");
-    else if (new Date().getUTCFullYear() - new Date(media.release_date || media.start_date).getUTCFullYear() >= 65)
+      setYears("70");
+    }
+    else if (new Date().getUTCFullYear() - new Date(media.release_date || media.start_date).getUTCFullYear() == 65) {
       setAnniversary("sapphire");
-    else if (new Date().getUTCFullYear() - new Date(media.release_date || media.start_date).getUTCFullYear() >= 60)
+      setYears("65");
+    }
+    else if (new Date().getUTCFullYear() - new Date(media.release_date || media.start_date).getUTCFullYear() == 60) {
       setAnniversary("diamond");
-    else if (new Date().getUTCFullYear() - new Date(media.release_date || media.start_date).getUTCFullYear() >= 55)
+      setYears("60");
+    }
+    else if (new Date().getUTCFullYear() - new Date(media.release_date || media.start_date).getUTCFullYear() == 55) {
       setAnniversary("emerald");
-    else if (new Date().getUTCFullYear() - new Date(media.release_date || media.start_date).getUTCFullYear() >= 50)
+      setYears("55");
+    }
+    else if (new Date().getUTCFullYear() - new Date(media.release_date || media.start_date).getUTCFullYear() == 50) {
       setAnniversary("golden");
-    else if (new Date().getUTCFullYear() - new Date(media.release_date || media.start_date).getUTCFullYear() >= 40)
+      setYears("50");
+    }
+    else if (new Date().getUTCFullYear() - new Date(media.release_date || media.start_date).getUTCFullYear() == 40) {
       setAnniversary("ruby");
-    else if (new Date().getUTCFullYear() - new Date(media.release_date || media.start_date).getUTCFullYear() >= 35)
+      setYears("40");
+    }
+    else if (new Date().getUTCFullYear() - new Date(media.release_date || media.start_date).getUTCFullYear() == 35) {
       setAnniversary("coral");
-    else if (new Date().getUTCFullYear() - new Date(media.release_date || media.start_date).getUTCFullYear() >= 30)
+      setYears("35");
+    }
+    else if (new Date().getUTCFullYear() - new Date(media.release_date || media.start_date).getUTCFullYear() >= 30) {
       setAnniversary("pearl");
-    else if (new Date().getUTCFullYear() - new Date(media.release_date || media.start_date).getUTCFullYear() >= 25)
+      setYears("30");
+    }
+    else if (new Date().getUTCFullYear() - new Date(media.release_date || media.start_date).getUTCFullYear() >= 25) {
       setAnniversary("silver");
-    else
+      setYears("25");
+    }
+    else {
       setAnniversary("");
+      setYears("");
+    }
 
     if (media.type !== "show")
       return;
@@ -94,7 +121,7 @@ function MediaCard ({media}) {
 
   return (
     <Col>
-      <Card className={anniversary ? `border-${anniversary}` : ""}>
+      <Card className={anniversary ? `border-${anniversary}` : ""} data-anniversary={anniversaryYears ? `${anniversaryYears}th` : undefined}>
         <Card.Img 
           variant="top" 
           src={media.type !== "show" ? `posters/${new Date(media.release_date).getUTCFullYear()}_${getPoster(media)}.jpg` : `posters/${new Date(media.start_date).getUTCFullYear()}_${getPoster(media)}/${seasonCount}.jpg`}
