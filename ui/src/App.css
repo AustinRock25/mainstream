@@ -1,9 +1,9 @@
 :root {
   --primary-color: #2E8B57;
   --primary-hover-color: #257046;
-  --background-color: #444444;
-  --surface-color: #1e1e1e;
-  --on-surface-color: #ffffff;
+  --background-color: #212529;
+  --surface-color: #1E1E1E;
+  --on-surface-color: #FFFFFF;
   --subtle-text-color: #B0B0B0;
   --border-color: #444444;
 }
@@ -133,11 +133,14 @@ p, td, li {
   left: 50%;
   transform: translate(-50%, -50%);
   background-color: var(--background-color);
-  color: linear-gradient(var(--surface-color), var(--surface-color)) padding-box, var(--anniversary-gradient) border-box;
-  padding: 0 0.5rem;
+  background-image: var(--anniversary-gradient);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  padding: 0 0.55rem;
   border-radius: 4px;
-  font-size: 0.72rem;
-  font-weight: 700;
+  font-size: 0.75rem;
+  font-weight: 800;
   letter-spacing: 0.08em;
   line-height: 1.2;
   white-space: nowrap;
