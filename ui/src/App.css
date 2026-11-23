@@ -157,10 +157,10 @@ p, td, li {
   background-clip: text;
   color: transparent;
   padding: 0 0.35rem;
-  font-size: 10px;
+  font-size: 15px;
   font-weight: 800;
   letter-spacing: 0.05em;
-  line-height: 10px;
+  line-height: 20px;
   white-space: nowrap;
   z-index: 3;
   pointer-events: none;
