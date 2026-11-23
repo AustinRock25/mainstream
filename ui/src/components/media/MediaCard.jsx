@@ -69,7 +69,7 @@ function MediaCard ({media}) {
       setYears("25");
     }
     else if (new Date().getUTCFullYear() - new Date(media.release_date || media.start_date).getUTCFullYear() == 20) {
-      setAnniversary("porcelain");
+      setAnniversary("china-porcelain-emerald");
       setYears("20");
     }
     else if (new Date().getUTCFullYear() - new Date(media.release_date || media.start_date).getUTCFullYear() == 15) {
@@ -77,7 +77,7 @@ function MediaCard ({media}) {
       setYears("15");
     }
     else if (new Date().getUTCFullYear() - new Date(media.release_date || media.start_date).getUTCFullYear() == 10) {
-      setAnniversary("aluminum");
+      setAnniversary("tin-aluminum");
       setYears("10");
     }
     else {
