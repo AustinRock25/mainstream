@@ -60,6 +60,18 @@ function MediaCard ({media}) {
       setAnniversary("silver");
       setYears("25");
     }
+    else if (new Date().getUTCFullYear() - new Date(media.release_date || media.start_date).getUTCFullYear() == 20) {
+      setAnniversary("porcelain");
+      setYears("20");
+    }
+    else if (new Date().getUTCFullYear() - new Date(media.release_date || media.start_date).getUTCFullYear() == 15) {
+      setAnniversary("crystal");
+      setYears("15");
+    }
+    else if (new Date().getUTCFullYear() - new Date(media.release_date || media.start_date).getUTCFullYear() == 10) {
+      setAnniversary("aluminum");
+      setYears("10");
+    }
     else {
       setAnniversary("");
       setYears("");

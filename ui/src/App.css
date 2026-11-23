@@ -166,6 +166,21 @@ p, td, li {
   pointer-events: none;
 }
 
+.card.border-aluminum {
+  --anniversary-gradient: linear-gradient(135deg, #e2e8f0 0%, #94a3b8 30%, #64748b 60%, #cbd5e1 85%, #475569 100%);
+  box-shadow: 0 4px 12px rgba(148, 163, 184, 0.35);
+}
+
+.card.border-crystal {
+  --anniversary-gradient: linear-gradient(125deg, #ffffff 0%, #cffafe 25%, #e0e7ff 50%, #f0f9ff 75%, #a5f3fc 100%);
+  box-shadow: 0 0 14px rgba(165, 243, 252, 0.55);
+}
+
+.card.border-porcelain {
+  --anniversary-gradient: linear-gradient(135deg, #ffffff 0%, #d1fae5 24%, #10b981 52%, #047857 76%, #6ee7b7 90%, #f8fafc 100%);
+  box-shadow: 0 4px 16px rgba(16, 185, 129, 0.4);
+}
+
 .card.border-silver {
   --anniversary-gradient: linear-gradient(135deg, #f8fafc 0%, #cbd5e1 25%, #94a3b8 50%, #e2e8f0 75%, #64748b 100%);
   box-shadow: 0 4px 12px rgba(148, 163, 184, 0.35);
