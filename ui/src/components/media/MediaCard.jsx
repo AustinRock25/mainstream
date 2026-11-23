@@ -24,6 +24,10 @@ function MediaCard ({media}) {
       setAnniversary("oak");
       setYears("80");
     }
+    else if (new Date().getUTCFullYear() - new Date(media.release_date || media.start_date).getUTCFullYear() == 75) {
+      setAnniversary("diamond");
+      setYears("75");
+    }
     else if (new Date().getUTCFullYear() - new Date(media.release_date || media.start_date).getUTCFullYear() == 70) {
       setAnniversary("platinum");
       setYears("70");
@@ -43,6 +47,10 @@ function MediaCard ({media}) {
     else if (new Date().getUTCFullYear() - new Date(media.release_date || media.start_date).getUTCFullYear() == 50) {
       setAnniversary("golden");
       setYears("50");
+    }
+    else if (new Date().getUTCFullYear() - new Date(media.release_date || media.start_date).getUTCFullYear() == 45) {
+      setAnniversary("sapphire");
+      setYears("45");
     }
     else if (new Date().getUTCFullYear() - new Date(media.release_date || media.start_date).getUTCFullYear() == 40) {
       setAnniversary("ruby");
