@@ -378,12 +378,12 @@ function MediaModal({ show, setShow, media, user }) {
           }
           </Col>
         </Row>
+        {isAdmin && (
+          <div className="d-flex justify-content-end m-4" style={{ backgroundColor: theme.backgroundColor, color: theme.textColor }}>
+            <Button variant={isLightBg ? "outline-dark" : "outline-light"} size="sm" onClick={handleEditMediaClick}>Edit</Button>
+          </div>
+        )}
       </Modal.Body>
-      {isAdmin && (
-        <Modal.Footer className="d-flex justify-content-end m-4" style={{ backgroundColor: theme.backgroundColor, color: theme.textColor }}>
-          <Button variant={isLightBg ? "outline-dark" : "outline-light"} size="sm" onClick={handleEditMediaClick}>Edit</Button>
-        </Modal.Footer>
-      )}
       {!!user && <MediaForm show={showMediaForm} setShow={setShowMediaForm} media={media} season={media.seasons?.[currentSeason]?.season || 0} />}
     </Modal>
   );
